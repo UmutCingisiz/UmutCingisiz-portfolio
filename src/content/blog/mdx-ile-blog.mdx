@@ -1,0 +1,24 @@
+---
+title: MDX ile blog
+description: Kod blokları, başlık bağlantıları ve okuma süresi — portfolyo Faz 2.
+date: "2026-04-20"
+tags:
+  - MDX
+  - Next.js
+---
+
+Bu yazı **Frontmatter** ile meta veri taşıyan bir örnektir. Üç tik ile kod bloğu:
+
+```ts
+type Ok<T> = { ok: true; value: T };
+```
+
+Liste:
+
+- Sunucuda derlenen MDX
+- `rehype-pretty-code` ile vurgulanan söz dizimi
+- `rehype-slug` ile başlık.anchor bağlantıları
+
+### İç içe başlık
+
+Sayfa içi bağlantılar otomatik kimlikler alır.

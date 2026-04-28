@@ -1,0 +1,33 @@
+---
+title: Örnek REST API katmanı
+description: İstemci ve sunucu arasında sözleşme odaklı bir API tasarımı — örnek proje şablonu.
+date: "2026-03-15"
+tags:
+  - Node.js
+  - REST
+  - PostgreSQL
+category: backend
+repo: https://github.com/
+featured: true
+---
+
+## Amaç
+
+CRUD akışlarını öngörülebilir endpoint’ler ve tutarlı hata gövdeleri ile sunmak.
+
+## Mimari notları
+
+- Kaynak başına rota grupları
+- Zod veya eşdeğeri ile giriş doğrulaması
+- Idempotent işlemler için uygun HTTP fiilleri
+
+## Kod özeti
+
+```ts
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const id = url.searchParams.get("id");
+  if (!id) return Response.json({ error: "missing id" }, { status: 400 });
+  return Response.json({ ok: true });
+}
+```

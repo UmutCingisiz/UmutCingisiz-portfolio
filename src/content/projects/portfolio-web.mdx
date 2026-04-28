@@ -1,0 +1,33 @@
+---
+title: Bu portfolyo sitesi
+description: Next.js 16, MDX içerik katmanı ve planlanan full-stack özelliklerle kişisel vitrin.
+date: "2026-04-01"
+tags:
+  - Next.js
+  - MDX
+  - TypeScript
+category: full-stack
+demo: https://vercel.com/
+repo: https://github.com/
+featured: true
+---
+
+## Amaç
+
+Ziyaretçiye kim olduğunu, hangi problemleri çözdüğünü ve kod kalitesine nasıl baktığını net biçimde göstermek.
+
+## Teknik kararlar
+
+- **Next.js App Router** ile tek çatıda SSR ve statik üretim.
+- **MDX** ile projeler ve blog — içerik Git ile takip edilir.
+- **Tailwind CSS v4** ve tema ile tutarlı tasarım sistemi.
+
+## Zorluklar ve çözümler
+
+İçerik ve kodun aynı repoda yaşaması, önizleme ve prod için tek kaynak doğruluğu sağlar.
+
+```tsx
+export default function Page() {
+  return <article className="prose">...</article>;
+}
+```
