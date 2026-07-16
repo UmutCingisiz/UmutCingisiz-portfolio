@@ -1,33 +1,55 @@
 ---
-title: Bu portfolyo sitesi
-description: Next.js 16, MDX içerik katmanı ve planlanan full-stack özelliklerle kişisel vitrin.
-date: "2026-04-01"
+title: "Bu Portfolyo: Full-Stack Mühendislik Kanıtı"
+description: "Next.js 16 App Router, Auth.js, Drizzle/Neon, Redis ve MDX ile uçtan uca üretim-dostu kişisel portfolyo."
+date: "2026-07-17"
 tags:
   - Next.js
-  - MDX
   - TypeScript
+  - Auth.js
+  - Drizzle
+  - PostgreSQL
+  - Redis
 category: full-stack
-demo: https://vercel.com/
-repo: https://github.com/
+problem: "Klasik portfolyo siteleri çoğu zaman sadece statik vitrin sunar; işe alım tarafı gerçek ürün davranışını (auth, veri modeli, güvenlik, gözlemlenebilirlik) göremez."
+decision: "Sunum katmanını teknik derinlikle birleştiren bir mimari kuruldu: App Router + Server Components, typed MDX content pipeline, Auth.js tabanlı kimlik doğrulama, Drizzle ile veri katmanı, Redis ile sayaç/rate limit, Server Actions ile form akışı."
+impact: "Portfolyo, yalnızca 'ne yaptım' değil 'nasıl tasarladım ve hangi trade-off'ları aldım' sorularına da cevap veren deploy-ready bir mühendislik vitrini haline geldi."
+status: live
+repo: "https://github.com/UmutCingisiz/portfolio"
+demo: "https://umutibrahimcingisiz.vercel.app"
 featured: true
+coverImage: "/images/projects/bloomedu.jpg"
 ---
 
-## Amaç
+Bu proje bir tema çalışması değil; gerçek bir ürün omurgasını küçük ama üretim gerçekliğine yakın bir ölçekte taşıyan mühendislik sistemi.
 
-Ziyaretçiye kim olduğunu, hangi problemleri çözdüğünü ve kod kalitesine nasıl baktığını net biçimde göstermek.
+## Mimari yaklaşım
 
-## Teknik kararlar
+- **UI katmanı:** Next.js App Router, server-first bileşenler, seçili yerlerde istemci animasyonları
+- **İçerik katmanı:** MDX + Zod şema doğrulaması + slug bazlı güvenli derleme
+- **Kimlik:** Auth.js (GitHub OAuth) ile guestbook giriş/rol temelli moderasyon
+- **Veri:** Neon PostgreSQL + Drizzle ORM şema ve sorgu yönetimi
+- **Cache/limit:** Upstash Redis ile görüntülenme sayacı ve API rate limit
+- **İletişim:** Server Action + anti-spam guard + Resend entegrasyonu
 
-- **Next.js App Router** ile tek çatıda SSR ve statik üretim.
-- **MDX** ile projeler ve blog — içerik Git ile takip edilir.
-- **Tailwind CSS v4** ve tema ile tutarlı tasarım sistemi.
+## Mühendislik kararları
 
-## Zorluklar ve çözümler
+1. **Server-first önceliği**
+   Statik/yarı-statik bölümler server component olarak tutuldu. Böylece istemci JS yükü kontrol altında kaldı.
 
-İçerik ve kodun aynı repoda yaşaması, önizleme ve prod için tek kaynak doğruluğu sağlar.
+2. **Fail-safe davranış**
+   Redis veya e-posta servisi yoksa uygulama tamamen kırılmak yerine kademeli olarak davranıyor; kritik akışlarda güvenlik önceliği korunuyor.
 
-```tsx
-export default function Page() {
-  return <article className="prose">...</article>;
-}
-```
+3. **İçerik sözleşmesi**
+   Proje frontmatter alanları (`problem`, `decision`, `impact`, `status`) zorunlu düşünme şablonu gibi kullanıldı; kartlar teknik hikaye anlatır hale geldi.
+
+## Ölçülebilir çıktılar
+
+- Tamamlanan kalite kapısı: `lint`, `build`, env/db/assets kontrolleri
+- Error/loading/not-found ve OG katmanları ile daha üretim dostu UX
+- Guestbook ve iletişim akışlarında kötüye kullanım riskini azaltan korumalar
+
+## Sonraki iterasyon
+
+- Otomatik test kapsamını genişletmek (unit + entegrasyon)
+- CI hattına kalite eşiklerini sıkılaştırmak
+- Üretimde Redis/Resend gözlemlenebilirliğini artırmak

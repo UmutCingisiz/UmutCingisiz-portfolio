@@ -1,48 +1,200 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolyo — Umut İbrahim Cingisiz
 
-## Getting Started
+[Next.js](https://nextjs.org) 16 (App Router) full-stack kişisel portfolyo: TypeScript, Tailwind v4, Motion, MDX, Auth.js, Drizzle ORM, Neon, Upstash Redis, Resend.
 
-First, run the development server:
+## Geliştirme
 
 ```bash
+npm install
+cp env.local.template .env.local   # Windows: Copy-Item env.local.template .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm run lint
+npm run check:env    # .env.local doldurduktan sonra
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Kod tarafında tamamlananlar
 
-## Learn More
+| Alan | Durum |
+|------|--------|
+| Tema (dark / light), header, hero, tüm bölümler | ✓ |
+| 404, loading, error, global-error | ✓ |
+| Favicon, apple-icon, manifest, OG görselleri | ✓ |
+| SEO (sitemap, robots, metadata, Twitter) | ✓ |
+| MDX projeler (3) + blog (3) case study içerikleri | ✓ |
+| Guestbook, contact, auth, Drizzle schema, rate limit (kod) | ✓ |
+| `env.local.template`, `check:env`, servis dokümanları | ✓ |
 
-To learn more about Next.js, take a look at the following resources:
+## Senin adımların (servis + dosyalar)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**[docs/SENIN-ADIMLARIN.md](docs/SENIN-ADIMLARIN.md)** — senin yapman gerekenler (içerik, servis, deploy, test).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**[docs/EKSIKLIKLER.md](docs/EKSIKLIKLER.md)** — proje eksiklikleri, potansiyel hatalar, teknik borç.
 
-## Deploy on Vercel
+**[docs/TODO.md](docs/TODO.md)** — iki listenin indeksi.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**[docs/KURULUM-SERVISLER.md](docs/KURULUM-SERVISLER.md)** — Neon, GitHub OAuth, Redis, Resend adım adım.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**[public/ASSETS.md](public/ASSETS.md)** — `profile.jpg`, `resume.pdf`.
 
-## Bu portfolyo için
+## Dosya yapısı
 
-- Kişisel metin ve linkler: `src/lib/site-config.ts`
-- **CV indir:** `public/resume.pdf` dosyasını kendi PDF’inle eklediğinde hero’daki bağlantı çalışır.
-- Sonraki fazlar (MDX şu an aktif; guestbook, DB vb.) için Cursor’daki **Full-Stack Portfolio Site** planına uygun ilerle.
+```text
+.
+├── .github/workflows/
+│   └── ci.yml                     # Lint + typecheck + test + build
+├── docs/
+│   ├── SENIN-ADIMLARIN.md         # Senin yapman gerekenler (içerik, servis, deploy)
+│   ├── EKSIKLIKLER.md             # Kod eksiklikleri, potansiyel hatalar, teknik borç
+│   ├── TODO.md                    # İki listenin indeksi
+│   ├── ADIM-1-PROFIL-CV.md        # Profil fotoğrafı ve CV kurulumu
+│   ├── ADIM-2-ENV.md              # Ortam değişkenleri ve servis ayarları
+│   ├── ADIM-3-DOGRULAMA.md        # Lokal doğrulama akışı
+│   └── KURULUM-SERVISLER.md       # GitHub OAuth, Neon, Redis, Resend rehberi
+├── drizzle/
+│   ├── 0000_first_toad.sql        # İlk Drizzle migration
+│   └── meta/                      # Migration snapshot ve journal
+├── public/
+│   ├── ASSETS.md                  # Public asset rehberi
+│   ├── profile.jpg                # Hero profil fotoğrafı
+│   ├── resume.pdf                 # CV indirme dosyası
+│   └── images/projects/
+│       └── bloomedu.jpg           # Proje kapak görseli
+├── scripts/
+│   ├── all-schemas.sql            # Tüm tablolar (referans)
+│   ├── check-assets.mjs           # Profil/CV kontrolü
+│   ├── check-env.mjs              # .env doğrulaması
+│   ├── contact-schema.sql         # İletişim guard tablosu (referans)
+│   ├── guestbook-schema.sql       # Guestbook tablosu (referans)
+│   ├── install-assets.ps1         # Windows asset kopyalama yardımcısı
+│   └── test-neon.mjs              # Neon bağlantı testi
+├── src/
+│   ├── actions/
+│   │   └── contact.ts             # İletişim formu server action
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── auth/[...nextauth]/route.ts   # Auth.js handler
+│   │   │   ├── resume/route.ts               # CV indirme + sayaç
+│   │   │   └── views/[slug]/route.ts         # Blog görüntülenme API
+│   │   ├── blog/
+│   │   │   ├── page.tsx                      # Blog listesi
+│   │   │   ├── [slug]/page.tsx               # Blog detay
+│   │   │   ├── [slug]/opengraph-image.tsx    # Blog OG görseli
+│   │   │   ├── loading.tsx / error.tsx
+│   │   ├── guestbook/
+│   │   │   ├── page.tsx                      # Ziyaretçi defteri + moderasyon
+│   │   │   ├── actions.ts                    # Guestbook server actions
+│   │   │   ├── loading.tsx / error.tsx
+│   │   ├── projects/
+│   │   │   ├── page.tsx                      # Proje arşivi + filtre
+│   │   │   ├── [slug]/page.tsx               # Proje detay
+│   │   │   ├── [slug]/opengraph-image.tsx    # Proje OG görseli
+│   │   │   ├── loading.tsx / error.tsx
+│   │   ├── apple-icon.tsx / icon.tsx         # Dinamik favicon
+│   │   ├── error.tsx / global-error.tsx      # Hata sınırları
+│   │   ├── globals.css                       # Tema değişkenleri
+│   │   ├── layout.tsx                        # Root layout + metadata
+│   │   ├── loading.tsx / not-found.tsx
+│   │   ├── manifest.ts                       # PWA manifest
+│   │   ├── opengraph-image.tsx               # Ana sayfa OG
+│   │   ├── page.tsx                          # Ana sayfa
+│   │   ├── robots.ts / sitemap.ts            # SEO
+│   │   └── favicon.ico
+│   ├── auth.ts                               # Auth.js yapılandırması
+│   ├── components/
+│   │   ├── about-section.tsx
+│   │   ├── blog/blog-view-tracker.tsx        # Blog görüntülenme sayacı
+│   │   ├── contact/contact-form.tsx
+│   │   ├── contact-section.tsx
+│   │   ├── engineering-highlights.tsx
+│   │   ├── featured-projects.tsx             # Server: proje verisi
+│   │   ├── featured-projects-list.tsx        # Client: animasyonlu kartlar
+│   │   ├── github-activity-section.tsx
+│   │   ├── guestbook/guestbook-message-form.tsx
+│   │   ├── hero.tsx
+│   │   ├── mdx/mdx-components.tsx
+│   │   ├── site-footer.tsx / site-header.tsx
+│   │   ├── skills-section.tsx
+│   │   ├── skip-to-content.tsx
+│   │   ├── social-icons.tsx                  # Ortak sosyal ikonlar
+│   │   ├── status-banner.tsx
+│   │   ├── theme-provider.tsx / theme-toggle.tsx
+│   ├── content/
+│   │   ├── blog/
+│   │   │   ├── mdx-ile-blog.mdx
+│   │   │   ├── server-actions-ve-formlar.mdx
+│   │   │   └── nextjs-server-actions-guvenlik.mdx
+│   │   └── projects/
+│   │       ├── bloomedu.mdx
+│   │       ├── portfolio-web.mdx
+│   │       └── zeki-dekorasyon.mdx
+│   ├── db/
+│   │   ├── client.ts                         # Drizzle singleton
+│   │   └── schema.ts                         # Tablo tanımları
+│   ├── lib/
+│   │   ├── blog-slugs.ts / blog-views.ts
+│   │   ├── contact-guard.ts
+│   │   ├── content/
+│   │   │   ├── paths.ts / posts.ts / projects.ts / schema.ts
+│   │   ├── github-repos.ts / github-username.ts
+│   │   ├── guestbook.ts / guestbook-admin.ts
+│   │   ├── guestbook-counts.ts / guestbook-rate-limit.ts
+│   │   ├── mdx/compile.ts
+│   │   ├── neon-client.ts                    # Legacy raw SQL client
+│   │   ├── redis.ts / redis-rate-limit.ts
+│   │   ├── request-ip.ts
+│   │   ├── site-config.ts / site-metadata.ts
+│   └── types/
+│       └── next-auth.d.ts
+├── .env.example                   # Ortam değişkeni örnekleri
+├── env.local.template             # Lokal .env şablonu
+├── drizzle.config.ts              # Drizzle Kit ayarı
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tsconfig.json
+└── vitest.config.ts               # Vitest test konfigurasyonu
+```
 
-### İçerik (Faz 2)
+## Ortam değişkenleri
 
-- Projeler: `src/content/projects/*.mdx` — frontmatter için `src/lib/content/schema.ts`
+Özet: `.env.example` ve `env.local.template`. Zorunlu (guestbook + auth): `AUTH_*`, `DATABASE_URL`, `GUESTBOOK_ADMIN_GITHUB_IDS`. İsteğe bağlı: Upstash, Resend.
+
+## İçerik
+
+- Projeler: `src/content/projects/*.mdx`
 - Blog: `src/content/blog/*.mdx`
-- Derleme: `src/lib/mdx/compile.ts` (`rehype-pretty-code`, `rehype-slug`, `remark-gfm`)
+
+Proje MDX frontmatter alanları:
+
+```yaml
+title: Proje adı
+description: Tek cümlelik özet
+date: "2026-04-01"
+tags:
+  - Next.js
+category: full-stack # frontend | backend | full-stack | devops
+problem: Hangi problemi çözüyor?
+decision: Hangi mühendislik kararı öne çıkıyor?
+impact: Sonuç veya portfolyo sinyali ne?
+status: live # planned | in-progress | live | archived | learning
+repo: https://github.com/kullanici/repo
+featured: true
+```
+
+## Database
+
+- Drizzle schema: `src/db/schema.ts`
+- Drizzle client: `src/db/client.ts`
+- Drizzle config: `drizzle.config.ts`
+- İlk migration: `drizzle/0000_first_toad.sql`
+
+Mevcut Neon kurulumunda `scripts/guestbook-schema.sql` ve `scripts/contact-schema.sql` hâlâ referans olarak durur. Yeni kurulumda Drizzle migration veya SQL scriptlerden biri kullanılmalı; ikisini üst üste aynı boş DB’de çalıştırma.
+
+Deploy: [Vercel](https://vercel.com/new).

@@ -22,7 +22,10 @@
 
 # misc
 .DS_Store
+desktop.ini
+**/desktop.ini
 *.pem
+repomix-output.xml
 
 # debug
 npm-debug.log*
@@ -33,6 +36,7 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
+!env.local.template
 
 # vercel
 .vercel

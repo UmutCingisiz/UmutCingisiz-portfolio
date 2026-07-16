@@ -1,0 +1,42 @@
+---
+title: "Next.js 16 Server Actions: API Route'lara Veda Ederken Güvenliği Sağlamak"
+description: "App Router mimarisinde Server Actions kullanarak formları yönetirken CSRF, Zod validasyonu ve Rate Limiting (Hız Sınırlandırma) stratejileri."
+date: "2026-06-11"
+tags:
+  - Next.js
+  - Security
+  - Server Actions
+  - Zod
+---
+
+Next.js App Router mimarisine geçişle birlikte, alıştığımız `/api` route'ları yerini büyük ölçüde **Server Actions**'a (Sunucu Eylemleri) bıraktı. Form verilerini doğrudan sunucu fonksiyonlarına göndermek harika bir geliştirici deneyimi (DX) sunsa da, mimariyi doğru kurmadığınızda sisteminizi ciddi güvenlik açıklarına (CSRF, veri manipülasyonu) maruz bırakabilirsiniz.
+
+Kişisel portfolyomdaki "Ziyaretçi Defteri" ve "İletişim Katmanı" mimarilerini inşa ederken, Server Actions'ı tam anlamıyla güvenli hale getirmek için uyguladığım üç katmanlı güvenlik stratejisini bu yazıda özetliyorum.
+
+### 1. Güvenli Sınırlar (Boundaries) ve Zod ile Validasyon
+
+Server Actions arka planda HTTP POST istekleri olarak çalışır. Geliştiricilerin yaptığı en büyük hata, istemciden (client) gelen veriye doğrudan güvenmektir. 
+
+Bir fonksiyona `use server` direktifi eklediğinizde, o fonksiyon artık dış dünyaya açılmış bir uç noktadır (endpoint).
+
+```typescript
+"use server";
+import { z } from "zod";
+
+const messageSchema = z.object({
+  message: z.string().trim().min(1, "Mesaj boş olamaz.").max(2000),
+});
+
+export async function submitMessage(formData: FormData) {
+  // İstemciden gelen veriyi asla ham haliyle kabul etme!
+  const raw = formData.get("message");
+  
+  // Zod ile Strict (Katı) Validasyon
+  const parsed = messageSchema.safeParse({ message: raw });
+  
+  if (!parsed.success) {
+    return { ok: false, error: "Geçersiz veri formatı." };
+  }
+  
+  // Sadece parsed.data.message kullanarak veritabanı işlemlerini yap
+}

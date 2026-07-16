@@ -1,0 +1,44 @@
+---
+title: "Bloomedu: AI Destekli Kişiselleştirilmiş Eğitim"
+description: "Bloom Taksonomisi'ni temel alarak öğrencilerin bilişsel gelişimini yapay zeka ile dinamik olarak analiz eden ve kişiselleştiren EdTech girişimi."
+date: "2026-04-09"
+tags:
+  - Next.js
+  - AI Integration
+  - PostgreSQL
+  - EdTech
+category: full-stack
+problem: "Geleneksel eğitim sistemlerinin tek tip müfredat sunması ve öğrencilerin Bloom Taksonomisi'ndeki gerçek bilişsel seviyelerinin anlık olarak ölçülememesi."
+decision: "Öğrenci yanıtlarını LLM (Büyük Dil Modeli) ile analiz ederek, öğrencinin taksonomideki basamağına (Anlama, Uygulama, Analiz vb.) uygun dinamik sorular üreten bir adaptif motor kurgulandı."
+impact: "Proje, teknik derinliği ve ticarileşme potansiyeli ile TÜBİTAK BİGG 1812 Akdeniz 2026-1 dönemi ön jüri sunumuna seçildi."
+status: live
+repo: "https://github.com/somethn7/Bloomedu"
+featured: true
+coverImage: "/images/projects/bloomedu.jpg"
+---
+
+Her öğrencinin öğrenme hızı, bilgiyi işleme biçimi ve bilişsel algısı birbirinden tamamen farklıdır. Ancak mevcut eğitim platformlarının çoğu, tüm öğrencileri aynı statik testlerden geçirerek başarıyı sadece bir "skor" olarak ölçer. **Bloomedu**, bu sorunu kökünden çözmek için Bloom Taksonomisi'nin pedagojik gücünü modern yapay zeka yetenekleriyle birleştiren bir girişim olarak doğdu.
+
+Ekip arkadaşlarımla birlikte hayata geçirdiğimiz bu projede, teknik altyapıyı tamamen bir "startup" mantığıyla ölçeklenebilir ve adaptif olacak şekilde tasarladık.
+
+> Not: Kaynak kodu ekip reposunda tutuluyor. Portfolyo tarafında nihai demo/repo eşleşmesi yayın öncesi son kez doğrulanacak.
+
+### Mimari ve Teknik Yaklaşım
+
+Bir öğrenci Bloomedu sistemine girdiğinde, karşılaştığı sorular statik bir veritabanından rastgele çekilmez. Sistem arka planda şu veri akışını işletir:
+
+1. **Bilişsel Seviye Tespiti:** Öğrencinin verdiği ilk yanıtlar yapay zeka (LLM) tarafından analiz edilir. Öğrenci sadece formülü mü hatırlıyor (Bilgi/Hatırlama), yoksa formülü farklı bir senaryoya uyarlayabiliyor mu (Uygulama/Analiz)?
+2. **Dinamik Prompt Mühendisliği (Prompt Engineering):** Sistem, öğrencinin takıldığı basamağı tespit ettiğinde, arka planda LLM'e özel yapılandırılmış promptlar gönderir. Örneğin; *"Öğrenci 'Uygulama' basamağında zorlanıyor. Ona bu konunun pratik hayattaki kullanımını sorgulatan, ipucu destekli yeni bir soru üret."*
+3. **Gerçek Zamanlı Gelişim Takibi:** Elde edilen veriler, ilişkisel veritabanımızda loglanarak hem öğretmenler hem de öğrenciler için anlamlı grafiklere ve gelişim raporlarına dönüştürülür.
+
+### Karşılaşılan Zorluklar ve Çözümler
+
+Yapay zekayı bir "cevap makinesi" olmaktan çıkarıp bir "öğretmen" formatına sokmak teknik açıdan zorluydu. Başlangıçta LLM, öğrencilere doğrudan doğru cevabı verme eğilimindeydi. 
+
+Bu sorunu çözmek için **Sistem Promptlarını (System Prompts)** çok katmanlı hale getirdik. Yapay zekaya, *"Sen bir cevap anahtarı değilsin, sen Sokratik sorgulama yapan bir eğitmensin"* rolünü vererek halüsinasyonları (hallucination) ve kolaya kaçma durumlarını minimize ettik. Ayrıca API maliyetlerini düşürmek için, her etkileşimde tam bağlam (full context) göndermek yerine, sadece öğrencinin mevcut taksonomi vektörünü gönderdiğimiz optimize edilmiş bir caching (önbellekleme) yapısı kurguladık.
+
+### Girişimcilik ve BİGG Süreci
+
+Bloomedu, sadece kodladığımız bir proje olarak kalmadı. Antalya Teknokent'te gerçekleştirilen **TÜBİTAK BİGG 1812 Ön Jüri Sunumu**, teknik bir mimariyi iş modeline dönüştürme ve ticarileşme stratejilerini (B2B ve B2C eğitim modelleri) yatırımcılara aktarma konusunda bize muazzam bir vizyon kattı.
+
+Mühendislik, sadece çalışan kod yazmak değil; doğru problemi tespit edip, en optimum teknolojiyle o problemi çözmektir. Bloomedu, benim bu felsefeyi tam anlamıyla hayata geçirdiğim en değerli ürünlerden biridir.
