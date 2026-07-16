@@ -30,17 +30,10 @@ npm run check:env    # .env.local doldurduktan sonra
 | Guestbook, contact, auth, Drizzle schema, rate limit (kod) | ✓ |
 | `env.local.template`, `check:env`, servis dokümanları | ✓ |
 
-## Senin adımların (servis + dosyalar)
+## Dokumanlar (sade)
 
-**[docs/SENIN-ADIMLARIN.md](docs/SENIN-ADIMLARIN.md)** — senin yapman gerekenler (içerik, servis, deploy, test).
-
-**[docs/EKSIKLIKLER.md](docs/EKSIKLIKLER.md)** — proje eksiklikleri, potansiyel hatalar, teknik borç.
-
-**[docs/TODO.md](docs/TODO.md)** — iki listenin indeksi.
-
-**[docs/KURULUM-SERVISLER.md](docs/KURULUM-SERVISLER.md)** — Neon, GitHub OAuth, Redis, Resend adım adım.
-
-**[public/ASSETS.md](public/ASSETS.md)** — `profile.jpg`, `resume.pdf`.
+- **[docs/PROJE-GELISTIRME-PLANI.md](docs/PROJE-GELISTIRME-PLANI.md)** — teknik eksikler, riskler, iyilestirme yol haritasi.
+- **[docs/MANUEL-ADIMLAR.md](docs/MANUEL-ADIMLAR.md)** — production icin senin manuel tamamlayacagin adimlar.
 
 ## Dosya yapısı
 
@@ -49,18 +42,12 @@ npm run check:env    # .env.local doldurduktan sonra
 ├── .github/workflows/
 │   └── ci.yml                     # Lint + typecheck + test + build
 ├── docs/
-│   ├── SENIN-ADIMLARIN.md         # Senin yapman gerekenler (içerik, servis, deploy)
-│   ├── EKSIKLIKLER.md             # Kod eksiklikleri, potansiyel hatalar, teknik borç
-│   ├── TODO.md                    # İki listenin indeksi
-│   ├── ADIM-1-PROFIL-CV.md        # Profil fotoğrafı ve CV kurulumu
-│   ├── ADIM-2-ENV.md              # Ortam değişkenleri ve servis ayarları
-│   ├── ADIM-3-DOGRULAMA.md        # Lokal doğrulama akışı
-│   └── KURULUM-SERVISLER.md       # GitHub OAuth, Neon, Redis, Resend rehberi
+│   ├── PROJE-GELISTIRME-PLANI.md  # Teknik eksikler, riskler ve iyilestirme plani
+│   └── MANUEL-ADIMLAR.md          # Sadece senin production adimlarin
 ├── drizzle/
 │   ├── 0000_first_toad.sql        # İlk Drizzle migration
 │   └── meta/                      # Migration snapshot ve journal
 ├── public/
-│   ├── ASSETS.md                  # Public asset rehberi
 │   ├── profile.jpg                # Hero profil fotoğrafı
 │   ├── resume.pdf                 # CV indirme dosyası
 │   └── images/projects/
@@ -198,3 +185,9 @@ featured: true
 Mevcut Neon kurulumunda `scripts/guestbook-schema.sql` ve `scripts/contact-schema.sql` hâlâ referans olarak durur. Yeni kurulumda Drizzle migration veya SQL scriptlerden biri kullanılmalı; ikisini üst üste aynı boş DB’de çalıştırma.
 
 Deploy: [Vercel](https://vercel.com/new).
+
+## Devam stratejisi
+
+Bir sonraki iterasyonlarda sira:
+1. `docs/PROJE-GELISTIRME-PLANI.md` maddelerini kapatmak,
+2. Ardindan `docs/MANUEL-ADIMLAR.md` ile canliya gecis adimlarini bitirmek.
