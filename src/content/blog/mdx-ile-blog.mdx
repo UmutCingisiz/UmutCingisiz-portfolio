@@ -1,24 +1,43 @@
 ---
-title: MDX ile blog
-description: Kod blokları, başlık bağlantıları ve okuma süresi — portfolyo Faz 2.
+title: MDX ile teknik blog mimarisi
+description: Sunucuda derleme, kod vurgusu, slug ve ISR — portfolyo blog katmanının nasıl kurulduğu.
 date: "2026-04-20"
 tags:
   - MDX
   - Next.js
+  - SEO
 ---
 
-Bu yazı **Frontmatter** ile meta veri taşıyan bir örnektir. Üç tik ile kod bloğu:
+Bu portfolyoda blog yazıları **dosya sistemi + MDX** ile yönetiliyor. CMS yerine Git geçmişi kaynak doğruluğu sağlıyor.
 
-```ts
-type Ok<T> = { ok: true; value: T };
+## Frontmatter sözleşmesi
+
+Her yazı başlık, açıklama, tarih ve etiket taşır. `reading-time` paketi okuma süresini meta olarak üretir.
+
+```yaml
+---
+title: Örnek yazı
+description: Kısa özet
+date: "2026-04-20"
+tags:
+  - Next.js
+---
 ```
 
-Liste:
+## Derleme hattı
 
-- Sunucuda derlenen MDX
-- `rehype-pretty-code` ile vurgulanan söz dizimi
-- `rehype-slug` ile başlık.anchor bağlantıları
+`compilePostMDX` içinde:
 
-### İç içe başlık
+- `remark-gfm` — tablolar, görev listeleri
+- `rehype-pretty-code` — sözdizimi vurgusu
+- `rehype-slug` — başlık anchor’ları
 
-Sayfa içi bağlantılar otomatik kimlikler alır.
+Sayfa `revalidate = 3600` ile ISR kullanır; içerik değişince saatlik yenilenir.
+
+## Görüntülenme sayacı
+
+Redis varsa `/api/views/[slug]` POST ile artar; yoksa `BlogViewTracker` bunu kullanıcıya söyler — sessiz hata yok.
+
+### Neden bu seçim?
+
+Küçük blog için Postgres + admin paneli fazla. MDX + ISR, **maliyet ve karmaşıklık** dengesini korurken teknik yazı formatını destekler.

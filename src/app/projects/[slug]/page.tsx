@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { compileProjectMDX } from "@/lib/mdx/compile";
@@ -39,35 +40,99 @@ export default async function ProjectDetailPage({ params }: Props) {
   if (!compiled) notFound();
 
   const { content, frontmatter } = compiled;
+  const decisionCards = [
+    {
+      label: "problem",
+      title: "Çözülen problem",
+      body: frontmatter.problem,
+    },
+    {
+      label: "decision",
+      title: "Mühendislik kararı",
+      body: frontmatter.decision,
+    },
+    {
+      label: "impact",
+      title: "Kanıtlanan etki",
+      body: frontmatter.impact,
+    },
+  ];
 
   return (
-    <article className="mx-auto max-w-3xl flex-1 px-4 py-12 sm:px-6">
+    <article className="mx-auto max-w-4xl flex-1 px-4 py-16 sm:px-6 sm:py-24">
       <Link
         href="/projects"
-        className="text-sm font-medium text-accent hover:underline"
+        className="inline-flex rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
       >
         ← Projeler
       </Link>
-      <header className="mt-6 border-b border-border pb-8">
-        <p className="font-mono text-sm text-accent">{frontmatter.category}</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
+      <header className="mt-8 overflow-hidden rounded-xl border border-border bg-card/60 p-7 backdrop-blur-sm sm:p-9">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          {frontmatter.category} / case.study
+        </p>
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           {frontmatter.title}
         </h1>
-        <p className="mt-2 text-muted-foreground">{frontmatter.description}</p>
-        <p className="mt-3 text-sm text-muted-foreground">
+        <p className="mt-4 max-w-2xl leading-7 text-muted-foreground">
+          {frontmatter.description}
+        </p>
+        {frontmatter.coverImage ? (
+          <div className="relative mt-7 aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted">
+            <Image
+              src={frontmatter.coverImage}
+              alt={`${frontmatter.title} proje önizlemesi`}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        ) : null}
+        <div className="mt-7 grid gap-3 md:grid-cols-3">
+          {frontmatter.problem ? (
+            <div className="rounded-lg border border-border bg-muted/35 p-4">
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+                problem
+              </p>
+              <p className="mt-2 text-sm leading-6 text-foreground/85">
+                {frontmatter.problem}
+              </p>
+            </div>
+          ) : null}
+          {frontmatter.decision ? (
+            <div className="rounded-lg border border-border bg-muted/35 p-4">
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+                decision
+              </p>
+              <p className="mt-2 text-sm leading-6 text-foreground/85">
+                {frontmatter.decision}
+              </p>
+            </div>
+          ) : null}
+          {frontmatter.impact ? (
+            <div className="rounded-lg border border-border bg-muted/35 p-4">
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+                impact
+              </p>
+              <p className="mt-2 text-sm leading-6 text-foreground/85">
+                {frontmatter.impact}
+              </p>
+            </div>
+          ) : null}
+        </div>
+        <p className="mt-5 font-mono text-xs text-muted-foreground">
           {new Date(frontmatter.date).toLocaleDateString("tr-TR", {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
         </p>
-        <div className="mt-5 flex flex-wrap gap-4">
+        <div className="mt-7 flex flex-wrap gap-3">
           {frontmatter.demo ? (
             <a
               href={frontmatter.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-medium text-accent underline underline-offset-4"
+              className="inline-flex rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-all duration-200 hover:opacity-90"
             >
               Canlı demo ↗
             </a>
@@ -77,14 +142,47 @@ export default async function ProjectDetailPage({ params }: Props) {
               href={frontmatter.repo}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-medium text-accent underline underline-offset-4"
+              className="inline-flex rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
             >
               Kaynak kod ↗
             </a>
           ) : null}
         </div>
       </header>
-      <div className="prose prose-slate dark:prose-invert prose-pre:bg-transparent prose-pre:p-0 max-w-none py-10 [&_pre]:overflow-x-auto [&_figure]:!my-6">
+      <section className="mt-8 rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm sm:p-7">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              architecture.decisions
+            </p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
+              Karar, trade-off ve sonuç aynı yerde.
+            </h2>
+          </div>
+          <span className="w-fit rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
+            {frontmatter.status}
+          </span>
+        </div>
+        <div className="mt-6 grid gap-3 md:grid-cols-3">
+          {decisionCards.map((card) => (
+            <article
+              key={card.label}
+              className="rounded-lg border border-border bg-muted/35 p-4"
+            >
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+                {card.label}
+              </p>
+              <h3 className="mt-2 text-sm font-semibold text-foreground">
+                {card.title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                {card.body}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <div className="prose prose-neutral dark:prose-invert prose-pre:bg-transparent prose-pre:p-0 max-w-none py-10 prose-headings:tracking-tight prose-a:text-foreground prose-a:underline [&_pre]:overflow-x-auto [&_figure]:!my-6">
         {content}
       </div>
     </article>

@@ -1,8 +1,12 @@
-import type { Metadata } from "next";
+import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { SkipToContent } from "@/components/skip-to-content";
 import { ThemeProvider } from "@/components/theme-provider";
+import { getSiteMetadata } from "@/lib/site-metadata";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,23 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "Portfolyo",
-    template: "%s | Portfolyo",
-  },
-  description:
-    "Bilgisayar mühendisliği portfolyosu — projeler, yazılar ve iletişim.",
-  openGraph: {
-    type: "website",
-    locale: "tr_TR",
-    siteName: "Portfolyo",
-  },
-};
+export const metadata = getSiteMetadata();
 
 export default function RootLayout({
   children,
@@ -46,9 +34,18 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground antialiased">
         <ThemeProvider>
+          <SkipToContent />
           <SiteHeader />
-          <main className="flex flex-1 flex-col">{children}</main>
+          <main id="main-content" className="flex flex-1 flex-col">
+            {children}
+          </main>
           <SiteFooter />
+          <Suspense fallback={null}>
+            <Analytics />
+          </Suspense>
+          <Suspense fallback={null}>
+            <SpeedInsights />
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>

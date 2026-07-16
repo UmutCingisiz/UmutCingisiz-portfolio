@@ -2,6 +2,8 @@
 
 Bu dosya, yalnizca senin dis servis ve yayin adimlarini icerir.
 
+Kod tarafi tamamlandi. Bu listedeki maddeler bittiginde proje canliya alinabilir.
+
 ## 1) Domain ve production URL
 
 - [ ] Domain satin al.

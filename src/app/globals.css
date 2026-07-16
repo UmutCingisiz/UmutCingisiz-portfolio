@@ -2,27 +2,51 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #fafafa;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --accent: #0284c7;
-  --accent-foreground: #ffffff;
+  --background: #09090b;
+  --foreground: #fafaf9;
+  --card: #111113;
+  --card-foreground: #fafaf9;
+  --muted: #1a1a1e;
+  --muted-foreground: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.10);
+  --accent: #e4e4e7;
+  --accent-foreground: #09090b;
+  --ring: rgba(228, 228, 231, 0.30);
+  --glow: rgba(255, 255, 255, 0.10);
+  --selection-bg: rgba(228, 228, 231, 0.30);
+  --selection-text: #09090b;
+}
+
+.light {
+  --background: #fafafa; /* İnci beyazı / Çok hafif gri */
+  --foreground: #09090b; /* Daha keskin, pitch-dark metinler */
+  --card: #ffffff; /* Kartlar saf beyaz kalarak derinlik yaratır */
+  --card-foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a; /* Daha elegan, elit bir gri */
+  --border: rgba(0, 0, 0, 0.06); /* Çok zarif, neredeyse görünmez sınırlar */
+  --accent: #f4f4f5;
+  --accent-foreground: #09090b;
+  --ring: rgba(0, 0, 0, 0.08);
+  --glow: rgba(0, 0, 0, 0.03);
+  --selection-bg: rgba(0, 0, 0, 0.08);
+  --selection-text: #000000;
 }
 
 .dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --border: #334155;
-  --accent: #38bdf8;
-  --accent-foreground: #0f172a;
+  --background: #09090b;
+  --foreground: #fafaf9;
+  --card: #111113;
+  --card-foreground: #fafaf9;
+  --muted: #1a1a1e;
+  --muted-foreground: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.10);
+  --accent: #e4e4e7;
+  --accent-foreground: #09090b;
+  --ring: rgba(228, 228, 231, 0.30);
+  --glow: rgba(255, 255, 255, 0.10);
+  --selection-bg: rgba(228, 228, 231, 0.30);
+  --selection-text: #09090b;
 }
 
 @theme inline {
@@ -35,12 +59,85 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 body {
+  min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Koyu mod arka plan dokusu */
+.dark body {
+  background:
+    radial-gradient(ellipse 70% 44% at 50% -12%, rgba(255,255,255,0.06), transparent),
+    var(--background);
+}
+
+.dark body::before {
+  pointer-events: none;
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
+}
+
+/* Elit Açık Mod Arka Plan Dokusu (Linear & Vercel Stili) */
+.light body {
+  background-color: var(--background);
+  background-image:
+    /* Üst taraftan vuran çok hafif, zarif bir ışık hüzmesi */
+    radial-gradient(100% 50% at 50% 0%, rgba(0, 0, 0, 0.02) 0%, transparent 100%),
+    /* Alttan gelen belli belirsiz ambiyans */
+    radial-gradient(100% 50% at 50% 100%, rgba(0, 0, 0, 0.015) 0%, transparent 100%);
+}
+
+.light body::before {
+  pointer-events: none;
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  /* Kaba grid yerine, zarif bir nokta (dot) matrisi */
+  background-image: radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  /* Maske: Noktalar sadece ortada belirgindir, ekranın kenarlarına doğru yumuşakça silinir (Vignette efekti) */
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }

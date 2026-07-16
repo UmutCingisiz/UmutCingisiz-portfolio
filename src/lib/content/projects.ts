@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { cache } from "react";
 import {
   projectFrontmatterSchema,
   type ProjectFrontmatter,
@@ -10,7 +11,7 @@ import { PROJECTS_DIR } from "@/lib/content/paths";
 
 export type ProjectMeta = ProjectFrontmatter & { slug: string };
 
-function parseProjectFile(file: string): ProjectMeta | null {
+const parseProjectFile = cache((file: string): ProjectMeta | null => {
   const raw = fs.readFileSync(path.join(PROJECTS_DIR, file), "utf8");
   const { data } = matter(raw);
   const parsed = projectFrontmatterSchema.safeParse(data);
@@ -20,9 +21,9 @@ function parseProjectFile(file: string): ProjectMeta | null {
   }
   const slug = file.replace(/\.mdx$/u, "");
   return { ...parsed.data, slug };
-}
+});
 
-export function getAllProjectsMeta(): ProjectMeta[] {
+const readAllProjectsMeta = cache((): ProjectMeta[] => {
   if (!fs.existsSync(PROJECTS_DIR)) return [];
   const files = fs.readdirSync(PROJECTS_DIR).filter((f) => f.endsWith(".mdx"));
   const items = files
@@ -31,9 +32,14 @@ export function getAllProjectsMeta(): ProjectMeta[] {
   return items.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
+});
+
+export function getAllProjectsMeta(): ProjectMeta[] {
+  return readAllProjectsMeta();
 }
 
 export function getProjectMetaBySlug(slug: string): ProjectMeta | null {
+  if (!getProjectSlugs().includes(slug)) return null;
   const file = `${slug}.mdx`;
   const fp = path.join(PROJECTS_DIR, file);
   if (!fs.existsSync(fp)) return null;

@@ -10,6 +10,7 @@ import {
   countContactSubmissions24h,
   logContactSubmissionGuard,
 } from "@/lib/contact-guard";
+import { logPortfolioError, logPortfolioEvent } from "@/lib/observability";
 import { siteConfig } from "@/lib/site-config";
 
 const schema = z.object({
@@ -77,11 +78,12 @@ export async function submitContactForm(
     countContactSubmissions24h(emailKey),
     countContactSubmissions24h(ipKey),
   ]).catch((error) => {
-    console.error("[Contact Form Guard] Rate limit DB error:", error);
+    logPortfolioError("contact.rate_limit_guard_failed", error);
     return [0, 0];
   });
 
   if (emailPrior >= MAX_PER_DAY_PER_EMAIL) {
+    logPortfolioEvent("contact.rate_limited", { dimension: "email" });
     return {
       ok: false,
       error: `Bu e-postadan 24 saat içinde en fazla ${MAX_PER_DAY_PER_EMAIL} mesaj gönderilebilir.`,
@@ -89,6 +91,7 @@ export async function submitContactForm(
   }
 
   if (ipPrior >= MAX_PER_DAY_PER_IP) {
+    logPortfolioEvent("contact.rate_limited", { dimension: "ip" });
     return {
       ok: false,
       error:
@@ -98,6 +101,7 @@ export async function submitContactForm(
 
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) {
+    logPortfolioEvent("contact.service_unconfigured", { missing: "RESEND_API_KEY" });
     return {
       ok: false,
       error:
@@ -109,6 +113,7 @@ export async function submitContactForm(
     process.env.CONTACT_NOTIFY_EMAIL?.trim() ?? siteConfig.email;
   const from = process.env.CONTACT_FROM_EMAIL?.trim();
   if (!from) {
+    logPortfolioEvent("contact.service_unconfigured", { missing: "CONTACT_FROM_EMAIL" });
     return {
       ok: false,
       error: "Iletisim servisi ayarlari tamamlanmadi. Lutfen daha sonra tekrar dene.",
@@ -133,7 +138,7 @@ export async function submitContactForm(
       text,
     });
   } catch (error) {
-    console.error("[Contact Form Resend] Email send error:", error);
+    logPortfolioError("contact.send_failed", error);
     return {
       ok: false,
       error: "Mesaj simdilik gonderilemedi. Lutfen biraz sonra tekrar dene.",
@@ -145,8 +150,9 @@ export async function submitContactForm(
     logContactSubmissionGuard(emailKey),
     logContactSubmissionGuard(ipKey),
   ]).catch((error) => {
-    console.error("[Contact Form Guard] DB log entry failed:", error);
+    logPortfolioError("contact.rate_limit_guard_failed", error, { phase: "write" });
   });
+  logPortfolioEvent("contact.sent");
   
   redirect("/?contact=sent");
 }

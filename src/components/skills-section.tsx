@@ -1,54 +1,51 @@
-type Tier = "Core" | "Familiar" | "Learning";
-
-const tiers: { tier: Tier; items: { name: string; note: string }[] }[] = [
-  {
-    tier: "Core",
-    items: [
-      { name: "TypeScript / JavaScript", note: "Uygulama mantığı ve tip güvenliği" },
-      { name: "React / Next.js", note: "App Router, Server Components" },
-      { name: "Git", note: "Dal stratejisi ve işbirlikçi akış" },
-    ],
-  },
-  {
-    tier: "Familiar",
-    items: [
-      { name: "PostgreSQL", note: "İlişkisel model ve sorgular" },
-      { name: "Tailwind CSS", note: "Tasarım sistemi ve responsive UI" },
-      { name: "REST API", note: "Entegrasyon ve hata yönetimi" },
-    ],
-  },
-  {
-    tier: "Learning",
-    items: [
-      { name: "Sistem tasarımı", note: "Ölçek ve güvenilirlik kalıpları" },
-      { name: "Test otomasyonu", note: "Unit ve entegrasyon testleri" },
-    ],
-  },
-];
+import { siteConfig } from "@/lib/site-config";
 
 export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20"
+      className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-20 sm:px-6 sm:py-28"
     >
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-          Yetenekler
-        </h2>
-        <p className="mt-2 max-w-2xl text-muted-foreground">
-          Core / Familiar / Learning — dürüst bir öz-değerlendirme; listeyi doğrudan bu
-          bileşende güncelleyebilirsin.
-        </p>
-        <div className="mt-10 grid gap-10 md:grid-cols-3">
-          {tiers.map(({ tier, items }) => (
-            <div key={tier}>
-              <h3 className="font-mono text-sm font-medium text-accent">{tier}</h3>
-              <ul className="mt-4 space-y-4">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+              stack.map()
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Yetenekler: seviyeli, dürüst ve bağlamlı.
+            </h2>
+          </div>
+          <p className="max-w-md text-sm leading-7 text-muted-foreground">
+            Progress bar yerine gerçek kullanım bağlamı: hangi teknolojiyle ne
+            çözdüğümü görünür kılmak daha değerli.
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {siteConfig.skills.map(({ tier, items }) => (
+            <div
+              key={tier}
+              className="rounded-xl border border-border bg-card/60 p-6 backdrop-blur-sm"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="font-mono text-sm font-semibold text-foreground">
+                  {tier}
+                </h3>
+                <span className="rounded-md border border-border bg-muted/60 px-2 py-0.5 font-mono text-[0.65rem] text-muted-foreground">
+                  {items.length}
+                </span>
+              </div>
+              <ul className="mt-6 space-y-5">
                 {items.map((item) => (
-                  <li key={item.name}>
+                  <li
+                    key={item.name}
+                    className="border-l-2 border-foreground/15 pl-4 transition-colors hover:border-foreground/40"
+                  >
                     <p className="font-medium text-foreground">{item.name}</p>
-                    <p className="mt-0.5 text-sm text-muted-foreground">{item.note}</p>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                      {item.note}
+                    </p>
                   </li>
                 ))}
               </ul>

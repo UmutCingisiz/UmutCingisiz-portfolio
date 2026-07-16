@@ -11,38 +11,49 @@ export default function BlogPage() {
   const posts = getAllPostsMeta();
 
   return (
-    <div className="mx-auto max-w-3xl flex-1 px-4 py-16 sm:px-6">
-      <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+    <div className="mx-auto max-w-4xl flex-1 px-4 py-16 sm:px-6 sm:py-24">
+      <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+        technical.notes
+      </p>
+      <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
         Blog
       </h1>
-      <p className="mt-4 leading-relaxed text-muted-foreground">
-        MDX ile yazılmış içerikler. Görüntülenme sayacı Faz 3 ile eklenecek.
+      <p className="mt-4 max-w-2xl leading-7 text-muted-foreground">
+        MDX ile yazılmış içerikler — okuma süresi başlıkta, kod vurgusu ve başlık
+        bağlantıları yazı sayfasında.
       </p>
 
-      <ul className="mt-12 space-y-8">
+      <ul className="mt-12 space-y-4">
         {posts.map((post) => (
-          <li key={post.slug} className="border-b border-border pb-8 last:border-0">
-            <time
-              dateTime={post.date}
-              className="font-mono text-xs text-muted-foreground"
-            >
-              {new Date(post.date).toLocaleDateString("tr-TR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-            <h2 className="mt-2 text-xl font-semibold text-foreground">
+          <li
+            key={post.slug}
+            className="group rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg"
+          >
+            <div className="flex flex-wrap items-center gap-3">
+              <time
+                dateTime={post.date}
+                className="font-mono text-xs text-muted-foreground"
+              >
+                {new Date(post.date).toLocaleDateString("tr-TR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+              <span className="font-mono text-xs text-muted-foreground">
+                ~{post.readingMinutes} dk
+              </span>
+            </div>
+            <h2 className="mt-3 text-xl font-semibold tracking-tight text-foreground">
               <Link
                 href={`/blog/${post.slug}`}
-                className="hover:text-accent hover:underline"
+                className="hover:underline"
               >
                 {post.title}
               </Link>
             </h2>
-            <p className="mt-2 text-muted-foreground">{post.description}</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              ~{post.readingMinutes} dk okuma
+            <p className="mt-2 leading-7 text-muted-foreground">
+              {post.description}
             </p>
           </li>
         ))}
@@ -54,9 +65,9 @@ export default function BlogPage() {
 
       <Link
         href="/"
-        className="mt-12 inline-block text-sm font-medium text-accent hover:underline"
+        className="mt-12 inline-block text-sm font-medium text-muted-foreground hover:text-foreground hover:underline"
       >
-        Ana sayfa
+        ← Ana sayfa
       </Link>
     </div>
   );

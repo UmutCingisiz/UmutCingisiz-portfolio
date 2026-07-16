@@ -1,0 +1,42 @@
+---
+title: Server Actions ile formlar
+description: İletişim ve ziyaretçi defteri formlarında doğrulama, rate limit ve güvenli yönlendirme.
+date: "2026-05-01"
+tags:
+  - Next.js
+  - TypeScript
+  - PostgreSQL
+---
+
+Next.js App Router’da formlar için ayrı REST endpoint yazmak yerine **Server Actions** kullandım. Aynı repoda tip güvenliği ve daha az dosya sınırı.
+
+## İletişim formu
+
+```ts
+export async function submitContactForm(
+  _prev: ContactFormState,
+  formData: FormData,
+): Promise<ContactFormState> {
+  // 1. Honeypot
+  // 2. Zod parse
+  // 3. Neon: 24s / e-posta limiti
+  // 4. Resend gönder
+  // 5. redirect("/?contact=sent")
+}
+```
+
+**Honeypot** alanı botları yakalar; başarılı görünüp sessizce reddeder.
+
+**Rate limit** veritabanında — Redis şart değil; küçük trafik için yeterli.
+
+## Ziyaretçi defteri
+
+GitHub OAuth zorunlu; `github_id` ile limit ve moderasyon. Mesajlar önce `pending`, onay sonrası listelenir.
+
+## UX prensibi
+
+- Eksik `RESEND_API_KEY` → formda açık Türkçe hata
+- Eksik `DATABASE_URL` → guestbook’ta kurulum talimatı
+- Başarı → `redirect` + query param ile banner (`?contact=sent`)
+
+Formlar “demo” değil; **ortam eksikliğinde de dürüst** davranıyor.

@@ -15,7 +15,10 @@ npm run dev
 ```bash
 npm run build
 npm run lint
-npm run check:env    # .env.local doldurduktan sonra
+npm run typecheck
+npm run test
+npm run coverage
+npm run check:all    # assets + content + env + db
 ```
 
 ## Kod tarafında tamamlananlar
@@ -28,7 +31,8 @@ npm run check:env    # .env.local doldurduktan sonra
 | SEO (sitemap, robots, metadata, Twitter) | ✓ |
 | MDX projeler (3) + blog (3) case study içerikleri | ✓ |
 | Guestbook, contact, auth, Drizzle schema, rate limit (kod) | ✓ |
-| `env.local.template`, `check:env`, servis dokümanları | ✓ |
+| Hiring Proof, Quality Standards, observability ve content kalite kapısı | ✓ |
+| Vitest, coverage, CI, `check:content`, `check:all` kalite kapıları | ✓ |
 
 ## Dokumanlar (sade)
 
@@ -40,7 +44,7 @@ npm run check:env    # .env.local doldurduktan sonra
 ```text
 .
 ├── .github/workflows/
-│   └── ci.yml                     # Lint + typecheck + test + build
+│   └── ci.yml                     # Lint + typecheck + test + coverage + build
 ├── docs/
 │   ├── PROJE-GELISTIRME-PLANI.md  # Teknik eksikler, riskler ve iyilestirme plani
 │   └── MANUEL-ADIMLAR.md          # Sadece senin production adimlarin
@@ -55,6 +59,7 @@ npm run check:env    # .env.local doldurduktan sonra
 ├── scripts/
 │   ├── all-schemas.sql            # Tüm tablolar (referans)
 │   ├── check-assets.mjs           # Profil/CV kontrolü
+│   ├── check-content.mjs          # MDX frontmatter kalite kontrolü
 │   ├── check-env.mjs              # .env doğrulaması
 │   ├── contact-schema.sql         # İletişim guard tablosu (referans)
 │   ├── guestbook-schema.sql       # Guestbook tablosu (referans)
@@ -79,7 +84,7 @@ npm run check:env    # .env.local doldurduktan sonra
 │   │   │   ├── loading.tsx / error.tsx
 │   │   ├── projects/
 │   │   │   ├── page.tsx                      # Proje arşivi + filtre
-│   │   │   ├── [slug]/page.tsx               # Proje detay
+│   │   │   ├── [slug]/page.tsx               # Proje detay + mimari karar kartları
 │   │   │   ├── [slug]/opengraph-image.tsx    # Proje OG görseli
 │   │   │   ├── loading.tsx / error.tsx
 │   │   ├── apple-icon.tsx / icon.tsx         # Dinamik favicon
@@ -104,7 +109,9 @@ npm run check:env    # .env.local doldurduktan sonra
 │   │   ├── github-activity-section.tsx
 │   │   ├── guestbook/guestbook-message-form.tsx
 │   │   ├── hero.tsx
+│   │   ├── hiring-proof-section.tsx          # İşe alım odaklı teknik kanıtlar
 │   │   ├── mdx/mdx-components.tsx
+│   │   ├── quality-standards-section.tsx     # Performans/a11y/security/observability hedefleri
 │   │   ├── site-footer.tsx / site-header.tsx
 │   │   ├── skills-section.tsx
 │   │   ├── skip-to-content.tsx
@@ -133,11 +140,17 @@ npm run check:env    # .env.local doldurduktan sonra
 │   │   ├── guestbook-counts.ts / guestbook-rate-limit.ts
 │   │   ├── mdx/compile.ts
 │   │   ├── neon-client.ts                    # Legacy raw SQL client
+│   │   ├── observability.ts                  # Structured production event/error logs
 │   │   ├── redis.ts / redis-rate-limit.ts
 │   │   ├── request-ip.ts
 │   │   ├── site-config.ts / site-metadata.ts
 │   └── types/
 │       └── next-auth.d.ts
+├── tests/
+│   ├── content-loaders.test.ts
+│   ├── content-schema.test.ts
+│   ├── observability.test.ts
+│   └── request-ip.test.ts
 ├── .env.example                   # Ortam değişkeni örnekleri
 ├── env.local.template             # Lokal .env şablonu
 ├── drizzle.config.ts              # Drizzle Kit ayarı
@@ -157,6 +170,7 @@ npm run check:env    # .env.local doldurduktan sonra
 
 - Projeler: `src/content/projects/*.mdx`
 - Blog: `src/content/blog/*.mdx`
+- İçerik kalite kontrolü: `npm run check:content`
 
 Proje MDX frontmatter alanları:
 
@@ -175,6 +189,20 @@ repo: https://github.com/kullanici/repo
 featured: true
 ```
 
+## Kalite Kapısı
+
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run coverage
+npm run check:content
+npm run build
+npm run check:all
+```
+
+`check:env` içinde Upstash ve Resend eksik görünmesi canlıya alma öncesi beklenen durumdur; bunlar `docs/MANUEL-ADIMLAR.md` içindeki production adımlarında tamamlanacak.
+
 ## Database
 
 - Drizzle schema: `src/db/schema.ts`
@@ -186,8 +214,6 @@ Mevcut Neon kurulumunda `scripts/guestbook-schema.sql` ve `scripts/contact-schem
 
 Deploy: [Vercel](https://vercel.com/new).
 
-## Devam stratejisi
+## Sonraki Adım
 
-Bir sonraki iterasyonlarda sira:
-1. `docs/PROJE-GELISTIRME-PLANI.md` maddelerini kapatmak,
-2. Ardindan `docs/MANUEL-ADIMLAR.md` ile canliya gecis adimlarini bitirmek.
+Kod ve UI/UX tarafındaki geliştirme planı tamamlandı. Yayına alma için kalan tek kaynak: `docs/MANUEL-ADIMLAR.md`.

@@ -20,7 +20,7 @@ export function ThemeToggle() {
   if (!hasHydrated) {
     return (
       <span
-        className="inline-flex size-9 items-center justify-center rounded-lg border border-border bg-card"
+        className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-card/55"
         aria-hidden
       />
     );
@@ -32,7 +32,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="inline-flex size-9 items-center justify-center rounded-lg border border-border bg-card text-foreground transition hover:bg-muted"
+      className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-card/55 text-foreground transition hover:border-accent/50 hover:bg-muted"
       aria-label={isDark ? "Açık temaya geç" : "Koyu temaya geç"}
     >
       {isDark ? (

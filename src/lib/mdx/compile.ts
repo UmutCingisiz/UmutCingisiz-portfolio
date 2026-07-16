@@ -6,6 +6,8 @@ import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 import { BLOG_DIR, PROJECTS_DIR } from "@/lib/content/paths";
+import { getPostSlugs } from "@/lib/content/posts";
+import { getProjectSlugs } from "@/lib/content/projects";
 import type { PostFrontmatter, ProjectFrontmatter } from "@/lib/content/schema";
 
 const prettyCodeOptions = {
@@ -14,6 +16,7 @@ const prettyCodeOptions = {
 } as const;
 
 export async function compileProjectMDX(slug: string) {
+  if (!getProjectSlugs().includes(slug)) return null;
   const fp = path.join(PROJECTS_DIR, `${slug}.mdx`);
   if (!fs.existsSync(fp)) return null;
   const raw = fs.readFileSync(fp, "utf8");
@@ -34,6 +37,7 @@ export async function compileProjectMDX(slug: string) {
 }
 
 export async function compilePostMDX(slug: string) {
+  if (!getPostSlugs().includes(slug)) return null;
   const fp = path.join(BLOG_DIR, `${slug}.mdx`);
   if (!fs.existsSync(fp)) return null;
   const raw = fs.readFileSync(fp, "utf8");
