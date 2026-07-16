@@ -33,7 +33,41 @@ describe("content schema", () => {
       date: "2026-07-17",
       tags: ["Next.js"],
       category: "frontend",
+      problem: "Problem statement",
+      decision: "Key decision",
+      impact: "Measurable impact",
       status: "published",
+    });
+
+    expect(parsed.success).toBe(false);
+  });
+
+  test("project frontmatter requires engineering story fields", () => {
+    const parsed = projectFrontmatterSchema.safeParse({
+      title: "Demo Project",
+      description: "Short description",
+      date: "2026-07-17",
+      tags: ["Next.js"],
+      category: "frontend",
+      status: "live",
+    });
+
+    expect(parsed.success).toBe(false);
+  });
+
+  test("project frontmatter rejects empty optional URLs and images", () => {
+    const parsed = projectFrontmatterSchema.safeParse({
+      title: "Demo Project",
+      description: "Short description",
+      date: "2026-07-17",
+      tags: ["Next.js"],
+      category: "frontend",
+      problem: "Problem statement",
+      decision: "Key decision",
+      impact: "Measurable impact",
+      status: "live",
+      repo: "",
+      coverImage: "",
     });
 
     expect(parsed.success).toBe(false);

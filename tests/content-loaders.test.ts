@@ -50,4 +50,15 @@ describe("content loaders", () => {
     const items = getFeaturedProjects(2);
     expect(items.length).toBeLessThanOrEqual(2);
   });
+
+  test("all project cards expose case-study signals", () => {
+    const projects = getAllProjectsMeta();
+
+    for (const project of projects) {
+      expect(project.problem).toBeTruthy();
+      expect(project.decision).toBeTruthy();
+      expect(project.impact).toBeTruthy();
+      expect(project.status).toBeTruthy();
+    }
+  });
 });
