@@ -9,11 +9,11 @@ tags:
   - Tailwind CSS
   - Frontend Architecture
 category: frontend
-problem: "Bahçe mobilyaları gibi görsel odaklı bir sektörde, yüksek çözünürlüklü ürün fotoğraflarının sayfa yüklenme hızını (LCP) düşürmesi ve zayıf SEO performansı."
-decision: "Geleneksel SPA (Single Page Application) yerine Next.js'in Static Site Generation (SSG) mimarisi ve yerleşik Image optimizasyon bileşenleri kullanılarak ürün sayfaları önceden derlendi."
-impact: "Sayfa yüklenme süreleri drastik şekilde düşürüldü, sıfır CLS (Cumulative Layout Shift) ile akıcı bir kullanıcı deneyimi sağlandı ve organik arama görünürlüğü artırıldı."
-status: live
-featured: true
+problem: "Bahçe mobilyaları gibi görsel odaklı bir sektörde, yüksek çözünürlüklü ürün fotoğraflarının LCP performansını düşürmesi, katalog akışını yavaşlatması ve SEO görünürlüğünü zayıflatması."
+decision: "Geleneksel SPA yerine Next.js SSG, dosya tabanlı ürün modeli ve `next/image` optimizasyonu seçildi; böylece hızlı ilk yükleme, düşük bakım maliyeti ve ürün sayısı arttığında ölçeklenebilir katalog yapısı hedeflendi."
+impact: "Proje geliştirme aşamasında; hedef çıktı sıfıra yakın CLS, hızlı görsel katalog deneyimi ve küçük işletme için ölçülebilir organik görünürlük artışı."
+status: in-progress
+featured: false
 ---
 
 Görsel ağırlıklı bir sektör olan bahçe ve dış mekan mobilyalarında, müşterinin satın alma kararını doğrudan fotoğrafların kalitesi ve sitenin hızı belirler. **Zeki Dekorasyon** için geliştirdiğim dijital ürün kataloğunda temel mühendislik hedefim; yüksek çözünürlüklü ürün görsellerinden taviz vermeden, kullanıcıya anında tepki veren (instant-loading) bir arayüz sunmaktı.

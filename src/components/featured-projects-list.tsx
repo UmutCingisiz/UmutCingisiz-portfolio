@@ -12,8 +12,9 @@ export function FeaturedProjectsList({ projects }: Props) {
   return (
     <section
       id="projects"
-      className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden px-4 py-20 sm:px-6 sm:py-28"
     >
+      <div className="ambient-orb left-1/2 top-24 size-72 -translate-x-1/2 opacity-25" />
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -21,7 +22,7 @@ export function FeaturedProjectsList({ projects }: Props) {
               selected.case_studies
             </p>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Projeler kısmı işe alım kararını etkileyen bölüm olmalı.
+              Vitrin değil, kararların ve sonuçların kanıt panosu.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
               Bu kartlar &ldquo;ne kullandım?&rdquo; listesinden daha fazlası: problem,
@@ -49,15 +50,15 @@ export function FeaturedProjectsList({ projects }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.4, delay: 0.1 * i }}
-                className="group relative overflow-hidden rounded-xl border border-border bg-card/60 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg"
+                className="premium-card group rounded-3xl p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20"
               >
-                <div className="absolute -right-16 -top-16 size-40 rounded-full bg-foreground/[0.03] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.06]" />
+                <div className="absolute -right-16 -top-16 size-44 rounded-full bg-foreground/[0.04] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.08]" />
 
                 <div className="relative flex items-start justify-between gap-4">
-                  <div className="flex size-12 items-center justify-center rounded-xl border border-border bg-muted/50 font-mono text-sm font-semibold text-foreground">
+                  <div className="flex size-12 items-center justify-center rounded-2xl border border-border bg-background/55 font-mono text-sm font-semibold text-foreground">
                     {String(p.category).slice(0, 2).toUpperCase()}
                   </div>
-                  <span className="rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
+                  <span className="rounded-full border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
                     {p.status ?? "featured"}
                   </span>
                 </div>
@@ -92,6 +93,16 @@ export function FeaturedProjectsList({ projects }: Props) {
                       </p>
                       <p className="mt-1.5 text-sm leading-6 text-foreground/85">
                         {p.decision}
+                      </p>
+                    </div>
+                  ) : null}
+                  {p.impact ? (
+                    <div className="rounded-lg border border-foreground/15 bg-foreground/[0.04] p-3">
+                      <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+                        impact
+                      </p>
+                      <p className="mt-1.5 text-sm leading-6 text-foreground/85">
+                        {p.impact}
                       </p>
                     </div>
                   ) : null}

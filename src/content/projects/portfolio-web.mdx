@@ -10,9 +10,9 @@ tags:
   - PostgreSQL
   - Redis
 category: full-stack
-problem: "Klasik portfolyo siteleri çoğu zaman sadece statik vitrin sunar; işe alım tarafı gerçek ürün davranışını (auth, veri modeli, güvenlik, gözlemlenebilirlik) göremez."
-decision: "Sunum katmanını teknik derinlikle birleştiren bir mimari kuruldu: App Router + Server Components, typed MDX content pipeline, Auth.js tabanlı kimlik doğrulama, Drizzle ile veri katmanı, Redis ile sayaç/rate limit, Server Actions ile form akışı."
-impact: "Portfolyo, yalnızca 'ne yaptım' değil 'nasıl tasarladım ve hangi trade-off'ları aldım' sorularına da cevap veren deploy-ready bir mühendislik vitrini haline geldi."
+problem: "Klasik portfolyo siteleri çoğu zaman statik vitrin gibi kalır; işe alım tarafı adayın auth, veri modeli, güvenlik, test, observability ve deploy disipliniyle nasıl düşündüğünü göremez."
+decision: "Sadece animasyonlu bir landing page yerine ürün davranışı taşıyan bir mimari seçildi: App Router + Server Components, typed MDX pipeline, Auth.js, Drizzle/Neon, Redis rate limit, Server Actions, Playwright E2E ve structured logging aynı sistemde birleştirildi."
+impact: "Portfolyo; problem/decision/impact şablonu, CI kalite kapısı, E2E smoke testleri ve production servis planıyla 'ne yaptım' sorusundan 'nasıl mühendislik yaptım' sorusuna cevap veren deploy-ready kanıta dönüştü."
 status: live
 repo: "https://github.com/UmutCingisiz/portfolio"
 demo: "https://umutibrahimcingisiz.vercel.app"

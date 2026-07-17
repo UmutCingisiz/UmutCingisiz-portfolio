@@ -47,16 +47,18 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden px-4 pb-20 pt-24 sm:px-6 sm:pb-32 sm:pt-32">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-gradient-to-b from-foreground/[0.06] to-transparent blur-3xl" />
+    <section className="relative overflow-hidden px-4 pb-20 pt-18 sm:px-6 sm:pb-32 sm:pt-24">
+      <div className="ambient-orb left-[8%] top-20 size-64 opacity-60" />
+      <div className="ambient-orb bottom-20 right-[8%] size-80 opacity-40 [animation-delay:2s]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-3 py-1.5 text-xs text-muted-foreground">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1.5 text-xs text-muted-foreground shadow-lg shadow-black/5 backdrop-blur-xl">
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
@@ -68,29 +70,29 @@ export function Hero() {
             {siteConfig.role}
           </p>
 
-          <h1 className="mt-4 text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 text-balance text-5xl font-bold tracking-[-0.05em] text-foreground sm:text-6xl lg:text-7xl">
             {siteConfig.name}
           </h1>
 
-          <p className="mt-2 max-w-xl text-balance text-lg font-medium text-muted-foreground sm:text-xl">
+          <p className="mt-4 max-w-3xl text-balance text-2xl font-semibold tracking-tight text-gradient-premium sm:text-3xl">
             {siteConfig.headline}
           </p>
 
-          <p className="mt-6 max-w-lg text-pretty text-base leading-7 text-muted-foreground/80">
+          <p className="mt-6 max-w-2xl text-pretty text-base leading-8 text-muted-foreground">
             {siteConfig.shortBio}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               href="/projects"
-              className="group inline-flex h-11 items-center gap-2 rounded-lg bg-foreground px-5 text-sm font-medium text-background transition-all duration-200 hover:opacity-90 hover:shadow-lg"
+              className="group inline-flex h-12 items-center gap-2 rounded-xl bg-foreground px-5 text-sm font-medium text-background shadow-2xl shadow-black/15 transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
             >
               Projeleri İncele
               <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <a
               href="/api/resume"
-              className="inline-flex h-11 items-center rounded-lg border border-border px-5 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
+              className="inline-flex h-12 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted"
             >
               CV İndir
             </a>
@@ -103,7 +105,7 @@ export function Hero() {
                 href={href}
                 target={href.startsWith("mailto:") ? undefined : "_blank"}
                 rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                className="inline-flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:text-foreground"
+                className="inline-flex size-10 items-center justify-center rounded-xl border border-border bg-card/45 text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/20 hover:text-foreground"
                 aria-label={label}
               >
                 <Icon className="size-[18px]" />
@@ -111,11 +113,11 @@ export function Hero() {
             ))}
           </div>
 
-          <div className="mt-10 grid grid-cols-3 gap-4">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {siteConfig.stats.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl border border-border bg-card/50 p-4 backdrop-blur-sm"
+                className="premium-card rounded-2xl p-4 backdrop-blur-sm"
               >
                 <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
                   {stat.label}
@@ -134,8 +136,8 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
           className="relative"
         >
-          <div className="absolute -inset-6 rounded-3xl bg-gradient-to-br from-foreground/[0.08] via-transparent to-foreground/[0.04] blur-2xl" />
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 p-3 shadow-2xl shadow-black/40 backdrop-blur">
+          <div className="absolute -inset-8 rounded-[2rem] bg-gradient-to-br from-foreground/[0.10] via-transparent to-emerald-400/[0.05] blur-3xl" />
+          <div className="premium-card relative overflow-hidden rounded-[2rem] p-3 backdrop-blur">
             <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-gradient-to-br from-muted via-card to-muted">
               {profileSrc ? (
                 <Image
@@ -169,7 +171,7 @@ export function Hero() {
                 </p>
               ) : null}
 
-              <div className="absolute inset-x-3 bottom-3 rounded-xl border border-border bg-background/80 p-4 backdrop-blur-md">
+              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-border bg-background/82 p-4 backdrop-blur-md">
                 <p className="font-mono text-xs text-muted-foreground">current_focus.ts</p>
                 <p className="mt-1.5 text-sm font-medium text-foreground">
                   {siteConfig.currentFocus}
@@ -181,10 +183,21 @@ export function Hero() {
               {siteConfig.techSignal.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] text-muted-foreground"
+                  className="rounded-lg border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] text-muted-foreground"
                 >
                   {tech}
                 </span>
+              ))}
+            </div>
+
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              {["auth", "db", "e2e"].map((item) => (
+                <div key={item} className="rounded-xl border border-border bg-background/45 p-3">
+                  <p className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">
+                    {item}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-foreground">ready</p>
+                </div>
               ))}
             </div>
           </div>

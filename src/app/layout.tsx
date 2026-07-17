@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { HiddenTerminal } from "@/components/hidden-terminal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SkipToContent } from "@/components/skip-to-content";
@@ -40,6 +41,7 @@ export default function RootLayout({
             {children}
           </main>
           <SiteFooter />
+          <HiddenTerminal />
           <Suspense fallback={null}>
             <Analytics />
           </Suspense>

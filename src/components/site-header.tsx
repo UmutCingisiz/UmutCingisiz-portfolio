@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { socialLinks } from "@/components/social-icons";
 
 const nav = [
+  { href: "/", label: "Ana Sayfa" },
   { href: "/#about", label: "Hakkımda" },
   { href: "/#skills", label: "Yetenekler" },
   { href: "/projects", label: "Projeler" },
@@ -62,24 +63,30 @@ export function SiteHeader() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "border-b border-border bg-background/80 shadow-lg shadow-black/5 backdrop-blur-2xl"
-            : "bg-transparent"
+            ? "bg-background/72 backdrop-blur-2xl"
+            : "bg-background/35 backdrop-blur-xl"
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-          {/* Logo */}
+        <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <Link
             href="/"
-            className="group relative z-10 inline-flex shrink-0 items-center gap-1.5 text-lg font-bold tracking-tight text-foreground"
+            className="group relative z-10 inline-flex shrink-0 items-center gap-2 rounded-2xl border border-border bg-card/55 px-2.5 py-2 text-sm font-bold tracking-tight text-foreground shadow-lg shadow-black/5 transition-all hover:border-foreground/20"
           >
-            <span className="inline-flex size-8 items-center justify-center rounded-lg bg-foreground text-background text-sm font-bold transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+            <span className="inline-flex size-9 items-center justify-center rounded-xl bg-foreground text-sm font-bold text-background transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
               {siteConfig.name.split(" ").map((x) => x[0]).join("").slice(0, 2)}
             </span>
-            <span className="hidden sm:inline">{siteConfig.name.split(" ")[0]}</span>
+            <span className="hidden leading-tight sm:block">
+              {siteConfig.name.split(" ")[0]}
+              <span className="block font-mono text-[0.58rem] uppercase tracking-[0.18em] text-muted-foreground">
+                engineer
+              </span>
+            </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden items-center gap-0.5 md:flex" aria-label="Ana navigasyon">
+          <nav
+            className="hidden items-center rounded-2xl border border-border bg-card/45 p-1 shadow-lg shadow-black/5 md:flex"
+            aria-label="Ana navigasyon"
+          >
             {nav.map((item, i) => (
               <motion.div
                 key={item.href}
@@ -89,24 +96,32 @@ export function SiteHeader() {
               >
                 <Link
                   href={item.href}
-                  className="relative px-3 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground group"
+                  className="group relative rounded-xl px-3.5 py-2 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted/70 hover:text-foreground"
                 >
                   {item.label}
-                  <span className="absolute inset-x-3 -bottom-px h-px origin-left scale-x-0 bg-foreground transition-transform duration-300 group-hover:scale-x-100" />
+                  <span className="absolute inset-x-4 bottom-1 h-px origin-left scale-x-0 bg-foreground/60 transition-transform duration-300 group-hover:scale-x-100" />
                 </Link>
               </motion.div>
             ))}
           </nav>
 
-          {/* Right Section: Social + Theme + CTA */}
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "`", code: "Backquote", ctrlKey: true }))}
+              className="hidden rounded-xl border border-border bg-card/45 px-3 py-2 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground transition-all hover:border-foreground/20 hover:text-foreground lg:inline-flex"
+              aria-label="Gizli terminali aç"
+            >
+              Ctrl + `
+            </button>
+
             {socialLinks.slice(0, 2).map(({ href, icon: Icon, label }) => (
               <motion.a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden size-9 items-center justify-center rounded-lg text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground md:inline-flex"
+                className="hidden size-10 items-center justify-center rounded-xl border border-border bg-card/45 text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted hover:text-foreground md:inline-flex"
                 aria-label={label}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -121,7 +136,7 @@ export function SiteHeader() {
 
             <Link
               href="/#contact"
-              className="hidden rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-all duration-200 hover:opacity-90 hover:shadow-lg sm:inline-flex"
+              className="hidden rounded-xl bg-foreground px-4 py-2.5 text-sm font-medium text-background shadow-lg shadow-black/10 transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 sm:inline-flex"
             >
               İletişim
             </Link>
