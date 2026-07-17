@@ -9,11 +9,10 @@ import {
   signOutGuestbookAction,
 } from "@/app/guestbook/actions";
 import { GuestbookMessageForm } from "@/components/guestbook/guestbook-message-form";
-import { getNeonSql } from "@/lib/neon-client";
+import { getDb } from "@/db/client";
 import { isGuestbookModerator } from "@/lib/guestbook-admin";
 import { getGuestbookRateLimits } from "@/lib/guestbook-rate-limit";
 
-// HATA BURADAYDI: Çift import birleştirildi ve temizlendi.
 import {
   listApprovedEntries,
   listPendingEntries,
@@ -109,8 +108,7 @@ export default async function GuestbookPage({
 }) {
   const sp = await searchParams;
   const session = await auth();
-  const sql = getNeonSql();
-  const dbConfigured = Boolean(sql);
+  const dbConfigured = Boolean(getDb());
 
   const isMod = isGuestbookModerator(session?.user?.githubId);
   const approved = dbConfigured ? await listApprovedEntries(30) : [];

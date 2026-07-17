@@ -43,6 +43,7 @@ export const siteConfig = {
     "Guestbook: GitHub OAuth, moderation, strict rate limit",
     "Blog: MDX, ISR, Upstash Redis view tracking, fallback UI",
     "Core: Drizzle ORM, Zod validation, defensive programming",
+    "Leadership: Yapay Zeka Geliştirme Kulübü organizasyon ve vizyon katkısı",
   ],
   currentFocus:
     "TÜBİTAK ödüllü projemin ardından, ölçeklenebilir ve fail-safe sistemler üzerine yoğunlaşıyorum.",

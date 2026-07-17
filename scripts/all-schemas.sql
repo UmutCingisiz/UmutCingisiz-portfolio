@@ -1,9 +1,0 @@
--- Neon SQL Editor: aşağıdaki iki dosyanın içeriğini SIRAYLA çalıştır.
--- 1) scripts/guestbook-schema.sql
--- 2) scripts/contact-schema.sql
---
--- Drizzle alternatifi:
---   npm run db:push
---
--- Aynı boş DB'de hem bu SQL scriptlerini hem db:push komutunu üst üste
--- çalıştırma; tek migration yöntemi seç.

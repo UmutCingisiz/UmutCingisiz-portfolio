@@ -29,13 +29,20 @@ const proofSignals = [
     evidence: "Deploy-ready workflow",
     href: "/#contact",
   },
+  {
+    label: "leadership",
+    title: "Topluluk ve organizasyon sinyali",
+    body: "Yapay Zeka Geliştirme Kulübü deneyimi; teknik merakı, ekip içi iletişimi ve inisiyatif alma tarafını portfolyo sinyaline çeviriyor.",
+    evidence: "Soft-skill proof",
+    href: "/#about",
+  },
 ] as const;
 
 const proofMetrics = [
   { value: "3", label: "case-study proje" },
   { value: "3", label: "teknik blog yazısı" },
-  { value: "16", label: "otomatik test" },
-  { value: "5", label: "kalite komutu" },
+  { value: "E2E", label: "browser smoke test" },
+  { value: "6", label: "kalite komutu" },
 ] as const;
 
 const reviewPath = [

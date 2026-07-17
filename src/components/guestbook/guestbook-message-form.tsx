@@ -19,11 +19,11 @@ export function GuestbookMessageForm({ canWrite, dbConfigured }: Props) {
   if (!dbConfigured) {
     return (
       <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-foreground">
-        Veritabanı yapılmadı — `DATABASE_URL` ekle ve{" "}
+        Veritabanı hazır değil — `DATABASE_URL` ekle ve{" "}
         <code className="rounded bg-muted px-1 font-mono text-xs">
-          scripts/guestbook-schema.sql
+          npm run db:push
         </code>{" "}
-        dosyasını Neon&apos;da çalıştır.
+        komutuyla Drizzle şemasını Neon&apos;a uygula.
       </p>
     );
   }

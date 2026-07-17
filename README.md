@@ -17,6 +17,7 @@ npm run build
 npm run lint
 npm run typecheck
 npm run test
+npm run test:e2e
 npm run coverage
 npm run check:all    # assets + content + env + db
 ```
@@ -31,8 +32,8 @@ npm run check:all    # assets + content + env + db
 | SEO (sitemap, robots, metadata, Twitter) | ✓ |
 | MDX projeler (3) + blog (3) case study içerikleri | ✓ |
 | Guestbook, contact, auth, Drizzle schema, rate limit (kod) | ✓ |
-| Hiring Proof, Quality Standards, observability ve content kalite kapısı | ✓ |
-| Vitest, coverage, CI, `check:content`, `check:all` kalite kapıları | ✓ |
+| Hiring Proof, Quality Standards, Algorithm Lab, observability ve content kalite kapısı | ✓ |
+| Vitest, Playwright E2E, coverage, CI, `check:content`, `check:all` kalite kapıları | ✓ |
 
 ## Dokumanlar (sade)
 
@@ -57,12 +58,9 @@ npm run check:all    # assets + content + env + db
 │   └── images/projects/
 │       └── bloomedu.jpg           # Proje kapak görseli
 ├── scripts/
-│   ├── all-schemas.sql            # Tüm tablolar (referans)
 │   ├── check-assets.mjs           # Profil/CV kontrolü
 │   ├── check-content.mjs          # MDX frontmatter kalite kontrolü
 │   ├── check-env.mjs              # .env doğrulaması
-│   ├── contact-schema.sql         # İletişim guard tablosu (referans)
-│   ├── guestbook-schema.sql       # Guestbook tablosu (referans)
 │   ├── install-assets.ps1         # Windows asset kopyalama yardımcısı
 │   └── test-neon.mjs              # Neon bağlantı testi
 ├── src/
@@ -99,6 +97,7 @@ npm run check:all    # assets + content + env + db
 │   │   └── favicon.ico
 │   ├── auth.ts                               # Auth.js yapılandırması
 │   ├── components/
+│   │   ├── algorithm-lab-section.tsx         # İnteraktif algoritma/trade-off demosu
 │   │   ├── about-section.tsx
 │   │   ├── blog/blog-view-tracker.tsx        # Blog görüntülenme sayacı
 │   │   ├── contact/contact-form.tsx
@@ -139,7 +138,6 @@ npm run check:all    # assets + content + env + db
 │   │   ├── guestbook.ts / guestbook-admin.ts
 │   │   ├── guestbook-counts.ts / guestbook-rate-limit.ts
 │   │   ├── mdx/compile.ts
-│   │   ├── neon-client.ts                    # Legacy raw SQL client
 │   │   ├── observability.ts                  # Structured production event/error logs
 │   │   ├── redis.ts / redis-rate-limit.ts
 │   │   ├── request-ip.ts
@@ -151,12 +149,15 @@ npm run check:all    # assets + content + env + db
 │   ├── content-schema.test.ts
 │   ├── observability.test.ts
 │   └── request-ip.test.ts
+├── e2e/
+│   └── portfolio-smoke.spec.ts     # Playwright public akış smoke testleri
 ├── .env.example                   # Ortam değişkeni örnekleri
 ├── env.local.template             # Lokal .env şablonu
 ├── drizzle.config.ts              # Drizzle Kit ayarı
 ├── eslint.config.mjs
 ├── next.config.ts
 ├── package.json
+├── playwright.config.ts            # E2E test konfigurasyonu
 ├── postcss.config.mjs
 ├── tsconfig.json
 └── vitest.config.ts               # Vitest test konfigurasyonu
@@ -164,7 +165,7 @@ npm run check:all    # assets + content + env + db
 
 ## Ortam değişkenleri
 
-Özet: `.env.example` ve `env.local.template`. Zorunlu (guestbook + auth): `AUTH_*`, `DATABASE_URL`, `GUESTBOOK_ADMIN_GITHUB_IDS`. İsteğe bağlı: Upstash, Resend.
+Özet: `.env.example` ve `env.local.template`. Zorunlu (guestbook + auth): `AUTH_*`, `DATABASE_URL`, `GUESTBOOK_ADMIN_GITHUB_IDS`. İsteğe bağlı ama production için önerilen: Upstash, Resend, observability provider.
 
 ## İçerik
 
@@ -195,6 +196,7 @@ featured: true
 npm run lint
 npm run typecheck
 npm run test
+npm run test:e2e
 npm run coverage
 npm run check:content
 npm run build
@@ -210,7 +212,11 @@ npm run check:all
 - Drizzle config: `drizzle.config.ts`
 - İlk migration: `drizzle/0000_first_toad.sql`
 
-Mevcut Neon kurulumunda `scripts/guestbook-schema.sql` ve `scripts/contact-schema.sql` hâlâ referans olarak durur. Yeni kurulumda Drizzle migration veya SQL scriptlerden biri kullanılmalı; ikisini üst üste aynı boş DB’de çalıştırma.
+Yeni kurulumda tek kaynak Drizzle'dır. Lokal veya production Neon veritabanına şemayı uygulamak için:
+
+```bash
+npm run db:push
+```
 
 Deploy: [Vercel](https://vercel.com/new).
 

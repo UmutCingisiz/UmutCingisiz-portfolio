@@ -42,6 +42,11 @@ const groups = [
     keys: ["RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_NOTIFY_EMAIL"],
     required: false,
   },
+  {
+    label: "Observability (production hata takibi)",
+    keys: ["OBSERVABILITY_PROVIDER", "OBSERVABILITY_DSN"],
+    required: false,
+  },
 ];
 
 function isSet(key) {
@@ -67,7 +72,7 @@ for (const g of groups) {
 
 if (missingRequired > 0) {
   console.log(
-    `Eksik zorunlu alan: ${missingRequired}. env.local.template → .env.local kopyala ve docs/KURULUM-SERVISLER.md oku.\n`,
+    `Eksik zorunlu alan: ${missingRequired}. env.local.template → .env.local kopyala ve docs/MANUEL-ADIMLAR.md oku.\n`,
   );
   process.exit(1);
 }

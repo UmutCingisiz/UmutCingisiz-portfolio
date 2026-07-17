@@ -22,7 +22,7 @@ try {
 
   if (missing.length) {
     console.error("Eksik tablolar:", missing.join(", "));
-    console.error("Neon SQL Editor'de guestbook-schema.sql ve contact-schema.sql çalıştır.");
+    console.error("Drizzle şemasını uygulamak için `npm run db:push` çalıştır.");
     process.exit(1);
   }
 

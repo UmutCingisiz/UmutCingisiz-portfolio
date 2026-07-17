@@ -1,3 +1,4 @@
+import { AlgorithmLabSection } from "@/components/algorithm-lab-section";
 import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
 import { EngineeringHighlights } from "@/components/engineering-highlights";
@@ -31,6 +32,7 @@ export default async function Home({
       <QualityStandardsSection />
       <AboutSection />
       <SkillsSection />
+      <AlgorithmLabSection />
       <FeaturedProjects />
       <GithubActivitySection />
       <ContactSection contactSuccess={contactSuccess} />
