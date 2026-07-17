@@ -1,4 +1,6 @@
 import { siteConfig } from "@/lib/site-config";
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { Spotlight } from "@/components/spotlight";
 
 const cards = [
   {
@@ -27,9 +29,7 @@ export function AboutSection() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              about.engineer
-            </p>
+            <SectionEyebrow>about.engineer</SectionEyebrow>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Hakkımda kısmı bir biyografi değil; nasıl mühendislik yaptığımın
               kanıtı.
@@ -57,9 +57,10 @@ export function AboutSection() {
 
           <div className="grid gap-4">
             {cards.map((card) => (
-              <article
+              <Spotlight
+                as="article"
                 key={card.title}
-                className="group relative overflow-hidden rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg"
+                className="group relative overflow-hidden rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/30 hover:shadow-lg"
               >
                 <div className="absolute -right-12 -top-12 size-28 rounded-full bg-foreground/[0.03] blur-2xl transition-all duration-500 group-hover:bg-foreground/[0.06]" />
                 <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -71,7 +72,7 @@ export function AboutSection() {
                 <p className="relative mt-3 text-sm leading-7 text-muted-foreground">
                   {card.body}
                 </p>
-              </article>
+              </Spotlight>
             ))}
           </div>
         </div>

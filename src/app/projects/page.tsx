@@ -6,6 +6,9 @@ import {
   type ProjectMeta,
 } from "@/lib/content/projects";
 import type { ProjectCategory } from "@/lib/content/schema";
+import { PdiBlock } from "@/components/pdi-block";
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { Spotlight } from "@/components/spotlight";
 
 export const metadata: Metadata = {
   title: "Projeler",
@@ -48,9 +51,7 @@ export default async function ProjectsPage({
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              project.archive
-            </p>
+            <SectionEyebrow>project.archive</SectionEyebrow>
             <h1 className="mt-4 max-w-4xl text-5xl font-bold tracking-[-0.05em] text-foreground sm:text-6xl">
               Projeler, CV satırı değil; karar ve etki kanıtı.
             </h1>
@@ -60,7 +61,7 @@ export default async function ProjectsPage({
             </p>
           </div>
 
-          <div className="premium-card rounded-2xl p-5">
+          <Spotlight as="div" className="premium-card rounded-2xl p-5">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               review.mode
             </p>
@@ -73,12 +74,12 @@ export default async function ProjectsPage({
                 <p className="text-2xl font-bold text-foreground">{inProgressProjects.length}</p>
                 <p className="mt-1 text-xs text-muted-foreground">lab</p>
               </div>
-              <div className="rounded-xl border border-border bg-background/45 p-3">
-                <p className="text-2xl font-bold text-foreground">P/D/I</p>
+              <div className="rounded-xl border border-signal/25 bg-signal/[0.06] p-3">
+                <p className="text-2xl font-bold text-signal">P/D/I</p>
                 <p className="mt-1 text-xs text-muted-foreground">şablon</p>
               </div>
             </div>
-          </div>
+          </Spotlight>
         </div>
 
         <div className="mt-8 flex flex-wrap gap-2">
@@ -92,8 +93,8 @@ export default async function ProjectsPage({
                 href={href}
                 className={`rounded-xl border px-3 py-2 text-sm font-medium transition-all duration-200 ${
                   active
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border bg-card/45 text-muted-foreground hover:border-foreground/20 hover:bg-muted hover:text-foreground"
+                    ? "btn-signal border-transparent"
+                    : "border-border bg-card/45 text-muted-foreground hover:border-signal/30 hover:bg-muted hover:text-foreground"
                 }`}
               >
                 {c.label}
@@ -180,7 +181,10 @@ function ProjectCard({
   const statusLabel = variant === "live" ? "yayında" : "geliştiriliyor";
 
   return (
-    <li className="premium-card group flex h-full flex-col rounded-3xl p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20">
+    <Spotlight
+      as="li"
+      className="premium-card group flex h-full flex-col rounded-3xl p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-signal/30"
+    >
       <div className="absolute -right-16 -top-16 size-48 rounded-full bg-foreground/[0.04] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.08]" />
 
       {coverImage && (
@@ -221,36 +225,9 @@ function ProjectCard({
       </p>
 
       <div className="relative mt-5 grid gap-3">
-        {project.problem ? (
-          <div className="rounded-lg border border-border bg-muted/35 p-3">
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-              problem
-            </p>
-            <p className="mt-1.5 text-sm leading-6 text-foreground/85 line-clamp-3">
-              {project.problem}
-            </p>
-          </div>
-        ) : null}
-        {project.decision ? (
-          <div className="rounded-lg border border-border bg-muted/35 p-3">
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-              decision
-            </p>
-            <p className="mt-1.5 text-sm leading-6 text-foreground/85 line-clamp-3">
-              {project.decision}
-            </p>
-          </div>
-        ) : null}
-        {project.impact ? (
-          <div className="rounded-lg border border-foreground/15 bg-foreground/[0.04] p-3">
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-              impact
-            </p>
-            <p className="mt-1.5 text-sm leading-6 text-foreground/85 line-clamp-3">
-              {project.impact}
-            </p>
-          </div>
-        ) : null}
+        {project.problem ? <PdiBlock signal="problem" text={project.problem} /> : null}
+        {project.decision ? <PdiBlock signal="decision" text={project.decision} /> : null}
+        {project.impact ? <PdiBlock signal="impact" text={project.impact} /> : null}
       </div>
 
       <div className="relative mt-5 flex flex-wrap gap-1.5">
@@ -271,7 +248,7 @@ function ProjectCard({
       <div className="relative mt-6 flex flex-wrap gap-2">
         <Link
           href={`/projects/${project.slug}`}
-          className="inline-flex h-10 items-center rounded-lg bg-foreground px-4 text-sm font-medium text-background transition-all duration-200 hover:opacity-90"
+          className="btn-signal inline-flex h-10 items-center rounded-lg px-4 text-sm font-semibold transition-all duration-200"
         >
           İncele →
         </Link>
@@ -296,6 +273,6 @@ function ProjectCard({
           </a>
         ) : null}
       </div>
-    </li>
+    </Spotlight>
   );
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getAllPostsMeta } from "@/lib/content/posts";
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { Spotlight } from "@/components/spotlight";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -12,9 +14,7 @@ export default function BlogPage() {
 
   return (
     <div className="mx-auto max-w-4xl flex-1 px-4 py-16 sm:px-6 sm:py-24">
-      <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-        technical.notes
-      </p>
+      <SectionEyebrow>technical.notes</SectionEyebrow>
       <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
         Blog
       </h1>
@@ -25,9 +25,10 @@ export default function BlogPage() {
 
       <ul className="mt-12 space-y-4">
         {posts.map((post) => (
-          <li
+          <Spotlight
+            as="li"
             key={post.slug}
-            className="group rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg"
+            className="group rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/30 hover:shadow-lg"
           >
             <div className="flex flex-wrap items-center gap-3">
               <time
@@ -55,7 +56,7 @@ export default function BlogPage() {
             <p className="mt-2 leading-7 text-muted-foreground">
               {post.description}
             </p>
-          </li>
+          </Spotlight>
         ))}
       </ul>
 

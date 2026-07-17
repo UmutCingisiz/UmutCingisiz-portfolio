@@ -7,6 +7,7 @@ import { useState } from "react";
 import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
+import { Spotlight } from "@/components/spotlight";
 
 function ArrowRightIcon({ className }: { className?: string }) {
   return (
@@ -85,7 +86,7 @@ export function Hero() {
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               href="/projects"
-              className="group inline-flex h-12 items-center gap-2 rounded-xl bg-foreground px-5 text-sm font-medium text-background shadow-2xl shadow-black/15 transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
+              className="btn-signal group inline-flex h-12 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5"
             >
               Projeleri İncele
               <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
@@ -136,8 +137,25 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
           className="relative"
         >
-          <div className="absolute -inset-8 rounded-[2rem] bg-gradient-to-br from-foreground/[0.10] via-transparent to-emerald-400/[0.05] blur-3xl" />
-          <div className="premium-card relative overflow-hidden rounded-[2rem] p-3 backdrop-blur">
+          <div
+            className="absolute -inset-8 rounded-[2rem] blur-3xl"
+            style={{
+              background:
+                "radial-gradient(60% 60% at 30% 20%, var(--signal-glow), transparent 70%), radial-gradient(50% 50% at 80% 90%, rgba(52,211,153,0.10), transparent 70%)",
+            }}
+          />
+
+          {/* Kutunun dışına taşan sistem durumu rozeti — bento hapsini kırar */}
+          <div className="absolute -left-6 top-8 z-20 hidden -rotate-3 lg:block">
+            <div className="premium-card flex items-center gap-2 rounded-full px-4 py-2 shadow-2xl shadow-black/30">
+              <span className="signal-dot size-2" aria-hidden />
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-foreground">
+                auth · db · redis online
+              </span>
+            </div>
+          </div>
+
+          <Spotlight as="div" className="premium-card relative overflow-hidden rounded-[2rem] p-3 backdrop-blur">
             <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-gradient-to-br from-muted via-card to-muted">
               {profileSrc ? (
                 <Image
@@ -190,17 +208,7 @@ export function Hero() {
               ))}
             </div>
 
-            <div className="mt-3 grid gap-2 sm:grid-cols-3">
-              {["auth", "db", "e2e"].map((item) => (
-                <div key={item} className="rounded-xl border border-border bg-background/45 p-3">
-                  <p className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">
-                    {item}
-                  </p>
-                  <p className="mt-1 text-sm font-semibold text-foreground">ready</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          </Spotlight>
         </motion.div>
       </div>
     </section>

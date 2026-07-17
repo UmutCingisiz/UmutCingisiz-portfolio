@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { Spotlight } from "@/components/spotlight";
 
 const proofSignals = [
   {
@@ -57,9 +59,7 @@ export function HiringProofSection() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="lg:sticky lg:top-24">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              hiring.proof
-            </p>
+            <SectionEyebrow>hiring.proof</SectionEyebrow>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               İşe alım kararını hızlandıran teknik kanıtlar.
             </h2>
@@ -105,9 +105,10 @@ export function HiringProofSection() {
 
           <div className="grid gap-4">
             {proofSignals.map((signal) => (
-              <article
+              <Spotlight
+                as="article"
                 key={signal.title}
-                className="group relative overflow-hidden rounded-xl border border-border bg-card/55 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg"
+                className="group relative overflow-hidden rounded-xl border border-border bg-card/55 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/30 hover:shadow-lg"
               >
                 <div className="absolute -right-16 -top-16 size-40 rounded-full bg-foreground/[0.03] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.06]" />
                 <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -128,11 +129,11 @@ export function HiringProofSection() {
                 </p>
                 <Link
                   href={signal.href}
-                  className="relative mt-5 inline-flex text-sm font-medium text-foreground underline-offset-4 hover:underline"
+                  className="relative mt-5 inline-flex text-sm font-medium text-signal underline-offset-4 hover:underline"
                 >
                   Kanıtı incele →
                 </Link>
-              </article>
+              </Spotlight>
             ))}
           </div>
         </div>

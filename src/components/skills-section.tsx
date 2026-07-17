@@ -1,4 +1,6 @@
 import { siteConfig } from "@/lib/site-config";
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { Spotlight } from "@/components/spotlight";
 
 const skillCards = [
   {
@@ -41,9 +43,7 @@ export function SkillsSection() {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              stack.map()
-            </p>
+            <SectionEyebrow>stack.map()</SectionEyebrow>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Yetenekler: neyi iyi yaptığım ve neyi büyüttüğüm net.
             </h2>
@@ -56,7 +56,8 @@ export function SkillsSection() {
 
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           {skillCards.map((card) => (
-            <article
+            <Spotlight
+              as="article"
               key={card.title}
               className="premium-card group rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20"
             >
@@ -78,7 +79,7 @@ export function SkillsSection() {
                     <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
                       {card.signal}
                     </span>
-                    <span className="size-2 rounded-full bg-emerald-400 shadow-[0_0_16px_rgba(52,211,153,0.55)]" />
+                    <span className="signal-dot size-2" />
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-2">
                     {card.visual.map((item, index) => (
@@ -93,7 +94,7 @@ export function SkillsSection() {
                   </div>
                 </div>
               </div>
-            </article>
+            </Spotlight>
           ))}
         </div>
 

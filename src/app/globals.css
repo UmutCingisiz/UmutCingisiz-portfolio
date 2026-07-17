@@ -15,6 +15,11 @@
   --glow: rgba(255, 255, 255, 0.10);
   --selection-bg: rgba(228, 228, 231, 0.30);
   --selection-text: #09090b;
+  /* İmza vurgu rengi: elektrik camgöbeği. Tüm birincil CTA/spotlight/glow buradan besleniyor. */
+  --signal: #22d3ee;
+  --signal-foreground: #03141a;
+  --signal-glow: rgba(34, 211, 238, 0.28);
+  --signal-glow-strong: rgba(34, 211, 238, 0.55);
 }
 
 .light {
@@ -31,6 +36,10 @@
   --glow: rgba(0, 0, 0, 0.03);
   --selection-bg: rgba(0, 0, 0, 0.08);
   --selection-text: #000000;
+  --signal: #0891b2;
+  --signal-foreground: #f0fdff;
+  --signal-glow: rgba(8, 145, 178, 0.16);
+  --signal-glow-strong: rgba(8, 145, 178, 0.32);
 }
 
 .dark {
@@ -47,6 +56,10 @@
   --glow: rgba(255, 255, 255, 0.10);
   --selection-bg: rgba(228, 228, 231, 0.30);
   --selection-text: #09090b;
+  --signal: #22d3ee;
+  --signal-foreground: #03141a;
+  --signal-glow: rgba(34, 211, 238, 0.28);
+  --signal-glow-strong: rgba(34, 211, 238, 0.55);
 }
 
 @theme inline {
@@ -60,6 +73,8 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
+  --color-signal: var(--signal);
+  --color-signal-foreground: var(--signal-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -179,7 +194,7 @@ body {
   background: linear-gradient(
     110deg,
     transparent 20%,
-    rgba(255, 255, 255, 0.12) 45%,
+    var(--signal-glow) 45%,
     transparent 70%
   );
   opacity: 0;
@@ -205,4 +220,55 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Mouse-takip eden ışık: kartın üzerine gelindiğinde imleci takip eden spotlight. */
+.spotlight {
+  position: relative;
+  --spot-x: 50%;
+  --spot-y: 15%;
+}
+
+.spotlight::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: radial-gradient(
+    280px circle at var(--spot-x) var(--spot-y),
+    var(--signal-glow),
+    transparent 72%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.spotlight:hover::after {
+  opacity: 1;
+}
+
+.btn-signal {
+  position: relative;
+  background: var(--signal);
+  color: var(--signal-foreground);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--signal) 45%, transparent),
+    0 18px 45px -14px var(--signal-glow-strong);
+  transition: transform 0.2s ease, box-shadow 0.3s ease, opacity 0.2s ease;
+}
+
+.btn-signal:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--signal) 60%, transparent),
+    0 26px 60px -12px var(--signal-glow-strong),
+    0 0 42px var(--signal-glow);
+}
+
+.signal-dot {
+  display: inline-block;
+  border-radius: 9999px;
+  background: var(--signal);
+  box-shadow: 0 0 12px var(--signal-glow-strong);
 }

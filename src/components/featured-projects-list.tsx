@@ -2,11 +2,21 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
+import type { MouseEvent } from "react";
 import type { ProjectMeta } from "@/lib/content/projects";
+import { PdiBlock } from "@/components/pdi-block";
+import { SectionEyebrow } from "@/components/section-eyebrow";
 
 type Props = {
   projects: ProjectMeta[];
 };
+
+function handleCardMouseMove(event: MouseEvent<HTMLElement>) {
+  const target = event.currentTarget;
+  const rect = target.getBoundingClientRect();
+  target.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
+  target.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
+}
 
 export function FeaturedProjectsList({ projects }: Props) {
   return (
@@ -18,9 +28,7 @@ export function FeaturedProjectsList({ projects }: Props) {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              selected.case_studies
-            </p>
+            <SectionEyebrow>selected.case_studies</SectionEyebrow>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Vitrin değil, kararların ve sonuçların kanıt panosu.
             </h2>
@@ -50,7 +58,8 @@ export function FeaturedProjectsList({ projects }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.4, delay: 0.1 * i }}
-                className="premium-card group rounded-3xl p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20"
+                onMouseMove={handleCardMouseMove}
+                className="spotlight premium-card group rounded-3xl p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-signal/30"
               >
                 <div className="absolute -right-16 -top-16 size-44 rounded-full bg-foreground/[0.04] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.08]" />
 
@@ -76,36 +85,9 @@ export function FeaturedProjectsList({ projects }: Props) {
                 </p>
 
                 <div className="relative mt-5 grid gap-3">
-                  {p.problem ? (
-                    <div className="rounded-lg border border-border bg-muted/35 p-3">
-                      <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                        problem
-                      </p>
-                      <p className="mt-1.5 text-sm leading-6 text-foreground/85">
-                        {p.problem}
-                      </p>
-                    </div>
-                  ) : null}
-                  {p.decision ? (
-                    <div className="rounded-lg border border-border bg-muted/35 p-3">
-                      <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                        decision
-                      </p>
-                      <p className="mt-1.5 text-sm leading-6 text-foreground/85">
-                        {p.decision}
-                      </p>
-                    </div>
-                  ) : null}
-                  {p.impact ? (
-                    <div className="rounded-lg border border-foreground/15 bg-foreground/[0.04] p-3">
-                      <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                        impact
-                      </p>
-                      <p className="mt-1.5 text-sm leading-6 text-foreground/85">
-                        {p.impact}
-                      </p>
-                    </div>
-                  ) : null}
+                  {p.problem ? <PdiBlock signal="problem" text={p.problem} /> : null}
+                  {p.decision ? <PdiBlock signal="decision" text={p.decision} /> : null}
+                  {p.impact ? <PdiBlock signal="impact" text={p.impact} /> : null}
                 </div>
 
                 <div className="relative mt-5 flex flex-wrap gap-1.5">
@@ -122,7 +104,7 @@ export function FeaturedProjectsList({ projects }: Props) {
                 <div className="relative mt-6 flex flex-wrap gap-2">
                   <Link
                     href={`/projects/${p.slug}`}
-                    className="inline-flex h-10 items-center rounded-lg bg-foreground px-4 text-sm font-medium text-background transition-all duration-200 hover:opacity-90"
+                    className="btn-signal inline-flex h-10 items-center rounded-lg px-4 text-sm font-semibold transition-all duration-200"
                   >
                     İncele →
                   </Link>

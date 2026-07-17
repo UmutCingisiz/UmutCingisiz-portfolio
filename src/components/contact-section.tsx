@@ -1,5 +1,6 @@
 import { ContactForm } from "@/components/contact/contact-form";
 import { siteConfig } from "@/lib/site-config";
+import { SectionEyebrow } from "@/components/section-eyebrow";
 
 type Props = {
   contactSuccess?: boolean;
@@ -13,9 +14,7 @@ export function ContactSection({ contactSuccess }: Props) {
     >
       <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-            contact.endpoint
-          </p>
+          <SectionEyebrow>contact.endpoint</SectionEyebrow>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Proje, staj veya işbirliği için konuşalım.
           </h2>

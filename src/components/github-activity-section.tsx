@@ -3,6 +3,8 @@ import Link from "next/link";
 import { fetchRecentGithubRepos } from "@/lib/github-repos";
 import { getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { Spotlight } from "@/components/spotlight";
 
 export async function GithubActivitySection() {
   const login = getGithubUsername();
@@ -34,9 +36,7 @@ export async function GithubActivitySection() {
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              github.signal
-            </p>
+            <SectionEyebrow>github.signal</SectionEyebrow>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Son güncellenen repolar
             </h2>
@@ -53,11 +53,12 @@ export async function GithubActivitySection() {
         <ul className="mt-10 grid gap-4 sm:grid-cols-2">
           {repos.map((repo) => (
             <li key={repo.html_url}>
-              <a
+              <Spotlight
+                as="a"
                 href={repo.html_url}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="block h-full rounded-xl border border-border bg-card/50 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg"
+                className="block h-full rounded-xl border border-border bg-card/50 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/30 hover:shadow-lg"
               >
                 <span className="font-medium text-foreground">{repo.name}</span>
                 {typeof repo.stargazers_count === "number" ? (
@@ -73,7 +74,7 @@ export async function GithubActivitySection() {
                 <p className="mt-2 font-mono text-[0.65rem] text-muted-foreground">
                   {new Date(repo.pushed_at).toLocaleDateString("tr-TR")} — push
                 </p>
-              </a>
+              </Spotlight>
             </li>
           ))}
         </ul>

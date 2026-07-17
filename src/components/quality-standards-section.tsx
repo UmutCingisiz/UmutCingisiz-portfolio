@@ -1,3 +1,6 @@
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { Spotlight } from "@/components/spotlight";
+
 const standards = [
   {
     label: "performance",
@@ -30,9 +33,7 @@ export function QualityStandardsSection() {
     <section className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-            quality.standards
-          </p>
+          <SectionEyebrow>quality.standards</SectionEyebrow>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Güzel görünen değil, ölçülebilir şekilde güven veren portfolyo.
           </h2>
@@ -45,9 +46,10 @@ export function QualityStandardsSection() {
 
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {standards.map((item) => (
-            <article
+            <Spotlight
+              as="article"
               key={item.label}
-              className="group relative overflow-hidden rounded-xl border border-border bg-card/55 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg"
+              className="group relative overflow-hidden rounded-xl border border-border bg-card/55 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/30 hover:shadow-lg"
             >
               <div className="absolute -right-16 -top-16 size-40 rounded-full bg-foreground/[0.03] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.06]" />
               <p className="relative font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -56,13 +58,13 @@ export function QualityStandardsSection() {
               <h3 className="relative mt-4 text-xl font-semibold tracking-tight text-foreground">
                 {item.title}
               </h3>
-              <p className="relative mt-3 font-mono text-xs text-foreground/80">
+              <p className="relative mt-3 font-mono text-xs text-signal">
                 {item.target}
               </p>
               <p className="relative mt-4 text-sm leading-7 text-muted-foreground">
                 {item.body}
               </p>
-            </article>
+            </Spotlight>
           ))}
         </div>
       </div>
