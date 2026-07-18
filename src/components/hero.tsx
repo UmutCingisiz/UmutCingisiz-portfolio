@@ -7,7 +7,8 @@ import { useState } from "react";
 import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
-import { Spotlight } from "@/components/spotlight";
+import { Magnetic } from "@/components/magnetic";
+import { TiltCard } from "@/components/tilt-card";
 
 function ArrowRightIcon({ className }: { className?: string }) {
   return (
@@ -59,12 +60,16 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1.5 text-xs text-muted-foreground shadow-lg shadow-black/5 backdrop-blur-xl">
-            <span className="relative flex size-2">
+          {/* Şık, ince pill: yeşil "Available" ışığı + kısa etiket. İsmin hemen üstünde. */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3.5 text-xs font-medium text-foreground/90 backdrop-blur-xl">
+            <span className="relative flex size-1.5">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
             </span>
-            {siteConfig.availability}
+            <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-emerald-500 dark:text-emerald-400">
+              Available
+            </span>
+            <span className="text-muted-foreground">· yeni fırsatlara açık</span>
           </div>
 
           <p className="mt-8 font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground">
@@ -84,13 +89,15 @@ export function Hero() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            <Link
-              href="/projects"
-              className="btn-signal group inline-flex h-12 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5"
-            >
-              Projeleri İncele
-              <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            <Magnetic>
+              <Link
+                href="/projects"
+                className="btn-signal group inline-flex h-12 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200"
+              >
+                Projeleri İncele
+                <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </Magnetic>
             <a
               href="/api/resume"
               className="inline-flex h-12 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted"
@@ -99,7 +106,7 @@ export function Hero() {
             </a>
           </div>
 
-          <div className="mt-8 flex items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             {socialLinks.map(({ href, icon: Icon, label }) => (
               <a
                 key={label}
@@ -145,17 +152,7 @@ export function Hero() {
             }}
           />
 
-          {/* Kutunun dışına taşan sistem durumu rozeti — bento hapsini kırar */}
-          <div className="absolute -left-6 top-8 z-20 hidden -rotate-3 lg:block">
-            <div className="premium-card flex items-center gap-2 rounded-full px-4 py-2 shadow-2xl shadow-black/30">
-              <span className="signal-dot size-2" aria-hidden />
-              <span className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-foreground">
-                auth · db · redis online
-              </span>
-            </div>
-          </div>
-
-          <Spotlight as="div" className="premium-card relative overflow-hidden rounded-[2rem] p-3 backdrop-blur">
+          <TiltCard as="div" max={6} className="premium-card gradient-border relative overflow-hidden rounded-[2rem] p-3 backdrop-blur">
             <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-gradient-to-br from-muted via-card to-muted">
               {profileSrc ? (
                 <Image
@@ -208,7 +205,7 @@ export function Hero() {
               ))}
             </div>
 
-          </Spotlight>
+          </TiltCard>
         </motion.div>
       </div>
     </section>

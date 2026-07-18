@@ -1,141 +1,177 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
+import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { Spotlight } from "@/components/spotlight";
+import { TiltCard } from "@/components/tilt-card";
 
-const proofSignals = [
+function ArchIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M12 3 3 8l9 5 9-5-9-5Z" />
+      <path d="M3 13.5 12 18.5l9-5" />
+      <path d="M12 13v8" />
+    </svg>
+  );
+}
+
+function QualityIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M9 11l3 3L22 4" />
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+    </svg>
+  );
+}
+
+function SecurityIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M12 2 4 5v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V5l-8-3Z" />
+      <rect x="9" y="10" width="6" height="5" rx="1" />
+      <path d="M10.5 10V8.5a1.5 1.5 0 0 1 3 0V10" />
+    </svg>
+  );
+}
+
+function DeliveryIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M4.5 16.5 3 21l4.5-1.5" />
+      <path d="M15 6c3-3 6-3 6-3s0 3-3 6l-6.5 6.5-3-3L15 6Z" />
+      <path d="M9 12l-3 1 1-3" />
+    </svg>
+  );
+}
+
+function LeadershipIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="9" cy="8" r="3" />
+      <circle cx="17" cy="10" r="2.2" />
+      <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
+      <path d="M15.5 15.5a4 4 0 0 1 5 3.5" />
+    </svg>
+  );
+}
+
+type Proof = {
+  title: string;
+  tagline: string;
+  evidence: string;
+  href: string;
+  icon: (props: { className?: string }) => ReactNode;
+  span?: boolean;
+};
+
+const proofSignals: readonly Proof[] = [
   {
-    label: "architecture",
     title: "Uçtan uca ürün mimarisi",
-    body: "App Router, Server Components, MDX, Auth.js, Drizzle, Neon ve Redis katmanları tek ürün içinde birlikte çalışıyor.",
-    evidence: "Full-stack case study",
+    tagline: "auth · db · cache · mdx",
+    evidence: "full-stack",
     href: "/projects/portfolio-web",
+    icon: ArchIcon,
+    span: true,
   },
   {
-    label: "quality",
-    title: "Kalite kapısı olan geliştirme",
-    body: "Lint, typecheck, Vitest, build ve içerik doğrulama adımları portfolyonun bozulmadan büyümesini sağlıyor.",
-    evidence: "CI + content validation",
+    title: "Kalite kapısı",
+    tagline: "lint · test · CI",
+    evidence: "quality gate",
     href: "/projects/portfolio-web",
+    icon: QualityIcon,
   },
   {
-    label: "security",
-    title: "Güvenlik ve kötüye kullanım farkındalığı",
-    body: "Guestbook ve contact akışlarında OAuth, moderasyon, Zod doğrulama, honeypot ve rate-limit yaklaşımı var.",
-    evidence: "Auth + rate limit",
+    title: "Güvenlik farkındalığı",
+    tagline: "OAuth · rate-limit",
+    evidence: "secure by default",
     href: "/blog/nextjs-server-actions-guvenlik",
+    icon: SecurityIcon,
   },
   {
-    label: "delivery",
     title: "Yayınlanabilir deneyim",
-    body: "SEO, OG görselleri, manifest, error/loading durumları, CV indirme ve production servis planı hazır.",
-    evidence: "Deploy-ready workflow",
+    tagline: "SEO · OG · error UX",
+    evidence: "deploy-ready",
     href: "/#contact",
+    icon: DeliveryIcon,
   },
   {
-    label: "leadership",
-    title: "Topluluk ve organizasyon sinyali",
-    body: "Yapay Zeka Geliştirme Kulübü deneyimi; teknik merakı, ekip içi iletişimi ve inisiyatif alma tarafını portfolyo sinyaline çeviriyor.",
-    evidence: "Soft-skill proof",
+    title: "Organizasyon sinyali",
+    tagline: "YZ kulübü liderliği",
+    evidence: "soft-skill",
     href: "/#about",
+    icon: LeadershipIcon,
   },
-] as const;
+];
 
 const proofMetrics = [
   { value: "3", label: "case-study proje" },
-  { value: "3", label: "teknik blog yazısı" },
-  { value: "E2E", label: "browser smoke test" },
+  { value: "3", label: "teknik blog" },
+  { value: "E2E", label: "smoke test" },
   { value: "6", label: "kalite komutu" },
-] as const;
-
-const reviewPath = [
-  "60 saniyede hero + proof sinyalleri",
-  "2 dakikada projelerde problem/decision/impact",
-  "5 dakikada blog + GitHub + guestbook akışı",
 ] as const;
 
 export function HiringProofSection() {
   return (
     <section className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28">
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div className="lg:sticky lg:top-24">
-            <SectionEyebrow>hiring.proof</SectionEyebrow>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              İşe alım kararını hızlandıran teknik kanıtlar.
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-7 text-muted-foreground">
-              Referans portfolyolardaki en güçlü ortak nokta netlik: ziyaretçi
-              kim olduğunu, ne yaptığını ve neyi kanıtlayabildiğini hızlıca
-              anlamalı. Bu bölüm, portfolyoyu CV metninden çıkarıp doğrulanabilir
-              mühendislik sinyaline dönüştürür.
-            </p>
+        <div className="max-w-2xl">
+          <SectionEyebrow>hiring.proof</SectionEyebrow>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            İşe alım kararını hızlandıran teknik kanıtlar.
+          </h2>
+          <p className="mt-5 text-pretty text-base leading-7 text-muted-foreground">
+            Uzun paragraflar değil, doğrulanabilir sinyaller. Her kanıt tek
+            bakışta okunur: ikon, başlık ve kanıtın kaynağı.
+          </p>
+        </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-3">
-              {proofMetrics.map((metric) => (
-                <div
-                  key={metric.label}
-                  className="rounded-xl border border-border bg-card/60 p-4"
+        {/* Metrik şeridi */}
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {proofMetrics.map((metric, index) => (
+            <Reveal key={metric.label} index={index}>
+              <div className="premium-card rounded-2xl p-5 text-center">
+                <p className="text-3xl font-bold tracking-tight text-signal">{metric.value}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{metric.label}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* İkon-odaklı bento kanıt ızgarası */}
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {proofSignals.map((signal, index) => (
+            <Reveal
+              key={signal.title}
+              index={index}
+              className={`h-full ${signal.span ? "sm:col-span-2 lg:col-span-1" : ""}`}
+            >
+              <Link href={signal.href} className="group block h-full">
+                <TiltCard
+                  as="div"
+                  max={8}
+                  className="premium-card gradient-border relative flex h-full flex-col overflow-hidden rounded-3xl p-6"
                 >
-                  <p className="text-2xl font-bold tracking-tight text-foreground">
-                    {metric.value}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {metric.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 rounded-xl border border-border bg-muted/35 p-5">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                reviewer_path
-              </p>
-              <ol className="mt-4 space-y-3">
-                {reviewPath.map((item, index) => (
-                  <li key={item} className="flex gap-3 text-sm text-muted-foreground">
-                    <span className="font-mono text-foreground">
-                      0{index + 1}
+                  <div className="bento-dots pointer-events-none absolute -right-6 -top-6 size-36 rounded-full opacity-40 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
+                  <div className="relative flex items-start justify-between gap-3">
+                    <div className="flex size-14 items-center justify-center rounded-2xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_24px_var(--signal-glow)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+                      <signal.icon className="size-7" />
+                    </div>
+                    <span className="rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted-foreground">
+                      {signal.evidence}
                     </span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-
-          <div className="grid gap-4">
-            {proofSignals.map((signal) => (
-              <Spotlight
-                as="article"
-                key={signal.title}
-                className="group relative overflow-hidden rounded-xl border border-border bg-card/55 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/30 hover:shadow-lg"
-              >
-                <div className="absolute -right-16 -top-16 size-40 rounded-full bg-foreground/[0.03] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.06]" />
-                <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      {signal.label}
-                    </p>
-                    <h3 className="mt-3 text-xl font-semibold tracking-tight text-foreground">
-                      {signal.title}
-                    </h3>
                   </div>
-                  <span className="w-fit rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
-                    {signal.evidence}
+                  <h3 className="relative mt-6 text-lg font-semibold tracking-tight text-foreground">
+                    {signal.title}
+                  </h3>
+                  <p className="relative mt-1 font-mono text-sm text-muted-foreground">
+                    {signal.tagline}
+                  </p>
+                  <span className="relative mt-auto pt-5 text-sm font-medium text-signal opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    Kanıtı incele →
                   </span>
-                </div>
-                <p className="relative mt-4 text-sm leading-7 text-muted-foreground">
-                  {signal.body}
-                </p>
-                <Link
-                  href={signal.href}
-                  className="relative mt-5 inline-flex text-sm font-medium text-signal underline-offset-4 hover:underline"
-                >
-                  Kanıtı incele →
-                </Link>
-              </Spotlight>
-            ))}
-          </div>
+                </TiltCard>
+              </Link>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

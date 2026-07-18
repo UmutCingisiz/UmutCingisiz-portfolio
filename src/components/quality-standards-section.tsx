@@ -1,5 +1,6 @@
+import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { Spotlight } from "@/components/spotlight";
+import { TiltCard } from "@/components/tilt-card";
 
 const standards = [
   {
@@ -45,13 +46,14 @@ export function QualityStandardsSection() {
         </div>
 
         <div className="mt-10 grid gap-4 md:grid-cols-2">
-          {standards.map((item) => (
-            <Spotlight
+          {standards.map((item, index) => (
+            <Reveal key={item.label} index={index}>
+            <TiltCard
               as="article"
-              key={item.label}
-              className="group relative overflow-hidden rounded-xl border border-border bg-card/55 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/30 hover:shadow-lg"
+              max={5}
+              className="premium-card gradient-border group relative overflow-hidden rounded-2xl p-6"
             >
-              <div className="absolute -right-16 -top-16 size-40 rounded-full bg-foreground/[0.03] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.06]" />
+              <div className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-signal/[0.05] blur-3xl transition-all duration-500 group-hover:bg-signal/[0.12]" />
               <p className="relative font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 {item.label}
               </p>
@@ -64,7 +66,8 @@ export function QualityStandardsSection() {
               <p className="relative mt-4 text-sm leading-7 text-muted-foreground">
                 {item.body}
               </p>
-            </Spotlight>
+            </TiltCard>
+            </Reveal>
           ))}
         </div>
       </div>

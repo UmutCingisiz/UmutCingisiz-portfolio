@@ -1,22 +1,14 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "motion/react";
-import type { MouseEvent } from "react";
 import type { ProjectMeta } from "@/lib/content/projects";
+import { Magnetic } from "@/components/magnetic";
 import { PdiBlock } from "@/components/pdi-block";
+import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
+import { TiltCard } from "@/components/tilt-card";
 
 type Props = {
   projects: ProjectMeta[];
 };
-
-function handleCardMouseMove(event: MouseEvent<HTMLElement>) {
-  const target = event.currentTarget;
-  const rect = target.getBoundingClientRect();
-  target.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
-  target.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
-}
 
 export function FeaturedProjectsList({ projects }: Props) {
   return (
@@ -52,84 +44,84 @@ export function FeaturedProjectsList({ projects }: Props) {
         ) : (
           <ul className="mt-12 grid gap-6 lg:grid-cols-2">
             {projects.map((p, i) => (
-              <motion.li
-                key={p.slug}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.4, delay: 0.1 * i }}
-                onMouseMove={handleCardMouseMove}
-                className="spotlight premium-card group rounded-3xl p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-signal/30"
-              >
-                <div className="absolute -right-16 -top-16 size-44 rounded-full bg-foreground/[0.04] blur-3xl transition-all duration-500 group-hover:bg-foreground/[0.08]" />
-
-                <div className="relative flex items-start justify-between gap-4">
-                  <div className="flex size-12 items-center justify-center rounded-2xl border border-border bg-background/55 font-mono text-sm font-semibold text-foreground">
-                    {String(p.category).slice(0, 2).toUpperCase()}
-                  </div>
-                  <span className="rounded-full border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
-                    {p.status ?? "featured"}
-                  </span>
-                </div>
-
-                <p className="relative mt-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  {p.category}
-                </p>
-                <h3 className="relative mt-2 text-xl font-semibold tracking-tight text-foreground">
-                  <Link href={`/projects/${p.slug}`} className="hover:underline">
-                    {p.title}
-                  </Link>
-                </h3>
-                <p className="relative mt-3 text-sm leading-7 text-muted-foreground">
-                  {p.description}
-                </p>
-
-                <div className="relative mt-5 grid gap-3">
-                  {p.problem ? <PdiBlock signal="problem" text={p.problem} /> : null}
-                  {p.decision ? <PdiBlock signal="decision" text={p.decision} /> : null}
-                  {p.impact ? <PdiBlock signal="impact" text={p.impact} /> : null}
-                </div>
-
-                <div className="relative mt-5 flex flex-wrap gap-1.5">
-                  {p.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-mono text-[0.65rem] text-muted-foreground"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="relative mt-6 flex flex-wrap gap-2">
-                  <Link
-                    href={`/projects/${p.slug}`}
-                    className="btn-signal inline-flex h-10 items-center rounded-lg px-4 text-sm font-semibold transition-all duration-200"
+              <li key={p.slug}>
+                <Reveal index={i} className="h-full">
+                  <TiltCard
+                    as="article"
+                    max={6}
+                    className="premium-card gradient-border group flex h-full flex-col rounded-3xl p-6"
                   >
-                    İncele →
-                  </Link>
-                  {p.demo ? (
-                    <a
-                      href={p.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-10 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
-                    >
-                      Demo ↗
-                    </a>
-                  ) : null}
-                  {p.repo ? (
-                    <a
-                      href={p.repo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-10 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
-                    >
-                      Kod ↗
-                    </a>
-                  ) : null}
-                </div>
-              </motion.li>
+                    <div className="pointer-events-none absolute -right-16 -top-16 size-44 rounded-full bg-signal/[0.05] blur-3xl transition-all duration-500 group-hover:bg-signal/[0.12]" />
+
+                    <div className="relative flex items-start justify-between gap-4">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-signal/25 bg-signal/[0.07] px-3.5 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-signal">
+                        <span className="signal-dot size-1.5" aria-hidden />
+                        full-stack
+                      </span>
+                      <span className="rounded-full border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
+                        {p.status ?? "featured"}
+                      </span>
+                    </div>
+
+                    <h3 className="relative mt-5 text-xl font-semibold tracking-tight text-foreground">
+                      <Link href={`/projects/${p.slug}`} className="hover:text-signal">
+                        {p.title}
+                      </Link>
+                    </h3>
+                    <p className="relative mt-3 text-sm leading-7 text-muted-foreground">
+                      {p.description}
+                    </p>
+
+                    <div className="relative mt-5 grid gap-3">
+                      {p.problem ? <PdiBlock signal="problem" text={p.problem} /> : null}
+                      {p.decision ? <PdiBlock signal="decision" text={p.decision} /> : null}
+                      {p.impact ? <PdiBlock signal="impact" text={p.impact} /> : null}
+                    </div>
+
+                    <div className="relative mt-5 flex flex-wrap gap-1.5">
+                      {p.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-mono text-[0.65rem] text-muted-foreground"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="relative mt-6 flex flex-wrap gap-2 pt-1">
+                      <Magnetic>
+                        <Link
+                          href={`/projects/${p.slug}`}
+                          className="btn-signal inline-flex h-10 items-center rounded-lg px-4 text-sm font-semibold transition-all duration-200"
+                        >
+                          İncele →
+                        </Link>
+                      </Magnetic>
+                      {p.demo ? (
+                        <a
+                          href={p.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex h-10 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
+                        >
+                          Demo ↗
+                        </a>
+                      ) : null}
+                      {p.repo ? (
+                        <a
+                          href={p.repo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex h-10 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
+                        >
+                          Kod ↗
+                        </a>
+                      ) : null}
+                    </div>
+                  </TiltCard>
+                </Reveal>
+              </li>
             ))}
           </ul>
         )}

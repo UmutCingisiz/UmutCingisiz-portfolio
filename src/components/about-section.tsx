@@ -1,6 +1,7 @@
 import { siteConfig } from "@/lib/site-config";
+import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { Spotlight } from "@/components/spotlight";
+import { TiltCard } from "@/components/tilt-card";
 
 const cards = [
   {
@@ -56,13 +57,14 @@ export function AboutSection() {
           </div>
 
           <div className="grid gap-4">
-            {cards.map((card) => (
-              <Spotlight
+            {cards.map((card, index) => (
+              <Reveal key={card.title} index={index}>
+              <TiltCard
                 as="article"
-                key={card.title}
-                className="group relative overflow-hidden rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/30 hover:shadow-lg"
+                max={5}
+                className="premium-card gradient-border group relative overflow-hidden rounded-2xl p-6"
               >
-                <div className="absolute -right-12 -top-12 size-28 rounded-full bg-foreground/[0.03] blur-2xl transition-all duration-500 group-hover:bg-foreground/[0.06]" />
+                <div className="pointer-events-none absolute -right-12 -top-12 size-28 rounded-full bg-signal/[0.05] blur-2xl transition-all duration-500 group-hover:bg-signal/[0.12]" />
                 <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   {card.eyebrow}
                 </p>
@@ -72,7 +74,8 @@ export function AboutSection() {
                 <p className="relative mt-3 text-sm leading-7 text-muted-foreground">
                   {card.body}
                 </p>
-              </Spotlight>
+              </TiltCard>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { siteConfig } from "@/lib/site-config";
+import { Logo } from "@/components/logo";
+import { Magnetic } from "@/components/magnetic";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { socialLinks } from "@/components/social-icons";
 
@@ -35,6 +37,16 @@ function CloseIcon({ className }: { className?: string }) {
   );
 }
 
+function TerminalIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="m7 9 3 3-3 3" />
+      <path d="M13 15h4" />
+    </svg>
+  );
+}
+
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -61,30 +73,23 @@ export function SiteHeader() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+        className={`sticky top-0 z-50 border-b transition-all duration-300 ${
           scrolled
-            ? "bg-background/72 backdrop-blur-2xl"
-            : "bg-background/35 backdrop-blur-xl"
+            ? "border-border bg-background/80 backdrop-blur-2xl backdrop-saturate-150"
+            : "border-transparent bg-background/45 backdrop-blur-xl"
         }`}
       >
-        <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
           <Link
             href="/"
-            className="group relative z-10 inline-flex shrink-0 items-center gap-2 rounded-2xl border border-border bg-card/55 px-2.5 py-2 text-sm font-bold tracking-tight text-foreground shadow-lg shadow-black/5 transition-all hover:border-foreground/20"
+            className="group relative z-10 inline-flex shrink-0 items-center rounded-xl px-1 py-2 transition-opacity hover:opacity-80"
+            aria-label={siteConfig.name}
           >
-            <span className="inline-flex size-9 items-center justify-center rounded-xl bg-foreground text-sm font-bold text-background transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
-              {siteConfig.name.split(" ").map((x) => x[0]).join("").slice(0, 2)}
-            </span>
-            <span className="hidden leading-tight sm:block">
-              {siteConfig.name.split(" ")[0]}
-              <span className="block font-mono text-[0.58rem] uppercase tracking-[0.18em] text-muted-foreground">
-                engineer
-              </span>
-            </span>
+            <Logo className="text-base sm:text-lg" />
           </Link>
 
           <nav
-            className="hidden items-center rounded-2xl border border-border bg-card/45 p-1 shadow-lg shadow-black/5 md:flex"
+            className="hidden items-center gap-0.5 rounded-2xl border border-border bg-card/50 p-1.5 shadow-lg shadow-black/5 backdrop-blur-md md:flex"
             aria-label="Ana navigasyon"
           >
             {nav.map((item, i) => (
@@ -96,10 +101,10 @@ export function SiteHeader() {
               >
                 <Link
                   href={item.href}
-                  className="group relative rounded-xl px-3.5 py-2 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted/70 hover:text-foreground"
+                  className="group relative rounded-xl px-3.5 py-2.5 text-[0.9rem] text-muted-foreground transition-all duration-200 hover:bg-muted/70 hover:text-foreground"
                 >
                   {item.label}
-                  <span className="absolute inset-x-4 bottom-1 h-px origin-left scale-x-0 bg-foreground/60 transition-transform duration-300 group-hover:scale-x-100" />
+                  <span className="absolute inset-x-4 bottom-1.5 h-px origin-left scale-x-0 bg-signal transition-transform duration-300 group-hover:scale-x-100" />
                 </Link>
               </motion.div>
             ))}
@@ -109,10 +114,12 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "`", code: "Backquote", ctrlKey: true }))}
-              className="hidden rounded-xl border border-border bg-card/45 px-3 py-2 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground transition-all hover:border-foreground/20 hover:text-foreground lg:inline-flex"
-              aria-label="Gizli terminali aç"
+              className="group hidden items-center gap-2 rounded-xl border border-signal/30 bg-signal/[0.08] px-3 py-2.5 font-mono text-xs text-signal transition-all hover:border-signal/50 hover:bg-signal/[0.15] hover:shadow-[0_0_20px_var(--signal-glow)] lg:inline-flex"
+              aria-label="Terminali aç"
             >
-              Ctrl + `
+              <TerminalIcon className="size-4" />
+              <span>terminal</span>
+              <kbd className="rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-[0.6rem]">Ctrl `</kbd>
             </button>
 
             {socialLinks.slice(0, 2).map(({ href, icon: Icon, label }) => (
@@ -134,12 +141,14 @@ export function SiteHeader() {
 
             <ThemeToggle />
 
-            <Link
-              href="/#contact"
-              className="btn-signal hidden rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 sm:inline-flex"
-            >
-              İletişim
-            </Link>
+            <Magnetic className="hidden sm:inline-flex">
+              <Link
+                href="/#contact"
+                className="btn-signal inline-flex rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200"
+              >
+                İletişim
+              </Link>
+            </Magnetic>
 
             {/* Mobile Menu Button */}
             <button

@@ -4,6 +4,7 @@ export type GithubRepoSummary = {
   html_url: string;
   pushed_at: string;
   stargazers_count?: number;
+  language?: string | null;
 };
 
 export async function fetchRecentGithubRepos(login: string) {
@@ -16,6 +17,8 @@ export async function fetchRecentGithubRepos(login: string) {
         "User-Agent": "portfolio-site",
       },
       next: { revalidate: 3600 },
+      // SSR'nin GitHub yavaşladığında asılı kalmasını engelle: 3sn'de bırak.
+      signal: AbortSignal.timeout(3000),
     });
 
     if (!res.ok) return null;

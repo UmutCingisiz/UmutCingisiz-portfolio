@@ -20,26 +20,48 @@
   --signal-foreground: #03141a;
   --signal-glow: rgba(34, 211, 238, 0.28);
   --signal-glow-strong: rgba(34, 211, 238, 0.55);
+  --ambient-color: rgba(255, 255, 255, 0.14);
+  --noise-opacity: 0.05;
+  --noise-blend: overlay;
+  /* Kartların yüzey stili tema başına değişiyor: koyuda yumuşak glow, açıkta keskin gölge. */
+  --card-surface: color-mix(in srgb, var(--card) 88%, transparent);
+  --card-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: 0 30px 90px rgba(0, 0, 0, 0.45);
+  --card-highlight: rgba(255, 255, 255, 0.07);
 }
 
 .light {
-  --background: #fafafa; /* İnci beyazı / Çok hafif gri */
-  --foreground: #09090b; /* Daha keskin, pitch-dark metinler */
-  --card: #ffffff; /* Kartlar saf beyaz kalarak derinlik yaratır */
-  --card-foreground: #09090b;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a; /* Daha elegan, elit bir gri */
-  --border: rgba(0, 0, 0, 0.06); /* Çok zarif, neredeyse görünmez sınırlar */
-  --accent: #f4f4f5;
-  --accent-foreground: #09090b;
-  --ring: rgba(0, 0, 0, 0.08);
-  --glow: rgba(0, 0, 0, 0.03);
-  --selection-bg: rgba(0, 0, 0, 0.08);
-  --selection-text: #000000;
-  --signal: #0891b2;
-  --signal-foreground: #f0fdff;
-  --signal-glow: rgba(8, 145, 178, 0.16);
-  --signal-glow-strong: rgba(8, 145, 178, 0.32);
+  --background: #f6f7f9; /* Kırık beyaz / çok hafif soğuk gri zemin */
+  --foreground: #0a0a0c; /* Pitch-dark, keskin metin */
+  --card: #ffffff;
+  --card-foreground: #0a0a0c;
+  --muted: #eceef1;
+  --muted-foreground: #565b66; /* Okunur, elit gri */
+  --border: rgba(10, 12, 20, 0.12); /* Brutalizm esintisi: net, görünür sınır */
+  --accent: #0a0a0c;
+  --accent-foreground: #ffffff;
+  --ring: rgba(10, 12, 20, 0.22);
+  --glow: rgba(10, 12, 20, 0.04);
+  --selection-bg: #0a0a0c;
+  --selection-text: #ffffff;
+  --signal: #0e7490; /* cyan-700: beyaz üstünde AA kontrast */
+  --signal-foreground: #ecfeff;
+  --signal-glow: rgba(14, 116, 144, 0.18);
+  --signal-glow-strong: rgba(14, 116, 144, 0.34);
+  --ambient-color: rgba(14, 116, 144, 0.12);
+  --noise-opacity: 0.04;
+  --noise-blend: multiply;
+  --card-surface: #ffffff;
+  /* Işık dağılımı yerine keskin, katmanlı gölge — kart "kağıt" gibi otursun. */
+  --card-shadow:
+    0 1px 0 rgba(10, 12, 20, 0.04),
+    0 2px 6px rgba(10, 12, 20, 0.06),
+    0 14px 34px -14px rgba(10, 12, 20, 0.16);
+  --card-shadow-hover:
+    0 1px 0 rgba(10, 12, 20, 0.05),
+    0 6px 14px rgba(10, 12, 20, 0.08),
+    0 24px 50px -18px rgba(10, 12, 20, 0.22);
+  --card-highlight: rgba(10, 12, 20, 0.03);
 }
 
 .dark {
@@ -60,6 +82,13 @@
   --signal-foreground: #03141a;
   --signal-glow: rgba(34, 211, 238, 0.28);
   --signal-glow-strong: rgba(34, 211, 238, 0.55);
+  --ambient-color: rgba(255, 255, 255, 0.14);
+  --noise-opacity: 0.05;
+  --noise-blend: overlay;
+  --card-surface: color-mix(in srgb, var(--card) 88%, transparent);
+  --card-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: 0 30px 90px rgba(0, 0, 0, 0.45);
+  --card-highlight: rgba(255, 255, 255, 0.07);
 }
 
 @theme inline {
@@ -128,14 +157,12 @@ body {
   mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
 }
 
-/* Elit Açık Mod Arka Plan Dokusu (Linear & Vercel Stili) */
+/* Açık Mod Arka Plan Dokusu (Linear & Vercel esintili, brutalizm dokunuşlu) */
 .light body {
   background-color: var(--background);
   background-image:
-    /* Üst taraftan vuran çok hafif, zarif bir ışık hüzmesi */
-    radial-gradient(100% 50% at 50% 0%, rgba(0, 0, 0, 0.02) 0%, transparent 100%),
-    /* Alttan gelen belli belirsiz ambiyans */
-    radial-gradient(100% 50% at 50% 100%, rgba(0, 0, 0, 0.015) 0%, transparent 100%);
+    radial-gradient(120% 60% at 50% -10%, rgba(14, 116, 144, 0.05) 0%, transparent 60%),
+    radial-gradient(100% 50% at 100% 100%, rgba(10, 12, 20, 0.03) 0%, transparent 70%);
 }
 
 .light body::before {
@@ -144,12 +171,26 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  /* Kaba grid yerine, zarif bir nokta (dot) matrisi */
-  background-image: radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px);
-  background-size: 24px 24px;
-  /* Maske: Noktalar sadece ortada belirgindir, ekranın kenarlarına doğru yumuşakça silinir (Vignette efekti) */
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  /* İnce çizgi ızgara: teknik/mühendislik hissi, kenarlara doğru silinir */
+  background-image:
+    linear-gradient(rgba(10, 12, 20, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 12, 20, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 90% 75% at 50% 30%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 30%, black 20%, transparent 100%);
+}
+
+/* Premium doku: hafif, statik SVG gürültü katmanı — "dijital ve boş" hissi kırar. */
+body::after {
+  pointer-events: none;
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
 
 ::selection {
@@ -181,9 +222,14 @@ body {
   overflow: hidden;
   border: 1px solid var(--border);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.07), transparent 38%),
-    color-mix(in srgb, var(--card) 88%, transparent);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+    linear-gradient(135deg, var(--card-highlight), transparent 42%),
+    var(--card-surface);
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.premium-card:hover {
+  box-shadow: var(--card-shadow-hover);
 }
 
 .premium-card::before {
@@ -210,7 +256,7 @@ body {
   pointer-events: none;
   position: absolute;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.14), transparent 65%);
+  background: radial-gradient(circle, var(--ambient-color), transparent 65%);
   filter: blur(24px);
   animation: slow-float 8s ease-in-out infinite;
 }
@@ -271,4 +317,98 @@ body {
   border-radius: 9999px;
   background: var(--signal);
   box-shadow: 0 0 12px var(--signal-glow-strong);
+}
+
+/* Farenin açısını takip eden saç inceliğinde gradient kenarlık. `.spotlight` ile
+   birlikte kullanıldığında `--spot-angle` değişkenini JS tarafı besler. */
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--spot-angle, 0deg),
+    var(--signal),
+    transparent 26%,
+    transparent 74%,
+    var(--signal)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.gradient-border:hover::before,
+.gradient-border:focus-within::before {
+  opacity: 1;
+}
+
+/* Manyetik CTA'lar için imleç işareti — dokunmatik/klavye kullanıcılarında sorun çıkarmaz. */
+.magnetic-wrap {
+  display: inline-flex;
+}
+
+/* 3B eğim (tilt) kartları: JS tarafı --rx/--ry açılarını ve --mx/--my imleç
+   pozisyonunu besler. Kart imlece göre hafifçe eğilir ve üzerinden bir "shine"
+   geçer (Apple TV kart hissi). reduced-motion tercihinde efekt nötrlenir. */
+.tilt-card {
+  transform-style: preserve-3d;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.tilt-card > * {
+  transform: translateZ(0);
+}
+
+.tilt-shine {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  opacity: 0;
+  background: radial-gradient(
+    440px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(255, 255, 255, 0.16),
+    transparent 55%
+  );
+  transition: opacity 0.4s ease;
+}
+
+.light .tilt-shine {
+  background: radial-gradient(
+    440px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(14, 116, 144, 0.12),
+    transparent 55%
+  );
+}
+
+.tilt-card:hover .tilt-shine {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card {
+    transform: none !important;
+  }
+}
+
+/* Bento hücrelerinde ince, tekrar eden nokta dokusu — büyük kartların içini doldurur. */
+.bento-dots {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--foreground) 14%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
 }

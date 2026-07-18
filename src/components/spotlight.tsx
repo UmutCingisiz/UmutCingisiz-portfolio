@@ -24,8 +24,14 @@ export function Spotlight<T extends ElementType = "div">({
   function handleMouseMove(event: MouseEvent<HTMLElement>) {
     const target = event.currentTarget;
     const rect = target.getBoundingClientRect();
-    target.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
-    target.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    target.style.setProperty("--spot-x", `${x}px`);
+    target.style.setProperty("--spot-y", `${y}px`);
+
+    // Merkezden imlece olan açı: gradient-border kenarlığının dönüşünü besler.
+    const angle = (Math.atan2(y - rect.height / 2, x - rect.width / 2) * 180) / Math.PI + 90;
+    target.style.setProperty("--spot-angle", `${angle}deg`);
   }
 
   return (

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { AlgorithmLabSection } from "@/components/algorithm-lab-section";
 import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
@@ -9,6 +10,7 @@ import { HiringProofSection } from "@/components/hiring-proof-section";
 import { QualityStandardsSection } from "@/components/quality-standards-section";
 import { SkillsSection } from "@/components/skills-section";
 import { StatusBanner } from "@/components/status-banner";
+import { TerminalPrompt } from "@/components/terminal-prompt";
 
 export default async function Home({
   searchParams,
@@ -27,6 +29,7 @@ export default async function Home({
         resumeMissing={resumeMissing}
       />
       <Hero />
+      <TerminalPrompt />
       <EngineeringHighlights />
       <HiringProofSection />
       <QualityStandardsSection />
@@ -34,7 +37,9 @@ export default async function Home({
       <SkillsSection />
       <AlgorithmLabSection />
       <FeaturedProjects />
-      <GithubActivitySection />
+      <Suspense fallback={null}>
+        <GithubActivitySection />
+      </Suspense>
       <ContactSection contactSuccess={contactSuccess} />
     </>
   );
