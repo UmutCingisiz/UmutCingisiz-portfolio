@@ -34,7 +34,7 @@ export function HiddenTerminal() {
         case "ls":
           push({
             kind: "out",
-            text: "whoami · about · skills · projects · show_projects · blog · contact · social · resume · theme · clear",
+            text: "whoami · about · skills · projects · show_projects · blog · contact · social · resume · clear",
           });
           break;
         case "whoami":
@@ -74,14 +74,6 @@ export function HiddenTerminal() {
           push({ kind: "out", text: "→ CV indiriliyor (/api/resume)..." });
           window.open("/api/resume", "_blank");
           break;
-        case "theme": {
-          const el = document.documentElement;
-          const toDark = !el.classList.contains("dark");
-          el.classList.toggle("dark", toDark);
-          el.classList.toggle("light", !toDark);
-          push({ kind: "out", text: `tema: ${toDark ? "dark" : "light"}` });
-          break;
-        }
         case "clear":
           setHistory([]);
           break;
@@ -113,7 +105,7 @@ export function HiddenTerminal() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [history]);
 
-  const quickCommands = ["whoami", "skills", "show_projects()", "contact", "theme"];
+  const quickCommands = ["whoami", "skills", "show_projects()", "contact", "resume"];
 
   return (
     <AnimatePresence>

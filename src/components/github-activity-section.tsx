@@ -8,17 +8,6 @@ import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { TiltCard } from "@/components/tilt-card";
 
-function relativeTime(iso: string): string {
-  const diff = Date.now() - new Date(iso).getTime();
-  const days = Math.floor(diff / 86_400_000);
-  if (days <= 0) return "bugün";
-  if (days === 1) return "dün";
-  if (days < 7) return `${days} gün önce`;
-  if (days < 30) return `${Math.floor(days / 7)} hafta önce`;
-  if (days < 365) return `${Math.floor(days / 30)} ay önce`;
-  return `${Math.floor(days / 365)} yıl önce`;
-}
-
 function shortHash(seed: string): string {
   let h = 0;
   for (let i = 0; i < seed.length; i += 1) {
@@ -54,14 +43,13 @@ export async function GithubActivitySection() {
 
   const logEntries: GitLogEntry[] = repos.slice(0, 6).map((repo) => ({
     repo: repo.name,
-    when: relativeTime(repo.pushed_at),
     language: repo.language ?? null,
     hash: shortHash(repo.name + repo.pushed_at),
     url: repo.html_url,
   }));
 
   return (
-    <section className="border-y border-border bg-muted/30 px-4 py-20 sm:px-6 sm:py-28">
+    <section className="border-y border-border bg-muted/30 px-4 py-24 sm:px-6 sm:py-32">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
           <div>
@@ -118,7 +106,9 @@ export async function GithubActivitySection() {
                         {repo.language}
                       </span>
                     ) : null}
-                    <span className="ml-auto">{relativeTime(repo.pushed_at)}</span>
+                    <span className="ml-auto inline-flex items-center gap-1.5 text-signal">
+                      Repoyu aç →
+                    </span>
                   </div>
                 </TiltCard>
               </Reveal>

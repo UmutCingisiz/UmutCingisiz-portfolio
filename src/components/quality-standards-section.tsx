@@ -1,6 +1,5 @@
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { TiltCard } from "@/components/tilt-card";
 
 const standards = [
   {
@@ -31,9 +30,11 @@ const standards = [
 
 export function QualityStandardsSection() {
   return (
-    <section className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28">
-      <div className="mx-auto max-w-6xl">
-        <div className="max-w-3xl">
+    <section className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32">
+      <div className="ambient-orb -right-20 top-1/3 size-64 opacity-20 [animation-delay:3s]" />
+      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        {/* Sol: yapışkan başlık */}
+        <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionEyebrow>quality.standards</SectionEyebrow>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Güzel görünen değil, ölçülebilir şekilde güven veren portfolyo.
@@ -45,31 +46,32 @@ export function QualityStandardsSection() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
+        {/* Sağ: kutu yerine bölmeli liste — daha ferah bir ritim */}
+        <ul className="flex flex-col">
           {standards.map((item, index) => (
             <Reveal key={item.label} index={index}>
-            <TiltCard
-              as="article"
-              max={5}
-              className="premium-card gradient-border group relative overflow-hidden rounded-2xl p-6"
-            >
-              <div className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-signal/[0.05] blur-3xl transition-all duration-500 group-hover:bg-signal/[0.12]" />
-              <p className="relative font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                {item.label}
-              </p>
-              <h3 className="relative mt-4 text-xl font-semibold tracking-tight text-foreground">
-                {item.title}
-              </h3>
-              <p className="relative mt-3 font-mono text-xs text-signal">
-                {item.target}
-              </p>
-              <p className="relative mt-4 text-sm leading-7 text-muted-foreground">
-                {item.body}
-              </p>
-            </TiltCard>
+              <li className="group relative flex gap-5 border-t border-border py-7 first:border-t-0 first:pt-0">
+                <span className="mt-0.5 font-mono text-sm tabular-nums text-signal/70">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <h3 className="text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-signal">
+                      {item.title}
+                    </h3>
+                    <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+                      {item.label}
+                    </span>
+                  </div>
+                  <p className="mt-2 font-mono text-xs text-signal">{item.target}</p>
+                  <p className="mt-3 max-w-xl text-sm leading-7 text-muted-foreground">
+                    {item.body}
+                  </p>
+                </div>
+              </li>
             </Reveal>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

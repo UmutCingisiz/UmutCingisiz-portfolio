@@ -43,26 +43,16 @@ function DeliveryIcon({ className }: { className?: string }) {
   );
 }
 
-function LeadershipIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <circle cx="9" cy="8" r="3" />
-      <circle cx="17" cy="10" r="2.2" />
-      <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
-      <path d="M15.5 15.5a4 4 0 0 1 5 3.5" />
-    </svg>
-  );
-}
-
 type Proof = {
   title: string;
   tagline: string;
   evidence: string;
   href: string;
   icon: (props: { className?: string }) => ReactNode;
-  span?: boolean;
 };
 
+/* Tam 4 sinyal — 2x2/1x4 grid'de eksik hücre bırakmadan tam oturur. Soft-skill/
+   liderlik kanıtı burada değil, about.engineer zaman çizelgesinde yaşıyor. */
 const proofSignals: readonly Proof[] = [
   {
     title: "Uçtan uca ürün mimarisi",
@@ -70,7 +60,6 @@ const proofSignals: readonly Proof[] = [
     evidence: "full-stack",
     href: "/projects/portfolio-web",
     icon: ArchIcon,
-    span: true,
   },
   {
     title: "Kalite kapısı",
@@ -93,13 +82,6 @@ const proofSignals: readonly Proof[] = [
     href: "/#contact",
     icon: DeliveryIcon,
   },
-  {
-    title: "Organizasyon sinyali",
-    tagline: "YZ kulübü liderliği",
-    evidence: "soft-skill",
-    href: "/#about",
-    icon: LeadershipIcon,
-  },
 ];
 
 const proofMetrics = [
@@ -111,7 +93,8 @@ const proofMetrics = [
 
 export function HiringProofSection() {
   return (
-    <section className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28">
+    <section className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32">
+      <div className="ambient-orb -left-24 bottom-0 size-72 opacity-20 [animation-delay:1.5s]" />
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <SectionEyebrow>hiring.proof</SectionEyebrow>
@@ -136,14 +119,10 @@ export function HiringProofSection() {
           ))}
         </div>
 
-        {/* İkon-odaklı bento kanıt ızgarası */}
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* İkon-odaklı kanıt ızgarası: 4 sinyal, eksik hücre bırakmayan düzen. */}
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {proofSignals.map((signal, index) => (
-            <Reveal
-              key={signal.title}
-              index={index}
-              className={`h-full ${signal.span ? "sm:col-span-2 lg:col-span-1" : ""}`}
-            >
+            <Reveal key={signal.title} index={index} className="h-full">
               <Link href={signal.href} className="group block h-full">
                 <TiltCard
                   as="div"

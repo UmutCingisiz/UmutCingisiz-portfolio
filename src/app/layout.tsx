@@ -6,7 +6,6 @@ import { HiddenTerminal } from "@/components/hidden-terminal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SkipToContent } from "@/components/skip-to-content";
-import { ThemeProvider } from "@/components/theme-provider";
 import { getSiteMetadata } from "@/lib/site-metadata";
 import "./globals.css";
 
@@ -30,25 +29,22 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      className={`dark ${geistSans.variable} ${geistMono.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground antialiased">
-        <ThemeProvider>
-          <SkipToContent />
-          <SiteHeader />
-          <main id="main-content" className="flex flex-1 flex-col">
-            {children}
-          </main>
-          <SiteFooter />
-          <HiddenTerminal />
-          <Suspense fallback={null}>
-            <Analytics />
-          </Suspense>
-          <Suspense fallback={null}>
-            <SpeedInsights />
-          </Suspense>
-        </ThemeProvider>
+        <SkipToContent />
+        <SiteHeader />
+        <main id="main-content" className="flex flex-1 flex-col">
+          {children}
+        </main>
+        <SiteFooter />
+        <HiddenTerminal />
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
+        <Suspense fallback={null}>
+          <SpeedInsights />
+        </Suspense>
       </body>
     </html>
   );

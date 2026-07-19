@@ -14,7 +14,7 @@ export function FeaturedProjectsList({ projects }: Props) {
   return (
     <section
       id="projects"
-      className="relative scroll-mt-24 overflow-hidden px-4 py-20 sm:px-6 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
     >
       <div className="ambient-orb left-1/2 top-24 size-72 -translate-x-1/2 opacity-25" />
       <div className="mx-auto max-w-6xl">

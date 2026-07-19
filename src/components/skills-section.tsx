@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { TiltCard } from "@/components/tilt-card";
+import { siteConfig } from "@/lib/site-config";
 
 function StackIcon({ className }: { className?: string }) {
   return (
@@ -55,7 +56,7 @@ function ShieldIcon({ className }: { className?: string }) {
 type StrongSkill = {
   title: string;
   tagline: string;
-  chips: readonly string[];
+  proof: string;
   icon: (props: { className?: string }) => ReactNode;
 };
 
@@ -65,141 +66,170 @@ type GrowingSkill = {
   icon: (props: { className?: string }) => ReactNode;
 };
 
+/* Araç adları burada tekrar edilmiyor — o liste tek kaynak olarak
+   aşağıdaki "Kullandığım teknolojiler" bölümünde. Başlıklar da bilinçli
+   olarak tech.stack kategori adlarından farklı tutulur (örn. "AI & Otomasyon"
+   yerine "LLM Destekli Akışlar") — aynı etiketin iki kez görünmesini önler. */
 const strong: readonly StrongSkill[] = [
   {
     title: "Full-Stack Ürün Geliştirme",
     tagline: "uçtan uca sistem",
-    chips: ["Next.js", "TypeScript", "React", "Auth.js", "Drizzle", "PostgreSQL"],
+    proof: "3 canlı proje · auth'tan deploy'a",
     icon: StackIcon,
   },
   {
     title: "Algoritmik Problem Çözme",
-    tagline: "C · Java · Python",
-    chips: ["Veri yapıları", "Graph", "Rota mantığı", "OOP"],
+    tagline: "rota & graph optimizasyonu",
+    proof: "40+ düğümlü simülasyon · aşağıda dene",
     icon: BinaryIcon,
   },
 ];
 
 const growing: readonly GrowingSkill[] = [
-  { title: "AI & Otomasyon", tagline: "LLM akışları", icon: SparkIcon },
-  { title: "DevOps & Observability", tagline: "CI · E2E · log", icon: ServerIcon },
-  { title: "Sistem Mimarisi", tagline: "fail-safe · cache", icon: ShieldIcon },
+  { title: "LLM Destekli Akışlar", tagline: "prompt & agent tasarımı", icon: SparkIcon },
+  { title: "Üretim Gözlemlenebilirliği", tagline: "structured log · tracing", icon: ServerIcon },
+  { title: "Dağıtık Sistem Tasarımı", tagline: "fail-safe · ölçeklenme", icon: ShieldIcon },
 ];
+
+function StrongCard({
+  skill,
+  icon: Icon,
+  index,
+}: {
+  skill: StrongSkill;
+  icon: (props: { className?: string }) => ReactNode;
+  index: number;
+}) {
+  return (
+    <Reveal index={index} className="h-full">
+      <TiltCard
+        as="article"
+        max={5}
+        className="premium-card gradient-border group relative flex h-full flex-col overflow-hidden rounded-3xl p-7 sm:p-8"
+      >
+        <div className="bento-dots pointer-events-none absolute -right-10 -top-10 size-56 rounded-full opacity-40 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
+        <div className="relative flex items-start justify-between gap-4">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-signal">
+            <span className="signal-dot size-1.5" /> güçlü alan
+          </span>
+          <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_30px_var(--signal-glow)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+            <Icon className="size-8" />
+          </div>
+        </div>
+        <h3 className="relative mt-7 text-2xl font-bold tracking-tight text-foreground sm:text-[1.7rem]">
+          {skill.title}
+        </h3>
+        <p className="relative mt-2 font-mono text-sm text-muted-foreground">
+          {skill.tagline}
+        </p>
+        <p className="relative mt-auto pt-8 font-mono text-xs text-signal/80">
+          {skill.proof}
+        </p>
+      </TiltCard>
+    </Reveal>
+  );
+}
 
 export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-20 sm:px-6 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-24 sm:px-6 sm:py-32"
     >
       <div className="ambient-orb -left-20 top-20 size-64 opacity-30" />
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <SectionEyebrow>stack.map()</SectionEyebrow>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Güçlü olduğum ve büyüttüğüm alanlar.
-            </h2>
-          </div>
-          <p className="max-w-md text-sm leading-7 text-muted-foreground">
-            Görsel hiyerarşi: uzmanlaştığım alanlar büyük kartlarda, aktif
-            geliştirdiğim alanlar minimal kartlarda.
+        <div className="max-w-2xl">
+          <SectionEyebrow>stack.map()</SectionEyebrow>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Güçlü olduğum ve büyüttüğüm alanlar.
+          </h2>
+          <p className="mt-5 text-sm leading-7 text-muted-foreground">
+            Solda aktif geliştirdiğim alanlar, sağda uzmanlaştığım alanlar —
+            görsel hiyerarşi olgunluğu gösterir.
           </p>
         </div>
 
-        {/* Asimetrik bento: güçlü kartlar büyük ve görsel, gelişen kartlar küçük. */}
-        <div className="mt-12 grid gap-4 lg:grid-cols-3 lg:auto-rows-[minmax(0,1fr)]">
-          {/* Güçlü #1 — geniş kart (2 kolon) */}
-          <Reveal index={0} className="h-full lg:col-span-2">
-            <TiltCard
-              as="article"
-              max={5}
-              className="premium-card gradient-border group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl p-7"
-            >
-              <div className="bento-dots pointer-events-none absolute -right-8 -top-8 size-48 rounded-full opacity-40 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
-              <div className="relative flex items-start justify-between gap-4">
-                <div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-signal">
-                    <span className="signal-dot size-1.5" /> güçlü alan
-                  </span>
-                  <h3 className="mt-4 text-2xl font-bold tracking-tight text-foreground">
-                    {strong[0].title}
-                  </h3>
-                  <p className="mt-1 font-mono text-sm text-muted-foreground">
-                    {strong[0].tagline}
-                  </p>
-                </div>
-                <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_28px_var(--signal-glow)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
-                  <StackIcon className="size-8" />
-                </div>
-              </div>
-              <div className="relative mt-6 flex flex-wrap gap-2">
-                {strong[0].chips.map((chip) => (
-                  <span
-                    key={chip}
-                    className="rounded-lg border border-border bg-background/50 px-3 py-1.5 font-mono text-xs text-foreground/85"
+        {/* Sol: gelişen (küçük) · Sağ: güçlü (büyük). İki kolon da aynı toplam
+            yüksekliği paylaşır (items-stretch + flex-1 grid), kareler orantısız
+            durmasın. */}
+        <div className="mt-14 grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-stretch">
+          {/* SOL — geliştirdiğim alanlar */}
+          <div className="flex h-full flex-col gap-4">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              {"// geliştirdiğim alanlar"}
+            </p>
+            <div className="grid flex-1 gap-4 lg:grid-rows-3">
+              {growing.map((skill, index) => (
+                <Reveal key={skill.title} index={index} className="h-full">
+                  <TiltCard
+                    as="article"
+                    max={8}
+                    className="premium-card group relative flex h-full items-center gap-4 rounded-2xl p-5"
                   >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </TiltCard>
-          </Reveal>
+                    <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/50 text-muted-foreground transition-colors duration-300 group-hover:border-signal/30 group-hover:text-signal">
+                      <skill.icon className="size-6" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
+                        gelişen
+                      </p>
+                      <h3 className="mt-1 truncate font-semibold text-foreground">{skill.title}</h3>
+                      <p className="truncate font-mono text-xs text-muted-foreground">{skill.tagline}</p>
+                    </div>
+                  </TiltCard>
+                </Reveal>
+              ))}
+            </div>
+          </div>
 
-          {/* Güçlü #2 — dikey kart (2 satır) */}
-          <Reveal index={1} className="h-full lg:col-span-1 lg:row-span-2">
-            <TiltCard
-              as="article"
-              max={6}
-              className="premium-card gradient-border group relative flex h-full flex-col overflow-hidden rounded-3xl p-7"
-            >
-              <div className="bento-dots pointer-events-none absolute -bottom-10 -left-8 size-52 rounded-full opacity-40 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
-              <span className="relative inline-flex w-fit items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-signal">
-                <span className="signal-dot size-1.5" /> güçlü alan
-              </span>
-              <div className="relative mt-8 flex size-20 items-center justify-center rounded-3xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_32px_var(--signal-glow)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
-                <BinaryIcon className="size-10" />
-              </div>
-              <h3 className="relative mt-6 text-2xl font-bold tracking-tight text-foreground">
-                {strong[1].title}
+          {/* SAĞ — güçlü olduğum alanlar (daha büyük) */}
+          <div className="flex h-full flex-col gap-4">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-signal">
+              {"// güçlü olduğum alanlar"}
+            </p>
+            <div className="grid flex-1 gap-4 sm:grid-cols-2">
+              <StrongCard skill={strong[0]} icon={StackIcon} index={0} />
+              <StrongCard skill={strong[1]} icon={BinaryIcon} index={1} />
+            </div>
+          </div>
+        </div>
+
+        {/* Kullandığım teknolojiler — kategori bazlı */}
+        <div className="mt-16 border-t border-border pt-14">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <SectionEyebrow>tech.stack</SectionEyebrow>
+              <h3 className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                Kullandığım teknolojiler
               </h3>
-              <p className="relative mt-1 font-mono text-sm text-muted-foreground">
-                {strong[1].tagline}
-              </p>
-              <div className="relative mt-auto flex flex-wrap gap-2 pt-6">
-                {strong[1].chips.map((chip) => (
-                  <span
-                    key={chip}
-                    className="rounded-lg border border-border bg-background/50 px-3 py-1.5 font-mono text-xs text-foreground/85"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </TiltCard>
-          </Reveal>
+            </div>
+            <p className="max-w-sm text-sm leading-7 text-muted-foreground">
+              Üretimde tercih ettiğim araçlar; her biri gerçek projelerde
+              denenmiş.
+            </p>
+          </div>
 
-          {/* Gelişen alanlar — küçük, minimal kartlar */}
-          {growing.map((skill, index) => (
-            <Reveal key={skill.title} index={index + 2} className="h-full lg:col-span-1">
-              <TiltCard
-                as="article"
-                max={8}
-                className="premium-card group relative flex h-full items-center gap-4 rounded-2xl p-5"
-              >
-                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/50 text-muted-foreground transition-colors duration-300 group-hover:border-signal/30 group-hover:text-signal">
-                  <skill.icon className="size-6" />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
-                    gelişen
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {siteConfig.techStack.map((group, index) => (
+              <Reveal key={group.group} index={index} className="h-full">
+                <div className="premium-card group h-full rounded-2xl p-5">
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-signal">
+                    {group.group}
                   </p>
-                  <h3 className="mt-1 truncate font-semibold text-foreground">{skill.title}</h3>
-                  <p className="truncate font-mono text-xs text-muted-foreground">{skill.tagline}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-lg border border-border bg-background/40 px-3 py-1.5 text-xs font-medium text-foreground/85 transition-colors duration-200 group-hover:border-signal/20"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </TiltCard>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

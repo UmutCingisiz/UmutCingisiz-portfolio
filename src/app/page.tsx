@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { AlgorithmLabSection } from "@/components/algorithm-lab-section";
 import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
-import { EngineeringHighlights } from "@/components/engineering-highlights";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { GithubActivitySection } from "@/components/github-activity-section";
 import { Hero } from "@/components/hero";
@@ -30,13 +29,12 @@ export default async function Home({
       />
       <Hero />
       <TerminalPrompt />
-      <EngineeringHighlights />
-      <HiringProofSection />
-      <QualityStandardsSection />
       <AboutSection />
       <SkillsSection />
       <AlgorithmLabSection />
       <FeaturedProjects />
+      <HiringProofSection />
+      <QualityStandardsSection />
       <Suspense fallback={null}>
         <GithubActivitySection />
       </Suspense>

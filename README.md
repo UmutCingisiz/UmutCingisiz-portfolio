@@ -1,6 +1,8 @@
-# Portfolyo — Umut İbrahim Cingisiz
+# Portfolyo — Umut Cingisiz
 
 [Next.js](https://nextjs.org) 16 (App Router) full-stack kişisel portfolyo: TypeScript, Tailwind v4, Motion, MDX, Auth.js, Drizzle ORM, Neon, Upstash Redis, Resend.
+
+Tek tema: koyu (premium siyah + signal cyan). Aydınlık mod bilinçli olarak kaldırıldı.
 
 ## Geliştirme
 
@@ -26,19 +28,23 @@ npm run check:all    # assets + content + env + db
 
 | Alan | Durum |
 |------|--------|
-| Tema (dark / light), header, hero, tüm bölümler | ✓ |
+| Koyu tema, tipografi wordmark, yüzen header + scroll progress | ✓ |
+| Hero, about timeline, skills bento, hiring proof, quality standards | ✓ |
+| Projeler: Apple-tarzı showcase, 4/3 mockup, P/D/I kartları | ✓ |
+| Terminal (Ctrl+\`), magnetic CTA, tilt kartlar, Reveal animasyonları | ✓ |
+| Algorithm Lab (path-drawing), GitHub activity / git-log feed | ✓ |
 | 404, loading, error, global-error | ✓ |
 | Favicon, apple-icon, manifest, OG görselleri | ✓ |
 | SEO (sitemap, robots, metadata, Twitter) | ✓ |
 | MDX projeler (3) + blog (3) case study içerikleri | ✓ |
 | Guestbook, contact, auth, Drizzle schema, rate limit (kod) | ✓ |
-| Hiring Proof, Quality Standards, Algorithm Lab, observability ve content kalite kapısı | ✓ |
-| Vitest, Playwright E2E, coverage, CI, `check:content`, `check:all` kalite kapıları | ✓ |
+| Observability (structured logs) ve content kalite kapısı | ✓ |
+| Vitest, Playwright E2E, coverage, CI, `check:content`, `check:all` | ✓ |
 
 ## Dokumanlar (sade)
 
-- **[docs/PROJE-GELISTIRME-PLANI.md](docs/PROJE-GELISTIRME-PLANI.md)** — teknik eksikler, riskler, iyilestirme yol haritasi.
-- **[docs/MANUEL-ADIMLAR.md](docs/MANUEL-ADIMLAR.md)** — production icin senin manuel tamamlayacagin adimlar.
+- **[docs/PROJE-GELISTIRME-PLANI.md](docs/PROJE-GELISTIRME-PLANI.md)** — kod/UI tarafında tamamlananlar ve kapanış durumu.
+- **[docs/MANUEL-ADIMLAR.md](docs/MANUEL-ADIMLAR.md)** — production için senin manuel tamamlayacağın adımlar.
 
 ## Dosya yapısı
 
@@ -47,120 +53,72 @@ npm run check:all    # assets + content + env + db
 ├── .github/workflows/
 │   └── ci.yml                     # Lint + typecheck + test + coverage + build
 ├── docs/
-│   ├── PROJE-GELISTIRME-PLANI.md  # Teknik eksikler, riskler ve iyilestirme plani
-│   └── MANUEL-ADIMLAR.md          # Sadece senin production adimlarin
+│   ├── PROJE-GELISTIRME-PLANI.md  # Teknik/UI tamamlananlar
+│   └── MANUEL-ADIMLAR.md          # Production manuel adımlar
 ├── drizzle/
-│   ├── 0000_first_toad.sql        # İlk Drizzle migration
-│   └── meta/                      # Migration snapshot ve journal
+│   ├── 0000_first_toad.sql
+│   └── meta/
 ├── public/
 │   ├── profile.jpg                # Hero profil fotoğrafı
-│   ├── resume.pdf                 # CV indirme dosyası
-│   └── images/projects/
-│       └── bloomedu.jpg           # Proje kapak görseli
+│   └── resume.pdf                 # CV indirme dosyası
 ├── scripts/
-│   ├── check-assets.mjs           # Profil/CV kontrolü
-│   ├── check-content.mjs          # MDX frontmatter kalite kontrolü
-│   ├── check-env.mjs              # .env doğrulaması
-│   ├── install-assets.ps1         # Windows asset kopyalama yardımcısı
-│   └── test-neon.mjs              # Neon bağlantı testi
+│   ├── check-assets.mjs
+│   ├── check-content.mjs
+│   ├── check-env.mjs
+│   ├── install-assets.ps1
+│   └── test-neon.mjs
 ├── src/
 │   ├── actions/
-│   │   └── contact.ts             # İletişim formu server action
+│   │   └── contact.ts
 │   ├── app/
 │   │   ├── api/
-│   │   │   ├── auth/[...nextauth]/route.ts   # Auth.js handler
-│   │   │   ├── resume/route.ts               # CV indirme + sayaç
-│   │   │   └── views/[slug]/route.ts         # Blog görüntülenme API
+│   │   │   ├── auth/[...nextauth]/route.ts
+│   │   │   ├── resume/route.ts
+│   │   │   └── views/[slug]/route.ts
 │   │   ├── blog/
-│   │   │   ├── page.tsx                      # Blog listesi
-│   │   │   ├── [slug]/page.tsx               # Blog detay
-│   │   │   ├── [slug]/opengraph-image.tsx    # Blog OG görseli
-│   │   │   ├── loading.tsx / error.tsx
 │   │   ├── guestbook/
-│   │   │   ├── page.tsx                      # Ziyaretçi defteri + moderasyon
-│   │   │   ├── actions.ts                    # Guestbook server actions
-│   │   │   ├── loading.tsx / error.tsx
 │   │   ├── projects/
-│   │   │   ├── page.tsx                      # Proje arşivi + filtre
-│   │   │   ├── [slug]/page.tsx               # Proje detay + mimari karar kartları
-│   │   │   ├── [slug]/opengraph-image.tsx    # Proje OG görseli
-│   │   │   ├── loading.tsx / error.tsx
-│   │   ├── apple-icon.tsx / icon.tsx         # Dinamik favicon
-│   │   ├── error.tsx / global-error.tsx      # Hata sınırları
-│   │   ├── globals.css                       # Tema değişkenleri
-│   │   ├── layout.tsx                        # Root layout + metadata
+│   │   ├── apple-icon.tsx / icon.tsx
+│   │   ├── error.tsx / global-error.tsx
+│   │   ├── globals.css
+│   │   ├── layout.tsx
 │   │   ├── loading.tsx / not-found.tsx
-│   │   ├── manifest.ts                       # PWA manifest
-│   │   ├── opengraph-image.tsx               # Ana sayfa OG
-│   │   ├── page.tsx                          # Ana sayfa
-│   │   ├── robots.ts / sitemap.ts            # SEO
+│   │   ├── manifest.ts
+│   │   ├── opengraph-image.tsx
+│   │   ├── page.tsx
+│   │   ├── robots.ts / sitemap.ts
 │   │   └── favicon.ico
-│   ├── auth.ts                               # Auth.js yapılandırması
+│   ├── auth.ts
 │   ├── components/
-│   │   ├── algorithm-lab-section.tsx         # İnteraktif algoritma/trade-off demosu
-│   │   ├── about-section.tsx
-│   │   ├── blog/blog-view-tracker.tsx        # Blog görüntülenme sayacı
-│   │   ├── contact/contact-form.tsx
-│   │   ├── contact-section.tsx
-│   │   ├── engineering-highlights.tsx
-│   │   ├── featured-projects.tsx             # Server: proje verisi
-│   │   ├── featured-projects-list.tsx        # Client: animasyonlu kartlar
-│   │   ├── github-activity-section.tsx
-│   │   ├── guestbook/guestbook-message-form.tsx
-│   │   ├── hero.tsx
-│   │   ├── hiring-proof-section.tsx          # İşe alım odaklı teknik kanıtlar
-│   │   ├── mdx/mdx-components.tsx
-│   │   ├── quality-standards-section.tsx     # Performans/a11y/security/observability hedefleri
-│   │   ├── site-footer.tsx / site-header.tsx
+│   │   ├── algorithm-lab-section.tsx
+│   │   ├── about-section.tsx / timeline.tsx
+│   │   ├── hero.tsx / logo.tsx
+│   │   ├── site-header.tsx / site-footer.tsx
 │   │   ├── skills-section.tsx
-│   │   ├── skip-to-content.tsx
-│   │   ├── social-icons.tsx                  # Ortak sosyal ikonlar
-│   │   ├── status-banner.tsx
-│   │   ├── theme-provider.tsx / theme-toggle.tsx
+│   │   ├── hiring-proof-section.tsx
+│   │   ├── quality-standards-section.tsx
+│   │   ├── featured-projects.tsx / featured-projects-list.tsx
+│   │   ├── github-activity-section.tsx / git-log-feed.tsx
+│   │   ├── hidden-terminal.tsx / terminal-prompt.tsx
+│   │   ├── magnetic.tsx / tilt-card.tsx / reveal.tsx / spotlight.tsx
+│   │   ├── pdi-block.tsx / section-eyebrow.tsx
+│   │   ├── contact/ / guestbook/ / blog/ / mdx/
+│   │   ├── social-icons.tsx / skip-to-content.tsx / status-banner.tsx
 │   ├── content/
 │   │   ├── blog/
-│   │   │   ├── mdx-ile-blog.mdx
-│   │   │   ├── server-actions-ve-formlar.mdx
-│   │   │   └── nextjs-server-actions-guvenlik.mdx
 │   │   └── projects/
-│   │       ├── bloomedu.mdx
-│   │       ├── portfolio-web.mdx
-│   │       └── zeki-dekorasyon.mdx
 │   ├── db/
-│   │   ├── client.ts                         # Drizzle singleton
-│   │   └── schema.ts                         # Tablo tanımları
 │   ├── lib/
-│   │   ├── blog-slugs.ts / blog-views.ts
-│   │   ├── contact-guard.ts
-│   │   ├── content/
-│   │   │   ├── paths.ts / posts.ts / projects.ts / schema.ts
-│   │   ├── github-repos.ts / github-username.ts
-│   │   ├── guestbook.ts / guestbook-admin.ts
-│   │   ├── guestbook-counts.ts / guestbook-rate-limit.ts
-│   │   ├── mdx/compile.ts
-│   │   ├── observability.ts                  # Structured production event/error logs
-│   │   ├── redis.ts / redis-rate-limit.ts
-│   │   ├── request-ip.ts
-│   │   ├── site-config.ts / site-metadata.ts
 │   └── types/
-│       └── next-auth.d.ts
 ├── tests/
-│   ├── content-loaders.test.ts
-│   ├── content-schema.test.ts
-│   ├── observability.test.ts
-│   └── request-ip.test.ts
 ├── e2e/
-│   └── portfolio-smoke.spec.ts     # Playwright public akış smoke testleri
-├── .env.example                   # Ortam değişkeni örnekleri
-├── env.local.template             # Lokal .env şablonu
-├── drizzle.config.ts              # Drizzle Kit ayarı
-├── eslint.config.mjs
-├── next.config.ts
-├── package.json
-├── playwright.config.ts            # E2E test konfigurasyonu
-├── postcss.config.mjs
-├── tsconfig.json
-└── vitest.config.ts               # Vitest test konfigurasyonu
+│   └── portfolio-smoke.spec.ts
+├── .env.example
+├── env.local.template
+├── drizzle.config.ts
+├── playwright.config.ts
+├── vitest.config.ts
+└── package.json
 ```
 
 ## Ortam değişkenleri
@@ -188,6 +146,7 @@ impact: Sonuç veya portfolyo sinyali ne?
 status: live # planned | in-progress | live | archived | learning
 repo: https://github.com/kullanici/repo
 featured: true
+# coverImage: /images/projects/ornek.jpg   # isteğe bağlı; yoksa browser mockup kullanılır
 ```
 
 ## Kalite Kapısı
@@ -212,8 +171,6 @@ npm run check:all
 - Drizzle config: `drizzle.config.ts`
 - İlk migration: `drizzle/0000_first_toad.sql`
 
-Yeni kurulumda tek kaynak Drizzle'dır. Lokal veya production Neon veritabanına şemayı uygulamak için:
-
 ```bash
 npm run db:push
 ```
@@ -222,4 +179,4 @@ Deploy: [Vercel](https://vercel.com/new).
 
 ## Sonraki Adım
 
-Kod ve UI/UX tarafındaki geliştirme planı tamamlandı. Yayına alma için kalan tek kaynak: `docs/MANUEL-ADIMLAR.md`.
+Kod ve UI/UX tarafı bu fazda kapandı. Yayına alma için kalan tek kaynak: `docs/MANUEL-ADIMLAR.md`.

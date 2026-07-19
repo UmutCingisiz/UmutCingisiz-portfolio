@@ -1,6 +1,7 @@
 import { siteConfig } from "@/lib/site-config";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
+import { Timeline } from "@/components/timeline";
 import { TiltCard } from "@/components/tilt-card";
 
 const cards = [
@@ -25,8 +26,9 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28"
+      className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32"
     >
+      <div className="ambient-orb -right-24 top-10 size-72 opacity-25" />
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div>
@@ -78,6 +80,15 @@ export function AboutSection() {
               </Reveal>
             ))}
           </div>
+        </div>
+
+        {/* Deneyim & liderlik zaman çizelgesi — bağlantılı noktalarla, kart
+            yığınından farklı bir ritim getirir. */}
+        <div className="mt-16 border-t border-border pt-14">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            deneyim · liderlik
+          </p>
+          <Timeline items={siteConfig.milestones} />
         </div>
       </div>
     </section>

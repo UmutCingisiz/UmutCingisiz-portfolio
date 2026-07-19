@@ -1,7 +1,5 @@
-export type SkillTier = "Core" | "Familiar" | "Learning";
-
 export const siteConfig = {
-  name: "Umut İbrahim Cingisiz",
+  name: "Umut Cingisiz",
   role: "Bilgisayar Mühendisi / Full-Stack Developer",
   location: "Gazimağusa, Kıbrıs",
   availability: "Full-Stack Mühendislik Rolleri ve Yeni Fırsatlara Hazır",
@@ -18,12 +16,6 @@ export const siteConfig = {
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
   linkedin: "https://www.linkedin.com/in/umut-ibrahim-cingisiz-878053309",
-  focusAreas: [
-    "Product-grade full-stack development",
-    "Next.js App Router, Server Actions, Route Handlers",
-    "PostgreSQL modelleme, auth, cache ve rate limit",
-    "Yapay Zeka entegrasyonları ve algoritmik problem çözümü",
-  ],
   stats: [
     { label: "Derece", value: "DAÜ Bilgisayar Müh." },
     { label: "Ödül", value: "TÜBİTAK BİGG (En İyi Proje)" },
@@ -43,33 +35,60 @@ export const siteConfig = {
     "Guestbook: GitHub OAuth, moderation, strict rate limit",
     "Blog: MDX, ISR, Upstash Redis view tracking, fallback UI",
     "Core: Drizzle ORM, Zod validation, defensive programming",
-    "Leadership: Yapay Zeka Geliştirme Kulübü organizasyon ve vizyon katkısı",
+    "Testing: Vitest + Playwright E2E, CI kalite kapısı",
   ],
   currentFocus:
     "TÜBİTAK ödüllü projemin ardından, ölçeklenebilir ve fail-safe sistemler üzerine yoğunlaşıyorum.",
-  skills: [
+  /** Deneyim/liderlik zaman çizelgesi — about.engineer bölümünde bağlantılı
+      noktalarla gösterilir. En yeniden en eskiye sıralı. */
+  milestones: [
     {
-      tier: "Core" as SkillTier,
-      items: [
-        { name: "TypeScript / JavaScript", note: "Uygulama mantığı ve tip güvenliği" },
-        { name: "React / Next.js", note: "App Router, Server Components" },
-        { name: "Python / C / Java", note: "Algoritmik altyapı ve OOP" },
+      period: "2024 — günümüz",
+      title: "Yapay Zeka Geliştirme Kulübü",
+      org: "Organizasyon Lideri",
+      points: [
+        "Kulüp vizyonunu ve teknik yol haritasını kurdu; üye onboarding sürecini tasarladı.",
+        "Atölye ve proje gruplarını koordine ederek organizasyonel liderlik deneyimi kazandı.",
       ],
     },
     {
-      tier: "Familiar" as SkillTier,
-      items: [
-        { name: "PostgreSQL", note: "İlişkisel model ve Drizzle ORM" },
-        { name: "Tailwind CSS", note: "Tasarım sistemi ve responsive UI" },
-        { name: "Upstash Redis", note: "Caching ve rate-limiting katmanı" },
+      period: "2026",
+      title: "TÜBİTAK BİGG 1812 — En İyi Proje",
+      org: "Bloomedu",
+      points: [
+        "14 takım arasından en iyi proje seçildi; Akdeniz 2026-1 ön jüri sunumuna kabul edildi.",
+        "AI destekli adaptif öğrenme motoru için ürün ve teknik sunum sorumluluğu üstlendi.",
       ],
     },
     {
-      tier: "Learning" as SkillTier,
-      items: [
-        { name: "Sistem mimarisi", note: "Hataya dayanıklı (fail-safe) yapılar" },
-        { name: "DevOps", note: "CI/CD ve deployment disiplini" },
+      period: "2021 — 2026",
+      title: "B.Sc. Bilgisayar Mühendisliği (İngilizce)",
+      org: "Doğu Akdeniz Üniversitesi",
+      points: [
+        "Algoritma, veri yapıları ve sistem tasarımı üzerine akademik temel oluşturdu.",
       ],
+    },
+  ],
+  techStack: [
+    {
+      group: "Frontend",
+      items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Motion"],
+    },
+    {
+      group: "Backend & Veri",
+      items: ["Node.js", "Server Actions", "PostgreSQL", "Drizzle ORM", "Redis"],
+    },
+    {
+      group: "Dil & Algoritma",
+      items: ["Python", "Java", "C", "Veri Yapıları", "OOP"],
+    },
+    {
+      group: "AI & Otomasyon",
+      items: ["LLM Entegrasyonu", "Prompt Akışları", "Zod", "REST API"],
+    },
+    {
+      group: "Araçlar & Operasyon",
+      items: ["Git", "GitHub Actions", "Vitest", "Playwright", "Vercel"],
     },
   ],
 } as const;

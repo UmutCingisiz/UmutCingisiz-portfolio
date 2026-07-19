@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Site tek tema (dark) ile çalışır; `.dark` sınıfı <html> üzerinde sabittir.
+   `dark:` yardımcıları her zaman aktif olsun diye sınıf tabanlı varyant. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #09090b;
   --foreground: #fafaf9;
@@ -28,40 +32,6 @@
   --card-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
   --card-shadow-hover: 0 30px 90px rgba(0, 0, 0, 0.45);
   --card-highlight: rgba(255, 255, 255, 0.07);
-}
-
-.light {
-  --background: #f6f7f9; /* Kırık beyaz / çok hafif soğuk gri zemin */
-  --foreground: #0a0a0c; /* Pitch-dark, keskin metin */
-  --card: #ffffff;
-  --card-foreground: #0a0a0c;
-  --muted: #eceef1;
-  --muted-foreground: #565b66; /* Okunur, elit gri */
-  --border: rgba(10, 12, 20, 0.12); /* Brutalizm esintisi: net, görünür sınır */
-  --accent: #0a0a0c;
-  --accent-foreground: #ffffff;
-  --ring: rgba(10, 12, 20, 0.22);
-  --glow: rgba(10, 12, 20, 0.04);
-  --selection-bg: #0a0a0c;
-  --selection-text: #ffffff;
-  --signal: #0e7490; /* cyan-700: beyaz üstünde AA kontrast */
-  --signal-foreground: #ecfeff;
-  --signal-glow: rgba(14, 116, 144, 0.18);
-  --signal-glow-strong: rgba(14, 116, 144, 0.34);
-  --ambient-color: rgba(14, 116, 144, 0.12);
-  --noise-opacity: 0.04;
-  --noise-blend: multiply;
-  --card-surface: #ffffff;
-  /* Işık dağılımı yerine keskin, katmanlı gölge — kart "kağıt" gibi otursun. */
-  --card-shadow:
-    0 1px 0 rgba(10, 12, 20, 0.04),
-    0 2px 6px rgba(10, 12, 20, 0.06),
-    0 14px 34px -14px rgba(10, 12, 20, 0.16);
-  --card-shadow-hover:
-    0 1px 0 rgba(10, 12, 20, 0.05),
-    0 6px 14px rgba(10, 12, 20, 0.08),
-    0 24px 50px -18px rgba(10, 12, 20, 0.22);
-  --card-highlight: rgba(10, 12, 20, 0.03);
 }
 
 .dark {
@@ -137,11 +107,15 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
-/* Koyu mod arka plan dokusu */
+/* Koyu mod arka plan dokusu — "kareli" grid-line yerine yumuşak aurora +
+   ince nokta-matris. Aynı koyu ton ailesinde kalır, sadece doku değişir. */
 .dark body {
   background:
-    radial-gradient(ellipse 70% 44% at 50% -12%, rgba(255,255,255,0.06), transparent),
+    radial-gradient(ellipse 55% 40% at 12% -8%, rgba(34, 211, 238, 0.09), transparent 62%),
+    radial-gradient(ellipse 45% 32% at 88% 4%, rgba(255, 255, 255, 0.05), transparent 65%),
+    radial-gradient(ellipse 60% 38% at 50% 100%, rgba(34, 211, 238, 0.05), transparent 65%),
     var(--background);
+  background-attachment: fixed;
 }
 
 .dark body::before {
@@ -150,34 +124,9 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
-}
-
-/* Açık Mod Arka Plan Dokusu (Linear & Vercel esintili, brutalizm dokunuşlu) */
-.light body {
-  background-color: var(--background);
-  background-image:
-    radial-gradient(120% 60% at 50% -10%, rgba(14, 116, 144, 0.05) 0%, transparent 60%),
-    radial-gradient(100% 50% at 100% 100%, rgba(10, 12, 20, 0.03) 0%, transparent 70%);
-}
-
-.light body::before {
-  pointer-events: none;
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  /* İnce çizgi ızgara: teknik/mühendislik hissi, kenarlara doğru silinir */
-  background-image:
-    linear-gradient(rgba(10, 12, 20, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10, 12, 20, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 90% 75% at 50% 30%, black 20%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 30%, black 20%, transparent 100%);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.6px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, black 0%, transparent 78%);
 }
 
 /* Premium doku: hafif, statik SVG gürültü katmanı — "dijital ve boş" hissi kırar. */
@@ -384,14 +333,6 @@ body::after {
     transparent 55%
   );
   transition: opacity 0.4s ease;
-}
-
-.light .tilt-shine {
-  background: radial-gradient(
-    440px circle at var(--mx, 50%) var(--my, 0%),
-    rgba(14, 116, 144, 0.12),
-    transparent 55%
-  );
 }
 
 .tilt-card:hover .tilt-shine {

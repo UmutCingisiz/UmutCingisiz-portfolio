@@ -4,7 +4,6 @@ import { motion, useReducedMotion } from "motion/react";
 
 export type GitLogEntry = {
   repo: string;
-  when: string;
   language: string | null;
   hash: string;
   url: string;
@@ -44,11 +43,10 @@ export function GitLogFeed({ entries }: { entries: GitLogEntry[] }) {
             <span className="text-cyan-100 group-hover:text-white">push</span>
             <span className="text-emerald-400">{entry.repo}</span>
             {entry.language ? (
-              <span className="rounded border border-white/10 px-1.5 text-[0.65rem] text-cyan-200/60">
+              <span className="ml-auto rounded border border-white/10 px-1.5 text-[0.65rem] text-cyan-200/60">
                 {entry.language}
               </span>
             ) : null}
-            <span className="ml-auto text-cyan-200/40">{entry.when}</span>
           </motion.a>
         ))}
         <div className="flex items-center gap-2 px-1 pt-2 text-cyan-200/70">

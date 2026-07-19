@@ -1,49 +1,51 @@
-# Manuel Adimlar (Sadece Senin Yapacaklarin)
+# Manuel Adımlar (Sadece Senin Yapacakların)
 
-Bu dosya, yalnizca senin dis servis ve yayin adimlarini icerir.
+Bu dosya, yalnızca senin dış servis ve yayın adımlarını içerir.
 
-Kod tarafi tamamlandi. Bu listedeki maddeler bittiginde proje canliya alinabilir.
+Kod / UI tarafı tamamlandı. Bu listedeki maddeler bittiğinde proje canlıya alınabilir.
 
 ## 1) Domain ve production URL
 
-- [ ] Domain satin al.
-- [ ] `NEXT_PUBLIC_SITE_URL` degerini production domain ile guncelle.
+- [ ] Domain satın al.
+- [ ] `NEXT_PUBLIC_SITE_URL` değerini production domain ile güncelle.
 
-## 2) Vercel yayin
+## 2) Vercel yayın
 
-- [ ] Vercel'de projeyi olustur.
-- [ ] Tum env degiskenlerini `.env.local` ile uyumlu sekilde Vercel'e tasi.
+- [ ] Vercel'de projeyi oluştur.
+- [ ] Tüm env değişkenlerini `.env.local` ile uyumlu şekilde Vercel'e taşı.
 
 ## 3) Auth ve servisler
 
 - [ ] GitHub OAuth callback URL'ine production adresini ekle.
-- [ ] Neon icin `DATABASE_URL` ekle ve deploy oncesi `npm run db:push` ile Drizzle semasini uygula.
-- [ ] Upstash Redis olustur ve:
+- [ ] Neon için `DATABASE_URL` ekle ve deploy öncesi `npm run db:push` ile Drizzle şemasını uygula.
+- [ ] Upstash Redis oluştur ve:
   - [ ] `UPSTASH_REDIS_REST_URL`
   - [ ] `UPSTASH_REDIS_REST_TOKEN`
-- [ ] Resend domain dogrulamasini tamamla ve:
+- [ ] Resend domain doğrulamasını tamamla ve:
   - [ ] `RESEND_API_KEY`
   - [ ] `CONTACT_FROM_EMAIL`
   - [ ] `CONTACT_NOTIFY_EMAIL`
 
 ## 4) Observability provider
 
-- [ ] Sentry, Axiom veya Datadog hesabini olustur.
-- [ ] Production projesinde hata/event takibi icin log drain veya SDK entegrasyonunu tamamla.
-- [ ] Vercel env tarafina provider bilgisini ekle:
+- [ ] Sentry, Axiom veya Datadog hesabını oluştur.
+- [ ] Production projesinde hata/event takibi için log drain veya SDK entegrasyonunu tamamla.
+- [ ] Vercel env tarafına provider bilgisini ekle:
   - [ ] `OBSERVABILITY_PROVIDER`
   - [ ] `OBSERVABILITY_DSN`
-- [ ] Contact, guestbook, resume ve blog view akislari icin provider dashboard'unda event/error gorundugunu dogrula.
+- [ ] Contact, guestbook, resume ve blog view akışları için provider dashboard'unda event/error göründüğünü doğrula.
 
 ## 5) Production smoke test
 
-- [ ] Ana sayfa, projects, blog, guestbook, contact, resume akislari calisiyor.
-- [ ] Theme toggle, error/loading ve 404 davranislari kontrol edildi.
-- [ ] Open Graph onizlemeleri dogrulandi.
-- [ ] En az bir Playwright smoke kosusu deploy oncesi temiz: `npm run test:e2e`.
+- [ ] Ana sayfa, projects, blog, guestbook, contact, resume akışları çalışıyor.
+- [ ] Error / loading / 404 davranışları kontrol edildi.
+- [ ] Open Graph önizlemeleri doğrulandı.
+- [ ] Mobil genişlikte (≈390px) header menü ve proje kartları taşma yapmıyor.
+- [ ] En az bir Playwright smoke koşusu deploy öncesi temiz: `npm run test:e2e`.
 
-## 6) Yayin oncesi son kontrol
+## 6) Yayın öncesi son kontrol
 
-- [ ] CV dosyasi (`public/resume.pdf`) ogrenci profilinden ziyade DAU Ingilizce Bilgisayar Muhendisligi mezunu profesyonel profilini yansitiyor.
-- [ ] Profil gorseli (`public/profile.jpg`) guncel.
-- [ ] Son deploy'dan sonra manuel regresyon testi yapildi.
+- [ ] CV dosyası (`public/resume.pdf`) öğrenci profilinden ziyade DAÜ İngilizce Bilgisayar Mühendisliği mezunu profesyonel profilini yansıtıyor.
+- [ ] Profil görseli (`public/profile.jpg`) güncel.
+- [ ] (İsteğe bağlı) Gerçek proje ekran görüntüleri eklemek istersen: `public/images/projects/` altına koyup ilgili MDX'e `coverImage` ekle; yoksa site browser mockup kullanır.
+- [ ] Son deploy'dan sonra manuel regresyon testi yapıldı.

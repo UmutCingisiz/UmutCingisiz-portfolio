@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useReducedMotion } from "motion/react";
+import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 
 const scenarios = [
@@ -36,37 +38,43 @@ const gridSize = 40;
 export function AlgorithmLabSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = scenarios[activeIndex];
+  const prefersReducedMotion = useReducedMotion();
 
   const cells = useMemo(() => {
-    const pathSet: Set<number> = new Set(active.path);
-    const blockedSet: Set<number> = new Set(active.blocked);
+    const pathOrder = new Map<number, number>(
+      active.path.map((nodeIndex, order): [number, number] => [nodeIndex, order]),
+    );
+    const blockedSet: Set<number> = new Set<number>(active.blocked);
 
     return Array.from({ length: gridSize }, (_, index) => ({
       index,
       isStart: index === active.path[0],
       isEnd: index === active.path[active.path.length - 1],
-      isPath: pathSet.has(index),
+      isPath: pathOrder.has(index),
+      pathOrder: pathOrder.get(index) ?? 0,
       isBlocked: blockedSet.has(index),
     }));
   }, [active]);
 
   return (
-    <section className="relative scroll-mt-24 overflow-hidden px-4 py-20 sm:px-6 sm:py-28">
+    <section className="relative scroll-mt-24 overflow-hidden px-4 py-24 sm:px-6 sm:py-32">
       <div
         className="ambient-orb right-0 top-6 size-80 opacity-60"
         style={{ background: "radial-gradient(circle, var(--signal-glow), transparent 65%)" }}
       />
 
       <div className="mx-auto max-w-6xl">
-        <SectionEyebrow>algorithm.lab</SectionEyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Algoritmaları sadece listelemiyorum, karar mantığını gösteriyorum.
-        </h2>
-        <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground">
-          Bu mini demo, rota optimizasyonu fikrini portfolyo içinde
-          görselleştirir: farklı öncelikler seçildiğinde algoritmanın maliyet,
-          risk ve hız arasında nasıl trade-off yaptığı görünür hale gelir.
-        </p>
+        <Reveal>
+          <SectionEyebrow>algorithm.lab</SectionEyebrow>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Algoritmaları sadece listelemiyorum, karar mantığını gösteriyorum.
+          </h2>
+          <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground">
+            Bu mini demo, rota optimizasyonu fikrini portfolyo içinde
+            görselleştirir: farklı öncelikler seçildiğinde algoritmanın maliyet,
+            risk ve hız arasında nasıl trade-off yaptığı görünür hale gelir.
+          </p>
+        </Reveal>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:items-center">
           <div className="grid gap-3">
@@ -117,6 +125,7 @@ export function AlgorithmLabSection() {
               {cells.map((cell) => (
                 <div
                   key={cell.index}
+                  title={`node-${cell.index}`}
                   className={[
                     "aspect-square rounded-md border transition-all duration-500",
                     cell.isBlocked
@@ -129,7 +138,11 @@ export function AlgorithmLabSection() {
                       ? "border-emerald-400/50 bg-emerald-400/20 shadow-[0_0_16px_rgba(52,211,153,0.4)]"
                       : "",
                   ].join(" ")}
-                  title={`node-${cell.index}`}
+                  style={
+                    prefersReducedMotion || !cell.isPath
+                      ? undefined
+                      : { transitionDelay: `${cell.pathOrder * 45}ms` }
+                  }
                 />
               ))}
             </div>
