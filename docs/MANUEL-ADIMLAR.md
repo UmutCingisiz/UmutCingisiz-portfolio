@@ -57,7 +57,7 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 - [x] CV İndir: yeni PDF indiriliyor (tarayıcıda açılmıyor).
 - [x] Contact formu: Resend yoksa dürüst hata mesajı (mail gitmez — beklenen).
 - [x] Error / loading / 404 davranışları kontrol edildi.
-- [ ] Open Graph önizlemeleri doğrulandı.
+- [x] Open Graph önizlemeleri doğrulandı.
 - [x] Mobil genişlikte (≈390px) header menü ve proje kartları taşma yapmıyor.
 - [x] En az bir Playwright smoke koşusu temiz: `npm run test:e2e`.
 
