@@ -144,8 +144,9 @@ export function SkillsSection() {
             Güçlü olduğum ve büyüttüğüm alanlar.
           </h2>
           <p className="mt-5 text-sm leading-7 text-muted-foreground">
-            Solda aktif geliştirdiğim alanlar, sağda uzmanlaştığım alanlar —
-            görsel hiyerarşi olgunluğu gösterir.
+            Mobilde önce geliştirdiğim alanlar, ardından uzmanlaştığım alanlar.
+            Geniş ekranda solda gelişen / sağda güçlü — görsel hiyerarşi olgunluğu
+            gösterir.
           </p>
         </div>
 
@@ -173,8 +174,8 @@ export function SkillsSection() {
                       <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
                         gelişen
                       </p>
-                      <h3 className="mt-1 truncate font-semibold text-foreground">{skill.title}</h3>
-                      <p className="truncate font-mono text-xs text-muted-foreground">{skill.tagline}</p>
+                      <h3 className="mt-1 text-balance font-semibold text-foreground">{skill.title}</h3>
+                      <p className="font-mono text-xs text-muted-foreground">{skill.tagline}</p>
                     </div>
                   </TiltCard>
                 </Reveal>

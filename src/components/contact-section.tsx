@@ -32,7 +32,7 @@ export function ContactSection({ contactSuccess }: Props) {
               </p>
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="mt-2 block text-lg font-semibold text-foreground hover:underline"
+                className="mt-2 block break-all text-base font-semibold text-foreground hover:underline sm:text-lg"
               >
                 {siteConfig.email}
               </a>

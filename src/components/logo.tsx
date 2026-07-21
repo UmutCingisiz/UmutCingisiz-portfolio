@@ -39,7 +39,7 @@ export function Logo({ className }: LogoProps) {
             Cingisiz
           </span>
         </span>
-        <span className="font-mono text-[0.55rem] font-medium uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-300 group-hover:text-signal/85 sm:text-[0.58rem]">
+        <span className="hidden font-mono text-[0.55rem] font-medium uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-300 group-hover:text-signal/85 sm:inline sm:text-[0.58rem]">
           fullstack<span className="mx-1 text-signal/45">/</span>engineer
         </span>
       </span>

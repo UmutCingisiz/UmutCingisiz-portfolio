@@ -44,14 +44,14 @@ export default async function ProjectsPage() {
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               review.mode
             </p>
-            <div className="mt-4 grid grid-cols-3 gap-3">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-emerald-400/25 bg-emerald-400/[0.06] p-3">
                 <p className="text-2xl font-bold text-emerald-300">{live.length}</p>
                 <p className="mt-1 text-xs text-muted-foreground">yayında</p>
               </div>
               <div className="rounded-xl border border-amber-400/25 bg-amber-400/[0.06] p-3">
                 <p className="text-2xl font-bold text-amber-200">{building.length}</p>
-                <p className="mt-1 text-xs text-muted-foreground">geliştiriyorum</p>
+                <p className="mt-1 text-xs break-words text-muted-foreground">geliştiriyorum</p>
               </div>
               <div className="rounded-xl border border-signal/25 bg-signal/[0.06] p-3">
                 <p className="text-2xl font-bold text-signal">P/D/I</p>
@@ -285,13 +285,13 @@ function ProjectShowcase({
           </span>
         </div>
 
-        <h3 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+        <h3 className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
           <Link href={`/projects/${project.slug}`} className="hover:text-signal">
             {project.title}
           </Link>
         </h3>
 
-        <p className="mt-4 text-pretty leading-8 text-muted-foreground">
+        <p className="mt-3 text-pretty text-sm leading-7 text-muted-foreground sm:mt-4 sm:text-base sm:leading-8">
           {project.description}
         </p>
 

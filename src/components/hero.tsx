@@ -49,19 +49,23 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden px-4 pb-20 pt-18 sm:px-6 sm:pb-32 sm:pt-24">
+    <section className="relative overflow-hidden px-4 pb-16 pt-16 sm:px-6 sm:pb-28 sm:pt-24">
       <div className="ambient-orb left-[8%] top-20 size-64 opacity-60" />
       <div className="ambient-orb bottom-20 right-[8%] size-80 opacity-40 [animation-delay:2s]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
+      {/*
+        Mobil sıra: metin → foto → derece kartları
+        Desktop: sol metin+stats | sağ foto (foto iki satırı kaplar)
+      */}
+      <div className="relative mx-auto grid max-w-7xl items-start gap-8 sm:gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:grid-rows-[auto_auto] lg:gap-x-12 lg:gap-y-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
+          className="order-1 lg:col-start-1 lg:row-start-1"
         >
-          {/* Şık, ince pill: yeşil "Available" ışığı + kısa etiket. İsmin hemen üstünde. */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3.5 text-xs font-medium text-foreground/90 backdrop-blur-xl">
+          <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3.5 text-xs font-medium text-foreground/90 backdrop-blur-xl">
             <span className="relative flex size-1.5">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
@@ -72,27 +76,27 @@ export function Hero() {
             <span className="text-muted-foreground">· yeni fırsatlara açık</span>
           </div>
 
-          <p className="mt-8 font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground">
+          <p className="mt-6 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground sm:mt-8 sm:text-sm sm:tracking-[0.25em]">
             {siteConfig.role}
           </p>
 
-          <h1 className="mt-4 text-balance text-5xl font-bold tracking-[-0.05em] text-foreground sm:text-6xl lg:text-7xl">
+          <h1 className="mt-3 text-balance text-4xl font-bold tracking-[-0.05em] text-foreground sm:mt-4 sm:text-6xl lg:text-7xl">
             {siteConfig.name}
           </h1>
 
-          <p className="mt-4 max-w-3xl text-balance text-2xl font-semibold tracking-tight text-gradient-premium sm:text-3xl">
+          <p className="mt-3 max-w-3xl text-balance text-xl font-semibold tracking-tight text-gradient-premium sm:mt-4 sm:text-3xl">
             {siteConfig.headline}
           </p>
 
-          <p className="mt-6 max-w-2xl text-pretty text-base leading-8 text-muted-foreground">
+          <p className="mt-5 max-w-2xl text-pretty text-sm leading-7 text-muted-foreground sm:mt-6 sm:text-base sm:leading-8">
             {siteConfig.shortBio}
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
             <Magnetic>
               <Link
                 href="/projects"
-                className="btn-signal group inline-flex h-12 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200"
+                className="btn-signal group inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 sm:h-12"
               >
                 Projeleri İncele
                 <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
@@ -101,13 +105,13 @@ export function Hero() {
             <a
               href="/api/resume"
               download="Umut-Cingisiz-CV.pdf"
-              className="inline-flex h-12 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted"
+              className="inline-flex h-11 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted sm:h-12"
             >
               CV İndir
             </a>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">
             {socialLinks.map(({ href, icon: Icon, label }) => (
               <a
                 key={label}
@@ -121,40 +125,24 @@ export function Hero() {
               </a>
             ))}
           </div>
-
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {siteConfig.stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="premium-card rounded-2xl p-4 backdrop-blur-sm"
-              >
-                <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
-                  {stat.label}
-                </p>
-                <p className="mt-1.5 text-sm font-semibold text-foreground">
-                  {stat.value}
-                </p>
-              </div>
-            ))}
-          </div>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.96, y: 24 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-          className="relative"
+          className="relative order-2 mx-auto w-full max-w-md lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-none"
         >
           <div
-            className="absolute -inset-8 rounded-[2rem] blur-3xl"
+            className="absolute -inset-6 rounded-[2rem] blur-3xl sm:-inset-8"
             style={{
               background:
                 "radial-gradient(60% 60% at 30% 20%, var(--signal-glow), transparent 70%), radial-gradient(50% 50% at 80% 90%, rgba(52,211,153,0.10), transparent 70%)",
             }}
           />
 
-          <TiltCard as="div" max={6} className="premium-card gradient-border relative overflow-hidden rounded-[2rem] p-3 backdrop-blur">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-gradient-to-br from-muted via-card to-muted">
+          <TiltCard as="div" max={6} className="premium-card gradient-border relative overflow-hidden rounded-[1.75rem] p-2.5 backdrop-blur sm:rounded-[2rem] sm:p-3">
+            <div className="relative aspect-[4/5] max-h-[min(68vh,520px)] overflow-hidden rounded-xl bg-gradient-to-br from-muted via-card to-muted sm:max-h-none">
               {profileSrc ? (
                 <Image
                   key={profileSrc}
@@ -162,8 +150,8 @@ export function Hero() {
                   alt={`${siteConfig.name} profil fotoğrafı`}
                   fill
                   priority
-                  sizes="(min-width: 1024px) 420px, 90vw"
-                  className="object-cover"
+                  sizes="(min-width: 1024px) 420px, (min-width: 640px) 420px, 90vw"
+                  className="object-cover object-top"
                   onError={handleImageError}
                   unoptimized={imageMode === "github"}
                 />
@@ -187,26 +175,48 @@ export function Hero() {
                 </p>
               ) : null}
 
-              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-border bg-background/82 p-4 backdrop-blur-md">
-                <p className="font-mono text-xs text-muted-foreground">current_focus.ts</p>
-                <p className="mt-1.5 text-sm font-medium text-foreground">
+              <div className="absolute inset-x-2.5 bottom-2.5 rounded-2xl border border-border bg-background/82 p-3 backdrop-blur-md sm:inset-x-3 sm:bottom-3 sm:p-4">
+                <p className="font-mono text-[0.65rem] text-muted-foreground sm:text-xs">
+                  current_focus.ts
+                </p>
+                <p className="mt-1 text-xs font-medium leading-snug text-foreground sm:mt-1.5 sm:text-sm">
                   {siteConfig.currentFocus}
                 </p>
               </div>
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-1.5">
+            <div className="mt-2.5 flex flex-wrap gap-1.5 sm:mt-3">
               {siteConfig.techSignal.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-lg border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] text-muted-foreground"
+                  className="rounded-lg border border-border bg-muted/50 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground sm:px-2.5 sm:text-[0.65rem]"
                 >
                   {tech}
                 </span>
               ))}
             </div>
-
           </TiltCard>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25, ease: "easeOut" }}
+          className="order-3 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 lg:col-start-1 lg:row-start-2"
+        >
+          {siteConfig.stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="premium-card rounded-2xl p-3.5 backdrop-blur-sm sm:p-4"
+            >
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+                {stat.label}
+              </p>
+              <p className="mt-1.5 text-sm font-semibold text-foreground">
+                {stat.value}
+              </p>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>

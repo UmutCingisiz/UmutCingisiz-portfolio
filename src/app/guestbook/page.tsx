@@ -79,7 +79,7 @@ function GuestbookEntryBlock({ entry, isMod = false }: { entry: GuestbookEntryRo
 
       {/* Adminler için mesajı yayından kaldırma (Gizle) butonu */}
       {isMod && entry.status === "approved" && (
-        <form action={moderateGuestbookEntry} className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <form action={moderateGuestbookEntry} className="absolute top-3 right-3 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
           <input type="hidden" name="id" value={entry.id} />
           {/* Status'u rejected (gizli) olarak gönderiyoruz */}
           <input type="hidden" name="status" value="rejected" />

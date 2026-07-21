@@ -131,20 +131,20 @@ export function HiringProofSection() {
                 >
                   <div className="bento-dots pointer-events-none absolute -right-6 -top-6 size-36 rounded-full opacity-40 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
                   <div className="relative flex items-start justify-between gap-3">
-                    <div className="flex size-14 items-center justify-center rounded-2xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_24px_var(--signal-glow)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
-                      <signal.icon className="size-7" />
+                    <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_24px_var(--signal-glow)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 sm:size-14">
+                      <signal.icon className="size-6 sm:size-7" />
                     </div>
-                    <span className="rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted-foreground">
+                    <span className="max-w-[55%] break-words rounded-md border border-border bg-muted/50 px-2 py-1 text-right font-mono text-[0.6rem] uppercase tracking-[0.12em] text-muted-foreground sm:max-w-none sm:px-2.5 sm:tracking-[0.14em]">
                       {signal.evidence}
                     </span>
                   </div>
-                  <h3 className="relative mt-6 text-lg font-semibold tracking-tight text-foreground">
+                  <h3 className="relative mt-5 text-base font-semibold tracking-tight text-foreground sm:mt-6 sm:text-lg">
                     {signal.title}
                   </h3>
                   <p className="relative mt-1 font-mono text-sm text-muted-foreground">
                     {signal.tagline}
                   </p>
-                  <span className="relative mt-auto pt-5 text-sm font-medium text-signal opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="relative mt-auto pt-5 text-sm font-medium text-signal opacity-100 transition-opacity duration-300 lg:opacity-0 lg:group-hover:opacity-100">
                     Kanıtı incele →
                   </span>
                 </TiltCard>

@@ -120,7 +120,7 @@ export function QualityStandardsSection() {
                     </div>
                   </div>
 
-                  <p className="relative mt-4 font-mono text-[0.7rem] leading-5 text-signal sm:text-xs">
+                  <p className="relative mt-4 break-words font-mono text-[0.7rem] leading-5 text-signal sm:text-xs">
                     $ target — {item.target}
                   </p>
                   <p className="relative mt-3 text-sm leading-relaxed text-muted-foreground">
