@@ -45,13 +45,13 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 
 ## 4) Observability provider (Sentry)
 
-- [ ] Sentry hesabı + Next.js projesi (`umutcingisiz` / `javascript-nextjs`, EU).
-- [ ] SDK kodda hazır (`@sentry/nextjs`). Yerel + Vercel env:
-  - [ ] `OBSERVABILITY_PROVIDER=sentry`
-  - [ ] `OBSERVABILITY_DSN=<DSN>`
-  - [ ] `NEXT_PUBLIC_SENTRY_DSN=<aynı DSN>`
-- [ ] Deploy sonrası Sentry’de Issues / test hatası göründüğünü doğrula.
-- [ ] (İsteğe bağlı) Source map için `SENTRY_AUTH_TOKEN` (Sentry → Settings → Auth Tokens).
+- [x] Sentry hesabı + Next.js projesi (`umutcingisiz` / `javascript-nextjs`, EU).
+- [x] SDK kodda hazır (`@sentry/nextjs`). Yerel + Vercel env:
+  - [x] `OBSERVABILITY_PROVIDER=sentry`
+  - [x] `OBSERVABILITY_DSN=<DSN>`
+  - [x] `NEXT_PUBLIC_SENTRY_DSN=<aynı DSN>`
+- [x] Sentry’de Issues / test hatası göründü (Error Received).
+- [x] Source map: `SENTRY_AUTH_TOKEN` Vercel’de (org token `org:ci`; sohbete yapıştırma).
 
 ## 5) Production smoke test
 

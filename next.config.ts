@@ -30,8 +30,9 @@ export default withSentryConfig(nextConfig, {
   org: "umutcingisiz",
   project: "javascript-nextjs",
   silent: !process.env.CI,
-  // Optional: readable stack traces when SENTRY_AUTH_TOKEN is set in CI/Vercel
+  // Readable stack traces when SENTRY_AUTH_TOKEN is set on Vercel/CI
   authToken: process.env.SENTRY_AUTH_TOKEN,
+  widenClientFileUpload: true,
   // Avoid ad-blockers blocking browser error reports
   tunnelRoute: "/monitoring",
 });
