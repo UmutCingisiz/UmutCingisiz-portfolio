@@ -4,6 +4,16 @@ Bu dosya, yalnızca senin dış servis ve yayın adımlarını içerir.
 
 Kod / UI tarafı tamamlandı. Bu listedeki maddeler bittiğinde proje canlıya alınabilir.
 
+## 0) Secret rotation (ekran görüntüsü / sızıntı sonrası — ÖNCE BUNU YAP)
+
+Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır. Vercel’e **eski değerleri yapıştırma**.
+
+- [ ] **Neon:** Console → Project → Reset password → yeni `DATABASE_URL`’i `.env.local` + Vercel’e koy.
+- [ ] **AUTH_SECRET:** Yerelde yenilendi (`.env.local`). Aynı değeri Vercel’e kopyala. Gerekirse tekrar: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`
+- [ ] **GitHub OAuth:** [Developer settings → OAuth Apps](https://github.com/settings/developers) → Client secret’ı sil → Generate new → `AUTH_GITHUB_SECRET` güncelle (Client ID aynı kalabilir).
+- [ ] **Callback URL (production):** `https://umutcingisiz.com/api/auth/callback/github`
+- [ ] Upstash / Resend henüz yoksa Vercel’de bu anahtarları **hiç ekleme** (boş string koyma). Kod zaten Redis/Resend yoksa kademeli kapanıyor.
+
 ## 1) Domain ve production URL
 
 - [x] Domain satın al. (`umutcingisiz.com`)
@@ -12,19 +22,20 @@ Kod / UI tarafı tamamlandı. Bu listedeki maddeler bittiğinde proje canlıya a
 ## 2) Vercel yayın
 
 - [ ] Vercel'de projeyi oluştur.
-- [ ] Tüm env değişkenlerini `.env.local` ile uyumlu şekilde Vercel'e taşı.
+- [ ] Yalnızca **dolu** env değişkenlerini Vercel'e taşı (boş Upstash/Resend ekleme).
+- [ ] Production `AUTH_URL=https://umutcingisiz.com` (yerelde `http://localhost:3000` kalır).
 
 ## 3) Auth ve servisler
 
 - [ ] GitHub OAuth callback URL'ine production adresini ekle.
-- [ ] Neon için `DATABASE_URL` ekle ve deploy öncesi `npm run db:push` ile Drizzle şemasını uygula.
-- [ ] Upstash Redis oluştur ve:
+- [ ] Neon için yeni `DATABASE_URL` ekle ve deploy öncesi `npm run db:push` ile Drizzle şemasını uygula.
+- [ ] Upstash Redis oluşturunca (isteğe bağlı):
   - [ ] `UPSTASH_REDIS_REST_URL`
   - [ ] `UPSTASH_REDIS_REST_TOKEN`
-- [ ] Resend domain doğrulamasını tamamla ve:
+- [ ] Resend domain doğrulamasını tamamlayınca:
   - [ ] `RESEND_API_KEY`
-  - [ ] `CONTACT_FROM_EMAIL`
-  - [ ] `CONTACT_NOTIFY_EMAIL`
+  - [ ] `CONTACT_FROM_EMAIL=noreply@umutcingisiz.com`
+  - [ ] `CONTACT_NOTIFY_EMAIL` (bildirim alacağın adres)
 
 ## 4) Observability provider
 
