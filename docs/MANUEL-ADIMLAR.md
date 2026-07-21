@@ -71,6 +71,7 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 - [x] CV dosyası güncellendi ve deploy’a gitti (`public/resume.pdf`).
 - [x] Profil görseli (`public/profile.jpg`) güncel.
 - [x] Portfolyo için gallery ekranları eklendi; diğer projeler isteğe bağlı.
-- [ ] (İsteğe bağlı) Aras Mali / Zeki Dekorasyon için `repo` + gallery görselleri; Aras canlı olunca `demo` / `live`.
+- [x] Aras Mali / Zeki Dekorasyon gallery ekranları eklendi (yerel geliştirme; repo/demo yok).
+- [ ] Aras / Zeki yayınlanınca `repo` + `demo` / `status: live` güncelle.
 - [ ] (İleriki faz) EN/TR dil desteği — ayrı i18n çalışması; bu turda bilinçli olarak ertelendi.
 - [ ] Son deploy'dan sonra manuel regresyon testi yapıldı.
