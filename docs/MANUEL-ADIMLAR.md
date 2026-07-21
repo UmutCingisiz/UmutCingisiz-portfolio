@@ -52,10 +52,10 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 
 - [x] Ana sayfa açılıyor.
 - [x] Guestbook: GitHub giriş + mesaj + admin moderasyon çalışıyor.
-- [ ] Projects: İncele → galeri / vaka çalışması; Demo yok; Kod linkleri doğru.
-- [ ] Blog: kart / oku → yazı açılıyor.
-- [ ] CV İndir: yeni PDF indiriliyor (tarayıcıda açılmıyor).
-- [ ] Contact formu: Resend yoksa dürüst hata mesajı (mail gitmez — beklenen).
+- [x] Projects: İncele → galeri / vaka çalışması; Demo yok; Kod linkleri doğru.
+- [x] Blog: kart / oku → yazı açılıyor.
+- [x] CV İndir: yeni PDF indiriliyor (tarayıcıda açılmıyor).
+- [x] Contact formu: Resend yoksa dürüst hata mesajı (mail gitmez — beklenen).
 - [ ] Error / loading / 404 davranışları kontrol edildi.
 - [ ] Open Graph önizlemeleri doğrulandı.
 - [ ] Mobil genişlikte (≈390px) header menü ve proje kartları taşma yapmıyor.
