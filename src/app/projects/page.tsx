@@ -182,17 +182,17 @@ function initials(title: string): string {
 }
 
 function ProjectVisual({ project }: { project: ProjectMeta }) {
-  const coverImage = project.coverImage as string | undefined;
+  const coverImage = project.coverImage ?? project.gallery?.[0]?.src;
 
   if (coverImage) {
     return (
       <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border bg-muted">
         <Image
           src={coverImage}
-          alt={project.title}
+          alt={project.gallery?.[0]?.alt ?? project.title}
           fill
           sizes="(min-width: 1024px) 560px, 90vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
       </div>
@@ -321,16 +321,6 @@ function ProjectShowcase({
               İncele →
             </Link>
           </Magnetic>
-          {project.demo ? (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-11 items-center rounded-lg border border-border px-5 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
-            >
-              Demo ↗
-            </a>
-          ) : null}
           {project.repo ? (
             <a
               href={project.repo}

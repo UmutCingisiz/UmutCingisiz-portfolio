@@ -77,6 +77,19 @@ function validateProject(file) {
       errors.push(`${path.relative(root, file)}: ${field} must be a valid URL when present`);
     }
   }
+  if (data.gallery !== undefined) {
+    if (!Array.isArray(data.gallery) || data.gallery.length > 8) {
+      errors.push(`${path.relative(root, file)}: gallery must be an array with at most 8 items`);
+    } else {
+      for (const [index, item] of data.gallery.entries()) {
+        if (!item || !isNonEmptyString(item.src) || !isNonEmptyString(item.alt)) {
+          errors.push(
+            `${path.relative(root, file)}: gallery[${index}] needs non-empty src and alt`,
+          );
+        }
+      }
+    }
+  }
 
   return errors;
 }

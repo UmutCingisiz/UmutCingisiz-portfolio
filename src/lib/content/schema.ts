@@ -22,6 +22,17 @@ export const projectFrontmatterSchema = z.object({
   repo: z.string().url().optional(),
   featured: z.boolean().optional(),
   coverImage: z.string().min(1).optional(),
+  /** Proje detayında gösterilecek uygulama içi ekran görüntüleri (3–4 ideal). */
+  gallery: z
+    .array(
+      z.object({
+        src: z.string().min(1),
+        alt: z.string().min(1),
+        caption: z.string().min(1).optional(),
+      }),
+    )
+    .max(8)
+    .optional(),
 });
 
 export const postFrontmatterSchema = z.object({

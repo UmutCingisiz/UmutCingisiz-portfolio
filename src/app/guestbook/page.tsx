@@ -130,7 +130,14 @@ export default async function GuestbookPage({
       </h1>
       <p className="mt-4 leading-relaxed text-muted-foreground">
         GitHub ile giriş yap, kısa bir not bırak; site sahibinin onayından sonra
-        herkese açılır.
+        herkese açılır. Onay / red paneli yalnızca site sahibine görünür —
+        diğer ziyaretçiler sadece yayınlanan mesajları görür.
+      </p>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground/90">
+        GitHub hesabı olmayanlar şu an mesaj bırakamaz. Bu bilinçli: anonim
+        defterler spam ve botlara açık kalır. İleride e-posta doğrulamalı veya
+        Turnstile korumalı anonim not eklenebilir; şimdilik GitHub kimliği
+        güvenilir bir filtre.
       </p>
 
       <div className="mt-6 space-y-2">
@@ -210,7 +217,14 @@ export default async function GuestbookPage({
         <section className="mt-10 space-y-4">
           <h2 className="text-lg font-semibold text-foreground">
             Bekleyen moderasyon
+            <span className="ml-2 font-mono text-xs font-normal uppercase tracking-[0.14em] text-amber-200/80">
+              sadece sen
+            </span>
           </h2>
+          <p className="text-sm text-muted-foreground">
+            Bu blok yalnızca admin hesabında görünür. Normal ziyaretçiler
+            onay bekleyen mesajları göremez.
+          </p>
           <ul className="space-y-4">
             {pending.map((entry) => (
               <li

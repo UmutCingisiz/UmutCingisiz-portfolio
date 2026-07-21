@@ -98,16 +98,6 @@ export function FeaturedProjectsList({ projects }: Props) {
                           İncele →
                         </Link>
                       </Magnetic>
-                      {p.demo ? (
-                        <a
-                          href={p.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex h-10 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
-                        >
-                          Demo ↗
-                        </a>
-                      ) : null}
                       {p.repo ? (
                         <a
                           href={p.repo}
