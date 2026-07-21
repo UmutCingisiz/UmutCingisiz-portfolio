@@ -24,7 +24,8 @@ test("project detail exposes architectural decision cards", async ({ page }) => 
 
   await expect(page.getByRole("heading", { name: /Full-Stack Mühendislik Kanıtı/i })).toBeVisible();
   await expect(page.getByText("architecture.decisions")).toBeVisible();
-  await expect(page.getByText("Karar, trade-off ve sonuç aynı yerde.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Problem → karar → etki/i })).toBeVisible();
+  await expect(page.getByText("product.screens")).toBeVisible();
 });
 
 test("blog and guestbook public flows are reachable", async ({ page }) => {
