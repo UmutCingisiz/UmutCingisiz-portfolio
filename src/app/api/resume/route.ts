@@ -1,4 +1,5 @@
 import { existsSync } from "fs";
+import { readFile } from "fs/promises";
 import path from "path";
 import { redirect } from "next/navigation";
 
@@ -6,10 +7,9 @@ import { incrementResumeDownloads } from "@/lib/blog-views";
 import { anonymizeIp, getClientIp } from "@/lib/request-ip";
 import { assertRedisRateLimit } from "@/lib/redis-rate-limit";
 import { logPortfolioEvent } from "@/lib/observability";
-import { siteConfig } from "@/lib/site-config";
 
 /**
- * İndirme istatistiği için sayaç; ardından `public/resume.pdf` dosyasına yönlendirir.
+ * İndirme istatistiği için sayaç; PDF’i attachment olarak döner (tarayıcıda açmaz).
  * PDF yoksa ana sayfada bilgi mesajı gösterilir.
  */
 export async function GET(req: Request) {
@@ -33,5 +33,14 @@ export async function GET(req: Request) {
 
   await incrementResumeDownloads().catch(() => {});
   logPortfolioEvent("resume.downloaded");
-  redirect(siteConfig.resumePath);
+
+  const file = await readFile(resumePath);
+  return new Response(file, {
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": 'attachment; filename="Umut-Cingisiz-CV.pdf"',
+      "Cache-Control": "private, no-cache",
+      "Content-Length": String(file.byteLength),
+    },
+  });
 }

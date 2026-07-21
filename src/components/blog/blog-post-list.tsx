@@ -27,35 +27,35 @@ export function BlogPostList() {
                 max={5}
                 className="premium-card gradient-border group rounded-2xl p-6"
               >
-                <div className="relative flex flex-wrap items-center gap-3">
-                  <time
-                    dateTime={post.date}
-                    className="font-mono text-xs text-muted-foreground"
-                  >
-                    {new Date(post.date).toLocaleDateString("tr-TR", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
-                  <span className="font-mono text-xs text-muted-foreground">
-                    ~{post.readingMinutes} dk
-                  </span>
-                </div>
-                <h2 className="relative mt-3 text-xl font-semibold tracking-tight text-foreground">
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="hover:text-signal focus-visible:outline-none"
-                  >
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="relative z-10 block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
+                >
+                  <div className="flex flex-wrap items-center gap-3">
+                    <time
+                      dateTime={post.date}
+                      className="font-mono text-xs text-muted-foreground"
+                    >
+                      {new Date(post.date).toLocaleDateString("tr-TR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </time>
+                    <span className="font-mono text-xs text-muted-foreground">
+                      ~{post.readingMinutes} dk
+                    </span>
+                  </div>
+                  <h2 className="mt-3 text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-signal">
                     {post.title}
-                  </Link>
-                </h2>
-                <p className="relative mt-2 leading-relaxed text-muted-foreground">
-                  {post.description}
-                </p>
-                <span className="relative mt-4 inline-flex items-center gap-1 font-mono text-xs text-signal opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  oku →
-                </span>
+                  </h2>
+                  <p className="mt-2 leading-relaxed text-muted-foreground">
+                    {post.description}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-1 font-mono text-xs text-signal">
+                    oku →
+                  </span>
+                </Link>
               </TiltCard>
             </Reveal>
           </li>

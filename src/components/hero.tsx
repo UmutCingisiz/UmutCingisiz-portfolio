@@ -100,6 +100,7 @@ export function Hero() {
             </Magnetic>
             <a
               href="/api/resume"
+              download="Umut-Cingisiz-CV.pdf"
               className="inline-flex h-12 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted"
             >
               CV İndir
