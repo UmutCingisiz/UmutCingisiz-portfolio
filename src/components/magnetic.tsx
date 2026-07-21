@@ -22,8 +22,8 @@ export function Magnetic({ children, className, strength = 0.35 }: MagneticProps
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 200, damping: 18, mass: 0.15 });
-  const springY = useSpring(y, { stiffness: 200, damping: 18, mass: 0.15 });
+  const springX = useSpring(x, { stiffness: 380, damping: 28, mass: 0.12 });
+  const springY = useSpring(y, { stiffness: 380, damping: 28, mass: 0.12 });
 
   function handleMouseMove(event: MouseEvent<HTMLSpanElement>) {
     if (prefersReducedMotion || !ref.current) return;

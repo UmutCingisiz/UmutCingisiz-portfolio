@@ -15,6 +15,7 @@ import {
 describe("content loaders", () => {
   test("returns expected project slugs", () => {
     const slugs = getProjectSlugs();
+    expect(slugs).toContain("aras-mali");
     expect(slugs).toContain("bloomedu");
     expect(slugs).toContain("portfolio-web");
     expect(slugs).toContain("zeki-dekorasyon");

@@ -29,10 +29,10 @@ npm run check:all    # assets + content + env + db
 | Alan | Durum |
 |------|--------|
 | Koyu tema, tipografi wordmark, yüzen header + scroll progress | ✓ |
-| Hero, about timeline, skills bento, hiring proof, quality standards | ✓ |
+| Hero, about timeline, skills bento, hiring proof, quality standards (bento) | ✓ |
 | Projeler: Apple-tarzı showcase, 4/3 mockup, P/D/I kartları | ✓ |
-| Terminal (Ctrl+\`), magnetic CTA, tilt kartlar, Reveal animasyonları | ✓ |
-| Algorithm Lab (path-drawing), GitHub activity / git-log feed | ✓ |
+| Terminal (Ctrl+\`), magnetic CTA, tilt kartlar, Reveal spring animasyonları | ✓ |
+| Algorithm Lab, GitHub activity, offline network toast, cyan focus-visible | ✓ |
 | 404, loading, error, global-error | ✓ |
 | Favicon, apple-icon, manifest, OG görselleri | ✓ |
 | SEO (sitemap, robots, metadata, Twitter) | ✓ |

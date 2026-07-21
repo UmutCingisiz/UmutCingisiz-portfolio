@@ -6,8 +6,8 @@ Kod / UI tarafı tamamlandı. Bu listedeki maddeler bittiğinde proje canlıya a
 
 ## 1) Domain ve production URL
 
-- [ ] Domain satın al.
-- [ ] `NEXT_PUBLIC_SITE_URL` değerini production domain ile güncelle.
+- [x] Domain satın al. (`umutcingisiz.com`)
+- [x] `NEXT_PUBLIC_SITE_URL` değerini production domain ile güncelle.
 
 ## 2) Vercel yayın
 
@@ -48,4 +48,6 @@ Kod / UI tarafı tamamlandı. Bu listedeki maddeler bittiğinde proje canlıya a
 - [ ] CV dosyası (`public/resume.pdf`) öğrenci profilinden ziyade DAÜ İngilizce Bilgisayar Mühendisliği mezunu profesyonel profilini yansıtıyor.
 - [ ] Profil görseli (`public/profile.jpg`) güncel.
 - [ ] (İsteğe bağlı) Gerçek proje ekran görüntüleri eklemek istersen: `public/images/projects/` altına koyup ilgili MDX'e `coverImage` ekle; yoksa site browser mockup kullanır.
+- [ ] (İsteğe bağlı) Aras Mali / Zeki Dekorasyon için `repo` linkini frontmatter'a ekle; Aras Mali production Sanity/env bağları tamamlanınca status'u `live` yap.
+- [ ] (İleriki faz) EN/TR dil desteği — ayrı i18n çalışması; bu turda bilinçli olarak ertelendi.
 - [ ] Son deploy'dan sonra manuel regresyon testi yapıldı.

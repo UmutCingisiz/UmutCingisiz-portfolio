@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { HiddenTerminal } from "@/components/hidden-terminal";
+import { NetworkStatus } from "@/components/network-status";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SkipToContent } from "@/components/skip-to-content";
@@ -39,6 +40,7 @@ export default function RootLayout({
         </main>
         <SiteFooter />
         <HiddenTerminal />
+        <NetworkStatus />
         <Suspense fallback={null}>
           <Analytics />
         </Suspense>

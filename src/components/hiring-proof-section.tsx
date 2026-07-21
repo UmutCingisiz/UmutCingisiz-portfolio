@@ -85,7 +85,7 @@ const proofSignals: readonly Proof[] = [
 ];
 
 const proofMetrics = [
-  { value: "3", label: "case-study proje" },
+  { value: "4", label: "case-study proje" },
   { value: "3", label: "teknik blog" },
   { value: "E2E", label: "smoke test" },
   { value: "6", label: "kalite komutu" },

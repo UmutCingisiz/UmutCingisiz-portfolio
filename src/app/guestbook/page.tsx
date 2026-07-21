@@ -197,7 +197,7 @@ export default async function GuestbookPage({
             <form action={signInWithGithubAction}>
               <button
                 type="submit"
-                className="rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-all duration-200 hover:opacity-90"
+                className="btn-signal rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200"
               >
                 GitHub ile giriş
               </button>
@@ -268,9 +268,36 @@ export default async function GuestbookPage({
           Yayınlanan mesajlar
         </h2>
         {approved.length === 0 ? (
-          <p className="mt-4 text-muted-foreground">
-            Henüz onaylı mesaj yok — ilk yazan sen ol.
-          </p>
+          <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/30 px-6 py-14 text-center">
+            <span
+              aria-hidden
+              className="relative mb-5 inline-flex size-14 items-center justify-center rounded-2xl border border-signal/20 bg-signal/[0.06] text-signal/55"
+            >
+              <span className="absolute inset-0 animate-ping rounded-2xl bg-signal/10" />
+              <svg
+                className="relative size-7"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.4}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M4 6h16v10H8l-4 3V6z" />
+                <path d="M8 10h8M8 13h5" />
+              </svg>
+            </span>
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-signal/70">
+              guestbook.empty
+            </p>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
+              Henüz onaylı mesaj yok — ilk yazan sen ol.
+            </p>
+            <p className="mt-2 font-mono text-xs text-muted-foreground/70">
+              $ await first_message()
+              <span className="ml-1 inline-block h-3 w-1.5 animate-pulse bg-signal/80 align-middle" />
+            </p>
+          </div>
         ) : (
           <ul className="mt-6 space-y-4">
             {approved.map((entry) => (

@@ -7,6 +7,28 @@ export const siteConfig = {
   resumePath: "/resume.pdf",
   /** Ana sayfa GitHub repoları + profil yedek görseli */
   githubUsername: "UmutCingisiz",
+  /**
+   * Profilde öne çıkarılacak (pinned) repolar — owner hesabında olmasa bile
+   * (ör. ekip reposu Bloomedu) GitHub aktivite bölümünde üstte gösterilir.
+   */
+  githubPinned: [
+    {
+      name: "Bloomedu",
+      fullName: "somethn7/Bloomedu",
+      description:
+        "AI destekli kişiselleştirilmiş eğitim — TÜBİTAK BİGG En İyi Proje. Adaptif öğrenme motoru ve full-stack ürün mimarisi.",
+      html_url: "https://github.com/somethn7/Bloomedu",
+      language: "TypeScript",
+      caseStudy: "/projects/bloomedu",
+      badge: "pinned · TÜBİTAK",
+    },
+  ],
+  /** Portfolyo terminal — UC + cmd (kişisel + klasik shell) */
+  terminal: {
+    name: "ucmd",
+    version: "1.0",
+    tagline: "Umut Cingisiz · command shell",
+  },
   headline:
     "Sadece arayüz kodlamıyor; uçtan uca, ölçeklenebilir ve hataya dayanıklı sistemler tasarlıyorum.",
   description:

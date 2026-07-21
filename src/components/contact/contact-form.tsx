@@ -32,7 +32,7 @@ export function ContactForm() {
           type="text"
           required
           maxLength={120}
-          className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus:border-foreground/30 focus:ring-1 focus:ring-ring"
+          className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus-visible:border-signal/50 focus-visible:ring-2 focus-visible:ring-signal/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         />
       </div>
 
@@ -46,7 +46,7 @@ export function ContactForm() {
           type="email"
           required
           autoComplete="email"
-          className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus:border-foreground/30 focus:ring-1 focus:ring-ring"
+          className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus-visible:border-signal/50 focus-visible:ring-2 focus-visible:ring-signal/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         />
       </div>
 
@@ -61,7 +61,7 @@ export function ContactForm() {
           minLength={10}
           maxLength={4000}
           rows={5}
-          className="mt-2 w-full resize-y rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus:border-foreground/30 focus:ring-1 focus:ring-ring"
+          className="mt-2 w-full resize-y rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus-visible:border-signal/50 focus-visible:ring-2 focus-visible:ring-signal/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           placeholder="Kısa proje özeti veya sorun…"
         />
       </div>
@@ -75,7 +75,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex h-11 items-center rounded-lg bg-foreground px-5 text-sm font-medium text-background transition-all duration-200 hover:opacity-90 disabled:pointer-events-none disabled:opacity-40"
+        className="btn-signal inline-flex h-11 items-center rounded-lg px-5 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-40"
       >
         {pending ? "Gönderiliyor…" : "Gönder"}
       </button>

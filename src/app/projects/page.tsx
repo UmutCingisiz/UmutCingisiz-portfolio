@@ -13,12 +13,14 @@ export const metadata: Metadata = {
     "Seçilmiş full-stack projeler — amaç, teknoloji ve teknik kararlar MDX ile.",
 };
 
+function isLiveStatus(status: ProjectMeta["status"]) {
+  return status === "live" || status === "archived";
+}
+
 export default async function ProjectsPage() {
   const projects = getAllProjectsMeta();
-  const liveCount = projects.filter(
-    (p) => p.status === "live" || p.status === "archived",
-  ).length;
-  const labCount = projects.length - liveCount;
+  const live = projects.filter((p) => isLiveStatus(p.status));
+  const building = projects.filter((p) => !isLiveStatus(p.status));
 
   return (
     <div className="relative flex-1 overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
@@ -31,9 +33,10 @@ export default async function ProjectsPage() {
               Projeler, CV satırı değil; karar ve etki kanıtı.
             </h1>
             <p className="mt-5 max-w-2xl leading-8 text-muted-foreground">
-              Hepsi uçtan uca <span className="font-medium text-foreground">full-stack</span>{" "}
-              işler. Her proje; problem, mühendislik kararı ve ölçülebilir etki
-              üzerinden okunur.
+              Hepsi uçtan uca{" "}
+              <span className="font-medium text-foreground">full-stack</span>{" "}
+              işler. Önce yayında olanlar, ardından aktif geliştirdiklerim —
+              her biri problem, karar ve etki üzerinden okunur.
             </p>
           </div>
 
@@ -42,13 +45,13 @@ export default async function ProjectsPage() {
               review.mode
             </p>
             <div className="mt-4 grid grid-cols-3 gap-3">
-              <div className="rounded-xl border border-border bg-background/45 p-3">
-                <p className="text-2xl font-bold text-foreground">{liveCount}</p>
+              <div className="rounded-xl border border-emerald-400/25 bg-emerald-400/[0.06] p-3">
+                <p className="text-2xl font-bold text-emerald-300">{live.length}</p>
                 <p className="mt-1 text-xs text-muted-foreground">yayında</p>
               </div>
-              <div className="rounded-xl border border-border bg-background/45 p-3">
-                <p className="text-2xl font-bold text-foreground">{labCount}</p>
-                <p className="mt-1 text-xs text-muted-foreground">lab</p>
+              <div className="rounded-xl border border-amber-400/25 bg-amber-400/[0.06] p-3">
+                <p className="text-2xl font-bold text-amber-200">{building.length}</p>
+                <p className="mt-1 text-xs text-muted-foreground">geliştiriyorum</p>
               </div>
               <div className="rounded-xl border border-signal/25 bg-signal/[0.06] p-3">
                 <p className="text-2xl font-bold text-signal">P/D/I</p>
@@ -58,11 +61,29 @@ export default async function ProjectsPage() {
           </TiltCard>
         </div>
 
-        <div className="mt-16 space-y-20 sm:space-y-28">
-          {projects.map((project, index) => (
-            <ProjectShowcase key={project.slug} project={project} index={index} />
-          ))}
-        </div>
+        {live.length > 0 ? (
+          <ProjectGroup
+            id="live"
+            eyebrow="status.live"
+            title="Yayında"
+            description="Canlıda çalışan, incelenebilir full-stack ürünler."
+            tone="live"
+            projects={live}
+            indexOffset={0}
+          />
+        ) : null}
+
+        {building.length > 0 ? (
+          <ProjectGroup
+            id="building"
+            eyebrow="status.wip"
+            title="Şu an geliştiriyorum"
+            description="Aktif lab / müşteri işleri — mimari kararlar net, yayın adımları sürüyor."
+            tone="building"
+            projects={building}
+            indexOffset={live.length}
+          />
+        ) : null}
 
         {projects.length === 0 ? (
           <p className="mt-12 text-muted-foreground">Henüz proje eklenmedi.</p>
@@ -76,6 +97,76 @@ export default async function ProjectsPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+function ProjectGroup({
+  id,
+  eyebrow,
+  title,
+  description,
+  tone,
+  projects,
+  indexOffset,
+}: {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  tone: "live" | "building";
+  projects: ProjectMeta[];
+  indexOffset: number;
+}) {
+  const toneClasses =
+    tone === "live"
+      ? "border-emerald-400/20 from-emerald-400/[0.06] to-transparent"
+      : "border-amber-400/20 from-amber-400/[0.06] to-transparent";
+
+  return (
+    <section id={id} className="mt-20 scroll-mt-28 sm:mt-28">
+      <div
+        className={`rounded-2xl border bg-gradient-to-r px-5 py-5 sm:px-6 sm:py-6 ${toneClasses}`}
+      >
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+              {eyebrow}
+            </p>
+            <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              {title}
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              {description}
+            </p>
+          </div>
+          <span
+            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.14em] ${
+              tone === "live"
+                ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-300"
+                : "border-amber-400/30 bg-amber-400/10 text-amber-200"
+            }`}
+          >
+            <span
+              className={`size-1.5 rounded-full ${
+                tone === "live" ? "bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.7)]" : "bg-amber-300"
+              }`}
+            />
+            {projects.length} proje
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-10 space-y-16 sm:mt-12 sm:space-y-20">
+        {projects.map((project, i) => (
+          <ProjectShowcase
+            key={project.slug}
+            project={project}
+            index={indexOffset + i}
+            localIndex={i}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -116,7 +207,6 @@ function ProjectVisual({ project }: { project: ProjectMeta }) {
       />
       <div className="bento-dots pointer-events-none absolute inset-0 opacity-25 [mask-image:radial-gradient(circle_at_70%_30%,black,transparent_70%)]" />
 
-      {/* Sahte tarayıcı çerçevesi — "eksik görsel" hissi yerine bilinçli bir ürün mockup'ı. */}
       <div className="relative flex items-center gap-1.5 border-b border-border/60 bg-background/30 px-4 py-3">
         <span className="size-2 rounded-full bg-foreground/15" />
         <span className="size-2 rounded-full bg-foreground/15" />
@@ -157,25 +247,18 @@ function ProjectVisual({ project }: { project: ProjectMeta }) {
 function ProjectShowcase({
   project,
   index,
+  localIndex,
 }: {
   project: ProjectMeta;
   index: number;
+  localIndex: number;
 }) {
-  const isLive = project.status === "live" || project.status === "archived";
-  const flip = index % 2 === 1;
+  const isLive = isLiveStatus(project.status);
+  const flip = localIndex % 2 === 1;
 
   return (
     <article className="group grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
       <div className={`relative ${flip ? "lg:order-2" : "lg:order-1"}`}>
-        {/* Devasa, soluk sıra numarası — Apple tarzı sergi ritmi */}
-        <span
-          aria-hidden
-          className={`pointer-events-none absolute -top-12 z-10 select-none font-black leading-none tracking-tighter text-foreground/[0.06] text-[7rem] sm:text-[9rem] ${
-            flip ? "-right-2" : "-left-2"
-          }`}
-        >
-          {String(index + 1).padStart(2, "0")}
-        </span>
         <TiltCard as="div" max={6} className="relative rounded-3xl">
           <Link href={`/projects/${project.slug}`} aria-label={project.title} className="block">
             <ProjectVisual project={project} />
@@ -185,7 +268,7 @@ function ProjectShowcase({
 
       <div className={`flex flex-col justify-center ${flip ? "lg:order-1" : "lg:order-2"}`}>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-mono text-sm tabular-nums text-signal/60">
+          <span className="inline-flex size-8 items-center justify-center rounded-lg border border-signal/25 bg-signal/[0.07] font-mono text-xs font-semibold tabular-nums text-signal">
             {String(index + 1).padStart(2, "0")}
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-signal">
@@ -202,11 +285,11 @@ function ProjectShowcase({
           </span>
         </div>
 
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+        <h3 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           <Link href={`/projects/${project.slug}`} className="hover:text-signal">
             {project.title}
           </Link>
-        </h2>
+        </h3>
 
         <p className="mt-4 text-pretty leading-8 text-muted-foreground">
           {project.description}
@@ -223,7 +306,7 @@ function ProjectShowcase({
           ))}
         </div>
 
-        <div className="mt-6 grid gap-3">
+        <div className="mt-6 grid gap-4">
           {project.problem ? <PdiBlock signal="problem" text={project.problem} /> : null}
           {project.decision ? <PdiBlock signal="decision" text={project.decision} /> : null}
           {project.impact ? <PdiBlock signal="impact" text={project.impact} /> : null}

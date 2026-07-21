@@ -1,6 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
+import { siteConfig } from "@/lib/site-config";
+
+const shell = siteConfig.terminal;
 
 function openTerminal() {
   window.dispatchEvent(
@@ -9,13 +12,11 @@ function openTerminal() {
 }
 
 /**
- * Hero'nun hemen altında duran, komut bekleyen tek satırlık şık prompt.
- * Tıklanınca (veya Ctrl+` ile) ekranı kaplayan cam terminal arayüzü açılır.
- * Terminal özelliğini gizli bir easter-egg olmaktan çıkarıp öne çıkarır.
+ * Hero altı ucmd giriş noktası — UC + cmd kimliği ile terminali öne çıkarır.
  */
 export function TerminalPrompt() {
   return (
-    <section className="px-4 pb-4 sm:px-6" aria-label="İnteraktif terminal">
+    <section className="px-4 pb-4 sm:px-6" aria-label={`${shell.name} command shell`}>
       <div className="mx-auto max-w-7xl">
         <motion.button
           type="button"
@@ -24,7 +25,7 @@ export function TerminalPrompt() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="group flex w-full items-center gap-3 overflow-hidden rounded-2xl border border-signal/25 bg-[#070b0f]/80 px-5 py-4 text-left font-mono shadow-lg shadow-black/20 backdrop-blur-xl transition-all duration-300 hover:border-signal/50 hover:shadow-[0_0_40px_var(--signal-glow)] sm:px-6"
+          className="group flex w-full items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-[#05080c]/90 px-5 py-4 text-left font-mono shadow-lg shadow-black/30 ring-1 ring-cyan-400/10 backdrop-blur-xl transition-all duration-300 hover:border-cyan-400/35 hover:shadow-[0_0_40px_rgba(34,211,238,0.18)] sm:gap-4 sm:px-6"
         >
           <span className="flex items-center gap-1.5">
             <span className="size-2.5 rounded-full bg-red-400/80" />
@@ -32,17 +33,27 @@ export function TerminalPrompt() {
             <span className="size-2.5 rounded-full bg-emerald-400/80" />
           </span>
 
+          <span className="hidden shrink-0 items-center gap-2 border-r border-white/10 pr-4 sm:flex">
+            <span className="rounded border border-signal/35 bg-signal/10 px-2 py-0.5 text-[0.65rem] font-bold tracking-[0.14em] text-signal">
+              {shell.name}
+            </span>
+            <span className="text-[0.65rem] text-cyan-200/45">v{shell.version}</span>
+          </span>
+
           <span className="flex min-w-0 flex-1 items-center gap-2 text-sm">
             <span className="text-emerald-400">$</span>
             <span className="truncate text-cyan-100">
+              <span className="text-cyan-200/50 sm:hidden">{shell.name} </span>
               show_projects()
             </span>
             <span className="inline-block h-4 w-2 animate-pulse bg-cyan-300/80" aria-hidden />
           </span>
 
-          <span className="hidden items-center gap-2 text-xs text-cyan-200/60 sm:flex">
-            <span className="transition-colors group-hover:text-cyan-100">interaktif terminali aç</span>
-            <kbd className="rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-signal">
+          <span className="hidden items-center gap-2 text-xs text-cyan-200/60 md:flex">
+            <span className="transition-colors group-hover:text-cyan-100">
+              {shell.tagline}
+            </span>
+            <kbd className="rounded border border-cyan-400/30 bg-cyan-400/10 px-1.5 py-0.5 text-cyan-200">
               Ctrl `
             </kbd>
           </span>

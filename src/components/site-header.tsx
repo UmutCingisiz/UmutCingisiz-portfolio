@@ -50,7 +50,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 300, damping: 40, restDelta: 0.001 });
+  const progress = useSpring(scrollYProgress, { stiffness: 420, damping: 36, restDelta: 0.001 });
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -122,10 +122,10 @@ export function SiteHeader() {
               type="button"
               onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "`", code: "Backquote", ctrlKey: true }))}
               className="group hidden items-center gap-2 rounded-xl border border-signal/30 bg-signal/[0.08] px-3 py-2 font-mono text-xs text-signal transition-all hover:border-signal/50 hover:bg-signal/[0.15] hover:shadow-[0_0_20px_var(--signal-glow)] xl:inline-flex"
-              aria-label="Terminali aç"
+              aria-label={`${siteConfig.terminal.name} terminalini aç`}
             >
               <TerminalIcon className="size-4" />
-              <span>terminal</span>
+              <span className="font-bold tracking-wide">{siteConfig.terminal.name}</span>
               <kbd className="rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-[0.6rem]">Ctrl `</kbd>
             </button>
 

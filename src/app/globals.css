@@ -82,6 +82,26 @@
   border-color: var(--border);
 }
 
+/* Klavye odak halkası — Tab ile gezinirken imza cyan ring (standart mavi outline yok). */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--signal) 85%, white);
+  outline-offset: 3px;
+  border-radius: 0.35rem;
+}
+
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px var(--signal-glow);
+}
+
 html {
   scroll-behavior: smooth;
 }

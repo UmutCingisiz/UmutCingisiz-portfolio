@@ -1,23 +1,40 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site-config";
 
 type Line = { kind: "in" | "out" | "sys"; text: string };
 
+const shell = siteConfig.terminal;
+
+/**
+ * ucmd — UC + cmd; kişisel command shell.
+ * Klasik terminal paleti + ürün kimliği (isim, versiyon, boot banner).
+ */
 export function HiddenTerminal() {
   const router = useRouter();
+  const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Line[]>([
-    { kind: "sys", text: "portfolio-shell v2.0 — `help` yazın veya bir komut deneyin." },
+    {
+      kind: "sys",
+      text: `${shell.name} v${shell.version} — ${shell.tagline}`,
+    },
+    {
+      kind: "sys",
+      text: "boot ok · type `help` or pick a command below.",
+    },
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const prompt = useMemo(() => `${siteConfig.githubUsername}@portfolio:~$`, []);
+  const prompt = useMemo(
+    () => `${siteConfig.githubUsername}@${shell.name}:~$`,
+    [],
+  );
 
   const push = useCallback((...lines: Line[]) => {
     setHistory((items) => [...items, ...lines]);
@@ -34,7 +51,19 @@ export function HiddenTerminal() {
         case "ls":
           push({
             kind: "out",
-            text: "whoami · about · skills · projects · show_projects · blog · contact · social · resume · clear",
+            text: "whoami · about · skills · projects · show_projects · blog · contact · social · resume · status · version · ucmd · clear",
+          });
+          break;
+        case "version":
+        case "ucmd":
+        case "cmd":
+          push({
+            kind: "out",
+            text: `${shell.name} v${shell.version} · ${shell.tagline}`,
+          });
+          push({
+            kind: "out",
+            text: "built for systems thinking — not landing-page demos.",
           });
           break;
         case "whoami":
@@ -47,6 +76,13 @@ export function HiddenTerminal() {
         case "skills":
           push({ kind: "out", text: "core: TypeScript · React/Next.js · Python · C · Java" });
           push({ kind: "out", text: "growing: PostgreSQL · Redis · DevOps · system design" });
+          break;
+        case "status":
+          push({
+            kind: "out",
+            text: `online · ${navigator.onLine ? "socket ok" : "socket lost"} · ${shell.name} ready`,
+          });
+          push({ kind: "out", text: `focus: ${siteConfig.availability}` });
           break;
         case "projects":
         case "show_projects":
@@ -75,10 +111,18 @@ export function HiddenTerminal() {
           window.open("/api/resume", "_blank");
           break;
         case "clear":
-          setHistory([]);
+          setHistory([
+            {
+              kind: "sys",
+              text: `${shell.name} v${shell.version} — session cleared.`,
+            },
+          ]);
           break;
         default:
-          push({ kind: "sys", text: `komut bulunamadı: ${raw} — \`help\` deneyin.` });
+          push({
+            kind: "sys",
+            text: `${shell.name}: command not found: ${raw} — try \`help\`.`,
+          });
       }
     },
     [prompt, push, router],
@@ -105,7 +149,14 @@ export function HiddenTerminal() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [history]);
 
-  const quickCommands = ["whoami", "skills", "show_projects()", "contact", "resume"];
+  const quickCommands = [
+    "whoami",
+    "skills",
+    "show_projects()",
+    "contact",
+    "resume",
+    "version",
+  ];
 
   return (
     <AnimatePresence>
@@ -114,44 +165,71 @@ export function HiddenTerminal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0.15 }
+              : { type: "spring", stiffness: 380, damping: 32 }
+          }
           className="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6"
         >
           <button
             type="button"
-            aria-label="Terminali kapat"
+            aria-label={`${shell.name} terminalini kapat`}
             onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            className="absolute inset-0 bg-black/70 backdrop-blur-md"
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 20 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${shell.name} command shell`}
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 12 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative flex max-h-[80vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-signal/25 bg-[#070b0f]/90 shadow-[0_0_80px_rgba(0,0,0,0.6)] backdrop-blur-2xl ring-1 ring-white/5"
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98, y: 10 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0.15 }
+                : { type: "spring", stiffness: 420, damping: 34 }
+            }
+            className="relative flex max-h-[80vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#05080c]/95 shadow-[0_0_80px_rgba(0,0,0,0.75),0_0_40px_rgba(34,211,238,0.08)] backdrop-blur-2xl ring-1 ring-cyan-400/10"
           >
-            <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-4 py-3">
-              <div className="flex items-center gap-2">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 z-10 opacity-[0.04]"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.35) 3px)",
+              }}
+            />
+
+            <div className="relative z-20 flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-4 py-3">
+              <div className="flex min-w-0 items-center gap-2">
                 <span className="size-3 rounded-full bg-red-400/90" />
                 <span className="size-3 rounded-full bg-amber-400/90" />
                 <span className="size-3 rounded-full bg-emerald-400/90" />
-                <span className="ml-3 font-mono text-xs text-cyan-200/70">
-                  {prompt} portfolio-shell
+                <span className="ml-2 truncate font-mono text-xs tracking-wide text-cyan-100">
+                  <span className="font-bold text-signal">{shell.name}</span>
+                  <span className="text-cyan-200/50"> · </span>
+                  <span className="text-cyan-200/70">{shell.tagline}</span>
                 </span>
               </div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="rounded-md border border-white/10 px-2 py-1 font-mono text-[0.65rem] text-cyan-200/70 transition hover:text-cyan-100"
-              >
-                ESC
-              </button>
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="hidden rounded border border-cyan-400/20 bg-cyan-400/5 px-1.5 py-0.5 font-mono text-[0.6rem] text-cyan-200/60 sm:inline">
+                  v{shell.version}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="rounded-md border border-white/10 px-2 py-1 font-mono text-[0.65rem] text-cyan-200/70 transition hover:border-cyan-300/30 hover:text-cyan-100"
+                >
+                  ESC
+                </button>
+              </div>
             </div>
 
             <div
               ref={scrollRef}
-              className="flex-1 overflow-y-auto px-5 py-5 font-mono text-sm leading-relaxed"
+              className="relative z-20 flex-1 overflow-y-auto px-5 py-5 font-mono text-sm leading-relaxed"
               onClick={() => inputRef.current?.focus()}
             >
               <div className="space-y-1.5">
@@ -162,8 +240,8 @@ export function HiddenTerminal() {
                       line.kind === "in"
                         ? "text-cyan-100"
                         : line.kind === "sys"
-                          ? "text-amber-300/80"
-                          : "text-cyan-200/70"
+                          ? "text-amber-300/85"
+                          : "text-cyan-200/75"
                     }
                   >
                     {line.text}
@@ -185,20 +263,20 @@ export function HiddenTerminal() {
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   className="min-w-0 flex-1 bg-transparent text-cyan-100 caret-cyan-300 outline-none"
-                  aria-label="Terminal komutu"
+                  aria-label={`${shell.name} komutu`}
                   autoComplete="off"
                   spellCheck={false}
                 />
               </form>
             </div>
 
-            <div className="flex flex-wrap gap-2 border-t border-white/10 bg-white/[0.02] px-5 py-3 text-xs">
+            <div className="relative z-20 flex flex-wrap gap-2 border-t border-white/10 bg-white/[0.02] px-5 py-3 text-xs">
               {quickCommands.map((cmd) => (
                 <button
                   key={cmd}
                   type="button"
                   onClick={() => runCommand(cmd)}
-                  className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 font-mono text-cyan-200/70 transition hover:border-signal/40 hover:text-cyan-100"
+                  className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 font-mono text-cyan-200/70 transition hover:border-cyan-400/35 hover:bg-cyan-400/5 hover:text-cyan-100"
                 >
                   {cmd}
                 </button>

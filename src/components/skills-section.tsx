@@ -74,7 +74,7 @@ const strong: readonly StrongSkill[] = [
   {
     title: "Full-Stack Ürün Geliştirme",
     tagline: "uçtan uca sistem",
-    proof: "3 canlı proje · auth'tan deploy'a",
+    proof: "2 yayında · 2 lab · auth'tan deploy'a",
     icon: StackIcon,
   },
   {

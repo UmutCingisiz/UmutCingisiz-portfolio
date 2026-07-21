@@ -52,7 +52,7 @@ export function GuestbookMessageForm({ canWrite, dbConfigured }: Props) {
           minLength={1}
           maxLength={2000}
           rows={4}
-          className="w-full resize-y rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-foreground/30 focus:ring-1 focus:ring-ring"
+          className="w-full resize-y rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition focus-visible:border-signal/50 focus-visible:ring-2 focus-visible:ring-signal/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           placeholder="Kısa ve nazik bir not bırak…"
         />
         {state?.ok === false ? (
@@ -64,7 +64,7 @@ export function GuestbookMessageForm({ canWrite, dbConfigured }: Props) {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-all duration-200 hover:opacity-90 disabled:pointer-events-none disabled:opacity-50"
+        className="btn-signal inline-flex rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-50"
       >
         {pending ? "Gönderiliyor…" : "Moderasyon için gönder"}
       </button>

@@ -72,7 +72,7 @@ export function FeaturedProjectsList({ projects }: Props) {
                       {p.description}
                     </p>
 
-                    <div className="relative mt-5 grid gap-3">
+                    <div className="relative mt-5 grid gap-4">
                       {p.problem ? <PdiBlock signal="problem" text={p.problem} /> : null}
                       {p.decision ? <PdiBlock signal="decision" text={p.decision} /> : null}
                       {p.impact ? <PdiBlock signal="impact" text={p.impact} /> : null}

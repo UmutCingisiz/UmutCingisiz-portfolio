@@ -60,14 +60,16 @@ export function PdiBlock({ signal, text }: { signal: Signal; text: string }) {
   const { label, Icon, wrapper, icon } = config[signal];
 
   return (
-    <div className={`rounded-xl border p-4 ${wrapper}`}>
+    <div className={`rounded-xl border px-3.5 py-3.5 sm:px-4 sm:py-4 ${wrapper}`}>
       <div className="flex items-center gap-2">
         <Icon className={`size-3.5 shrink-0 ${icon}`} />
-        <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+        <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground">
           {label}
         </p>
       </div>
-      <p className="mt-2 text-sm leading-6 text-foreground/85">{text}</p>
+      <p className="mt-2.5 text-xs leading-relaxed text-foreground/80 sm:text-[0.8125rem] sm:leading-relaxed">
+        {text}
+      </p>
     </div>
   );
 }
