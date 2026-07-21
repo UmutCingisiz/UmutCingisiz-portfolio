@@ -34,10 +34,13 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 - [ ] Upstash Redis oluşturunca (isteğe bağlı — blog sayacı / CV rate limit):
   - [ ] `UPSTASH_REDIS_REST_URL`
   - [ ] `UPSTASH_REDIS_REST_TOKEN`
-- [ ] Resend domain doğrulamasını tamamlayınca (iletişim formu mail göndersin):
-  - [ ] `RESEND_API_KEY`
-  - [ ] `CONTACT_FROM_EMAIL=noreply@umutcingisiz.com`
-  - [ ] `CONTACT_NOTIFY_EMAIL` (bildirim alacağın adres)
+- [x] Resend domain doğrulamasını tamamlayınca (iletişim formu mail göndersin):
+  - [x] Hostinger’a Resend DNS kayıtları eklendi (DKIM / send MX+TXT / opsiyonel DMARC)
+  - [x] Resend domain **Verified**
+  - [x] `RESEND_API_KEY`
+  - [x] `CONTACT_FROM_EMAIL=noreply@umutcingisiz.com`
+  - [x] `CONTACT_NOTIFY_EMAIL` (bildirim alacağın adres)
+  - [x] Canlı form testi: mail geldi
 
 ## 4) Observability provider (isteğe bağlı — sonraya bırakılabilir)
 
@@ -48,7 +51,7 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
   - [ ] `OBSERVABILITY_DSN`
 - [ ] Contact, guestbook, resume ve blog view akışları için provider dashboard'unda event/error göründüğünü doğrula.
 
-## 5) Production smoke test ← ŞİMDİ BURADAYIZ
+## 5) Production smoke test
 
 - [x] Ana sayfa açılıyor.
 - [x] Guestbook: GitHub giriş + mesaj + admin moderasyon çalışıyor.
