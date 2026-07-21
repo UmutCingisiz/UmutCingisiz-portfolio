@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   /* Projedeki diğer özel ayarlar (örneğin mdx veya deneysel özellikler) varsa burada kalabilir */
@@ -25,4 +26,12 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: "umutcingisiz",
+  project: "javascript-nextjs",
+  silent: !process.env.CI,
+  // Optional: readable stack traces when SENTRY_AUTH_TOKEN is set in CI/Vercel
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  // Avoid ad-blockers blocking browser error reports
+  tunnelRoute: "/monitoring",
+});

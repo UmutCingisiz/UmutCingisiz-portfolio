@@ -31,9 +31,10 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 
 - [x] GitHub OAuth callback URL'ine production adresini ekle. (§0 ile aynı)
 - [x] Neon için yeni `DATABASE_URL` ekle ve `npm run db:push` ile Drizzle şemasını uygula. (2026-07-21 uygulandı)
-- [ ] Upstash Redis oluşturunca (isteğe bağlı — blog sayacı / CV rate limit):
-  - [ ] `UPSTASH_REDIS_REST_URL`
-  - [ ] `UPSTASH_REDIS_REST_TOKEN`
+- [x] Upstash Redis oluşturunca (isteğe bağlı — blog sayacı / CV rate limit):
+  - [x] `UPSTASH_REDIS_REST_URL`
+  - [x] `UPSTASH_REDIS_REST_TOKEN`
+  - [x] Canlı blog sayacı testi OK
 - [x] Resend domain doğrulamasını tamamlayınca (iletişim formu mail göndersin):
   - [x] Hostinger’a Resend DNS kayıtları eklendi (DKIM / send MX+TXT / opsiyonel DMARC)
   - [x] Resend domain **Verified**
@@ -42,14 +43,15 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
   - [x] `CONTACT_NOTIFY_EMAIL` (bildirim alacağın adres)
   - [x] Canlı form testi: mail geldi
 
-## 4) Observability provider (isteğe bağlı — sonraya bırakılabilir)
+## 4) Observability provider (Sentry)
 
-- [ ] Sentry, Axiom veya Datadog hesabını oluştur.
-- [ ] Production projesinde hata/event takibi için log drain veya SDK entegrasyonunu tamamla.
-- [ ] Vercel env tarafına provider bilgisini ekle:
-  - [ ] `OBSERVABILITY_PROVIDER`
-  - [ ] `OBSERVABILITY_DSN`
-- [ ] Contact, guestbook, resume ve blog view akışları için provider dashboard'unda event/error göründüğünü doğrula.
+- [ ] Sentry hesabı + Next.js projesi (`umutcingisiz` / `javascript-nextjs`, EU).
+- [ ] SDK kodda hazır (`@sentry/nextjs`). Yerel + Vercel env:
+  - [ ] `OBSERVABILITY_PROVIDER=sentry`
+  - [ ] `OBSERVABILITY_DSN=<DSN>`
+  - [ ] `NEXT_PUBLIC_SENTRY_DSN=<aynı DSN>`
+- [ ] Deploy sonrası Sentry’de Issues / test hatası göründüğünü doğrula.
+- [ ] (İsteğe bağlı) Source map için `SENTRY_AUTH_TOKEN` (Sentry → Settings → Auth Tokens).
 
 ## 5) Production smoke test
 
@@ -67,7 +69,7 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 ## 6) Yayın öncesi son kontrol
 
 - [x] CV dosyası güncellendi ve deploy’a gitti (`public/resume.pdf`).
-- [ ] Profil görseli (`public/profile.jpg`) güncel.
+- [x] Profil görseli (`public/profile.jpg`) güncel.
 - [x] Portfolyo için gallery ekranları eklendi; diğer projeler isteğe bağlı.
 - [ ] (İsteğe bağlı) Aras Mali / Zeki Dekorasyon için `repo` + gallery görselleri; Aras canlı olunca `demo` / `live`.
 - [ ] (İleriki faz) EN/TR dil desteği — ayrı i18n çalışması; bu turda bilinçli olarak ertelendi.

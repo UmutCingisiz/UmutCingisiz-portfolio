@@ -43,8 +43,12 @@ const groups = [
     required: false,
   },
   {
-    label: "Observability (production hata takibi)",
-    keys: ["OBSERVABILITY_PROVIDER", "OBSERVABILITY_DSN"],
+    label: "Observability / Sentry (isteğe bağlı)",
+    keys: [
+      "OBSERVABILITY_PROVIDER",
+      "OBSERVABILITY_DSN",
+      "NEXT_PUBLIC_SENTRY_DSN",
+    ],
     required: false,
   },
 ];
