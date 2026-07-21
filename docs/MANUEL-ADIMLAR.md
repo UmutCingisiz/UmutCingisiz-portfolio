@@ -12,42 +12,34 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 - [x] **AUTH_SECRET:** Yerelde yenilendi (`.env.local`). Aynı değeri Vercel’e kopyala. Gerekirse tekrar: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`
 - [x] **GitHub OAuth:** [Developer settings → OAuth Apps](https://github.com/settings/developers) → Client secret’ı sil → Generate new → `AUTH_GITHUB_SECRET` güncelle (Client ID aynı kalabilir).
 - [x] **Callback URL (production):** `https://umutcingisiz.com/api/auth/callback/github`
-- [ ] Upstash / Resend henüz yoksa Vercel’de bu anahtarları **hiç ekleme** (boş string koyma). Kod zaten Redis/Resend yoksa kademeli kapanıyor.
-
-
+- [x] Upstash / Resend henüz yoksa Vercel’de bu anahtarları **hiç ekleme** (boş string koyma). Kod zaten Redis/Resend yoksa kademeli kapanıyor.
 
 ## 1) Domain ve production URL
 
 - [x] Domain satın al. (`umutcingisiz.com`)
 - [x] `NEXT_PUBLIC_SITE_URL` değerini production domain ile güncelle.
 
-
-
 ## 2) Vercel yayın
 
-- [x] Vercel'de projeyi oluştur. (deploy başlatıldı)
-- [ ] Yalnızca **dolu** env değişkenlerini Vercel'e taşı (boş Upstash/Resend ekleme).
-- [ ] Production `AUTH_URL=https://umutcingisiz.com` (yerelde `http://localhost:3000` kalır).
-- [ ] İlk deploy **Ready** oldu (build log yeşil).
-- [ ] Domain bağlandı: `umutcingisiz.com` → Vercel
-
-
+- [x] Vercel'de projeyi oluştur.
+- [x] Yalnızca **dolu** env değişkenlerini Vercel'e taşı (boş Upstash/Resend ekleme).
+- [x] Production `AUTH_URL=https://umutcingisiz.com` (yerelde `http://localhost:3000` kalır).
+- [x] İlk deploy **Ready** oldu (build log yeşil).
+- [x] Domain bağlandı: `umutcingisiz.com` → Vercel (www yeşil; apex bazen “DNS Change Recommended” gösterebilir — site açılıyorsa OK).
 
 ## 3) Auth ve servisler
 
 - [x] GitHub OAuth callback URL'ine production adresini ekle. (§0 ile aynı)
 - [x] Neon için yeni `DATABASE_URL` ekle ve `npm run db:push` ile Drizzle şemasını uygula. (2026-07-21 uygulandı)
-- [ ] Upstash Redis oluşturunca (isteğe bağlı):
+- [ ] Upstash Redis oluşturunca (isteğe bağlı — blog sayacı / CV rate limit):
   - [ ] `UPSTASH_REDIS_REST_URL`
   - [ ] `UPSTASH_REDIS_REST_TOKEN`
-- [ ] Resend domain doğrulamasını tamamlayınca:
+- [ ] Resend domain doğrulamasını tamamlayınca (iletişim formu mail göndersin):
   - [ ] `RESEND_API_KEY`
   - [ ] `CONTACT_FROM_EMAIL=noreply@umutcingisiz.com`
   - [ ] `CONTACT_NOTIFY_EMAIL` (bildirim alacağın adres)
 
-
-
-## 4) Observability provider
+## 4) Observability provider (isteğe bağlı — sonraya bırakılabilir)
 
 - [ ] Sentry, Axiom veya Datadog hesabını oluştur.
 - [ ] Production projesinde hata/event takibi için log drain veya SDK entegrasyonunu tamamla.
@@ -56,23 +48,24 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
   - [ ] `OBSERVABILITY_DSN`
 - [ ] Contact, guestbook, resume ve blog view akışları için provider dashboard'unda event/error göründüğünü doğrula.
 
+## 5) Production smoke test ← ŞİMDİ BURADAYIZ
 
-
-## 5) Production smoke test
-
-- [ ] Ana sayfa, projects, blog, guestbook, contact, resume akışları çalışıyor.
+- [x] Ana sayfa açılıyor.
+- [x] Guestbook: GitHub giriş + mesaj + admin moderasyon çalışıyor.
+- [ ] Projects: İncele → galeri / vaka çalışması; Demo yok; Kod linkleri doğru.
+- [ ] Blog: kart / oku → yazı açılıyor.
+- [ ] CV İndir: yeni PDF indiriliyor (tarayıcıda açılmıyor).
+- [ ] Contact formu: Resend yoksa dürüst hata mesajı (mail gitmez — beklenen).
 - [ ] Error / loading / 404 davranışları kontrol edildi.
 - [ ] Open Graph önizlemeleri doğrulandı.
 - [ ] Mobil genişlikte (≈390px) header menü ve proje kartları taşma yapmıyor.
-- [ ] En az bir Playwright smoke koşusu deploy öncesi temiz: `npm run test:e2e`.
-
-
+- [ ] En az bir Playwright smoke koşusu temiz: `npm run test:e2e`.
 
 ## 6) Yayın öncesi son kontrol
 
-- [ ] CV dosyası (`public/resume.pdf`) öğrenci profilinden ziyade DAÜ İngilizce Bilgisayar Mühendisliği mezunu profesyonel profilini yansıtıyor.
+- [x] CV dosyası güncellendi ve deploy’a gitti (`public/resume.pdf`).
 - [ ] Profil görseli (`public/profile.jpg`) güncel.
-- [ ] (İsteğe bağlı) Proje ekran görüntüleri: `public/images/projects/<slug>/` altına 3–4 PNG koy; MDX frontmatter `gallery` dizisine `src` / `alt` / `caption` ekle. Demo linki yerine vaka çalışması görselleri tercih edilir.
-- [ ] (İsteğe bağlı) Aras Mali / Zeki Dekorasyon için `repo` linkini frontmatter'a ekle; Aras Mali production Sanity/env bağları tamamlanınca status'u `live` yap ve isteğe bağlı `demo` (canlı site) ekle.
+- [x] Portfolyo için gallery ekranları eklendi; diğer projeler isteğe bağlı.
+- [ ] (İsteğe bağlı) Aras Mali / Zeki Dekorasyon için `repo` + gallery görselleri; Aras canlı olunca `demo` / `live`.
 - [ ] (İleriki faz) EN/TR dil desteği — ayrı i18n çalışması; bu turda bilinçli olarak ertelendi.
 - [ ] Son deploy'dan sonra manuel regresyon testi yapıldı.
