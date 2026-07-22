@@ -144,7 +144,7 @@ export function HiringProofSection() {
                   <p className="relative mt-1 font-mono text-sm text-muted-foreground">
                     {signal.tagline}
                   </p>
-                  <span className="relative mt-auto pt-5 text-sm font-medium text-signal opacity-100 transition-opacity duration-300 lg:opacity-0 lg:group-hover:opacity-100">
+                  <span className="relative mt-auto pt-5 text-sm font-medium text-signal transition-colors group-hover:text-signal/90">
                     Kanıtı incele →
                   </span>
                 </TiltCard>

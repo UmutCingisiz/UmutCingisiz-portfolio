@@ -12,14 +12,6 @@ import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { TiltCard } from "@/components/tilt-card";
 
-function shortHash(seed: string): string {
-  let h = 0;
-  for (let i = 0; i < seed.length; i += 1) {
-    h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  }
-  return h.toString(16).padStart(7, "0").slice(0, 7);
-}
-
 async function resolvePinnedRepos(): Promise<GithubRepoSummary[]> {
   const configured = siteConfig.githubPinned;
   const resolved = await Promise.all(
@@ -29,7 +21,8 @@ async function resolvePinnedRepos(): Promise<GithubRepoSummary[]> {
         name: live?.name ?? pin.name,
         description: live?.description ?? pin.description,
         html_url: live?.html_url ?? pin.html_url,
-        pushed_at: live?.pushed_at ?? new Date().toISOString(),
+        // Never invent "now" — missing API date stays empty (no fake freshness).
+        pushed_at: live?.pushed_at ?? "",
         stargazers_count: live?.stargazers_count,
         language: live?.language ?? pin.language,
         pinned: true,
@@ -146,7 +139,6 @@ export async function GithubActivitySection() {
   const logEntries: GitLogEntry[] = displayRepos.slice(0, 6).map((repo) => ({
     repo: repo.name,
     language: repo.language ?? null,
-    hash: shortHash(repo.name + repo.pushed_at),
     url: repo.html_url,
   }));
 
@@ -160,7 +152,8 @@ export async function GithubActivitySection() {
               Canlı geliştirme aktivitesi
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Pinned kanıtlar üstte; altında son push aktivitesi.
+              Pinned kanıtlar üstte; altında GitHub API’den gelen recent
+              repolar — sahte commit hash yok.
             </p>
           </div>
           <Link

@@ -1,10 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { BlogPostList } from "@/components/blog/blog-post-list";
+import { pageCanonical } from "@/lib/site-metadata";
 
 export const metadata: Metadata = {
   title: "Blog",
   description: "Teknik yazılar — MDX, kod vurgusu ve okuma süresi.",
+  ...pageCanonical("/blog"),
 };
 
 export default function BlogPage() {

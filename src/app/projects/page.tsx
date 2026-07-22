@@ -6,11 +6,13 @@ import { Magnetic } from "@/components/magnetic";
 import { PdiBlock } from "@/components/pdi-block";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { TiltCard } from "@/components/tilt-card";
+import { pageCanonical } from "@/lib/site-metadata";
 
 export const metadata: Metadata = {
   title: "Projeler",
   description:
     "Seçilmiş full-stack projeler — amaç, teknoloji ve teknik kararlar MDX ile.",
+  ...pageCanonical("/projects"),
 };
 
 function isLiveStatus(status: ProjectMeta["status"]) {

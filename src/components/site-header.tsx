@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { siteConfig } from "@/lib/site-config";
 import { Logo } from "@/components/logo";
 import { Magnetic } from "@/components/magnetic";
 import { socialLinks } from "@/components/social-icons";
+
+const MOBILE_NAV_ID = "mobile-primary-navigation";
 
 const nav = [
   { href: "/", label: "Ana Sayfa" },
@@ -46,11 +49,28 @@ function TerminalIcon({ className }: { className?: string }) {
   );
 }
 
+function isNavCurrent(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  if (href.startsWith("/#")) return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function SiteHeader() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 420, damping: 36, restDelta: 0.001 });
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 420,
+    damping: 36,
+    restDelta: 0.001,
+  });
+
+  const closeMobile = useCallback(() => {
+    setMobileOpen(false);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -65,8 +85,71 @@ export function SiteHeader() {
     } else {
       document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
+
+  // Escape + focus trap + initial focus + restore
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const panel = mobilePanelRef.current;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+
+    const focusables = () => {
+      if (!panel) return [] as HTMLElement[];
+      return Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
+    };
+
+    const items = focusables();
+    items[0]?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMobile();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const list = focusables();
+      if (list.length === 0) return;
+
+      const first = list[0];
+      const last = list[list.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (event.shiftKey) {
+        if (active === first || !panel?.contains(active)) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      if (previouslyFocused && document.contains(previouslyFocused)) {
+        previouslyFocused.focus();
+      } else {
+        menuButtonRef.current?.focus();
+      }
+    };
+  }, [mobileOpen, closeMobile]);
+
+  // Route change closes menu
+  useEffect(() => {
+    closeMobile();
+  }, [pathname, closeMobile]);
 
   return (
     <>
@@ -76,10 +159,6 @@ export function SiteHeader() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="sticky top-0 z-50 bg-background px-3 pt-3 pb-2 sm:px-5 sm:pt-4"
       >
-        {/* Yüzen kapsül header — kenarlardan boşluklu, klasik "tam genişlik çubuk"
-            hissinden bilinçli bir kopuş. Dış sarmalayıcı opak arka plan taşıyor;
-            aksi halde kaydırırken altındaki içerik boşluklardan sızıp kötü bir
-            görüntü oluşturuyordu. Kaydırınca kart gibi belirginleşir. */}
         <div
           className={`mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 rounded-2xl border px-4 transition-all duration-300 sm:px-5 ${
             scrolled
@@ -99,34 +178,50 @@ export function SiteHeader() {
             className="hidden items-center gap-0.5 rounded-xl border border-border/70 bg-muted/30 p-1.5 lg:flex"
             aria-label="Ana navigasyon"
           >
-            {nav.map((item, i) => (
-              <motion.div
-                key={item.href}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.05 * i }}
-              >
-                <Link
-                  href={item.href}
-                  className="group relative whitespace-nowrap rounded-lg px-3 py-2 text-[0.85rem] text-muted-foreground transition-all duration-200 hover:bg-muted/70 hover:text-foreground"
+            {nav.map((item, i) => {
+              const current = isNavCurrent(pathname, item.href);
+              return (
+                <motion.div
+                  key={item.href}
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.05 * i }}
                 >
-                  {item.label}
-                  <span className="absolute inset-x-4 bottom-1 h-px origin-left scale-x-0 bg-signal transition-transform duration-300 group-hover:scale-x-100" />
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    href={item.href}
+                    aria-current={current ? "page" : undefined}
+                    className="group relative whitespace-nowrap rounded-lg px-3 py-2 text-[0.85rem] text-muted-foreground transition-all duration-200 hover:bg-muted/70 hover:text-foreground aria-[current=page]:bg-muted/70 aria-[current=page]:text-foreground"
+                  >
+                    {item.label}
+                    <span className="absolute inset-x-4 bottom-1 h-px origin-left scale-x-0 bg-signal transition-transform duration-300 group-hover:scale-x-100 group-aria-[current=page]:scale-x-100" />
+                  </Link>
+                </motion.div>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "`", code: "Backquote", ctrlKey: true }))}
+              onClick={() =>
+                window.dispatchEvent(
+                  new KeyboardEvent("keydown", {
+                    key: "`",
+                    code: "Backquote",
+                    ctrlKey: true,
+                  }),
+                )
+              }
               className="group hidden items-center gap-2 rounded-xl border border-signal/30 bg-signal/[0.08] px-3 py-2 font-mono text-xs text-signal transition-all hover:border-signal/50 hover:bg-signal/[0.15] hover:shadow-[0_0_20px_var(--signal-glow)] xl:inline-flex"
               aria-label={`${siteConfig.terminal.name} terminalini aç`}
             >
               <TerminalIcon className="size-4" />
-              <span className="font-bold tracking-wide">{siteConfig.terminal.name}</span>
-              <kbd className="rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-[0.6rem]">Ctrl `</kbd>
+              <span className="font-bold tracking-wide">
+                {siteConfig.terminal.name}
+              </span>
+              <kbd className="rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-[0.6rem]">
+                Ctrl `
+              </kbd>
             </button>
 
             {socialLinks.slice(0, 2).map(({ href, icon: Icon, label }) => (
@@ -155,20 +250,24 @@ export function SiteHeader() {
               </Link>
             </Magnetic>
 
-            {/* Mobile Menu Button */}
             <button
+              ref={menuButtonRef}
               type="button"
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() => setMobileOpen((open) => !open)}
               className="inline-flex size-9 items-center justify-center rounded-lg text-foreground lg:hidden"
-              aria-label="Menü"
+              aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
+              aria-expanded={mobileOpen}
+              aria-controls={MOBILE_NAV_ID}
             >
-              {mobileOpen ? <CloseIcon className="size-5" /> : <MenuIcon className="size-5" />}
+              {mobileOpen ? (
+                <CloseIcon className="size-5" />
+              ) : (
+                <MenuIcon className="size-5" />
+              )}
             </button>
           </div>
         </div>
 
-        {/* İnce sayfa kaydırma göstergesi — pilin altında, aynı ton ailesinde
-            sessiz bir premium detay. */}
         <div className="mx-auto mt-1.5 h-[2px] max-w-6xl overflow-hidden rounded-full bg-border/25">
           <motion.div
             className="h-full origin-left rounded-full bg-gradient-to-r from-signal via-signal to-emerald-400/80"
@@ -177,34 +276,45 @@ export function SiteHeader() {
         </div>
       </motion.header>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
-        {mobileOpen && (
+        {mobileOpen ? (
           <motion.div
+            ref={mobilePanelRef}
+            id={MOBILE_NAV_ID}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobil menü"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl lg:hidden"
           >
-            <nav className="flex h-full flex-col items-center justify-center gap-6" aria-label="Mobil navigasyon">
-              {nav.map((item, i) => (
-                <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.3, delay: 0.05 * i }}
-                >
-                  <Link
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="text-2xl font-medium text-foreground transition-colors hover:text-muted-foreground"
+            <nav
+              className="flex h-full flex-col items-center justify-center gap-6"
+              aria-label="Mobil navigasyon"
+            >
+              {nav.map((item, i) => {
+                const current = isNavCurrent(pathname, item.href);
+                return (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.3, delay: 0.05 * i }}
                   >
-                    {item.label}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={item.href}
+                      onClick={closeMobile}
+                      aria-current={current ? "page" : undefined}
+                      className="text-2xl font-medium text-foreground transition-colors hover:text-muted-foreground"
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
 
               <div className="mt-4 h-px w-16 bg-border" />
 
@@ -215,7 +325,7 @@ export function SiteHeader() {
               >
                 <Link
                   href="/#contact"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={closeMobile}
                   className="btn-signal rounded-lg px-6 py-3 text-lg font-semibold"
                 >
                   İletişim
@@ -243,7 +353,7 @@ export function SiteHeader() {
               </motion.div>
             </nav>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </>
   );

@@ -7,6 +7,7 @@ import {
   getProjectSlugs,
 } from "@/lib/content/projects";
 import { ProjectGallery } from "@/components/project-gallery";
+import { pageCanonical } from "@/lib/site-metadata";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -28,6 +29,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: meta.description,
       type: "website",
     },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+    },
+    ...pageCanonical(`/projects/${slug}`),
   };
 }
 

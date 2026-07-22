@@ -73,14 +73,23 @@ export async function submitContactForm(
 
   const emailKey = `email:${normalizeEmail(parsed.data.email)}`;
   const ipKey = await getClientIpKey();
-  
-  const [emailPrior, ipPrior] = await Promise.all([
-    countContactSubmissions24h(emailKey),
-    countContactSubmissions24h(ipKey),
-  ]).catch((error) => {
+
+  let emailPrior: number;
+  let ipPrior: number;
+  try {
+    [emailPrior, ipPrior] = await Promise.all([
+      countContactSubmissions24h(emailKey),
+      countContactSubmissions24h(ipKey),
+    ]);
+  } catch (error) {
+    // Fail-closed: never treat a guard outage as "zero prior sends".
     logPortfolioError("contact.rate_limit_guard_failed", error);
-    return [0, 0];
-  });
+    return {
+      ok: false,
+      error:
+        "Güvenlik kontrolü şu an yapılamıyor. Lütfen biraz sonra tekrar dene veya e-posta ile ulaş.",
+    };
+  }
 
   if (emailPrior >= MAX_PER_DAY_PER_EMAIL) {
     logPortfolioEvent("contact.rate_limited", { dimension: "email" });
@@ -105,7 +114,7 @@ export async function submitContactForm(
     return {
       ok: false,
       error:
-        "Iletisim servisi su an etkin degil. Lutfen e-posta baglantisini kullanarak ulas.",
+        "İletişim servisi şu an etkin değil. Lütfen e-posta bağlantısını kullanarak ulaş.",
     };
   }
 
@@ -116,7 +125,8 @@ export async function submitContactForm(
     logPortfolioEvent("contact.service_unconfigured", { missing: "CONTACT_FROM_EMAIL" });
     return {
       ok: false,
-      error: "Iletisim servisi ayarlari tamamlanmadi. Lutfen daha sonra tekrar dene.",
+      error:
+        "İletişim servisi ayarları tamamlanmadı. Lütfen daha sonra tekrar dene.",
     };
   }
 

@@ -44,22 +44,37 @@ export function ContactSection({ contactSuccess }: Props) {
         </Reveal>
 
         {contactSuccess ? (
-          <p
+          <div
             role="status"
-            className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4 text-sm text-foreground lg:col-start-2"
+            className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-6 text-sm text-foreground lg:col-start-2"
           >
-            Mesajın iletildi. En kısa sürede dönüş yapabilirim.
-          </p>
-        ) : null}
-
-        <Reveal index={1}>
-          <div className="rounded-xl border border-border bg-card/60 p-6 text-left backdrop-blur-sm">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              secure.form
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400/90">
+              contact.sent
             </p>
-            <ContactForm />
+            <p className="mt-3 font-medium">
+              Mesajın iletildi. En kısa sürede dönüş yapabilirim.
+            </p>
+            <p className="mt-2 text-muted-foreground">
+              Aynı mesajı tekrar göndermene gerek yok. Doğrudan mail için{" "}
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="underline underline-offset-4 hover:text-foreground"
+              >
+                {siteConfig.email}
+              </a>
+              .
+            </p>
           </div>
-        </Reveal>
+        ) : (
+          <Reveal index={1}>
+            <div className="rounded-xl border border-border bg-card/60 p-6 text-left backdrop-blur-sm">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                secure.form
+              </p>
+              <ContactForm />
+            </div>
+          </Reveal>
+        )}
       </div>
     </section>
   );

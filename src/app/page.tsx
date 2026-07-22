@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { AlgorithmLabSection } from "@/components/algorithm-lab-section";
 import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
@@ -10,6 +11,11 @@ import { QualityStandardsSection } from "@/components/quality-standards-section"
 import { SkillsSection } from "@/components/skills-section";
 import { StatusBanner } from "@/components/status-banner";
 import { TerminalPrompt } from "@/components/terminal-prompt";
+import { pageCanonical } from "@/lib/site-metadata";
+
+export const metadata: Metadata = {
+  ...pageCanonical("/"),
+};
 
 export default async function Home({
   searchParams,

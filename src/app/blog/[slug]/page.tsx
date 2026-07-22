@@ -8,6 +8,7 @@ import {
   getPostMetaBySlug,
   getPostSlugs,
 } from "@/lib/content/posts";
+import { pageCanonical } from "@/lib/site-metadata";
 
 export const revalidate = 3600;
 
@@ -32,6 +33,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: meta.date,
     },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+    },
+    ...pageCanonical(`/blog/${slug}`),
   };
 }
 

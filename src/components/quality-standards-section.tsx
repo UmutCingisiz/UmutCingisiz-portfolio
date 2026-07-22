@@ -6,8 +6,8 @@ const standards = [
   {
     label: "performance",
     title: "Performans bütçesi",
-    target: "LCP < 2.5s · CLS < 0.1 · INP < 200ms",
-    body: "Hero görseli, server-first bölümler ve kontrollü animasyonlarla görsel kaliteyi hızdan ödün vermeden koruma hedefi.",
+    target: "Hedef checklist · LCP / CLS / INP (ölçüm sonrası güncellenir)",
+    body: "Hero görseli, server-first bölümler ve kontrollü animasyonlarla görsel kaliteyi hızdan ödün vermeden koruma hedefi — canlı Lighthouse skorları eklendikçe burası somutlaşır.",
     icon: GaugeIcon,
   },
   {
@@ -121,7 +121,7 @@ export function QualityStandardsSection() {
                   </div>
 
                   <p className="relative mt-4 break-words font-mono text-[0.7rem] leading-5 text-signal sm:text-xs">
-                    $ target — {item.target}
+                    $ checklist — {item.target}
                   </p>
                   <p className="relative mt-3 text-sm leading-relaxed text-muted-foreground">
                     {item.body}

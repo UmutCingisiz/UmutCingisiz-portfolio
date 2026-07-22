@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
 import { ogSiteDescription } from "@/lib/og-brand";
+import { canonicalFor, getSiteOrigin } from "@/lib/site-url";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
+/**
+ * Root metadata. Canonical is NOT set here — each route sets its own
+ * `alternates.canonical` so children never inherit the homepage URL.
+ */
 export function getSiteMetadata(): Metadata {
+  const siteUrl = getSiteOrigin();
   const title = `${siteConfig.name} | Full-Stack Engineer`;
   const description = ogSiteDescription;
 
@@ -29,10 +32,15 @@ export function getSiteMetadata(): Metadata {
       title,
       description,
     },
-    alternates: {
-      canonical: siteUrl,
-    },
     authors: [{ name: siteConfig.name, url: siteUrl }],
     creator: siteConfig.name,
+  };
+}
+
+export function pageCanonical(path: string): Pick<Metadata, "alternates"> {
+  return {
+    alternates: {
+      canonical: canonicalFor(path),
+    },
   };
 }
