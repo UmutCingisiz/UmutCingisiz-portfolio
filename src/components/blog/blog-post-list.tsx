@@ -18,53 +18,69 @@ export function BlogPostList() {
         bağlantıları yazı sayfasında.
       </p>
 
-      <ul className="mt-12 space-y-4">
-        {posts.map((post, index) => (
-          <li key={post.slug}>
-            <Reveal index={index}>
-              <TiltCard
-                as="article"
-                max={5}
-                className="premium-card gradient-border group rounded-2xl p-6"
-              >
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="relative z-10 block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
-                >
-                  <div className="flex flex-wrap items-center gap-3">
-                    <time
-                      dateTime={post.date}
-                      className="font-mono text-xs text-muted-foreground"
-                    >
-                      {new Date(post.date).toLocaleDateString("tr-TR", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </time>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      ~{post.readingMinutes} dk
-                    </span>
-                  </div>
-                  <h2 className="mt-3 text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-signal">
-                    {post.title}
-                  </h2>
-                  <p className="mt-2 leading-relaxed text-muted-foreground">
-                    {post.description}
-                  </p>
-                  <span className="mt-4 inline-flex items-center gap-1 font-mono text-xs text-signal">
-                    oku →
-                  </span>
-                </Link>
-              </TiltCard>
-            </Reveal>
-          </li>
-        ))}
-      </ul>
-
       {posts.length === 0 ? (
-        <p className="mt-12 text-muted-foreground">Henüz yazı yok.</p>
-      ) : null}
+        <div className="mt-12 rounded-2xl border border-dashed border-border bg-card/30 px-6 py-14 text-center">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            empty.feed
+          </p>
+          <p className="mt-4 text-base font-medium text-foreground">
+            Henüz yayınlanmış yazı yok.
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Yeni teknik notlar burada görünecek. Bu arada projeleri inceleyebilirsin.
+          </p>
+          <Link
+            href="/projects"
+            className="mt-6 inline-flex h-10 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+          >
+            Projelere git
+          </Link>
+        </div>
+      ) : (
+        <ul className="mt-12 space-y-4">
+          {posts.map((post, index) => (
+            <li key={post.slug}>
+              <Reveal index={index}>
+                <TiltCard
+                  as="article"
+                  max={5}
+                  className="surface-interactive gradient-border group rounded-2xl p-6"
+                >
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="relative z-10 block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
+                  >
+                    <div className="flex flex-wrap items-center gap-3">
+                      <time
+                        dateTime={post.date}
+                        className="font-mono text-xs text-muted-foreground"
+                      >
+                        {new Date(post.date).toLocaleDateString("tr-TR", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </time>
+                      <span className="font-mono text-xs text-muted-foreground">
+                        ~{post.readingMinutes} dk
+                      </span>
+                    </div>
+                    <h2 className="mt-3 text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-signal">
+                      {post.title}
+                    </h2>
+                    <p className="mt-2 leading-relaxed text-muted-foreground">
+                      {post.description}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-1 font-mono text-xs text-signal">
+                      oku →
+                    </span>
+                  </Link>
+                </TiltCard>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 }

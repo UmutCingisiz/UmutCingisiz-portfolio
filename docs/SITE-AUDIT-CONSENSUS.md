@@ -185,6 +185,13 @@ Hiring redesign, Quality, GitHub polish, Contact polish, Guestbook UX, status he
 
 JSON-LD Person/WebSite/Article/CreativeWork, deep links.
 
+### Checklist
+1. [x] Person + WebSite `@graph` (root layout)  
+2. [x] BlogPosting JSON-LD + related-by-tag + empty state  
+3. [x] Project CreativeWork JSON-LD + end CTA  
+4. [x] `pageSocial` (canonical + OG/Twitter) list & leaf routes  
+5. [x] `not-found` metadata + `noindex`
+
 ---
 
 # Sprint 5 — Polish

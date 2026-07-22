@@ -44,3 +44,24 @@ export function pageCanonical(path: string): Pick<Metadata, "alternates"> {
     },
   };
 }
+
+/** Canonical + Open Graph / Twitter URL for list and leaf routes. */
+export function pageSocial(
+  path: string,
+  opts: { title: string; description: string },
+): Metadata {
+  const url = canonicalFor(path);
+  return {
+    ...pageCanonical(path),
+    openGraph: {
+      title: opts.title,
+      description: opts.description,
+      url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: opts.title,
+      description: opts.description,
+    },
+  };
+}

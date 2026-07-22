@@ -6,7 +6,7 @@ import { Magnetic } from "@/components/magnetic";
 import { PdiBlock } from "@/components/pdi-block";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { TiltCard } from "@/components/tilt-card";
-import { pageCanonical } from "@/lib/site-metadata";
+import { pageSocial } from "@/lib/site-metadata";
 import {
   getProjectStatusBadgeClass,
   getProjectStatusLabel,
@@ -17,7 +17,11 @@ export const metadata: Metadata = {
   title: "Projeler",
   description:
     "Seçilmiş full-stack projeler — amaç, teknoloji ve teknik kararlar MDX ile.",
-  ...pageCanonical("/projects"),
+  ...pageSocial("/projects", {
+    title: "Projeler",
+    description:
+      "Seçilmiş full-stack projeler — amaç, teknoloji ve teknik kararlar MDX ile.",
+  }),
 };
 
 export default async function ProjectsPage() {

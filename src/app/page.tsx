@@ -12,10 +12,14 @@ import { QualityStandardsSection } from "@/components/quality-standards-section"
 import { SkillsSection } from "@/components/skills-section";
 import { StatusBanner } from "@/components/status-banner";
 import { TerminalPrompt } from "@/components/terminal-prompt";
-import { pageCanonical } from "@/lib/site-metadata";
+import { siteConfig } from "@/lib/site-config";
+import { pageSocial } from "@/lib/site-metadata";
 
 export const metadata: Metadata = {
-  ...pageCanonical("/"),
+  ...pageSocial("/", {
+    title: `${siteConfig.name} | Full-Stack Engineer`,
+    description: siteConfig.shortBio,
+  }),
 };
 
 export default async function Home({

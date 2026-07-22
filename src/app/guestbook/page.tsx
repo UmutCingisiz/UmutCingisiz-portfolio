@@ -19,7 +19,7 @@ import {
   listRejectedEntries,
   type GuestbookEntryRow,
 } from "@/lib/guestbook";
-import { pageCanonical } from "@/lib/site-metadata";
+import { pageSocial } from "@/lib/site-metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +27,11 @@ export const metadata: Metadata = {
   title: "Ziyaretçi defteri",
   description:
     "GitHub ile oturum, Neon Postgres ve moderasyon — kısa ziyaretçi notları.",
-  ...pageCanonical("/guestbook"),
+  ...pageSocial("/guestbook", {
+    title: "Ziyaretçi defteri",
+    description:
+      "GitHub ile oturum, Neon Postgres ve moderasyon — kısa ziyaretçi notları.",
+  }),
 };
 
 function formatGuestbookDate(iso: string) {

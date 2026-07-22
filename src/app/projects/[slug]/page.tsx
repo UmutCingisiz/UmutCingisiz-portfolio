@@ -6,12 +6,15 @@ import {
   getProjectMetaBySlug,
   getProjectSlugs,
 } from "@/lib/content/projects";
+import { JsonLd } from "@/components/json-ld";
 import { ProjectGallery } from "@/components/project-gallery";
+import { projectCreativeWorkJsonLd } from "@/lib/json-ld";
 import { pageCanonical } from "@/lib/site-metadata";
 import {
   getProjectStatusBadgeClass,
   getProjectStatusLabel,
 } from "@/lib/project-status";
+import { canonicalFor } from "@/lib/site-url";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -25,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const meta = getProjectMetaBySlug(slug);
   if (!meta) return {};
+  const url = canonicalFor(`/projects/${slug}`);
   return {
     title: meta.title,
     description: meta.description,
@@ -32,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: meta.title,
       description: meta.description,
       type: "website",
+      url,
     },
     twitter: {
       card: "summary_large_image",
@@ -71,6 +76,17 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <article className="mx-auto max-w-5xl flex-1 px-4 py-16 sm:px-6 sm:py-24">
+      <JsonLd
+        data={projectCreativeWorkJsonLd({
+          slug,
+          title: frontmatter.title,
+          description: frontmatter.description,
+          date: frontmatter.date,
+          tags: frontmatter.tags,
+          repo: frontmatter.repo,
+          demo: frontmatter.demo,
+        })}
+      />
       <Link
         href="/projects"
         className="inline-flex rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
@@ -175,6 +191,30 @@ export default async function ProjectDetailPage({ params }: Props) {
       <div className="prose prose-neutral dark:prose-invert prose-pre:bg-transparent prose-pre:p-0 max-w-none py-10 prose-headings:tracking-tight prose-a:text-foreground prose-a:underline [&_pre]:overflow-x-auto [&_figure]:!my-6">
         {content}
       </div>
+
+      <section className="mt-4 rounded-xl border border-border bg-card/50 p-6 sm:p-7">
+        <h2 className="text-xl font-semibold tracking-tight text-foreground">
+          Bu proje hakkında konuşalım
+        </h2>
+        <p className="mt-2 text-sm leading-7 text-muted-foreground">
+          Mimari kararlar, stack seçimleri veya işbirliği için kısa bir mesaj
+          yeterli.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link
+            href="/#contact"
+            className="btn-signal inline-flex h-10 items-center rounded-lg px-4 text-sm font-semibold"
+          >
+            İletişime geç
+          </Link>
+          <Link
+            href="/projects"
+            className="inline-flex h-10 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+          >
+            Tüm projeler
+          </Link>
+        </div>
+      </section>
     </article>
   );
 }

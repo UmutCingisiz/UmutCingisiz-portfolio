@@ -52,3 +52,33 @@ export function getPostMetaBySlug(slug: string): PostMeta | null {
 export function getPostSlugs(): string[] {
   return getAllPostsMeta().map((p) => p.slug);
 }
+
+/** Same-tag posts for related reading; falls back to newest if no tag overlap. */
+export function getRelatedPosts(slug: string, limit = 3): PostMeta[] {
+  const current = getPostMetaBySlug(slug);
+  if (!current) return [];
+
+  const tagSet = new Set(current.tags);
+  const others = getAllPostsMeta().filter((p) => p.slug !== slug);
+
+  const scored = others
+    .map((post) => ({
+      post,
+      score: post.tags.filter((tag) => tagSet.has(tag)).length,
+    }))
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return new Date(b.post.date).getTime() - new Date(a.post.date).getTime();
+    });
+
+  const related = scored.filter((x) => x.score > 0).map((x) => x.post);
+  if (related.length >= limit) return related.slice(0, limit);
+
+  const seen = new Set(related.map((p) => p.slug));
+  for (const { post } of scored) {
+    if (seen.has(post.slug)) continue;
+    related.push(post);
+    if (related.length >= limit) break;
+  }
+  return related;
+}
