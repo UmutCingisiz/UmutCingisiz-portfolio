@@ -34,7 +34,7 @@ export const siteConfig = {
   description:
     "Bu portfolyo benim için basit bir vitrin değil, somut bir mühendislik kanıtıdır: hibrit render mimarisi, Drizzle ORM veritabanı şeması, fail-safe Redis cache katmanı, server action'lar ve MDX içerik altyapısı tek çatı altında çalışıyor.",
   shortBio:
-    "Doğu Akdeniz Üniversitesi İngilizce Bilgisayar Mühendisliği mezunu olarak, TÜBİTAK BİGG programından 'En İyi Proje' ödülü almış ürünler geliştiriyorum. Yapay Zeka Geliştirme Kulübü'ndeki organizasyonel vizyonumu, C, Java, Python ve modern web teknolojileriyle harmanlayarak kullanıcı odaklı sistemler inşa ediyorum.",
+    "DAÜ Bilgisayar Mühendisliği mezunu; TÜBİTAK BİGG En İyi Proje ödüllü Bloomedu üzerinde full-stack ürün geliştiriyorum.",
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
   linkedin: "https://www.linkedin.com/in/umut-ibrahim-cingisiz-878053309",
@@ -54,10 +54,10 @@ export const siteConfig = {
     "Redis",
   ],
   proofPoints: [
-    "Guestbook: GitHub OAuth, moderation, strict rate limit",
-    "Blog: MDX, ISR, Upstash Redis view tracking, fallback UI",
-    "Core: Drizzle ORM, Zod validation, defensive programming",
-    "Testing: Vitest + Playwright E2E, CI kalite kapısı",
+    "Guestbook: GitHub OAuth, moderasyon, sıkı rate limit",
+    "Blog: MDX, ISR, Upstash Redis görüntüleme, fallback UI",
+    "Çekirdek: Drizzle ORM, Zod doğrulama, defensive programming",
+    "Test: Vitest + Playwright E2E, CI kalite kapısı",
   ],
   currentFocus:
     "TÜBİTAK ödüllü projemin ardından, ölçeklenebilir ve fail-safe sistemler üzerine yoğunlaşıyorum.",

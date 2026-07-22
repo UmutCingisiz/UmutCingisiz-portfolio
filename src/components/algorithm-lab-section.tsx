@@ -10,7 +10,7 @@ const scenarios = [
     name: "Dengeli rota",
     description: "En kısa yol ile riskli düğümler arasında dengeli seçim.",
     cost: 42,
-    signal: "latency / risk dengesi",
+    signal: "gecikme / risk dengesi",
     path: [0, 1, 10, 11, 20, 21, 30, 31, 39],
     blocked: [9, 19, 29],
   },
@@ -18,7 +18,7 @@ const scenarios = [
     name: "Güvenli rota",
     description: "Daha uzun ama darboğazlardan uzak bir rota.",
     cost: 57,
-    signal: "fault tolerance öncelikli",
+    signal: "hata toleransı öncelikli",
     path: [0, 8, 16, 24, 32, 33, 34, 35, 36, 37, 38, 39],
     blocked: [9, 17, 25],
   },
@@ -26,7 +26,7 @@ const scenarios = [
     name: "Agresif rota",
     description: "Düşük maliyet için yoğun düğümlere daha yakın geçiş.",
     cost: 35,
-    signal: "speed-first karar",
+    signal: "hız öncelikli karar",
     path: [0, 1, 2, 11, 20, 21, 30, 31, 39],
     blocked: [16, 24, 32],
   },
@@ -56,8 +56,14 @@ export function AlgorithmLabSection() {
     }));
   }, [active]);
 
+  const liveSummary = `${active.name}: maliyet ${active.cost}. ${active.description} Öncelik: ${active.signal}. Yol ${active.path.length} düğüm; ${active.blocked.length} engelli düğüm.`;
+
   return (
-    <section className="relative scroll-mt-24 overflow-hidden px-4 py-24 sm:px-6 sm:py-32">
+    <section
+      id="algorithm-lab"
+      className="relative scroll-mt-24 overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
+      aria-labelledby="algorithm-lab-heading"
+    >
       <div
         className="ambient-orb right-0 top-6 size-80 opacity-60"
         style={{ background: "radial-gradient(circle, var(--signal-glow), transparent 65%)" }}
@@ -66,15 +72,22 @@ export function AlgorithmLabSection() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <SectionEyebrow>algorithm.lab</SectionEyebrow>
-          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Algoritmaları sadece listelemiyorum, karar mantığını gösteriyorum.
+          <h2
+            id="algorithm-lab-heading"
+            className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+          >
+            Rota seçiminde maliyet, risk ve hız trade-off’unu gösteriyorum.
           </h2>
           <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground">
-            Bu mini demo, rota optimizasyonu fikrini portfolyo içinde
-            görselleştirir: farklı öncelikler seçildiğinde algoritmanın maliyet,
-            risk ve hız arasında nasıl trade-off yaptığı görünür hale gelir.
+            Bu interaktif görselleştirme canlı bir pathfinding solver değil;
+            üç hazır senaryoyla öncelik değişince yolun ve maliyetin nasıl
+            kaydığını anlatır.
           </p>
         </Reveal>
+
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          {liveSummary}
+        </p>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:items-center">
           <div className="grid gap-3">
@@ -84,10 +97,10 @@ export function AlgorithmLabSection() {
                 type="button"
                 aria-pressed={activeIndex === index}
                 onClick={() => setActiveIndex(index)}
-                className="rounded-xl border border-border bg-card/50 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/40 aria-pressed:border-signal aria-pressed:bg-signal aria-pressed:text-signal-foreground aria-pressed:shadow-[0_0_35px_var(--signal-glow-strong)]"
+                className="rounded-xl border border-border bg-card/50 p-4 text-left transition-all duration-[var(--motion-base)] hover:-translate-y-0.5 hover:border-signal/40 aria-pressed:border-signal aria-pressed:bg-signal aria-pressed:text-signal-foreground"
               >
                 <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] opacity-70">
-                  scenario 0{index + 1}
+                  senaryo 0{index + 1}
                 </span>
                 <span className="mt-2 block text-sm font-semibold">
                   {scenario.name}
@@ -97,7 +110,7 @@ export function AlgorithmLabSection() {
 
             <div className="mt-2 rounded-xl border border-border bg-background/40 p-4">
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
-                route cost
+                rota maliyeti
               </p>
               <p className="mt-1 text-3xl font-bold text-foreground">
                 {active.cost}
@@ -108,8 +121,6 @@ export function AlgorithmLabSection() {
             </div>
           </div>
 
-          {/* Harita kasıtlı olarak kartın içine hapsedilmedi: sayfa arka planında
-             serbestçe yayılıyor, sadece yol hücreleri imza rengiyle parlıyor. */}
           <div className="relative">
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <h3 className="text-xl font-semibold text-foreground">{active.name}</h3>
@@ -120,12 +131,13 @@ export function AlgorithmLabSection() {
 
             <div
               className="grid gap-1.5 sm:gap-2"
+              role="img"
+              aria-label={liveSummary}
               style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}
             >
               {cells.map((cell) => (
                 <div
                   key={cell.index}
-                  title={`node-${cell.index}`}
                   className={[
                     "aspect-square rounded-md border transition-all duration-500",
                     cell.isBlocked
@@ -147,14 +159,20 @@ export function AlgorithmLabSection() {
               ))}
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-2 text-xs">
-              <span className="rounded-full border border-border bg-card/40 px-3 py-1.5 text-muted-foreground">
-                stack: C / Java / Python mindset
-              </span>
-              <span className="rounded-full border border-border bg-card/40 px-3 py-1.5 text-muted-foreground">
-                output: karar + trade-off anlatımı
-              </span>
-            </div>
+            <ul className="mt-6 flex flex-wrap gap-2 text-xs text-muted-foreground">
+              <li className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5">
+                başlangıç / bitiş
+              </li>
+              <li className="rounded-full border border-signal/30 bg-signal/10 px-3 py-1.5">
+                seçilen yol
+              </li>
+              <li className="rounded-full border border-red-500/25 bg-red-500/10 px-3 py-1.5">
+                engelli düğüm
+              </li>
+              <li className="rounded-full border border-border bg-card/40 px-3 py-1.5">
+                C / Java / Python yaklaşımı · trade-off anlatımı
+              </li>
+            </ul>
           </div>
         </div>
       </div>

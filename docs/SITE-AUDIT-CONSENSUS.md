@@ -156,6 +156,12 @@ Hero, About, Skills, Algorithm Lab.
 - Hero okunma / first-fold: ~10–12 sn → **6–8 sn**  
 - First fold = **1 ana mesaj**  
 
+### Checklist
+1. [x] Hero: kısa bio, TR “Müsait”, dual CTA (İletişim + Projeler), tech chips fold altı  
+2. [x] About: identity lead, TR proof chips, timeline `h3`  
+3. [x] Skills: capability intro, `#algorithm-lab` deep-link, sakin tech chips, mobilde güçlü önce  
+4. [x] Algorithm Lab: `id`, aria-live özet, trade-off framing, TR legend  
+
 ### Risk
 Copy/CTA değişikliği conversion’ı bozabilir → analytics + A/B değilse soft launch.
 

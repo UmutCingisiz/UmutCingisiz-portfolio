@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { siteConfig } from "@/lib/site-config";
@@ -56,6 +57,7 @@ type StrongSkill = {
   title: string;
   tagline: string;
   proof: string;
+  href?: string;
   icon: (props: { className?: string }) => ReactNode;
 };
 
@@ -80,6 +82,7 @@ const strong: readonly StrongSkill[] = [
     title: "Algoritmik Problem Çözme",
     tagline: "rota & graph optimizasyonu",
     proof: "40+ düğümlü simülasyon · aşağıda dene",
+    href: "#algorithm-lab",
     icon: BinaryIcon,
   },
 ];
@@ -116,9 +119,18 @@ function StrongCard({
         <p className="relative mt-2 font-mono text-sm text-muted-foreground">
           {skill.tagline}
         </p>
-        <p className="relative mt-auto pt-8 font-mono text-xs text-signal/80">
-          {skill.proof}
-        </p>
+        {skill.href ? (
+          <Link
+            href={skill.href}
+            className="relative mt-auto pt-8 font-mono text-xs text-signal/80 underline-offset-4 transition-colors hover:text-signal hover:underline"
+          >
+            {skill.proof}
+          </Link>
+        ) : (
+          <p className="relative mt-auto pt-8 font-mono text-xs text-signal/80">
+            {skill.proof}
+          </p>
+        )}
       </article>
     </Reveal>
   );
@@ -138,18 +150,14 @@ export function SkillsSection() {
             Güçlü olduğum ve büyüttüğüm alanlar.
           </h2>
           <p className="mt-5 text-sm leading-7 text-muted-foreground">
-            Mobilde önce geliştirdiğim alanlar, ardından uzmanlaştığım alanlar.
-            Geniş ekranda solda gelişen / sağda güçlü — görsel hiyerarşi olgunluğu
-            gösterir.
+            Üretimde güvenle taşıdığım alanlar ve bilinçli büyüttüğüm
+            yetkinlikler — her biri proje veya lab çıktısına bağlanır.
           </p>
         </div>
 
-        {/* Sol: gelişen (küçük) · Sağ: güçlü (büyük). İki kolon da aynı toplam
-            yüksekliği paylaşır (items-stretch + flex-1 grid), kareler orantısız
-            durmasın. */}
+        {/* Mobilde güçlü alanlar önce; lg’de solda gelişen / sağda güçlü. */}
         <div className="mt-14 grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-stretch">
-          {/* SOL — geliştirdiğim alanlar */}
-          <div className="flex h-full flex-col gap-4">
+          <div className="order-2 flex h-full flex-col gap-4 lg:order-1">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               {"// geliştirdiğim alanlar"}
             </p>
@@ -173,8 +181,7 @@ export function SkillsSection() {
             </div>
           </div>
 
-          {/* SAĞ — güçlü olduğum alanlar (daha büyük) */}
-          <div className="flex h-full flex-col gap-4">
+          <div className="order-1 flex h-full flex-col gap-4 lg:order-2">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-signal">
               {"// güçlü olduğum alanlar"}
             </p>
@@ -203,15 +210,15 @@ export function SkillsSection() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {siteConfig.techStack.map((group, index) => (
               <Reveal key={group.group} index={index} className="h-full">
-                <div className="premium-card group h-full rounded-2xl p-5">
-                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-signal">
+                <div className="surface-plain group h-full p-5">
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
                     {group.group}
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-4 flex flex-wrap gap-1.5">
                     {group.items.map((item) => (
                       <span
                         key={item}
-                        className="rounded-lg border border-border bg-background/40 px-3 py-1.5 text-xs font-medium text-foreground/85 transition-colors duration-200 group-hover:border-signal/20"
+                        className="rounded-md px-2 py-1 text-xs font-medium text-foreground/75"
                       >
                         {item}
                       </span>

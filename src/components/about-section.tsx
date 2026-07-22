@@ -33,16 +33,19 @@ export function AboutSection() {
           <div>
             <SectionEyebrow>about.engineer</SectionEyebrow>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Hakkımda kısmı bir biyografi değil; nasıl mühendislik yaptığımın
-              kanıtı.
+              Bilgisayar mühendisi. TÜBİTAK ödüllü ürün. Full-stack sistemler.
             </h2>
             <p className="mt-5 text-pretty text-base leading-7 text-muted-foreground">
+              {siteConfig.shortBio} {siteConfig.location}
+              {" merkezli çalışıyorum; yeni full-stack mühendislik rollerine açığım."}
+            </p>
+            <p className="mt-4 text-pretty text-sm leading-7 text-muted-foreground">
               {siteConfig.description}
             </p>
 
             <div className="surface-plain mt-8 p-5 backdrop-blur-sm">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                proof_of_work
+                üretim kanıtları
               </p>
               <div className="mt-4 grid gap-2 sm:grid-cols-2">
                 {siteConfig.proofPoints.map((item) => (
@@ -76,12 +79,10 @@ export function AboutSection() {
           </div>
         </div>
 
-        {/* Deneyim & liderlik zaman çizelgesi — bağlantılı noktalarla, kart
-            yığınından farklı bir ritim getirir. */}
         <div className="mt-16 border-t border-border pt-14">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            deneyim · liderlik
-          </p>
+          <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Deneyim ve liderlik
+          </h3>
           <Timeline items={siteConfig.milestones} />
         </div>
       </div>

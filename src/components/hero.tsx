@@ -7,7 +7,6 @@ import { useState } from "react";
 import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
-import { Magnetic } from "@/components/magnetic";
 import { TiltCard } from "@/components/tilt-card";
 
 function ArrowRightIcon({ className }: { className?: string }) {
@@ -55,7 +54,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
 
       {/*
-        Mobil sıra: metin → foto → derece kartları
+        Mobil sıra: metin → foto → derece kartları → tech signal
         Desktop: sol metin+stats | sağ foto (foto iki satırı kaplar)
       */}
       <div className="relative mx-auto grid max-w-7xl items-start gap-8 sm:gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:grid-rows-[auto_auto] lg:gap-x-12 lg:gap-y-8">
@@ -71,7 +70,7 @@ export function Hero() {
               <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
             </span>
             <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-emerald-500 dark:text-emerald-400">
-              Available
+              Müsait
             </span>
             <span className="text-muted-foreground">· yeni fırsatlara açık</span>
           </div>
@@ -93,19 +92,23 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
-            <Magnetic>
-              <Link
-                href="/projects"
-                className="btn-signal group inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 sm:h-12"
-              >
-                Projeleri İncele
-                <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </Magnetic>
+            <Link
+              href="/#contact"
+              className="btn-signal group inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 sm:h-12"
+            >
+              İletişim
+              <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              href="/projects"
+              className="inline-flex h-11 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted sm:h-12"
+            >
+              Projeleri İncele
+            </Link>
             <a
               href="/api/resume"
               download="Umut-Cingisiz-CV.pdf"
-              className="inline-flex h-11 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted sm:h-12"
+              className="inline-flex h-11 items-center rounded-xl px-4 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground sm:h-12"
             >
               CV İndir
             </a>
@@ -188,17 +191,6 @@ export function Hero() {
                 </p>
               </div>
             </div>
-
-            <div className="mt-2.5 flex flex-wrap gap-1.5 sm:mt-3">
-              {siteConfig.techSignal.map((tech) => (
-                <span
-                  key={tech}
-                  className="rounded-lg border border-border bg-muted/50 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground sm:px-2.5 sm:text-[0.65rem]"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
           </TiltCard>
         </motion.div>
 
@@ -220,6 +212,23 @@ export function Hero() {
                 {stat.value}
               </p>
             </div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.35, ease: "easeOut" }}
+          className="order-4 flex flex-wrap gap-1.5 lg:col-span-2"
+          aria-label="Teknoloji sinyali"
+        >
+          {siteConfig.techSignal.map((tech) => (
+            <span
+              key={tech}
+              className="rounded-md border border-border/70 bg-muted/35 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground sm:text-[0.65rem]"
+            >
+              {tech}
+            </span>
           ))}
         </motion.div>
       </div>
