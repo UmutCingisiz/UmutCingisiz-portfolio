@@ -20,7 +20,6 @@ export function FeaturedProjectsList({ projects }: Props) {
       id="projects"
       className="relative scroll-mt-24 overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
     >
-      <div className="ambient-orb left-1/2 top-24 size-72 -translate-x-1/2 opacity-25" />
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>

@@ -10,6 +10,10 @@ import {
   logContactSubmissionGuard,
 } from "@/lib/contact-guard";
 import {
+  CONTACT_MAX_PER_DAY_PER_EMAIL,
+  decideContactRateLimit,
+} from "@/lib/contact-rate-limit";
+import {
   parseContactFormFields,
   type ContactFieldErrors,
 } from "@/lib/contact-schema";
@@ -23,9 +27,6 @@ export type ContactFormState =
       fieldErrors?: ContactFieldErrors;
     }
   | null;
-
-const MAX_PER_DAY_PER_EMAIL = 5;
-const MAX_PER_DAY_PER_IP = 20;
 
 function normalizeEmail(e: string) {
   return e.trim().toLowerCase();
@@ -74,7 +75,7 @@ export async function submitContactForm(
     if (emailNorm.includes("rate-limit@")) {
       return {
         ok: false,
-        error: `Bu e-postadan 24 saat içinde en fazla ${MAX_PER_DAY_PER_EMAIL} mesaj gönderilebilir.`,
+        error: `Bu e-postadan 24 saat içinde en fazla ${CONTACT_MAX_PER_DAY_PER_EMAIL} mesaj gönderilebilir.`,
       };
     }
     if (emailNorm.includes("send-fail@")) {
@@ -90,8 +91,9 @@ export async function submitContactForm(
   const emailKey = `email:${emailNorm}`;
   const ipKey = await getClientIpKey();
 
-  let emailPrior: number;
-  let ipPrior: number;
+  let emailPrior = 0;
+  let ipPrior = 0;
+  let guardFailed = false;
   try {
     [emailPrior, ipPrior] = await Promise.all([
       countContactSubmissions24h(emailKey),
@@ -100,28 +102,21 @@ export async function submitContactForm(
   } catch (error) {
     // Fail-closed: never treat a guard outage as "zero prior sends".
     logPortfolioError("contact.rate_limit_guard_failed", error);
-    return {
-      ok: false,
-      error:
-        "Güvenlik kontrolü şu an yapılamıyor. Lütfen biraz sonra tekrar dene veya e-posta ile ulaş.",
-    };
+    guardFailed = true;
   }
 
-  if (emailPrior >= MAX_PER_DAY_PER_EMAIL) {
-    logPortfolioEvent("contact.rate_limited", { dimension: "email" });
-    return {
-      ok: false,
-      error: `Bu e-postadan 24 saat içinde en fazla ${MAX_PER_DAY_PER_EMAIL} mesaj gönderilebilir.`,
-    };
-  }
-
-  if (ipPrior >= MAX_PER_DAY_PER_IP) {
-    logPortfolioEvent("contact.rate_limited", { dimension: "ip" });
-    return {
-      ok: false,
-      error:
-        "Bu ağdan çok fazla mesaj gönderildi. Bir süre sonra tekrar deneyebilirsin.",
-    };
+  const rateDecision = decideContactRateLimit({
+    guardFailed,
+    emailPrior,
+    ipPrior,
+  });
+  if (!rateDecision.ok) {
+    if (rateDecision.dimension === "email" || rateDecision.dimension === "ip") {
+      logPortfolioEvent("contact.rate_limited", {
+        dimension: rateDecision.dimension,
+      });
+    }
+    return { ok: false, error: rateDecision.error };
   }
 
   const apiKey = process.env.RESEND_API_KEY?.trim();

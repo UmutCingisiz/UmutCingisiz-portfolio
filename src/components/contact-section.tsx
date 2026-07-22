@@ -13,7 +13,6 @@ export function ContactSection({ contactSuccess }: Props) {
       id="contact"
       className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32"
     >
-      <div className="ambient-orb left-1/2 top-0 size-80 -translate-x-1/2 opacity-15 [animation-delay:4s]" />
       <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <Reveal>
           <div>

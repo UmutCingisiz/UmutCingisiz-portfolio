@@ -50,8 +50,8 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden px-4 pb-12 pt-10 sm:px-6 sm:pb-28 sm:pt-24">
-      <div className="ambient-orb left-[8%] top-20 size-64 opacity-60" />
-      <div className="ambient-orb bottom-20 right-[8%] size-80 opacity-40 [animation-delay:2s]" />
+      {/* Design system: ≤1 ambient-orb / page — Home’da yalnızca burada */}
+      <div className="ambient-orb left-[8%] top-20 size-64 opacity-50" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
 
       {/*
@@ -147,7 +147,8 @@ export function Hero() {
             max={5}
             className="surface-interactive gradient-border relative overflow-hidden p-2.5 backdrop-blur sm:p-3"
           >
-            <div className="relative aspect-[4/5] max-h-[min(68vh,520px)] overflow-hidden rounded-[var(--radius-lg)] bg-gradient-to-br from-muted via-card to-muted sm:max-h-none">
+            {/* aspect-ratio rezervi — max-h yok (CLS kaynağıydı) */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-lg)] bg-gradient-to-br from-muted via-card to-muted">
               {profileSrc ? (
                 <Image
                   key={profileSrc}
@@ -155,7 +156,7 @@ export function Hero() {
                   alt={`${siteConfig.name} profil fotoğrafı`}
                   fill
                   priority
-                  sizes="(min-width: 1024px) 420px, (min-width: 640px) 420px, 90vw"
+                  sizes="(min-width: 1024px) 420px, (min-width: 640px) 380px, min(90vw, 360px)"
                   className="object-cover object-top"
                   onError={handleImageError}
                   unoptimized={imageMode === "github"}

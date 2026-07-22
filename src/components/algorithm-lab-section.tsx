@@ -64,11 +64,6 @@ export function AlgorithmLabSection() {
       className="relative scroll-mt-24 overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
       aria-labelledby="algorithm-lab-heading"
     >
-      <div
-        className="ambient-orb right-0 top-6 size-80 opacity-60"
-        style={{ background: "radial-gradient(circle, var(--signal-glow), transparent 65%)" }}
-      />
-
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <SectionEyebrow>algorithm.lab</SectionEyebrow>

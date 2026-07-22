@@ -127,7 +127,7 @@ export default async function Image() {
                   color: "#34d399",
                 }}
               >
-                Available
+                Müsait
               </div>
               <div style={{ display: "flex", fontSize: 16, color: "#a1a1aa" }}>
                 · yeni fırsatlara açık

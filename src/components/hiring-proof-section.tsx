@@ -104,7 +104,6 @@ export function HiringProofSection() {
       id="hiring"
       className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32"
     >
-      <div className="ambient-orb -left-24 bottom-0 size-72 opacity-20 [animation-delay:1.5s]" />
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <SectionEyebrow>hiring.proof</SectionEyebrow>

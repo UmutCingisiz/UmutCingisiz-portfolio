@@ -1,14 +1,17 @@
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
+import { lighthouseHome } from "@/lib/lighthouse-metrics";
 import { siteConfig } from "@/lib/site-config";
+
+const measuredLabel = lighthouseHome.measuredAt;
 
 const standards = [
   {
     label: "performance",
     title: "Performans bütçesi",
-    target: "Hedef checklist · LCP / CLS / INP (ölçüm sonrası güncellenir)",
-    body: "Hero görseli, server-first bölümler ve kontrollü animasyonlarla görsel kaliteyi hızdan ödün vermeden koruma hedefi. Canlı Lighthouse skorları eklendikçe burası somutlaşır.",
+    target: `Ölçülen mobil · LCP ${lighthouseHome.metrics.lcp} · CLS ${lighthouseHome.metrics.cls} (${measuredLabel})`,
+    body: "Hero görseli, server-first bölümler ve kontrollü animasyonlarla görsel kaliteyi hızdan ödün vermeden koruma hedefi. Aşağıdaki skorlar tarihli production ölçümüdür — hedef checklist olarak durur, süslenmiş başarı iddiası değil.",
     icon: GaugeIcon,
   },
   {
@@ -44,12 +47,13 @@ function A11yIcon({ className }: { className?: string }) {
 const ciUrl = `${siteConfig.githubRepo.replace(/\/$/, "")}/actions`;
 
 export function QualityStandardsSection() {
+  const { scores } = lighthouseHome;
+
   return (
     <section
       id="quality"
-      className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32"
+      className="relative scroll-mt-24 overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
     >
-      <div className="ambient-orb -right-20 top-1/3 size-64 opacity-20 [animation-delay:3s]" />
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
@@ -106,6 +110,12 @@ export function QualityStandardsSection() {
             );
           })}
         </div>
+
+        <p className="mt-8 font-mono text-[0.65rem] leading-5 text-muted-foreground">
+          Lighthouse ({lighthouseHome.formFactor}) · Perf {scores.performance} ·
+          A11y {scores.accessibility} · BP {scores.bestPractices} · SEO{" "}
+          {scores.seo} · {measuredLabel}
+        </p>
       </div>
     </section>
   );

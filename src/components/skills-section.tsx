@@ -64,6 +64,8 @@ type StrongSkill = {
 type GrowingSkill = {
   title: string;
   tagline: string;
+  proof: string;
+  href: string;
   icon: (props: { className?: string }) => ReactNode;
 };
 
@@ -88,9 +90,27 @@ const strong: readonly StrongSkill[] = [
 ];
 
 const growing: readonly GrowingSkill[] = [
-  { title: "LLM Destekli Akışlar", tagline: "prompt & agent tasarımı", icon: SparkIcon },
-  { title: "Üretim Gözlemlenebilirliği", tagline: "structured log · tracing", icon: ServerIcon },
-  { title: "Dağıtık Sistem Tasarımı", tagline: "fail-safe · ölçeklenme", icon: ShieldIcon },
+  {
+    title: "LLM Destekli Akışlar",
+    tagline: "prompt & agent tasarımı",
+    proof: "Bloomedu case study →",
+    href: "/projects/bloomedu",
+    icon: SparkIcon,
+  },
+  {
+    title: "Üretim Gözlemlenebilirliği",
+    tagline: "structured log · tracing",
+    proof: "güvenlik yazısı →",
+    href: "/blog/nextjs-server-actions-guvenlik",
+    icon: ServerIcon,
+  },
+  {
+    title: "Dağıtık Sistem Tasarımı",
+    tagline: "fail-safe · ölçeklenme",
+    proof: "guestbook auth + moderasyon →",
+    href: "/guestbook",
+    icon: ShieldIcon,
+  },
 ];
 
 function StrongCard({
@@ -142,7 +162,6 @@ export function SkillsSection() {
       id="skills"
       className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-16 sm:px-6 sm:py-32"
     >
-      <div className="ambient-orb -left-20 top-20 size-64 opacity-30" />
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <SectionEyebrow>stack.map()</SectionEyebrow>
@@ -174,6 +193,12 @@ export function SkillsSection() {
                       </p>
                       <h3 className="mt-1 text-balance font-semibold text-foreground">{skill.title}</h3>
                       <p className="font-mono text-xs text-muted-foreground">{skill.tagline}</p>
+                      <Link
+                        href={skill.href}
+                        className="mt-2 inline-block font-mono text-[0.65rem] text-signal/80 underline-offset-4 transition-colors hover:text-signal hover:underline"
+                      >
+                        {skill.proof}
+                      </Link>
                     </div>
                   </article>
                 </Reveal>
