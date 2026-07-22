@@ -5,6 +5,10 @@ import { PdiBlock } from "@/components/pdi-block";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { TiltCard } from "@/components/tilt-card";
+import {
+  getProjectStatusBadgeClass,
+  getProjectStatusLabel,
+} from "@/lib/project-status";
 
 type Props = {
   projects: ProjectMeta[];
@@ -38,8 +42,14 @@ export function FeaturedProjectsList({ projects }: Props) {
         </div>
         {projects.length === 0 ? (
           <p className="mt-10 text-muted-foreground">
-            Henüz öne çıkan proje yok. Bir MDX dosyasında{" "}
-            <code className="font-mono text-sm">featured: true</code> kullan.
+            Öne çıkan case study&apos;ler yakında.{" "}
+            <Link
+              href="/projects"
+              className="underline underline-offset-4 hover:text-foreground"
+            >
+              Tüm projelere göz at
+            </Link>
+            .
           </p>
         ) : (
           <ul className="mt-12 grid gap-6 lg:grid-cols-2">
@@ -54,10 +64,12 @@ export function FeaturedProjectsList({ projects }: Props) {
                     <div className="relative flex items-start justify-between gap-4">
                       <span className="inline-flex items-center gap-2 rounded-full border border-signal/25 bg-signal/[0.07] px-3.5 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-signal">
                         <span className="signal-dot size-1.5" aria-hidden />
-                        full-stack
+                        {p.category}
                       </span>
-                      <span className="rounded-full border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
-                        {p.status ?? "featured"}
+                      <span
+                        className={`rounded-full border px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] ${getProjectStatusBadgeClass(p.status)}`}
+                      >
+                        {getProjectStatusLabel(p.status)}
                       </span>
                     </div>
 

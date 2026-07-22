@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { siteConfig } from "@/lib/site-config";
+import { openTerminal } from "@/lib/terminal";
 import { Logo } from "@/components/logo";
 import { Magnetic } from "@/components/magnetic";
 import { socialLinks } from "@/components/social-icons";
@@ -203,17 +204,9 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() =>
-                window.dispatchEvent(
-                  new KeyboardEvent("keydown", {
-                    key: "`",
-                    code: "Backquote",
-                    ctrlKey: true,
-                  }),
-                )
-              }
+              onClick={openTerminal}
               className="group hidden items-center gap-2 rounded-xl border border-signal/30 bg-signal/[0.08] px-3 py-2 font-mono text-xs text-signal transition-all hover:border-signal/50 hover:bg-signal/[0.15] hover:shadow-[0_0_20px_var(--signal-glow)] xl:inline-flex"
-              aria-label={`${siteConfig.terminal.name} terminalini aç`}
+              aria-label={`${siteConfig.terminal.name} terminalini aç (Ctrl+\`)`}
             >
               <TerminalIcon className="size-4" />
               <span className="font-bold tracking-wide">
@@ -268,7 +261,10 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className="mx-auto mt-1.5 h-[2px] max-w-6xl overflow-hidden rounded-full bg-border/25">
+        <div
+          className="mx-auto mt-1.5 h-[2px] max-w-6xl overflow-hidden rounded-full bg-border/25"
+          aria-hidden="true"
+        >
           <motion.div
             className="h-full origin-left rounded-full bg-gradient-to-r from-signal via-signal to-emerald-400/80"
             style={{ scaleX: progress }}

@@ -65,3 +65,16 @@ export function filterProjectsByCategory(
   if (category === "all") return all;
   return all.filter((p) => p.category === category);
 }
+
+export function getAdjacentProjects(slug: string): {
+  prev: ProjectMeta | null;
+  next: ProjectMeta | null;
+} {
+  const all = getAllProjectsMeta();
+  const index = all.findIndex((project) => project.slug === slug);
+  if (index < 0) return { prev: null, next: null };
+  return {
+    prev: all[index + 1] ?? null,
+    next: all[index - 1] ?? null,
+  };
+}

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { compileProjectMDX } from "@/lib/mdx/compile";
 import {
+  getAdjacentProjects,
   getProjectMetaBySlug,
   getProjectSlugs,
 } from "@/lib/content/projects";
@@ -56,6 +57,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   if (!compiled) notFound();
 
   const { content, frontmatter } = compiled;
+  const { prev, next } = getAdjacentProjects(slug);
   const decisionCards = [
     {
       label: "problem",
@@ -192,7 +194,43 @@ export default async function ProjectDetailPage({ params }: Props) {
         {content}
       </div>
 
-      <section className="mt-4 rounded-xl border border-border bg-card/50 p-6 sm:p-7">
+      {(prev || next) ? (
+        <nav
+          aria-label="Komşu projeler"
+          className="mt-2 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:justify-between"
+        >
+          {prev ? (
+            <Link
+              href={`/projects/${prev.slug}`}
+              className="group rounded-xl border border-border bg-card/40 px-4 py-3 transition-colors hover:border-signal/30 sm:max-w-[48%]"
+            >
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+                ← önceki
+              </p>
+              <p className="mt-1 font-medium text-foreground group-hover:text-signal">
+                {prev.title}
+              </p>
+            </Link>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <Link
+              href={`/projects/${next.slug}`}
+              className="group rounded-xl border border-border bg-card/40 px-4 py-3 text-right transition-colors hover:border-signal/30 sm:ml-auto sm:max-w-[48%]"
+            >
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+                sonraki →
+              </p>
+              <p className="mt-1 font-medium text-foreground group-hover:text-signal">
+                {next.title}
+              </p>
+            </Link>
+          ) : null}
+        </nav>
+      ) : null}
+
+      <section className="mt-6 rounded-xl border border-border bg-card/50 p-6 sm:p-7">
         <h2 className="text-xl font-semibold tracking-tight text-foreground">
           Bu proje hakkında konuşalım
         </h2>

@@ -1,33 +1,31 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { siteConfig } from "@/lib/site-config";
+import { openTerminal } from "@/lib/terminal";
 
 const shell = siteConfig.terminal;
-
-function openTerminal() {
-  window.dispatchEvent(
-    new KeyboardEvent("keydown", { key: "`", code: "Backquote", ctrlKey: true }),
-  );
-}
 
 /**
  * Hero altı ucmd giriş noktası — UC + cmd kimliği ile terminali öne çıkarır.
  */
 export function TerminalPrompt() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <section className="px-4 pb-4 sm:px-6" aria-label={`${shell.name} command shell`}>
       <div className="mx-auto max-w-7xl">
         <motion.button
           type="button"
           onClick={openTerminal}
+          aria-label={`${shell.name} terminalini aç (Ctrl+\`)`}
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
           className="group flex w-full items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-[#05080c]/90 px-5 py-4 text-left font-mono shadow-lg shadow-black/30 ring-1 ring-cyan-400/10 backdrop-blur-xl transition-all duration-300 hover:border-cyan-400/35 hover:shadow-[0_0_40px_rgba(34,211,238,0.18)] sm:gap-4 sm:px-6"
         >
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-1.5" aria-hidden>
             <span className="size-2.5 rounded-full bg-red-400/80" />
             <span className="size-2.5 rounded-full bg-amber-400/80" />
             <span className="size-2.5 rounded-full bg-emerald-400/80" />
@@ -46,7 +44,13 @@ export function TerminalPrompt() {
               <span className="text-cyan-200/50 sm:hidden">{shell.name} </span>
               show_projects()
             </span>
-            <span className="inline-block h-4 w-2 animate-pulse bg-cyan-300/80" aria-hidden />
+            <span
+              className={[
+                "inline-block h-4 w-2 bg-cyan-300/80",
+                prefersReducedMotion ? "" : "animate-pulse",
+              ].join(" ")}
+              aria-hidden
+            />
           </span>
 
           <span className="hidden items-center gap-2 text-xs text-cyan-200/60 md:flex">

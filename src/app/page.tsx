@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { AlgorithmLabSection } from "@/components/algorithm-lab-section";
 import { AboutSection } from "@/components/about-section";
+import { AlgorithmLabIsland } from "@/components/algorithm-lab-island";
 import { ContactSection } from "@/components/contact-section";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { GithubActivitySection } from "@/components/github-activity-section";
@@ -42,7 +42,7 @@ export default async function Home({
       <TerminalPrompt />
       <AboutSection />
       <SkillsSection />
-      <AlgorithmLabSection />
+      <AlgorithmLabIsland />
       <FeaturedProjects />
       <HiringProofSection />
       <QualityStandardsSection />

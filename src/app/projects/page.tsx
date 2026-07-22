@@ -93,7 +93,12 @@ export default async function ProjectsPage() {
         ) : null}
 
         {projects.length === 0 ? (
-          <p className="mt-12 text-muted-foreground">Henüz proje eklenmedi.</p>
+          <div className="mt-12 rounded-2xl border border-dashed border-border bg-card/30 px-6 py-12 text-center">
+            <p className="font-medium text-foreground">Henüz yayınlanmış proje yok.</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Case study&apos;ler eklendikçe burada görünecek.
+            </p>
+          </div>
         ) : null}
 
         <Link

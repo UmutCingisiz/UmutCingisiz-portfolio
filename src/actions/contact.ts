@@ -4,34 +4,23 @@ import { createHash } from "crypto";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Resend } from "resend";
-import { z } from "zod";
 
 import {
   countContactSubmissions24h,
   logContactSubmissionGuard,
 } from "@/lib/contact-guard";
+import {
+  parseContactFormFields,
+  type ContactFieldErrors,
+} from "@/lib/contact-schema";
 import { logPortfolioError, logPortfolioEvent } from "@/lib/observability";
 import { siteConfig } from "@/lib/site-config";
-
-const schema = z.object({
-  name: z.string().trim().min(2, "İsim çok kısa.").max(120, "İsim çok uzun."),
-  email: z.string().trim().email("Geçerli bir e-posta gir."),
-  message: z
-    .string()
-    .trim()
-    .min(10, "Mesaj en az 10 karakter olsun.")
-    .max(4000, "Mesaj çok uzun."),
-});
 
 export type ContactFormState =
   | {
       ok: false;
       error: string;
-      fieldErrors?: {
-        name?: string;
-        email?: string;
-        message?: string;
-      };
+      fieldErrors?: ContactFieldErrors;
     }
   | null;
 
@@ -63,25 +52,18 @@ export async function submitContactForm(
     redirect("/?contact=sent");
   }
 
-  const parsed = schema.safeParse({
+  const parsed = parseContactFormFields({
     name: formData.get("name"),
     email: formData.get("email"),
     message: formData.get("message"),
   });
 
-  if (!parsed.success) {
-    const flat = parsed.error.flatten();
-    const fieldErrors = {
-      name: flat.fieldErrors.name?.[0],
-      email: flat.fieldErrors.email?.[0],
-      message: flat.fieldErrors.message?.[0],
+  if (!parsed.ok) {
+    return {
+      ok: false,
+      error: parsed.error,
+      fieldErrors: parsed.fieldErrors,
     };
-    const err =
-      fieldErrors.name ??
-      fieldErrors.email ??
-      fieldErrors.message ??
-      "Form geçersiz.";
-    return { ok: false, error: err, fieldErrors };
   }
 
   const emailKey = `email:${normalizeEmail(parsed.data.email)}`;
@@ -164,7 +146,7 @@ export async function submitContactForm(
     logPortfolioError("contact.send_failed", error);
     return {
       ok: false,
-      error: "Mesaj simdilik gonderilemedi. Lutfen biraz sonra tekrar dene.",
+      error: "Mesaj şimdilik gönderilemedi. Lütfen biraz sonra tekrar dene.",
     };
   }
 

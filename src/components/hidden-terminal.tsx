@@ -4,6 +4,10 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site-config";
+import {
+  TERMINAL_EVENT,
+  type TerminalEventDetail,
+} from "@/lib/terminal";
 
 type Line = { kind: "in" | "out" | "sys"; text: string };
 
@@ -137,8 +141,21 @@ export function HiddenTerminal() {
       }
       if (event.key === "Escape") setOpen(false);
     };
+
+    const handleTerminalEvent = (event: Event) => {
+      const detail = (event as CustomEvent<TerminalEventDetail>).detail;
+      if (!detail) return;
+      if (detail.action === "open") setOpen(true);
+      else if (detail.action === "close") setOpen(false);
+      else setOpen((value) => !value);
+    };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener(TERMINAL_EVENT, handleTerminalEvent);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener(TERMINAL_EVENT, handleTerminalEvent);
+    };
   }, []);
 
   useEffect(() => {

@@ -198,19 +198,29 @@ JSON-LD Person/WebSite/Article/CreativeWork, deep links.
 
 Animations, skeletons, empty/loading, micro-interactions.
 
+### Checklist
+1. [x] Shared terminal open API (`portfolio:terminal` event)  
+2. [x] Algorithm Lab code-split + skeleton  
+3. [x] Featured public empty + category/status badges  
+4. [x] Blog/project slug `loading.tsx` skeletons  
+5. [x] Terminal caret reduced-motion + aria-label  
+6. [x] Scroll progress `aria-hidden`  
+7. [x] Project next/prev navigation  
+8. [x] Contact schema + guestbook rate-limit unit tests  
+
 ---
 
 ## Technical Debt (feature’dan ayrı)
 
 | Borç | Not | Hedef sprint |
 |------|-----|--------------|
-| `premium-card` / Tilt / glow tekrarı | Variant API | Sprint 1 → 3 |
-| Nested links (Featured / Repo cards) | Tek primary CTA | Sprint 2–3 |
-| Status helper duplication | Shared util | Sprint 3 |
-| Suspense `fallback={null}` GitHub | Skeleton | Sprint 3 |
-| Terminal sentetik Ctrl+` | Shared open API | Sprint 3–5 |
-| Action test coverage | Contact/guestbook | Sprint 3–4 |
-| Bundle / motion islands | Code-split lab | Sprint 5 |
+| `premium-card` / Tilt / glow tekrarı | Variant API | Sprint 1 → 3 ✅ |
+| Nested links (Featured / Repo cards) | Tek primary CTA | Sprint 2–3 ✅ |
+| Status helper duplication | Shared util | Sprint 3 ✅ |
+| Suspense `fallback={null}` GitHub | Skeleton | Sprint 3 ✅ |
+| Terminal sentetik Ctrl+` | Shared open API | Sprint 5 ✅ |
+| Action test coverage | Contact/guestbook | Sprint 5 ✅ |
+| Bundle / motion islands | Code-split lab | Sprint 5 ✅ |
 
 ---
 
