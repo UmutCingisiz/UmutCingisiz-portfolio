@@ -8,14 +8,14 @@ export const lighthouseHome = {
   measuredAt: "2026-07-22",
   formFactor: "mobile" as const,
   scores: {
-    performance: 53,
+    performance: 72,
     accessibility: 93,
     bestPractices: 100,
     seo: 100,
   },
   metrics: {
-    lcp: "3.9 s",
-    cls: "0.408",
+    lcp: "3.8 s",
+    cls: "0",
   },
   note: "Mobil emülasyon · production. Checklist hedefleri korunur; skorlar tarihli ölçüm.",
 } as const;

@@ -48,7 +48,7 @@ Yeniden ölçüm: `npm run lighthouse:home` → skorları `lighthouse-metrics.ts
 | Full Motion bundle audit | Lab code-split yapıldı |
 | Coverage expansion (actions) | Gate şu an content + request-ip |
 | EN/TR i18n | Opsiyonel |
-| Perf iyileştirme | Mobil Lighthouse — deploy sonrası yeniden ölç; hedef CLS↓ / LCP↓ |
+| Perf iyileştirme | Son ölçüm (2026-07-22): Perf **72** · LCP **3.8s** · CLS **0** — LCP için sonraki iterasyon |
 
 ---
 
