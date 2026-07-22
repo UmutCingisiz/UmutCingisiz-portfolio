@@ -6,6 +6,7 @@ import { ContactSection } from "@/components/contact-section";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { GithubActivitySection } from "@/components/github-activity-section";
 import { GithubActivitySkeleton } from "@/components/github-activity-skeleton";
+import { HashScroll } from "@/components/hash-scroll";
 import { Hero } from "@/components/hero";
 import { HiringProofSection } from "@/components/hiring-proof-section";
 import { QualityStandardsSection } from "@/components/quality-standards-section";
@@ -34,6 +35,7 @@ export default async function Home({
 
   return (
     <>
+      <HashScroll />
       <StatusBanner
         resumeLimited={resumeLimited}
         resumeMissing={resumeMissing}

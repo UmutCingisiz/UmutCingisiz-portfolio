@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { siteConfig } from "@/lib/site-config";
 import { openTerminal } from "@/lib/terminal";
+import { ContactLink } from "@/components/contact-link";
 import { Logo } from "@/components/logo";
 import { Magnetic } from "@/components/magnetic";
 import { socialLinks } from "@/components/social-icons";
@@ -274,12 +275,9 @@ export function SiteHeader() {
             <div className="hidden h-5 w-px bg-border xl:block" />
 
             <Magnetic className="hidden sm:inline-flex">
-              <Link
-                href="/#contact"
-                className="btn-signal inline-flex rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200"
-              >
+              <ContactLink className="btn-signal inline-flex rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200">
                 İletişim
-              </Link>
+              </ContactLink>
             </Magnetic>
 
             <button
@@ -334,13 +332,12 @@ export function SiteHeader() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
               >
-                <Link
-                  href="/#contact"
-                  onClick={closeMobile}
+                <ContactLink
+                  onNavigate={closeMobile}
                   className="btn-signal flex h-12 items-center justify-center rounded-xl text-base font-semibold"
                 >
                   İletişim
-                </Link>
+                </ContactLink>
               </motion.div>
 
               <div className="my-2 h-px bg-border" />

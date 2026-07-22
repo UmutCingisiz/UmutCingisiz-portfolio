@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContactLink } from "@/components/contact-link";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
 
@@ -43,7 +44,7 @@ export function SiteFooter() {
             <Link href="/projects" className="transition-colors hover:text-foreground">Projeler</Link>
             <Link href="/blog" className="transition-colors hover:text-foreground">Blog</Link>
             <Link href="/guestbook" className="transition-colors hover:text-foreground">Ziyaretçi Defteri</Link>
-            <Link href="/#contact" className="transition-colors hover:text-foreground">İletişim</Link>
+            <ContactLink className="transition-colors hover:text-foreground">İletişim</ContactLink>
           </div>
           <p className="font-mono text-[0.65rem]">
             Next.js &middot; TypeScript &middot; Tailwind &middot; Neon &middot; Vercel

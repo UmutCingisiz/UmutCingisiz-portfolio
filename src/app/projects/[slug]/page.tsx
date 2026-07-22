@@ -7,6 +7,7 @@ import {
   getProjectMetaBySlug,
   getProjectSlugs,
 } from "@/lib/content/projects";
+import { ContactLink } from "@/components/contact-link";
 import { JsonLd } from "@/components/json-ld";
 import { ProjectGallery } from "@/components/project-gallery";
 import { projectCreativeWorkJsonLd } from "@/lib/json-ld";
@@ -239,12 +240,9 @@ export default async function ProjectDetailPage({ params }: Props) {
           yeterli.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link
-            href="/#contact"
-            className="btn-signal inline-flex h-10 items-center rounded-lg px-4 text-sm font-semibold"
-          >
+          <ContactLink className="btn-signal inline-flex h-10 items-center rounded-lg px-4 text-sm font-semibold">
             İletişime geç
-          </Link>
+          </ContactLink>
           <Link
             href="/projects"
             className="inline-flex h-10 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted"

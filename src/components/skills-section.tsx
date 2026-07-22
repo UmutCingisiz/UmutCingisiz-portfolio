@@ -210,15 +210,15 @@ export function SkillsSection() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {siteConfig.techStack.map((group, index) => (
               <Reveal key={group.group} index={index} className="h-full">
-                <div className="surface-plain group h-full p-5">
-                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="premium-card group h-full rounded-2xl p-5">
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-signal">
                     {group.group}
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-1.5">
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {group.items.map((item) => (
                       <span
                         key={item}
-                        className="rounded-md px-2 py-1 text-xs font-medium text-foreground/75"
+                        className="rounded-lg border border-border bg-background/40 px-3 py-1.5 text-xs font-medium text-foreground/85 transition-colors duration-200 group-hover:border-signal/20"
                       >
                         {item}
                       </span>

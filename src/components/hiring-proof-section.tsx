@@ -52,8 +52,7 @@ type Proof = {
   icon: (props: { className?: string }) => ReactNode;
 };
 
-const repoUrl = siteConfig.github.replace(/\/$/, "");
-const ciUrl = `${repoUrl}/actions`;
+const ciUrl = `${siteConfig.githubRepo.replace(/\/$/, "")}/actions`;
 
 const proofSignals: readonly Proof[] = [
   {

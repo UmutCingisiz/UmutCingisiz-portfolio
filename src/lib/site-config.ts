@@ -20,7 +20,7 @@ export const siteConfig = {
       html_url: "https://github.com/somethn7/Bloomedu",
       language: "TypeScript",
       caseStudy: "/projects/bloomedu",
-      badge: "pinned · TÜBİTAK",
+      badge: "yayında · TÜBİTAK",
     },
   ],
   /** Portfolyo terminal — UC + cmd (kişisel + klasik shell) */
@@ -37,6 +37,8 @@ export const siteConfig = {
     "DAÜ Bilgisayar Mühendisliği mezunu; TÜBİTAK BİGG En İyi Proje ödüllü Bloomedu üzerinde full-stack ürün geliştiriyorum.",
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
+  /** CI / Actions — profil değil, bu portfolyo reposu */
+  githubRepo: "https://github.com/UmutCingisiz/UmutCingisiz-portfolio",
   linkedin: "https://www.linkedin.com/in/umut-ibrahim-cingisiz-878053309",
   stats: [
     { label: "Derece", value: "DAÜ Bilgisayar Müh." },
