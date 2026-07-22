@@ -134,15 +134,19 @@ export function Hero() {
           className="relative order-2 mx-auto w-full max-w-md lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-none"
         >
           <div
-            className="absolute -inset-6 rounded-[2rem] blur-3xl sm:-inset-8"
+            className="absolute -inset-6 rounded-[var(--radius-xl)] blur-3xl sm:-inset-8"
             style={{
               background:
-                "radial-gradient(60% 60% at 30% 20%, var(--signal-glow), transparent 70%), radial-gradient(50% 50% at 80% 90%, rgba(52,211,153,0.10), transparent 70%)",
+                "radial-gradient(60% 60% at 30% 20%, var(--signal-glow), transparent 70%)",
             }}
           />
 
-          <TiltCard as="div" max={6} className="premium-card gradient-border relative overflow-hidden rounded-[1.75rem] p-2.5 backdrop-blur sm:rounded-[2rem] sm:p-3">
-            <div className="relative aspect-[4/5] max-h-[min(68vh,520px)] overflow-hidden rounded-xl bg-gradient-to-br from-muted via-card to-muted sm:max-h-none">
+          <TiltCard
+            as="div"
+            max={5}
+            className="surface-interactive gradient-border relative overflow-hidden p-2.5 backdrop-blur sm:p-3"
+          >
+            <div className="relative aspect-[4/5] max-h-[min(68vh,520px)] overflow-hidden rounded-[var(--radius-lg)] bg-gradient-to-br from-muted via-card to-muted sm:max-h-none">
               {profileSrc ? (
                 <Image
                   key={profileSrc}
@@ -207,7 +211,7 @@ export function Hero() {
           {siteConfig.stats.map((stat) => (
             <div
               key={stat.label}
-              className="premium-card rounded-2xl p-3.5 backdrop-blur-sm sm:p-4"
+              className="surface-card p-3.5 backdrop-blur-sm sm:p-4"
             >
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
                 {stat.label}

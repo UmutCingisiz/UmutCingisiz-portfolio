@@ -48,11 +48,9 @@ export function FeaturedProjectsList({ projects }: Props) {
                 <Reveal index={i} className="h-full">
                   <TiltCard
                     as="article"
-                    max={6}
-                    className="premium-card gradient-border group flex h-full flex-col rounded-3xl p-6"
+                    max={5}
+                    className="surface-interactive gradient-border group flex h-full flex-col p-6"
                   >
-                    <div className="pointer-events-none absolute -right-16 -top-16 size-44 rounded-full bg-signal/[0.05] blur-3xl transition-all duration-500 group-hover:bg-signal/[0.12]" />
-
                     <div className="relative flex items-start justify-between gap-4">
                       <span className="inline-flex items-center gap-2 rounded-full border border-signal/25 bg-signal/[0.07] px-3.5 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-signal">
                         <span className="signal-dot size-1.5" aria-hidden />

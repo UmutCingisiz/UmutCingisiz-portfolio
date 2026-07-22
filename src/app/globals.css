@@ -22,16 +22,25 @@
   /* İmza vurgu rengi: elektrik camgöbeği. Tüm birincil CTA/spotlight/glow buradan besleniyor. */
   --signal: #22d3ee;
   --signal-foreground: #03141a;
-  --signal-glow: rgba(34, 211, 238, 0.28);
-  --signal-glow-strong: rgba(34, 211, 238, 0.55);
-  --ambient-color: rgba(255, 255, 255, 0.14);
+  /* Glow budget ≤2: soft + strong (docs/DESIGN-SYSTEM.md) */
+  --signal-glow: rgba(34, 211, 238, 0.18);
+  --signal-glow-strong: rgba(34, 211, 238, 0.4);
+  --ambient-color: rgba(255, 255, 255, 0.08);
   --noise-opacity: 0.05;
   --noise-blend: overlay;
-  /* Kartların yüzey stili tema başına değişiyor: koyuda yumuşak glow, açıkta keskin gölge. */
   --card-surface: color-mix(in srgb, var(--card) 88%, transparent);
-  --card-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-  --card-shadow-hover: 0 30px 90px rgba(0, 0, 0, 0.45);
-  --card-highlight: rgba(255, 255, 255, 0.07);
+  --card-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+  --card-shadow-hover: 0 20px 56px rgba(0, 0, 0, 0.36);
+  --card-highlight: rgba(255, 255, 255, 0.06);
+  /* Radius ≤4 · motion scale */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --motion-fast: 150ms;
+  --motion-base: 250ms;
+  --motion-slow: 400ms;
+  --motion-reveal: 500ms;
 }
 
 .dark {
@@ -50,15 +59,23 @@
   --selection-text: #09090b;
   --signal: #22d3ee;
   --signal-foreground: #03141a;
-  --signal-glow: rgba(34, 211, 238, 0.28);
-  --signal-glow-strong: rgba(34, 211, 238, 0.55);
-  --ambient-color: rgba(255, 255, 255, 0.14);
+  --signal-glow: rgba(34, 211, 238, 0.18);
+  --signal-glow-strong: rgba(34, 211, 238, 0.4);
+  --ambient-color: rgba(255, 255, 255, 0.08);
   --noise-opacity: 0.05;
   --noise-blend: overlay;
   --card-surface: color-mix(in srgb, var(--card) 88%, transparent);
-  --card-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-  --card-shadow-hover: 0 30px 90px rgba(0, 0, 0, 0.45);
-  --card-highlight: rgba(255, 255, 255, 0.07);
+  --card-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+  --card-shadow-hover: 0 20px 56px rgba(0, 0, 0, 0.36);
+  --card-highlight: rgba(255, 255, 255, 0.06);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --motion-fast: 150ms;
+  --motion-base: 250ms;
+  --motion-slow: 400ms;
+  --motion-reveal: 500ms;
 }
 
 @theme inline {
@@ -186,6 +203,15 @@ body::after {
   }
 }
 
+/* Card variants ≤3 — see docs/DESIGN-SYSTEM.md */
+.surface-plain {
+  position: relative;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 55%, transparent);
+  border-radius: var(--radius-lg);
+}
+
+.surface-card,
 .premium-card {
   position: relative;
   overflow: hidden;
@@ -194,31 +220,37 @@ body::after {
     linear-gradient(135deg, var(--card-highlight), transparent 42%),
     var(--card-surface);
   box-shadow: var(--card-shadow);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  border-radius: var(--radius-lg);
+  transition:
+    box-shadow var(--motion-base) ease,
+    border-color var(--motion-base) ease;
 }
 
+.surface-card:hover,
 .premium-card:hover {
   box-shadow: var(--card-shadow-hover);
+  border-color: color-mix(in srgb, var(--border) 70%, var(--foreground));
 }
 
-.premium-card::before {
-  pointer-events: none;
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    110deg,
-    transparent 20%,
-    var(--signal-glow) 45%,
-    transparent 70%
-  );
-  opacity: 0;
-  transform: translateX(-120%);
+/* Interactive = card + slightly stronger hover; tilt/gradient-border opt-in in JSX */
+.surface-interactive {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(135deg, var(--card-highlight), transparent 42%),
+    var(--card-surface);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-xl);
+  transition:
+    box-shadow var(--motion-base) ease,
+    border-color var(--motion-base) ease,
+    transform var(--motion-base) ease;
 }
 
-.premium-card:hover::before {
-  animation: premium-shimmer 1.3s ease;
-  opacity: 1;
+.surface-interactive:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: color-mix(in srgb, var(--border) 55%, var(--signal));
 }
 
 .ambient-orb {
@@ -226,8 +258,9 @@ body::after {
   position: absolute;
   border-radius: 9999px;
   background: radial-gradient(circle, var(--ambient-color), transparent 65%);
-  filter: blur(24px);
-  animation: slow-float 8s ease-in-out infinite;
+  filter: blur(28px);
+  opacity: 0.55;
+  animation: slow-float 10s ease-in-out infinite;
 }
 
 .text-gradient-premium {
@@ -268,17 +301,20 @@ body::after {
   position: relative;
   background: var(--signal);
   color: var(--signal-foreground);
+  border-radius: var(--radius-md);
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--signal) 45%, transparent),
-    0 18px 45px -14px var(--signal-glow-strong);
-  transition: transform 0.2s ease, box-shadow 0.3s ease, opacity 0.2s ease;
+    0 14px 36px -12px var(--signal-glow-strong);
+  transition:
+    transform var(--motion-fast) ease,
+    box-shadow var(--motion-base) ease,
+    opacity var(--motion-fast) ease;
 }
 
 .btn-signal:hover {
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--signal) 60%, transparent),
-    0 26px 60px -12px var(--signal-glow-strong),
-    0 0 42px var(--signal-glow);
+    0 18px 42px -12px var(--signal-glow-strong);
 }
 
 .signal-dot {
@@ -362,6 +398,15 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   .tilt-card {
     transform: none !important;
+  }
+
+  .ambient-orb {
+    animation: none !important;
+    opacity: 0.35;
+  }
+
+  .tilt-shine {
+    display: none;
   }
 }
 

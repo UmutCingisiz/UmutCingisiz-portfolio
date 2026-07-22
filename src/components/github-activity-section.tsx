@@ -10,7 +10,6 @@ import { siteConfig } from "@/lib/site-config";
 import { GitLogFeed, type GitLogEntry } from "@/components/git-log-feed";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { TiltCard } from "@/components/tilt-card";
 
 async function resolvePinnedRepos(): Promise<GithubRepoSummary[]> {
   const configured = siteConfig.githubPinned;
@@ -43,10 +42,8 @@ function RepoCard({
 }) {
   return (
     <Reveal index={index} className="h-full">
-      <TiltCard
-        as="article"
-        max={7}
-        className={`premium-card gradient-border group flex h-full flex-col rounded-2xl p-5 ${
+      <article
+        className={`surface-card group flex h-full flex-col p-5 ${
           repo.pinned ? "border-signal/30 ring-1 ring-signal/20" : ""
         }`}
       >
@@ -96,7 +93,7 @@ function RepoCard({
             Repoyu aç →
           </a>
         </div>
-      </TiltCard>
+      </article>
     </Reveal>
   );
 }

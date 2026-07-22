@@ -1,6 +1,5 @@
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { TiltCard } from "@/components/tilt-card";
 
 const standards = [
   {
@@ -97,16 +96,10 @@ export function QualityStandardsSection() {
             const Icon = item.icon;
             return (
               <Reveal key={item.label} index={index} className="h-full">
-                <TiltCard
-                  as="article"
-                  max={5}
-                  className="premium-card gradient-border group relative flex h-full flex-col overflow-hidden rounded-2xl p-5 sm:p-6"
-                >
-                  <div className="pointer-events-none absolute -right-10 -top-10 size-32 rounded-full bg-signal/[0.06] blur-2xl transition-opacity duration-500 group-hover:bg-signal/[0.12]" />
-
+                <article className="surface-card group relative flex h-full flex-col overflow-hidden p-5 sm:p-6">
                   <div className="relative flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex size-10 items-center justify-center rounded-xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_24px_var(--signal-glow)]">
+                      <span className="inline-flex size-10 items-center justify-center rounded-[var(--radius-md)] border border-signal/25 bg-signal/[0.08] text-signal">
                         <Icon className="size-5" />
                       </span>
                       <div>
@@ -126,7 +119,7 @@ export function QualityStandardsSection() {
                   <p className="relative mt-3 text-sm leading-relaxed text-muted-foreground">
                     {item.body}
                   </p>
-                </TiltCard>
+                </article>
               </Reveal>
             );
           })}

@@ -2,7 +2,6 @@ import { siteConfig } from "@/lib/site-config";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { Timeline } from "@/components/timeline";
-import { TiltCard } from "@/components/tilt-card";
 
 const cards = [
   {
@@ -41,7 +40,7 @@ export function AboutSection() {
               {siteConfig.description}
             </p>
 
-            <div className="mt-8 rounded-xl border border-border bg-card/60 p-5 backdrop-blur-sm">
+            <div className="surface-plain mt-8 p-5 backdrop-blur-sm">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 proof_of_work
               </p>
@@ -49,7 +48,7 @@ export function AboutSection() {
                 {siteConfig.proofPoints.map((item) => (
                   <div
                     key={item}
-                    className="rounded-lg border border-border bg-muted/50 px-3 py-2 text-sm text-foreground/80"
+                    className="rounded-[var(--radius-sm)] border border-border bg-muted/50 px-3 py-2 text-sm text-foreground/80"
                   >
                     {item}
                   </div>
@@ -61,22 +60,17 @@ export function AboutSection() {
           <div className="grid gap-4">
             {cards.map((card, index) => (
               <Reveal key={card.title} index={index}>
-              <TiltCard
-                as="article"
-                max={5}
-                className="premium-card gradient-border group relative overflow-hidden rounded-2xl p-6"
-              >
-                <div className="pointer-events-none absolute -right-12 -top-12 size-28 rounded-full bg-signal/[0.05] blur-2xl transition-all duration-500 group-hover:bg-signal/[0.12]" />
-                <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                  {card.eyebrow}
-                </p>
-                <h3 className="relative mt-4 text-lg font-semibold tracking-tight text-foreground">
-                  {card.title}
-                </h3>
-                <p className="relative mt-3 text-sm leading-7 text-muted-foreground">
-                  {card.body}
-                </p>
-              </TiltCard>
+                <article className="surface-card group relative p-6">
+                  <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                    {card.eyebrow}
+                  </p>
+                  <h3 className="relative mt-4 text-lg font-semibold tracking-tight text-foreground">
+                    {card.title}
+                  </h3>
+                  <p className="relative mt-3 text-sm leading-7 text-muted-foreground">
+                    {card.body}
+                  </p>
+                </article>
               </Reveal>
             ))}
           </div>

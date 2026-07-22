@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { TiltCard } from "@/components/tilt-card";
 import { siteConfig } from "@/lib/site-config";
 
 function StackIcon({ className }: { className?: string }) {
@@ -102,17 +101,12 @@ function StrongCard({
 }) {
   return (
     <Reveal index={index} className="h-full">
-      <TiltCard
-        as="article"
-        max={5}
-        className="premium-card gradient-border group relative flex h-full flex-col overflow-hidden rounded-3xl p-7 sm:p-8"
-      >
-        <div className="bento-dots pointer-events-none absolute -right-10 -top-10 size-56 rounded-full opacity-40 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
+      <article className="surface-card group relative flex h-full flex-col overflow-hidden p-7 sm:p-8">
         <div className="relative flex items-start justify-between gap-4">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-signal">
             <span className="signal-dot size-1.5" /> güçlü alan
           </span>
-          <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_30px_var(--signal-glow)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+          <div className="flex size-16 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-signal/25 bg-signal/[0.08] text-signal">
             <Icon className="size-8" />
           </div>
         </div>
@@ -125,7 +119,7 @@ function StrongCard({
         <p className="relative mt-auto pt-8 font-mono text-xs text-signal/80">
           {skill.proof}
         </p>
-      </TiltCard>
+      </article>
     </Reveal>
   );
 }
@@ -162,12 +156,8 @@ export function SkillsSection() {
             <div className="grid flex-1 gap-4 lg:grid-rows-3">
               {growing.map((skill, index) => (
                 <Reveal key={skill.title} index={index} className="h-full">
-                  <TiltCard
-                    as="article"
-                    max={8}
-                    className="premium-card group relative flex h-full items-center gap-4 rounded-2xl p-5"
-                  >
-                    <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/50 text-muted-foreground transition-colors duration-300 group-hover:border-signal/30 group-hover:text-signal">
+                  <article className="surface-card group relative flex h-full items-center gap-4 p-5">
+                    <div className="flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-border bg-muted/50 text-muted-foreground transition-colors duration-[var(--motion-base)] group-hover:border-signal/30 group-hover:text-signal">
                       <skill.icon className="size-6" />
                     </div>
                     <div className="min-w-0">
@@ -177,7 +167,7 @@ export function SkillsSection() {
                       <h3 className="mt-1 text-balance font-semibold text-foreground">{skill.title}</h3>
                       <p className="font-mono text-xs text-muted-foreground">{skill.tagline}</p>
                     </div>
-                  </TiltCard>
+                  </article>
                 </Reveal>
               ))}
             </div>

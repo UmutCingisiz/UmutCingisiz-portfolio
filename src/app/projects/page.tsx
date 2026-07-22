@@ -42,7 +42,7 @@ export default async function ProjectsPage() {
             </p>
           </div>
 
-          <TiltCard as="div" max={5} className="premium-card gradient-border rounded-2xl p-5">
+          <TiltCard as="div" max={4} className="surface-interactive gradient-border p-5">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               review.mode
             </p>
@@ -261,7 +261,7 @@ function ProjectShowcase({
   return (
     <article className="group grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
       <div className={`relative ${flip ? "lg:order-2" : "lg:order-1"}`}>
-        <TiltCard as="div" max={6} className="relative rounded-3xl">
+        <TiltCard as="div" max={5} className="relative rounded-[var(--radius-xl)]">
           <Link href={`/projects/${project.slug}`} aria-label={project.title} className="block">
             <ProjectVisual project={project} />
           </Link>

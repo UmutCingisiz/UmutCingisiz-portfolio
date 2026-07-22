@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { TiltCard } from "@/components/tilt-card";
 
 function ArchIcon({ className }: { className?: string }) {
   return (
@@ -111,7 +110,7 @@ export function HiringProofSection() {
         <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {proofMetrics.map((metric, index) => (
             <Reveal key={metric.label} index={index}>
-              <div className="premium-card rounded-2xl p-5 text-center">
+              <div className="surface-card p-5 text-center">
                 <p className="text-3xl font-bold tracking-tight text-signal">{metric.value}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{metric.label}</p>
               </div>
@@ -124,17 +123,12 @@ export function HiringProofSection() {
           {proofSignals.map((signal, index) => (
             <Reveal key={signal.title} index={index} className="h-full">
               <Link href={signal.href} className="group block h-full">
-                <TiltCard
-                  as="div"
-                  max={8}
-                  className="premium-card gradient-border relative flex h-full flex-col overflow-hidden rounded-3xl p-6"
-                >
-                  <div className="bento-dots pointer-events-none absolute -right-6 -top-6 size-36 rounded-full opacity-40 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
+                <div className="surface-card relative flex h-full flex-col overflow-hidden p-6">
                   <div className="relative flex items-start justify-between gap-3">
-                    <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-signal/25 bg-signal/[0.08] text-signal shadow-[0_0_24px_var(--signal-glow)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 sm:size-14">
+                    <div className="flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-signal/25 bg-signal/[0.08] text-signal sm:size-14">
                       <signal.icon className="size-6 sm:size-7" />
                     </div>
-                    <span className="max-w-[55%] break-words rounded-md border border-border bg-muted/50 px-2 py-1 text-right font-mono text-[0.6rem] uppercase tracking-[0.12em] text-muted-foreground sm:max-w-none sm:px-2.5 sm:tracking-[0.14em]">
+                    <span className="max-w-[55%] break-words rounded-[var(--radius-sm)] border border-border bg-muted/50 px-2 py-1 text-right font-mono text-[0.6rem] uppercase tracking-[0.12em] text-muted-foreground sm:max-w-none sm:px-2.5 sm:tracking-[0.14em]">
                       {signal.evidence}
                     </span>
                   </div>
@@ -147,7 +141,7 @@ export function HiringProofSection() {
                   <span className="relative mt-auto pt-5 text-sm font-medium text-signal transition-colors group-hover:text-signal/90">
                     Kanıtı incele →
                   </span>
-                </TiltCard>
+                </div>
               </Link>
             </Reveal>
           ))}
