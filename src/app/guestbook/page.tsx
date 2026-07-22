@@ -81,13 +81,12 @@ function GuestbookEntryBlock({ entry, isMod = false }: { entry: GuestbookEntryRo
 
       {/* Adminler için mesajı yayından kaldırma (Gizle) butonu */}
       {isMod && entry.status === "approved" && (
-        <form action={moderateGuestbookEntry} className="absolute top-3 right-3 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
+        <form action={moderateGuestbookEntry} className="absolute top-3 right-3">
           <input type="hidden" name="id" value={entry.id} />
-          {/* Status'u rejected (gizli) olarak gönderiyoruz */}
           <input type="hidden" name="status" value="rejected" />
           <button
             type="submit"
-            className="rounded-md bg-red-500/10 px-2 py-1 text-[0.70rem] font-medium text-red-500 hover:bg-red-500/20 transition-colors"
+            className="rounded-md bg-red-500/10 px-2 py-1 text-[0.70rem] font-medium text-red-500 transition-colors hover:bg-red-500/20"
             title="Mesajı yayından kaldır"
           >
             Gizle
@@ -266,15 +265,7 @@ export default async function GuestbookPage({
         <h2 className="text-lg font-semibold text-foreground">Mesaj yaz</h2>
         <p className="text-xs text-muted-foreground">
           Aynı GitHub hesabı için: dakikada en fazla {limits.perMinute} gönderim,
-          24 saatte en fazla {limits.perDay}. Limitler ortamdan (
-          <code className="rounded bg-muted px-1 font-mono text-[0.65rem]">
-            GUESTBOOK_RATE_PER_MINUTE
-          </code>
-          ,{" "}
-          <code className="rounded bg-muted px-1 font-mono text-[0.65rem]">
-            GUESTBOOK_RATE_PER_DAY
-          </code>
-          ) ayarlanır.
+          24 saatte en fazla {limits.perDay}.
         </p>
         <GuestbookMessageForm canWrite={canWrite} dbConfigured={dbConfigured} />
       </section>

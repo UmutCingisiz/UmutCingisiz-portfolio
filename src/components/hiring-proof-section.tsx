@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
+import { siteConfig } from "@/lib/site-config";
 
 function ArchIcon({ className }: { className?: string }) {
   return (
@@ -47,52 +48,63 @@ type Proof = {
   tagline: string;
   evidence: string;
   href: string;
+  external?: boolean;
   icon: (props: { className?: string }) => ReactNode;
 };
 
-/* Tam 4 sinyal — 2x2/1x4 grid'de eksik hücre bırakmadan tam oturur. Soft-skill/
-   liderlik kanıtı burada değil, about.engineer zaman çizelgesinde yaşıyor. */
+const repoUrl = siteConfig.github.replace(/\/$/, "");
+const ciUrl = `${repoUrl}/actions`;
+
 const proofSignals: readonly Proof[] = [
   {
     title: "Uçtan uca ürün mimarisi",
     tagline: "auth · db · cache · mdx",
-    evidence: "full-stack",
+    evidence: "case study",
     href: "/projects/portfolio-web",
     icon: ArchIcon,
   },
   {
     title: "Kalite kapısı",
-    tagline: "lint · test · CI",
-    evidence: "quality gate",
-    href: "/projects/portfolio-web",
+    tagline: "lint · test · typecheck · e2e",
+    evidence: "CI workflows",
+    href: ciUrl,
+    external: true,
     icon: QualityIcon,
   },
   {
     title: "Güvenlik farkındalığı",
-    tagline: "OAuth · rate-limit",
-    evidence: "secure by default",
+    tagline: "OAuth · rate-limit · Zod",
+    evidence: "teknik yazı",
     href: "/blog/nextjs-server-actions-guvenlik",
     icon: SecurityIcon,
   },
   {
-    title: "Yayınlanabilir deneyim",
-    tagline: "SEO · OG · error UX",
-    evidence: "deploy-ready",
-    href: "/#contact",
+    title: "Ürün operasyonu",
+    tagline: "moderasyon · guestbook",
+    evidence: "canlı ürün",
+    href: "/guestbook",
     icon: DeliveryIcon,
   },
 ];
 
-const proofMetrics = [
-  { value: "4", label: "case-study proje" },
-  { value: "3", label: "teknik blog" },
-  { value: "E2E", label: "smoke test" },
-  { value: "6", label: "kalite komutu" },
-] as const;
+const proofLinks: readonly {
+  value: string;
+  label: string;
+  href: string;
+  external?: boolean;
+}[] = [
+  { value: "Projeler", label: "case-study listesi", href: "/projects" },
+  { value: "Blog", label: "teknik yazılar", href: "/blog" },
+  { value: "CI", label: "kalite pipeline", href: ciUrl, external: true },
+  { value: "Guestbook", label: "auth + moderasyon", href: "/guestbook" },
+];
 
 export function HiringProofSection() {
   return (
-    <section className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32">
+    <section
+      id="hiring"
+      className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32"
+    >
       <div className="ambient-orb -left-24 bottom-0 size-72 opacity-20 [animation-delay:1.5s]" />
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
@@ -101,28 +113,40 @@ export function HiringProofSection() {
             İşe alım kararını hızlandıran teknik kanıtlar.
           </h2>
           <p className="mt-5 text-pretty text-base leading-7 text-muted-foreground">
-            Uzun paragraflar değil, doğrulanabilir sinyaller. Her kanıt tek
-            bakışta okunur: ikon, başlık ve kanıtın kaynağı.
+            Her kart tek bir doğrulanabilir kaynağa gider — sayılar değil, açık
+            artifact’lar.
           </p>
         </div>
 
-        {/* Metrik şeridi */}
         <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {proofMetrics.map((metric, index) => (
-            <Reveal key={metric.label} index={index}>
-              <div className="surface-card p-5 text-center">
-                <p className="text-3xl font-bold tracking-tight text-signal">{metric.value}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{metric.label}</p>
-              </div>
+          {proofLinks.map((item, index) => (
+            <Reveal key={item.label} index={index}>
+              <Link
+                href={item.href}
+                {...(item.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className="surface-card block p-5 text-center transition-colors duration-[var(--motion-base)] hover:border-signal/30"
+              >
+                <p className="text-lg font-bold tracking-tight text-signal sm:text-xl">
+                  {item.value}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{item.label}</p>
+              </Link>
             </Reveal>
           ))}
         </div>
 
-        {/* İkon-odaklı kanıt ızgarası: 4 sinyal, eksik hücre bırakmayan düzen. */}
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {proofSignals.map((signal, index) => (
             <Reveal key={signal.title} index={index} className="h-full">
-              <Link href={signal.href} className="group block h-full">
+              <Link
+                href={signal.href}
+                {...(signal.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className="group block h-full"
+              >
                 <div className="surface-card relative flex h-full flex-col overflow-hidden p-6">
                   <div className="relative flex items-start justify-between gap-3">
                     <div className="flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-signal/25 bg-signal/[0.08] text-signal sm:size-14">
@@ -138,7 +162,7 @@ export function HiringProofSection() {
                   <p className="relative mt-1 font-mono text-sm text-muted-foreground">
                     {signal.tagline}
                   </p>
-                  <span className="relative mt-auto pt-5 text-sm font-medium text-signal transition-colors group-hover:text-signal/90">
+                  <span className="relative mt-auto pt-5 text-sm font-medium text-signal">
                     Kanıtı incele →
                   </span>
                 </div>

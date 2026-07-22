@@ -171,6 +171,14 @@ Copy/CTA değişikliği conversion’ı bozabilir → analytics + A/B değilse s
 
 Hiring redesign, Quality, GitHub polish, Contact polish, Guestbook UX, status helper.
 
+### Checklist
+1. [x] Hiring: `id`, unique artifact links, metrics → link strip  
+2. [x] Quality: 2 madde + checklist dili + CI link + `id`  
+3. [x] GitHub: skeleton Suspense, tek CTA/kart, partial-failure, `id`  
+4. [x] Contact: per-field errors + `aria-describedby`  
+5. [x] Guestbook: Hide her zaman görünür; env isimleri public copy’dan çıktı  
+6. [x] Status helper: `project-status` util (list + detail)
+
 ---
 
 # Sprint 4 — SEO

@@ -7,6 +7,11 @@ import { PdiBlock } from "@/components/pdi-block";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { TiltCard } from "@/components/tilt-card";
 import { pageCanonical } from "@/lib/site-metadata";
+import {
+  getProjectStatusBadgeClass,
+  getProjectStatusLabel,
+  isShippedStatus,
+} from "@/lib/project-status";
 
 export const metadata: Metadata = {
   title: "Projeler",
@@ -15,14 +20,10 @@ export const metadata: Metadata = {
   ...pageCanonical("/projects"),
 };
 
-function isLiveStatus(status: ProjectMeta["status"]) {
-  return status === "live" || status === "archived";
-}
-
 export default async function ProjectsPage() {
   const projects = getAllProjectsMeta();
-  const live = projects.filter((p) => isLiveStatus(p.status));
-  const building = projects.filter((p) => !isLiveStatus(p.status));
+  const live = projects.filter((p) => isShippedStatus(p.status));
+  const building = projects.filter((p) => !isShippedStatus(p.status));
 
   return (
     <div className="relative flex-1 overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
@@ -255,7 +256,6 @@ function ProjectShowcase({
   index: number;
   localIndex: number;
 }) {
-  const isLive = isLiveStatus(project.status);
   const flip = localIndex % 2 === 1;
 
   return (
@@ -277,13 +277,9 @@ function ProjectShowcase({
             <span className="signal-dot size-1.5" /> full-stack
           </span>
           <span
-            className={`rounded-full border px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] ${
-              isLive
-                ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-300"
-                : "border-amber-400/30 bg-amber-400/10 text-amber-200"
-            }`}
+            className={`rounded-full border px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] ${getProjectStatusBadgeClass(project.status)}`}
           >
-            {isLive ? "yayında" : "geliştiriliyor"}
+            {getProjectStatusLabel(project.status)}
           </span>
         </div>
 

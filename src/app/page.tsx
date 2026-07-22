@@ -5,6 +5,7 @@ import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { GithubActivitySection } from "@/components/github-activity-section";
+import { GithubActivitySkeleton } from "@/components/github-activity-skeleton";
 import { Hero } from "@/components/hero";
 import { HiringProofSection } from "@/components/hiring-proof-section";
 import { QualityStandardsSection } from "@/components/quality-standards-section";
@@ -41,7 +42,7 @@ export default async function Home({
       <FeaturedProjects />
       <HiringProofSection />
       <QualityStandardsSection />
-      <Suspense fallback={null}>
+      <Suspense fallback={<GithubActivitySkeleton />}>
         <GithubActivitySection />
       </Suspense>
       <ContactSection contactSuccess={contactSuccess} />

@@ -62,9 +62,7 @@ export function FeaturedProjectsList({ projects }: Props) {
                     </div>
 
                     <h3 className="relative mt-5 text-xl font-semibold tracking-tight text-foreground">
-                      <Link href={`/projects/${p.slug}`} className="hover:text-signal">
-                        {p.title}
-                      </Link>
+                      {p.title}
                     </h3>
                     <p className="relative mt-3 text-sm leading-7 text-muted-foreground">
                       {p.description}

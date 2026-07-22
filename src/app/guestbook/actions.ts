@@ -77,7 +77,7 @@ export async function submitGuestbookMessage(
     return {
       ok: false,
       error:
-        "Mesaj kaydedilemedi. `DATABASE_URL` ve Neon tablosunu doğrula.",
+        "Mesaj kaydedilemedi. Veritabanı geçici olarak kullanılamıyor; biraz sonra tekrar dene.",
     };
   }
 

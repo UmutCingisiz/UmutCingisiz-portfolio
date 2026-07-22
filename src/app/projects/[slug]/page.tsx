@@ -8,6 +8,10 @@ import {
 } from "@/lib/content/projects";
 import { ProjectGallery } from "@/components/project-gallery";
 import { pageCanonical } from "@/lib/site-metadata";
+import {
+  getProjectStatusBadgeClass,
+  getProjectStatusLabel,
+} from "@/lib/project-status";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -65,8 +69,6 @@ export default async function ProjectDetailPage({ params }: Props) {
     },
   ];
 
-  const isLive = frontmatter.status === "live";
-
   return (
     <article className="mx-auto max-w-5xl flex-1 px-4 py-16 sm:px-6 sm:py-24">
       <Link
@@ -82,13 +84,9 @@ export default async function ProjectDetailPage({ params }: Props) {
             {frontmatter.category} / case.study
           </p>
           <span
-            className={`rounded-full border px-2.5 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.14em] ${
-              isLive
-                ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-300"
-                : "border-amber-400/30 bg-amber-400/10 text-amber-200"
-            }`}
+            className={`rounded-full border px-2.5 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.14em] ${getProjectStatusBadgeClass(frontmatter.status)}`}
           >
-            {isLive ? "yayında" : "geliştiriliyor"}
+            {getProjectStatusLabel(frontmatter.status)}
           </span>
         </div>
         <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">

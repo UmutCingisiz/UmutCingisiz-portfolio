@@ -20,7 +20,6 @@ async function resolvePinnedRepos(): Promise<GithubRepoSummary[]> {
         name: live?.name ?? pin.name,
         description: live?.description ?? pin.description,
         html_url: live?.html_url ?? pin.html_url,
-        // Never invent "now" — missing API date stays empty (no fake freshness).
         pushed_at: live?.pushed_at ?? "",
         stargazers_count: live?.stargazers_count,
         language: live?.language ?? pin.language,
@@ -40,6 +39,9 @@ function RepoCard({
   repo: GithubRepoSummary;
   index: number;
 }) {
+  const primaryHref = repo.caseStudy ?? repo.html_url;
+  const isExternal = !repo.caseStudy;
+
   return (
     <Reveal index={index} className="h-full">
       <article
@@ -48,14 +50,7 @@ function RepoCard({
         }`}
       >
         <div className="relative flex items-start justify-between gap-3">
-          <a
-            href={repo.html_url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="font-semibold text-foreground hover:text-signal"
-          >
-            {repo.name}
-          </a>
+          <h3 className="font-semibold text-foreground">{repo.name}</h3>
           {repo.pinned ? (
             <span className="shrink-0 rounded-full border border-signal/30 bg-signal/[0.08] px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-signal">
               {repo.badge ?? "pinned"}
@@ -79,19 +74,23 @@ function RepoCard({
               {repo.language}
             </span>
           ) : null}
-          {repo.caseStudy ? (
-            <Link href={repo.caseStudy} className="text-signal hover:underline">
-              case study →
+          {isExternal ? (
+            <a
+              href={primaryHref}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
+            >
+              Repoyu aç →
+            </a>
+          ) : (
+            <Link
+              href={primaryHref}
+              className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
+            >
+              Case study →
             </Link>
-          ) : null}
-          <a
-            href={repo.html_url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
-          >
-            Repoyu aç →
-          </a>
+          )}
         </div>
       </article>
     </Reveal>
@@ -107,9 +106,17 @@ export async function GithubActivitySection() {
     resolvePinnedRepos(),
   ]);
 
-  if (!repos?.length && !pinned.length) {
+  const recentFailed = repos === null;
+  const recent = (repos ?? []).filter(
+    (r) => !pinned.some((p) => p.name.toLowerCase() === r.name.toLowerCase()),
+  );
+
+  if (!recent.length && !pinned.length) {
     return (
-      <section className="border-y border-border bg-muted/30 px-4 py-20 sm:px-6">
+      <section
+        id="github"
+        className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-20 sm:px-6"
+      >
         <div className="mx-auto max-w-5xl rounded-xl border border-border bg-card/60 p-6 backdrop-blur-sm">
           <h2 className="text-xl font-semibold text-foreground">GitHub</h2>
           <p className="mt-2 text-sm leading-7 text-muted-foreground">
@@ -127,12 +134,7 @@ export async function GithubActivitySection() {
     );
   }
 
-  const pinnedNames = new Set(pinned.map((p) => p.name.toLowerCase()));
-  const recent = (repos ?? []).filter(
-    (r) => !pinnedNames.has(r.name.toLowerCase()),
-  );
   const displayRepos = [...pinned, ...recent].slice(0, 8);
-
   const logEntries: GitLogEntry[] = displayRepos.slice(0, 6).map((repo) => ({
     repo: repo.name,
     language: repo.language ?? null,
@@ -140,7 +142,10 @@ export async function GithubActivitySection() {
   }));
 
   return (
-    <section className="border-y border-border bg-muted/30 px-4 py-24 sm:px-6 sm:py-32">
+    <section
+      id="github"
+      className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-24 sm:px-6 sm:py-32"
+    >
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
           <div>
@@ -162,6 +167,15 @@ export async function GithubActivitySection() {
             @{login}
           </Link>
         </div>
+
+        {recentFailed && pinned.length > 0 ? (
+          <p
+            role="status"
+            className="mt-6 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-foreground"
+          >
+            Recent repo listesi şu an alınamadı; pinned kanıtlar gösteriliyor.
+          </p>
+        ) : null}
 
         {pinned.length > 0 ? (
           <div className="mt-10">

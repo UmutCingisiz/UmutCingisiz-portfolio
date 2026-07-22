@@ -24,7 +24,15 @@ const schema = z.object({
 });
 
 export type ContactFormState =
-  | { ok: false; error: string }
+  | {
+      ok: false;
+      error: string;
+      fieldErrors?: {
+        name?: string;
+        email?: string;
+        message?: string;
+      };
+    }
   | null;
 
 const MAX_PER_DAY_PER_EMAIL = 5;
@@ -63,12 +71,17 @@ export async function submitContactForm(
 
   if (!parsed.success) {
     const flat = parsed.error.flatten();
+    const fieldErrors = {
+      name: flat.fieldErrors.name?.[0],
+      email: flat.fieldErrors.email?.[0],
+      message: flat.fieldErrors.message?.[0],
+    };
     const err =
-      flat.fieldErrors.name?.[0] ??
-      flat.fieldErrors.email?.[0] ??
-      flat.fieldErrors.message?.[0] ??
+      fieldErrors.name ??
+      fieldErrors.email ??
+      fieldErrors.message ??
       "Form geçersiz.";
-    return { ok: false, error: err };
+    return { ok: false, error: err, fieldErrors };
   }
 
   const emailKey = `email:${normalizeEmail(parsed.data.email)}`;
