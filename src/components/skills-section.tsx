@@ -81,7 +81,7 @@ const strong: readonly StrongSkill[] = [
   {
     title: "Algoritmik Problem Çözme",
     tagline: "rota & graph optimizasyonu",
-    proof: "40+ düğümlü simülasyon · aşağıda dene",
+    proof: "40+ düğümlü simülasyon · algoritma lab →",
     href: "#algorithm-lab",
     icon: BinaryIcon,
   },
@@ -140,7 +140,7 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-24 sm:px-6 sm:py-32"
+      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-16 sm:px-6 sm:py-32"
     >
       <div className="ambient-orb -left-20 top-20 size-64 opacity-30" />
       <div className="mx-auto max-w-6xl">

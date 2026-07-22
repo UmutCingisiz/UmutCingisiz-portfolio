@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
@@ -30,6 +30,7 @@ function initialsFromName(name: string) {
 
 export function Hero() {
   const githubLogin = getGithubUsername();
+  const prefersReducedMotion = useReducedMotion();
   const [imageMode, setImageMode] = useState<ProfileImageMode>("local");
 
   const profileSrc =
@@ -48,7 +49,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden px-4 pb-16 pt-16 sm:px-6 sm:pb-28 sm:pt-24">
+    <section className="relative overflow-hidden px-4 pb-12 pt-10 sm:px-6 sm:pb-28 sm:pt-24">
       <div className="ambient-orb left-[8%] top-20 size-64 opacity-60" />
       <div className="ambient-orb bottom-20 right-[8%] size-80 opacity-40 [animation-delay:2s]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
@@ -91,27 +92,44 @@ export function Hero() {
             {siteConfig.shortBio}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
+          <div className="mt-8 flex w-full flex-col gap-3 sm:mt-10 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
             <Link
               href="/#contact"
-              className="btn-signal group inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 sm:h-12"
+              className="btn-signal group inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 sm:h-12 sm:w-auto"
             >
               İletişim
               <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <Link
-              href="/projects"
-              className="inline-flex h-11 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted sm:h-12"
+            <motion.div
+              className="w-full sm:w-auto"
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : { y: [0, -3, 0], boxShadow: ["0 0 0 rgba(34,211,238,0)", "0 0 22px rgba(34,211,238,0.25)", "0 0 0 rgba(34,211,238,0)"] }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : { duration: 2.4, repeat: Infinity, ease: "easeInOut" }
+              }
             >
-              Projeleri İncele
-            </Link>
-            <a
+              <Link
+                href="/projects"
+                className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-signal/35 bg-signal/[0.08] px-5 text-sm font-semibold text-signal transition-all duration-200 hover:-translate-y-0.5 hover:border-signal/55 hover:bg-signal/[0.14] sm:w-auto"
+              >
+                Projeleri İncele
+                <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </motion.div>
+            <motion.a
               href="/api/resume"
               download="Umut-Cingisiz-CV.pdf"
-              className="inline-flex h-11 items-center rounded-xl px-4 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground sm:h-12"
+              className="inline-flex h-12 w-full items-center justify-center rounded-xl border border-border bg-card/70 px-5 text-sm font-semibold text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/25 hover:bg-muted sm:w-auto"
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
             >
               CV İndir
-            </a>
+            </motion.a>
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">

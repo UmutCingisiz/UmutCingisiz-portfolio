@@ -13,12 +13,12 @@ import { socialLinks } from "@/components/social-icons";
 const MOBILE_NAV_ID = "mobile-primary-navigation";
 
 const nav = [
-  { href: "/", label: "Ana Sayfa" },
-  { href: "/#about", label: "Hakkımda" },
-  { href: "/#skills", label: "Yetenekler" },
-  { href: "/projects", label: "Projeler" },
-  { href: "/blog", label: "Blog" },
-  { href: "/guestbook", label: "Ziyaretçi Defteri" },
+  { href: "/", label: "Ana Sayfa", sectionId: null },
+  { href: "/#about", label: "Hakkımda", sectionId: "about" },
+  { href: "/#skills", label: "Yetenekler", sectionId: "skills" },
+  { href: "/projects", label: "Projeler", sectionId: null },
+  { href: "/blog", label: "Blog", sectionId: null },
+  { href: "/guestbook", label: "Ziyaretçi Defteri", sectionId: null },
 ] as const;
 
 function MenuIcon({ className }: { className?: string }) {
@@ -50,14 +50,63 @@ function TerminalIcon({ className }: { className?: string }) {
   );
 }
 
-function isNavCurrent(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  if (href.startsWith("/#")) return pathname === "/";
+function useActiveHomeSection() {
+  const pathname = usePathname();
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection(null);
+      return;
+    }
+
+    const ids = ["about", "skills", "projects", "hiring", "quality", "algorithm-lab", "github", "contact"];
+    const elements = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]?.target?.id) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-30% 0px -55% 0px",
+        threshold: [0.1, 0.25, 0.5],
+      },
+    );
+
+    for (const el of elements) observer.observe(el);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  return activeSection;
+}
+
+function isNavCurrent(
+  pathname: string,
+  href: string,
+  sectionId: string | null,
+  activeSection: string | null,
+) {
+  if (href === "/") {
+    return pathname === "/" && !activeSection;
+  }
+  if (sectionId) {
+    return pathname === "/" && activeSection === sectionId;
+  }
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const activeSection = useActiveHomeSection();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -91,7 +140,6 @@ export function SiteHeader() {
     };
   }, [mobileOpen]);
 
-  // Escape + focus trap + initial focus + restore
   useEffect(() => {
     if (!mobileOpen) return;
 
@@ -120,48 +168,34 @@ export function SiteHeader() {
       if (event.key !== "Tab") return;
       const list = focusables();
       if (list.length === 0) return;
-
       const first = list[0];
       const last = list[list.length - 1];
-      const active = document.activeElement as HTMLElement | null;
-
-      if (event.shiftKey) {
-        if (active === first || !panel?.contains(active)) {
-          event.preventDefault();
-          last.focus();
-        }
-      } else if (active === last) {
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
         event.preventDefault();
         first.focus();
       }
     };
 
-    document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      if (previouslyFocused && document.contains(previouslyFocused)) {
-        previouslyFocused.focus();
-      } else {
-        menuButtonRef.current?.focus();
-      }
+      window.removeEventListener("keydown", onKeyDown);
+      previouslyFocused?.focus?.();
     };
   }, [mobileOpen, closeMobile]);
-
-  // Route change closes menu
-  useEffect(() => {
-    closeMobile();
-  }, [pathname, closeMobile]);
 
   return (
     <>
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="sticky top-0 z-50 bg-background px-3 pt-3 pb-2 sm:px-5 sm:pt-4"
       >
         <div
-          className={`mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 rounded-2xl border px-4 transition-all duration-300 sm:px-5 ${
+          className={`mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 rounded-2xl border px-3 transition-all duration-300 sm:h-16 sm:gap-3 sm:px-5 ${
             scrolled
               ? "border-border bg-background/80 shadow-xl shadow-black/30 backdrop-blur-2xl backdrop-saturate-150"
               : "border-border/50 bg-background/50 shadow-lg shadow-black/10 backdrop-blur-xl"
@@ -169,10 +203,10 @@ export function SiteHeader() {
         >
           <Link
             href="/"
-            className="group relative z-10 inline-flex shrink-0 items-center rounded-xl px-1 py-2 transition-opacity hover:opacity-80"
+            className="group relative z-10 inline-flex min-w-0 shrink items-center rounded-xl px-1 py-2 transition-opacity hover:opacity-80"
             aria-label={siteConfig.name}
           >
-            <Logo className="text-base sm:text-lg" />
+            <Logo className="text-sm sm:text-lg" />
           </Link>
 
           <nav
@@ -180,7 +214,12 @@ export function SiteHeader() {
             aria-label="Ana navigasyon"
           >
             {nav.map((item, i) => {
-              const current = isNavCurrent(pathname, item.href);
+              const current = isNavCurrent(
+                pathname,
+                item.href,
+                item.sectionId,
+                activeSection,
+              );
               return (
                 <motion.div
                   key={item.href}
@@ -201,7 +240,7 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               type="button"
               onClick={openTerminal}
@@ -284,27 +323,48 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto bg-background/95 px-6 py-20 backdrop-blur-xl lg:hidden"
           >
             <nav
-              className="flex h-full flex-col items-center justify-center gap-6"
+              className="mx-auto flex min-h-full max-w-sm flex-col items-stretch justify-center gap-3"
               aria-label="Mobil navigasyon"
             >
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                <Link
+                  href="/#contact"
+                  onClick={closeMobile}
+                  className="btn-signal flex h-12 items-center justify-center rounded-xl text-base font-semibold"
+                >
+                  İletişim
+                </Link>
+              </motion.div>
+
+              <div className="my-2 h-px bg-border" />
+
               {nav.map((item, i) => {
-                const current = isNavCurrent(pathname, item.href);
+                const current = isNavCurrent(
+                  pathname,
+                  item.href,
+                  item.sectionId,
+                  activeSection,
+                );
                 return (
                   <motion.div
                     key={item.href}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.3, delay: 0.05 * i }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.25, delay: 0.04 * i }}
                   >
                     <Link
                       href={item.href}
                       onClick={closeMobile}
                       aria-current={current ? "page" : undefined}
-                      className="text-2xl font-medium text-foreground transition-colors hover:text-muted-foreground"
+                      className="flex h-12 items-center justify-center rounded-xl border border-border/70 bg-card/40 text-lg font-medium text-foreground transition-colors hover:bg-muted aria-[current=page]:border-signal/40 aria-[current=page]:text-signal"
                     >
                       {item.label}
                     </Link>
@@ -312,27 +372,11 @@ export function SiteHeader() {
                 );
               })}
 
-              <div className="mt-4 h-px w-16 bg-border" />
-
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.35 }}
-              >
-                <Link
-                  href="/#contact"
-                  onClick={closeMobile}
-                  className="btn-signal rounded-lg px-6 py-3 text-lg font-semibold"
-                >
-                  İletişim
-                </Link>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.4 }}
-                className="flex items-center gap-4"
+                transition={{ duration: 0.25, delay: 0.35 }}
+                className="mt-4 flex items-center justify-center gap-4"
               >
                 {socialLinks.slice(0, 2).map(({ href, icon: Icon, label }) => (
                   <a
@@ -340,10 +384,10 @@ export function SiteHeader() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted-foreground transition-colors hover:text-foreground"
+                    className="inline-flex size-11 items-center justify-center rounded-xl border border-border text-muted-foreground transition-colors hover:text-foreground"
                     aria-label={label}
                   >
-                    <Icon className="size-6" />
+                    <Icon className="size-5" />
                   </a>
                 ))}
               </motion.div>

@@ -42,10 +42,10 @@ export default async function Home({
       <TerminalPrompt />
       <AboutSection />
       <SkillsSection />
-      <AlgorithmLabIsland />
       <FeaturedProjects />
       <HiringProofSection />
       <QualityStandardsSection />
+      <AlgorithmLabIsland />
       <Suspense fallback={<GithubActivitySkeleton />}>
         <GithubActivitySection />
       </Suspense>

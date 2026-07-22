@@ -25,7 +25,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32"
+      className="relative overflow-hidden scroll-mt-24 px-4 py-16 sm:px-6 sm:py-32"
     >
       <div className="ambient-orb -right-24 top-10 size-72 opacity-25" />
       <div className="mx-auto max-w-6xl">

@@ -16,6 +16,7 @@
 /playwright-report
 /blob-report
 /playwright/.cache
+docs/lighthouse-home.json
 
 # next.js
 /.next/

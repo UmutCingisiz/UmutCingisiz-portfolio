@@ -66,7 +66,28 @@ export async function submitContactForm(
     };
   }
 
-  const emailKey = `email:${normalizeEmail(parsed.data.email)}`;
+  const e2eMock = process.env.CONTACT_E2E_MOCK === "1";
+  const emailNorm = normalizeEmail(parsed.data.email);
+
+  // Playwright-only paths — never enabled in production.
+  if (e2eMock) {
+    if (emailNorm.includes("rate-limit@")) {
+      return {
+        ok: false,
+        error: `Bu e-postadan 24 saat içinde en fazla ${MAX_PER_DAY_PER_EMAIL} mesaj gönderilebilir.`,
+      };
+    }
+    if (emailNorm.includes("send-fail@")) {
+      return {
+        ok: false,
+        error: "Mesaj şimdilik gönderilemedi. Lütfen biraz sonra tekrar dene.",
+      };
+    }
+    logPortfolioEvent("contact.sent", { e2eMock: true });
+    redirect("/?contact=sent");
+  }
+
+  const emailKey = `email:${emailNorm}`;
   const ipKey = await getClientIpKey();
 
   let emailPrior: number;

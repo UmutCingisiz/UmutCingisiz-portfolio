@@ -1,21 +1,22 @@
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
+import { lighthouseHome } from "@/lib/lighthouse-metrics";
 import { siteConfig } from "@/lib/site-config";
 
 const standards = [
   {
     label: "performance",
     title: "Performans bütçesi",
-    target: "Hedef checklist · LCP / CLS / INP (ölçüm sonrası güncellenir)",
-    body: "Hero görseli, server-first bölümler ve kontrollü animasyonlarla görsel kaliteyi hızdan ödün vermeden koruma hedefi. Canlı Lighthouse skorları eklendikçe burası somutlaşır.",
+    target: `Ölçüm ${lighthouseHome.measuredAt} · Perf ${lighthouseHome.scores.performance} · LCP ${lighthouseHome.metrics.lcp} · CLS ${lighthouseHome.metrics.cls}`,
+    body: `Production home (${lighthouseHome.formFactor}) Lighthouse skoru ${lighthouseHome.scores.performance}/100. Hedef checklist duruyor: LCP < 2.5s · CLS < 0.1 · INP < 200ms — sonraki iterasyonlarda skorları yükseltmek için bütçe.`,
     icon: GaugeIcon,
   },
   {
     label: "accessibility",
     title: "Erişilebilirlik disiplini",
-    target: "Keyboard flow · visible focus · semantic sections",
-    body: "Skip link, landmark akışı, yüksek kontrast ve sade hiyerarşi ile portfolyo herkes için okunabilir kalmalı.",
+    target: `Ölçüm ${lighthouseHome.measuredAt} · A11y ${lighthouseHome.scores.accessibility} · SEO ${lighthouseHome.scores.seo}`,
+    body: `Aynı koşuda erişilebilirlik ${lighthouseHome.scores.accessibility}/100, SEO ${lighthouseHome.scores.seo}/100, best practices ${lighthouseHome.scores.bestPractices}/100. Keyboard flow, visible focus ve semantic sections checklist olarak korunur.`,
     icon: A11yIcon,
   },
 ] as const;
@@ -42,12 +43,16 @@ function A11yIcon({ className }: { className?: string }) {
 }
 
 const ciUrl = `${siteConfig.github.replace(/\/$/, "")}/actions`;
+const measuredLabel = new Date(`${lighthouseHome.measuredAt}T12:00:00Z`).toLocaleDateString(
+  "tr-TR",
+  { year: "numeric", month: "long", day: "numeric" },
+);
 
 export function QualityStandardsSection() {
   return (
     <section
       id="quality"
-      className="relative overflow-hidden scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32"
+      className="relative overflow-hidden scroll-mt-24 px-4 py-16 sm:px-6 sm:py-32"
     >
       <div className="ambient-orb -right-20 top-1/3 size-64 opacity-20 [animation-delay:3s]" />
       <div className="mx-auto max-w-6xl">
@@ -55,14 +60,16 @@ export function QualityStandardsSection() {
           <div className="max-w-2xl">
             <SectionEyebrow>quality.standards</SectionEyebrow>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Ölçülebilir kalite hedefleri — manifesto değil, checklist.
+              Ölçülebilir kalite — checklist + tarihli Lighthouse.
             </h2>
             <p className="mt-5 text-base leading-7 text-muted-foreground">
-              Güvenlik ve ürün operasyonu kanıtları{" "}
+              Son ölçüm: <span className="text-foreground">{measuredLabel}</span>
+              {" · "}
+              {lighthouseHome.formFactor} production. Güvenlik kanıtları{" "}
               <Link href="/#hiring" className="underline underline-offset-4 hover:text-foreground">
                 hiring.proof
-              </Link>{" "}
-              bölümünde; burada performans ve erişilebilirlik hedefleri duruyor.
+              </Link>
+              .
             </p>
           </div>
           <a
@@ -75,7 +82,27 @@ export function QualityStandardsSection() {
           </a>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:grid-cols-4">
+          {(
+            [
+              ["Perf", lighthouseHome.scores.performance],
+              ["A11y", lighthouseHome.scores.accessibility],
+              ["BP", lighthouseHome.scores.bestPractices],
+              ["SEO", lighthouseHome.scores.seo],
+            ] as const
+          ).map(([label, value]) => (
+            <div key={label} className="surface-card p-4 text-center sm:p-5">
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+                {label}
+              </p>
+              <p className="mt-1 text-2xl font-bold tabular-nums text-signal sm:text-3xl">
+                {value}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 grid gap-4 sm:mt-12 sm:grid-cols-2">
           {standards.map((item, index) => {
             const Icon = item.icon;
             return (
@@ -96,7 +123,7 @@ export function QualityStandardsSection() {
                   </div>
 
                   <p className="relative mt-4 break-words font-mono text-[0.7rem] leading-5 text-signal sm:text-xs">
-                    $ checklist — {item.target}
+                    $ measured — {item.target}
                   </p>
                   <p className="relative mt-3 text-sm leading-relaxed text-muted-foreground">
                     {item.body}

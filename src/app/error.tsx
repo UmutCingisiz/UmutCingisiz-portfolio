@@ -15,6 +15,29 @@ export default function Error({ error, reset }: Props) {
     Sentry.captureException(error);
   }, [error]);
 
+  // App Router error boundaries are client components — inject robots meta.
+  useEffect(() => {
+    const existing = document.querySelector('meta[name="robots"]');
+    const meta =
+      existing ??
+      (() => {
+        const el = document.createElement("meta");
+        el.setAttribute("name", "robots");
+        document.head.appendChild(el);
+        return el;
+      })();
+    const previous = meta.getAttribute("content");
+    meta.setAttribute("content", "noindex, nofollow");
+    return () => {
+      if (existing) {
+        if (previous == null) meta.removeAttribute("content");
+        else meta.setAttribute("content", previous);
+      } else {
+        meta.remove();
+      }
+    };
+  }, []);
+
   return (
     <div className="mx-auto flex max-w-lg flex-1 flex-col items-center justify-center px-4 py-24 text-center sm:px-6">
       <p className="font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground">

@@ -11,6 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "lighthouse:home": "node scripts/lighthouse-home.mjs",
     "coverage": "vitest run --coverage",
     "check:content": "node scripts/check-content.mjs",
     "check:env": "node --env-file=.env.local scripts/check-env.mjs",

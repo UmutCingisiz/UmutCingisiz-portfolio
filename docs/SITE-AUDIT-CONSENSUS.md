@@ -2,7 +2,7 @@
 
 **Kaynaklar:** `SITE-AUDIT.md` × Senior görüşleri × Sprint modeli  
 **Tarih:** 2026-07-22  
-**Durum:** Sprint 0 kodlandı (deploy + manuel test planı bekleniyor)
+**Durum:** Sprint 0–5 + P1 kapanış (Lighthouse, contact e2e, error noindex) kodlandı. Kalanlar → `docs/AUDIT-REMAINING.md`
 
 ---
 
