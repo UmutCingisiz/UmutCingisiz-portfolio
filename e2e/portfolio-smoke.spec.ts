@@ -6,7 +6,7 @@ test("home page exposes hiring proof and project CTAs", async ({ page }) => {
   await expect(page.getByRole("heading", { name: /Umut Cingisiz/i })).toBeVisible();
   await expect(page.getByText("hiring.proof")).toBeVisible();
   await expect(page.getByText("reviewer_path")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Projeleri İncele" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Projeleri incele/i })).toBeVisible();
 });
 
 test("projects page shows case-study cards", async ({ page }) => {

@@ -60,15 +60,15 @@ const proofSignals: readonly Proof[] = [
   {
     label: "architecture",
     title: "Uçtan uca ürün mimarisi",
-    body: "App Router, Server Components, MDX, Auth.js, Drizzle, Neon ve Redis aynı üründe — vitrin değil çalışan sistem.",
-    evidence: "case study",
+    body: "App Router, Auth.js, Drizzle, Neon ve Redis aynı üründe — çalışan sistem.",
+    evidence: "Case study",
     href: "/projects/portfolio-web",
     icon: ArchIcon,
   },
   {
     label: "quality",
     title: "Kalite kapısı olan geliştirme",
-    body: "Lint, typecheck, Vitest, Playwright ve içerik doğrulama CI’da; bozulmadan büyüyen portfolyo disiplini.",
+    body: "Lint, typecheck, Vitest ve Playwright CI’da; bozulmadan büyüyen disiplin.",
     evidence: "CI workflows",
     href: ciUrl,
     external: true,
@@ -76,33 +76,33 @@ const proofSignals: readonly Proof[] = [
   },
   {
     label: "security",
-    title: "Güvenlik ve kötüye kullanım farkındalığı",
-    body: "Guestbook ve contact akışlarında OAuth, moderasyon, Zod, honeypot ve fail-closed rate-limit.",
-    evidence: "teknik yazı",
+    title: "Güvenlik farkındalığı",
+    body: "OAuth, moderasyon, Zod, honeypot ve fail-closed rate-limit.",
+    evidence: "Teknik yazı",
     href: "/blog/nextjs-server-actions-guvenlik",
     icon: SecurityIcon,
   },
   {
     label: "delivery",
     title: "Yayınlanabilir deneyim",
-    body: "SEO, OG, error/loading, CV indirme ve production servis planı — demo değil ship edilebilir yüzey.",
-    evidence: "canlı guestbook",
+    body: "SEO, OG, error/loading ve production servis planı — demo değil ship.",
+    evidence: "Guestbook",
     href: "/guestbook",
     icon: DeliveryIcon,
   },
 ];
 
 const reviewPath = [
-  "60 sn: hero + dürüst kanıt sinyalleri",
+  "60 sn: hero + kanıt sinyalleri",
   "2 dk: projelerde problem / karar / etki",
-  "5 dk: blog + GitHub + guestbook akışı",
+  "5 dk: blog + GitHub + guestbook",
 ] as const;
 
 const quickLinks = [
-  { value: "Projeler", label: "case-study listesi", href: "/projects" },
-  { value: "Blog", label: "teknik yazılar", href: "/blog" },
-  { value: "CI", label: "kalite pipeline", href: ciUrl, external: true },
-  { value: "Guestbook", label: "auth + moderasyon", href: "/guestbook" },
+  { value: "Projeler", label: "Case-study listesi", href: "/projects" },
+  { value: "Blog", label: "Teknik yazılar", href: "/blog" },
+  { value: "CI", label: "Kalite pipeline", href: ciUrl, external: true },
+  { value: "Guestbook", label: "Auth + moderasyon", href: "/guestbook" },
 ] as const;
 
 export function HiringProofSection() {
@@ -111,21 +111,20 @@ export function HiringProofSection() {
   return (
     <section
       id="hiring"
-      className="relative scroll-mt-24 overflow-hidden px-4 py-14 sm:px-6 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-12">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-10">
           <div className="lg:sticky lg:top-24">
             <SectionEyebrow>hiring.proof</SectionEyebrow>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               İşe alım kararını hızlandıran teknik kanıtlar.
             </h2>
-            <p className="mt-5 text-pretty text-base leading-7 text-muted-foreground">
-              Sayı değil, tıklanabilir artifact. Her kart tek bir doğrulanabilir
-              kaynağa gider — CV metninden çıkıp mühendislik sinyaline.
+            <p className="mt-3 text-pretty text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+              Sayı değil, tıklanabilir artifact — her kart tek doğrulanabilir kaynağa gider.
             </p>
 
-            <div className="mt-8 grid grid-cols-2 gap-3">
+            <div className="mt-6 grid grid-cols-2 gap-2.5 sm:mt-8 sm:gap-3">
               {quickLinks.map((item) => (
                 <Link
                   key={item.label}
@@ -133,21 +132,23 @@ export function HiringProofSection() {
                   {...("external" in item && item.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="surface-card block p-4 transition-colors duration-[var(--motion-base)] hover:border-signal/30"
+                  className="surface-card block p-3 transition-colors duration-[var(--motion-base)] hover:border-signal/30 sm:p-4"
                 >
-                  <p className="text-lg font-bold tracking-tight text-signal">
+                  <p className="text-base font-bold tracking-tight text-signal sm:text-lg">
                     {item.value}
                   </p>
-                  <p className="mt-1 text-xs text-muted-foreground">{item.label}</p>
+                  <p className="mt-0.5 text-[0.7rem] text-muted-foreground sm:text-xs">
+                    {item.label}
+                  </p>
                 </Link>
               ))}
             </div>
 
-            <div className="mt-6 rounded-[var(--radius-lg)] border border-border bg-muted/35 p-5">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="mt-4 rounded-[var(--radius-lg)] border border-border bg-muted/35 p-4 sm:mt-6 sm:p-5">
+              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                 reviewer_path
               </p>
-              <ol className="mt-4 space-y-3">
+              <ol className="mt-3 space-y-2.5">
                 {reviewPath.map((item, index) => (
                   <li key={item} className="flex gap-3 text-sm text-muted-foreground">
                     <span className="font-mono text-foreground">
@@ -157,7 +158,7 @@ export function HiringProofSection() {
                   </li>
                 ))}
               </ol>
-              <p className="mt-5 font-mono text-[0.65rem] leading-5 text-muted-foreground">
+              <p className="mt-4 font-mono text-[0.65rem] leading-5 text-muted-foreground">
                 Lighthouse ({lh.formFactor}) · Perf {lh.scores.performance} ·
                 A11y {lh.scores.accessibility} · CLS {lh.metrics.cls} ·{" "}
                 {lh.measuredAt}
@@ -165,7 +166,7 @@ export function HiringProofSection() {
             </div>
           </div>
 
-          <div className="grid gap-4">
+          <div className="grid gap-3 sm:gap-4">
             {proofSignals.map((signal, index) => {
               const Icon = signal.icon;
               const linkProps = signal.external
@@ -173,32 +174,32 @@ export function HiringProofSection() {
                 : {};
               return (
                 <Reveal key={signal.title} index={index}>
-                  <article className="surface-card group relative overflow-hidden p-5 sm:p-6">
-                    <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <article className="surface-card group relative overflow-hidden p-4 sm:p-5">
+                    <div className="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex items-start gap-3">
-                        <div className="flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-signal/25 bg-signal/[0.08] text-signal">
-                          <Icon className="size-5" />
+                        <div className="flex size-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-signal/25 bg-signal/[0.08] text-signal sm:size-10">
+                          <Icon className="size-4 sm:size-5" />
                         </div>
                         <div>
-                          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                          <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                             {signal.label}
                           </p>
-                          <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+                          <h3 className="mt-1 text-base font-semibold tracking-tight text-foreground sm:text-lg">
                             {signal.title}
                           </h3>
                         </div>
                       </div>
-                      <span className="w-fit shrink-0 rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-muted-foreground">
+                      <span className="w-fit shrink-0 rounded-md border border-border bg-muted/50 px-2 py-0.5 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                         {signal.evidence}
                       </span>
                     </div>
-                    <p className="relative mt-4 text-sm leading-7 text-muted-foreground">
+                    <p className="relative mt-3 text-sm leading-6 text-muted-foreground">
                       {signal.body}
                     </p>
                     <Link
                       href={signal.href}
                       {...linkProps}
-                      className="relative mt-5 inline-flex text-sm font-medium text-signal underline-offset-4 hover:underline"
+                      className="relative mt-4 inline-flex text-sm font-medium text-signal underline-offset-4 hover:underline"
                     >
                       Kanıtı incele →
                     </Link>

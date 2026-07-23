@@ -45,20 +45,20 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
   }, [active, close, showPrev, showNext]);
 
   return (
-    <section className="mt-8 rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm sm:p-7">
+    <section className="mt-8 rounded-xl border border-border bg-card/50 p-4 backdrop-blur-sm sm:p-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
             product.screens
           </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
+          <h2 className="mt-2 text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
             Uygulama içi görünümler
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+          <p className="mt-1.5 max-w-2xl text-sm leading-6 text-muted-foreground">
             Görsele tıklayarak büyüt. Escape / ok tuşları ile gezin.
           </p>
         </div>
-        <span className="w-fit rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
+        <span className="w-fit rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
           {shots.length > 0 ? `${shots.length} frame` : "pending"}
         </span>
       </div>
@@ -81,7 +81,7 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
                     sizes="(max-width: 640px) 100vw, 50vw"
                   />
                   <span className="absolute bottom-2 right-2 rounded-md border border-border bg-background/85 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground backdrop-blur">
-                    büyüt ↗
+                    Büyüt ↗
                   </span>
                 </div>
                 {(shot.caption || shot.alt) && (
@@ -99,7 +99,7 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
         </ul>
       ) : (
         <div className="mt-6 rounded-xl border border-dashed border-border/80 bg-muted/20 px-5 py-10 text-center">
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-signal/70">
+          <p className="font-mono text-[0.65rem] tracking-wide text-signal/70">
             screenshots.coming
           </p>
           <p className="mt-3 text-sm text-muted-foreground">

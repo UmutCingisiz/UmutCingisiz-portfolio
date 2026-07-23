@@ -106,22 +106,22 @@ export async function GithubActivitySection() {
   return (
     <section
       id="github"
-      className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-14 sm:px-6 sm:py-28"
+      className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-12 sm:px-6 sm:py-20"
     >
       <div className="mx-auto max-w-5xl">
-        <div className="flex flex-wrap items-baseline justify-between gap-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
           <div>
             <SectionEyebrow>github.signal</SectionEyebrow>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               Canlı geliştirme aktivitesi
             </h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
               GitHub API’den gerçek recent repo feed’i — sahte commit hash yok.
             </p>
           </div>
           <Link
             href={`https://github.com/${login}`}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
+            className="rounded-lg border border-border px-3.5 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
             rel="me noreferrer noopener"
             target="_blank"
           >
@@ -129,16 +129,15 @@ export async function GithubActivitySection() {
           </Link>
         </div>
 
-        {/* Craft strip — recent kart tasarımına dokunmadan üst sinyal */}
-        <div className="mt-8 flex flex-wrap items-center gap-2 rounded-[var(--radius-lg)] border border-border bg-card/40 px-4 py-3">
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+        <div className="mt-6 flex flex-wrap items-center gap-2 rounded-[var(--radius-lg)] border border-border bg-card/40 px-3 py-2.5 sm:mt-8 sm:px-4 sm:py-3">
+          <span className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
             signal.pulse
           </span>
           <span className="text-muted-foreground/40">·</span>
           <span className="font-mono text-xs text-foreground/80">
             {recent.length} recent repo
           </span>
-          {languages.slice(0, 5).map((lang) => (
+          {languages.slice(0, 4).map((lang) => (
             <span
               key={lang}
               className="rounded-md border border-border bg-muted/40 px-2 py-0.5 font-mono text-[0.65rem] text-muted-foreground"
@@ -152,17 +151,17 @@ export async function GithubActivitySection() {
             rel="noreferrer noopener"
             className="ml-auto font-mono text-[0.65rem] text-signal hover:underline"
           >
-            tüm repolar ↗
+            Tüm repolar ↗
           </a>
         </div>
 
         {logEntries.length > 0 ? (
-          <Reveal className="mt-8">
+          <Reveal className="mt-6 sm:mt-8">
             <GitLogFeed entries={logEntries} />
           </Reveal>
         ) : null}
 
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+        <ul className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4">
           {recent.slice(0, 6).map((repo, index) => (
             <li key={repo.html_url}>
               <RepoCard repo={repo} index={index} />

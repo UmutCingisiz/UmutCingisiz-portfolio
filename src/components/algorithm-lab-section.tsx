@@ -61,7 +61,7 @@ export function AlgorithmLabSection() {
   return (
     <section
       id="algorithm-lab"
-      className="relative scroll-mt-24 overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
+      className="relative scroll-mt-24 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
       aria-labelledby="algorithm-lab-heading"
     >
       <div className="mx-auto max-w-6xl">

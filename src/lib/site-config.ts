@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: "Umut Cingisiz",
-  role: "Bilgisayar Mühendisi / Full-Stack Developer",
+  role: "Bilgisayar mühendisi / Full-stack developer",
   location: "Gazimağusa, Kıbrıs",
-  availability: "Full-Stack Mühendislik Rolleri ve Yeni Fırsatlara Açık",
+  availability: "Full-stack mühendislik rollerine açık",
   profileImage: "/profile.jpg",
   resumePath: "/resume.pdf",
   /** Ana sayfa GitHub repoları + profil yedek görseli */
@@ -22,11 +22,11 @@ export const siteConfig = {
     tagline: "Umut Cingisiz · command shell",
   },
   headline:
-    "Sadece arayüz kodlamıyor; uçtan uca, ölçeklenebilir ve hataya dayanıklı sistemler tasarlıyorum.",
+    "Sadece arayüz değil — uçtan uca, ölçeklenebilir sistemler tasarlıyorum.",
   description:
-    "Bu site bir vitrin değil; gerçek ürün disiplinini küçük ölçekte taşıyan bir mühendislik kanıtı: hibrit render, typed içerik, auth, veri modeli, rate-limit ve CI aynı çatı altında çalışıyor.",
+    "Bu site bir vitrin değil; auth, veri modeli, rate-limit ve CI’nin birlikte çalıştığı küçük ölçekli bir mühendislik kanıtı.",
   shortBio:
-    "DAÜ Bilgisayar Mühendisliği mezunu. Bloomedu ile TÜBİTAK BİGG Akdeniz programına kabul aldım; üniversite bitirme projeleri arasından jüri tarafından en iyi proje seçildi. Kurumsal web’den mobil EdTech’e kadar full-stack ürünler ship ediyorum.",
+    "DAÜ Bilgisayar Mühendisliği mezunu. Bloomedu ile TÜBİTAK BİGG Akdeniz’e kabul aldım; bitirme jürisinde en iyi proje seçildi. Full-stack ürünler ship ediyorum.",
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
   /** CI / Actions — profil değil, bu portfolyo reposu */
@@ -48,13 +48,13 @@ export const siteConfig = {
     "Java",
   ],
   proofPoints: [
-    "Bloomedu: RN + Express + Postgres · BİGG Akdeniz kabulü",
-    "Aras Mali: Next.js + Sanity CMS · kurumsal lead akışı",
-    "Zeki Dekorasyon: SSG katalog · görsel performans",
-    "Portfolyo: Auth.js · Drizzle · Redis · CI kalite kapısı",
+    "Bloomedu · RN + Express + Postgres",
+    "Aras Mali · Next.js + Sanity",
+    "Zeki Dekorasyon · SSG katalog",
+    "Portfolyo · Auth · Drizzle · CI",
   ],
   currentFocus:
-    "BİGG sürecinin ardından ölçeklenebilir ürün mimarisi, fail-safe veri katmanları ve dürüst işe alım kanıtları üzerine yoğunlaşıyorum.",
+    "Ölçeklenebilir ürün mimarisi ve fail-safe veri katmanları.",
   /** Deneyim zaman çizelgesi — dürüst roller, abartısız. */
   milestones: [
     {

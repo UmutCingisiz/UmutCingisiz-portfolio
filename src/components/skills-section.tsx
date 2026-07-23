@@ -82,7 +82,7 @@ type SkillItem = {
 
 const strong: readonly SkillItem[] = [
   {
-    title: "Full-Stack Ürün Geliştirme",
+    title: "Full-stack ürün geliştirme",
     tagline: "auth · db · CMS · deploy",
     body: "Aras Mali (Next + Sanity), Zeki Dekorasyon (SSG katalog) ve bu portfolyo (Auth.js, Drizzle, Redis) ile uçtan uca ürün yüzeyi kuruyorum.",
     proof: "portfolyo case study →",
@@ -90,7 +90,7 @@ const strong: readonly SkillItem[] = [
     icon: StackIcon,
   },
   {
-    title: "Performanslı Frontend / Katalog",
+    title: "Performanslı frontend / katalog",
     tagline: "SSG · next/image · CLS",
     body: "Görsel ağırlıklı kataloglarda LCP ve layout shift’i kontrol altında tutmak için statik üretim ve görsel rezervasyonu kullanıyorum.",
     proof: "Zeki Dekorasyon →",
@@ -98,7 +98,7 @@ const strong: readonly SkillItem[] = [
     icon: CatalogIcon,
   },
   {
-    title: "İçerik Sistemleri & SEO",
+    title: "İçerik sistemleri & SEO",
     tagline: "Sanity · MDX · metadata",
     body: "Ofis sahibinin Studio’dan güncellediği kurumsal içerik ile typed MDX blog’u aynı disiplinle taşıyorum.",
     proof: "Aras Mali →",
@@ -106,7 +106,7 @@ const strong: readonly SkillItem[] = [
     icon: CmsIcon,
   },
   {
-    title: "Algoritmik Problem Çözme",
+    title: "Algoritmik problem çözme",
     tagline: "akademik temel · lab",
     body: "DAÜ müfredatı (veri yapıları, Java/C OOP) ve sitedeki algoritma lab’ı ile trade-off’ları görünür kılıyorum.",
     proof: "algoritma lab →",
@@ -117,7 +117,7 @@ const strong: readonly SkillItem[] = [
 
 const growing: readonly SkillItem[] = [
   {
-    title: "LLM Destekli Ürün Akışları",
+    title: "LLM destekli ürün akışları",
     tagline: "prompt · adaptif öğrenme",
     body: "Bloomedu’da OpenAI entegrasyonu ve Sokratik prompt disiplini ile AI’yi ‘cevap makinesi’ olmaktan çıkarıp ürün davranışına bağladım.",
     proof: "Bloomedu →",
@@ -125,7 +125,7 @@ const growing: readonly SkillItem[] = [
     icon: SparkIcon,
   },
   {
-    title: "Mobil + Backend Ürün Çifti",
+    title: "Mobil + backend ürün çifti",
     tagline: "React Native · Express · Postgres",
     body: "Bloomedu Client/Backend ayrımıyla oturum, oyun seviyeleri ve AI chat’i production’a yakın bir hat üzerinde taşıyorum.",
     proof: "Bloomedu repo →",
@@ -133,7 +133,7 @@ const growing: readonly SkillItem[] = [
     icon: ServerIcon,
   },
   {
-    title: "Güvenlik & Kötüye Kullanım",
+    title: "Güvenlik & kötüye kullanım",
     tagline: "OAuth · rate-limit · Zod",
     body: "Guestbook ve iletişim formunda fail-closed rate limit, honeypot ve typed validation — büyüttüğüm ama her ship’te uyguladığım alan.",
     proof: "güvenlik yazısı →",
@@ -154,10 +154,10 @@ function SkillCard({
   const Icon = skill.icon;
   return (
     <Reveal index={index} className="h-full">
-      <article className="surface-card group relative flex h-full flex-col p-5 sm:p-6">
+      <article className="surface-card group relative flex h-full flex-col p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
           <span
-            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.14em] ${
+            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[0.65rem] tracking-wide ${
               tone === "strong"
                 ? "border-signal/25 bg-signal/[0.07] text-signal"
                 : "border-border bg-muted/40 text-muted-foreground"
@@ -165,30 +165,30 @@ function SkillCard({
           >
             {tone === "strong" ? (
               <>
-                <span className="signal-dot size-1.5" /> güçlü
+                <span className="signal-dot size-1.5" /> Güçlü
               </>
             ) : (
-              "gelişen"
+              "Gelişen"
             )}
           </span>
           <div
-            className={`flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-md)] border ${
+            className={`flex size-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] border sm:size-10 ${
               tone === "strong"
                 ? "border-signal/25 bg-signal/[0.08] text-signal"
                 : "border-border bg-muted/50 text-muted-foreground"
             }`}
           >
-            <Icon className="size-5" />
+            <Icon className="size-4 sm:size-5" />
           </div>
         </div>
-        <h3 className="mt-4 text-lg font-semibold tracking-tight text-foreground">
+        <h3 className="mt-3 text-base font-semibold tracking-tight text-foreground sm:text-lg">
           {skill.title}
         </h3>
-        <p className="mt-1 font-mono text-xs text-muted-foreground">{skill.tagline}</p>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">{skill.body}</p>
+        <p className="mt-1 font-mono text-[0.7rem] text-muted-foreground">{skill.tagline}</p>
+        <p className="mt-2.5 text-sm leading-6 text-muted-foreground">{skill.body}</p>
         <Link
           href={skill.href}
-          className="mt-auto pt-5 font-mono text-xs text-signal/85 underline-offset-4 transition-colors hover:text-signal hover:underline"
+          className="mt-auto pt-4 font-mono text-xs text-signal/85 underline-offset-4 transition-colors hover:text-signal hover:underline"
         >
           {skill.proof}
         </Link>
@@ -201,26 +201,25 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-14 sm:px-6 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-12 sm:px-6 sm:py-20"
     >
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <SectionEyebrow>stack.map()</SectionEyebrow>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Güçlü olduğum alanlar. Bilinçli büyüttüğüm alanlar.
           </h2>
-          <p className="mt-4 text-sm leading-7 text-muted-foreground">
-            Her madde gerçek bir projeye veya akademik temele bağlı — boş yetkinlik
-            listesi değil.
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+            Her madde gerçek bir projeye veya akademik temele bağlı.
           </p>
         </div>
 
-        <div className="mt-12 space-y-12">
+        <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-signal">
+            <p className="font-mono text-[0.7rem] tracking-wide text-signal">
               {"// güçlü olduğum alanlar"}
             </p>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="mt-3 grid gap-3 sm:mt-4 sm:grid-cols-2 sm:gap-4">
               {strong.map((skill, index) => (
                 <SkillCard key={skill.title} skill={skill} tone="strong" index={index} />
               ))}
@@ -228,10 +227,10 @@ export function SkillsSection() {
           </div>
 
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <p className="font-mono text-[0.7rem] tracking-wide text-muted-foreground">
               {"// geliştirdiğim alanlar"}
             </p>
-            <div className="mt-4 grid gap-4 md:grid-cols-3">
+            <div className="mt-3 grid gap-3 sm:mt-4 md:grid-cols-3 md:gap-4">
               {growing.map((skill, index) => (
                 <SkillCard
                   key={skill.title}
@@ -244,32 +243,31 @@ export function SkillsSection() {
           </div>
         </div>
 
-        <div className="mt-14 border-t border-border pt-12 sm:mt-16 sm:pt-14">
-          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div className="mt-12 border-t border-border pt-10 sm:mt-14 sm:pt-12">
+          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
               <SectionEyebrow>tech.stack</SectionEyebrow>
-              <h3 className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              <h3 className="mt-3 text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                 Kullandığım teknolojiler
               </h3>
             </div>
-            <p className="max-w-sm text-sm leading-7 text-muted-foreground">
-              Bloomedu, Aras Mali, Zeki Dekorasyon ve bu portfolyoda gerçekten
-              dokunduğum araçlar.
+            <p className="max-w-sm text-sm leading-6 text-muted-foreground">
+              Bloomedu, Aras Mali, Zeki Dekorasyon ve bu portfolyoda dokunduğum araçlar.
             </p>
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {siteConfig.techStack.map((group, index) => (
               <Reveal key={group.group} index={index} className="h-full">
-                <div className="premium-card group h-full rounded-2xl p-5">
-                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-signal">
+                <div className="premium-card group h-full rounded-2xl p-4 sm:p-5">
+                  <p className="font-mono text-[0.65rem] tracking-wide text-signal">
                     {group.group}
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
                     {group.items.map((item) => (
                       <span
                         key={item}
-                        className="rounded-lg border border-border bg-background/40 px-3 py-1.5 text-xs font-medium text-foreground/85 transition-colors duration-200 group-hover:border-signal/20"
+                        className="rounded-lg border border-border bg-background/40 px-2.5 py-1 text-xs font-medium text-foreground/85 transition-colors duration-200 group-hover:border-signal/20"
                       >
                         {item}
                       </span>
