@@ -62,7 +62,7 @@ export function FeaturedProjectsList({ projects }: Props) {
                     <div className="relative flex items-start justify-between gap-3">
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-2.5 py-1 font-mono text-[0.65rem] font-medium tracking-wide text-signal">
                         <span className="signal-dot size-1.5" aria-hidden />
-                        {p.category}
+                        Full-stack
                       </span>
                       <span
                         className={`rounded-full border px-2 py-0.5 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(p.status)}`}

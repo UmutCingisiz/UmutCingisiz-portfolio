@@ -60,14 +60,16 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-16">
-      <div className="ambient-orb left-[8%] top-20 size-56 opacity-40 sm:size-64 sm:opacity-50" />
+      {/* Mobile: no animated orb — blur+paint competes with LCP */}
+      <div className="ambient-orb left-[8%] top-20 hidden size-56 opacity-40 sm:block sm:size-64 sm:opacity-50" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
 
       <div className="relative mx-auto grid max-w-6xl items-start gap-7 sm:gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:grid-rows-[auto_auto] lg:gap-x-10 lg:gap-y-6">
+        {/* No opacity:0 — LCP (name or photo) must be visible on first paint */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial={{ y: 12 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
           className="order-1 lg:col-start-1 lg:row-start-1"
         >
           <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3 text-xs font-medium text-foreground/90 backdrop-blur-xl">
@@ -140,13 +142,14 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+          initial={{ y: 10 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
           className="relative order-2 mx-auto w-full max-w-[300px] sm:max-w-sm lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-md lg:justify-self-end"
         >
           <div
-            className="absolute -inset-5 rounded-[var(--radius-xl)] blur-3xl sm:-inset-7"
+            className="absolute -inset-5 hidden rounded-[var(--radius-xl)] blur-3xl sm:-inset-7 sm:block"
+            aria-hidden
             style={{
               background:
                 "radial-gradient(60% 60% at 30% 20%, var(--signal-glow), transparent 70%)",
@@ -156,7 +159,7 @@ export function Hero() {
           <TiltCard
             as="div"
             max={5}
-            className="surface-interactive gradient-border relative overflow-hidden p-2 backdrop-blur sm:p-2.5"
+            className="surface-interactive gradient-border relative overflow-hidden p-2 sm:p-2.5 sm:backdrop-blur"
           >
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-lg)] bg-gradient-to-br from-muted via-card to-muted">
               {profileSrc ? (
@@ -166,7 +169,9 @@ export function Hero() {
                   alt={`${siteConfig.name} profil fotoğrafı`}
                   fill
                   priority
-                  sizes="(min-width: 1024px) 400px, (min-width: 640px) 360px, min(90vw, 320px)"
+                  fetchPriority="high"
+                  quality={70}
+                  sizes="(min-width: 1024px) 400px, (min-width: 640px) 360px, min(90vw, 300px)"
                   className="object-cover object-top"
                   onError={handleImageError}
                   unoptimized={imageMode === "github"}
@@ -198,9 +203,9 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25, ease: "easeOut" }}
+          initial={{ y: 10 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.4, delay: 0.12, ease: "easeOut" }}
           className="order-3 grid grid-cols-3 gap-2 sm:gap-3 lg:col-start-1 lg:row-start-2"
         >
           {siteConfig.stats.map((stat) => (

@@ -14,15 +14,18 @@ import { isGuestbookModerator } from "@/lib/guestbook-admin";
 import { getGuestbookRateLimits } from "@/lib/guestbook-rate-limit";
 
 import {
-  listApprovedEntries,
+  listCachedApprovedEntries,
   listPendingEntries,
   listRejectedEntries,
   type GuestbookEntryRow,
 } from "@/lib/guestbook";
 import { pageSocial } from "@/lib/site-metadata";
 
-export const dynamic = "force-dynamic";
-
+/**
+ * Auth + searchParams keep this route dynamic. Do NOT set force-dynamic
+ * just to bypass cache — approved entries use unstable_cache (60s + tag).
+ * Full-page ISR is unsafe: session/moderation UI is per-user.
+ */
 export const metadata: Metadata = {
   title: "Ziyaretçi defteri",
   description:
@@ -116,7 +119,7 @@ export default async function GuestbookPage({
   const dbConfigured = Boolean(getDb());
 
   const isMod = isGuestbookModerator(session?.user?.githubId);
-  const approved = dbConfigured ? await listApprovedEntries(30) : [];
+  const approved = dbConfigured ? await listCachedApprovedEntries(30) : [];
   const pending = dbConfigured && isMod ? await listPendingEntries(50) : [];
   const rejected = dbConfigured && isMod ? await listRejectedEntries(50) : [];
 

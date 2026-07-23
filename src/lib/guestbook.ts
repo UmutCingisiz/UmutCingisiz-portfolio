@@ -1,8 +1,12 @@
 import { and, asc, desc, eq, ne } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
 import { z } from "zod";
 
 import { requireDb } from "@/db/client";
 import { guestbookEntry } from "@/db/schema";
+
+/** Cache tag — invalidate on approve / hide / restore */
+export const GUESTBOOK_APPROVED_TAG = "guestbook-approved";
 
 export type GuestbookStatus = "pending" | "approved" | "rejected";
 
@@ -63,6 +67,20 @@ export async function listApprovedEntries(
     .limit(limit);
 
   return rows.map(toGuestbookEntryRow);
+}
+
+/**
+ * Public approved list — safe to cache across requests.
+ * Page stays dynamic (auth/session), but this query need not hit Neon every time.
+ */
+export function listCachedApprovedEntries(
+  limit = 30,
+): Promise<GuestbookEntryRow[]> {
+  return unstable_cache(
+    async () => listApprovedEntries(limit),
+    ["guestbook-approved-entries", String(limit)],
+    { revalidate: 60, tags: [GUESTBOOK_APPROVED_TAG] },
+  )();
 }
 
 export async function listPendingEntries(

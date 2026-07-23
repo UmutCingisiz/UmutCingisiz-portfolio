@@ -22,20 +22,20 @@ export const siteConfig = {
     tagline: "Umut Cingisiz · command shell",
   },
   headline:
-    "Sadece arayüz değil — uçtan uca, ölçeklenebilir sistemler tasarlıyorum.",
-  /** About bölümü — hero shortBio’dan farklı açı */
+    "Çalışan ürünler yazıyorum — arayüzden veri katmanına, güvenlikten yayına.",
+  /** About bölümü — konum iddiası yok; mühendislik tutumu */
   description:
-    "Gazimağusa merkezli çalışıyorum. Ekranı çizerken veri modeli, güvenlik sınırı ve yayın yolunu birlikte kurarım.",
-  /** Hero kimlik cümlesi — BİGG detayı timeline’da */
+    "Önce problemi ve sınırları netleştiririm. Sonra arayüz, veri modeli ve yayın yolunu aynı ürün akışında birleştiririm — süs değil, çalışan sistem.",
+  /** Hero destek cümlesi */
   shortBio:
-    "DAÜ bilgisayar mühendisliği mezunu. Auth, veri ve CI’nin birlikte çalıştığı full-stack ürünler kuruyorum.",
+    "DAÜ Bilgisayar Mühendisliği mezunuyum. Bloomedu ile BİGG Akdeniz kabulü aldım; bitirme jürisinde en iyi proje seçildi. Bu site de o disiplinin canlı kanıtı.",
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
   /** CI / Actions — profil değil, bu portfolyo reposu */
   githubRepo: "https://github.com/UmutCingisiz/UmutCingisiz-portfolio",
   linkedin: "https://www.linkedin.com/in/umut-ibrahim-cingisiz-878053309",
   stats: [
-    { label: "Derece", value: "DAÜ bilgisayar müh." },
+    { label: "Derece", value: "DAÜ Bilgisayar Müh." },
     { label: "Konum", value: "Gazimağusa" },
     { label: "Odak", value: "Ürün mühendisliği" },
   ],

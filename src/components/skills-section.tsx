@@ -142,30 +142,29 @@ export function SkillsSection() {
         </div>
 
         <div className="mt-12 border-t border-border pt-10 sm:mt-14 sm:pt-12">
-          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-            <div>
-              <SectionEyebrow>tech.stack</SectionEyebrow>
-              <h3 className="mt-3 text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-                Araçlar
-              </h3>
-            </div>
-            <p className="max-w-sm text-sm leading-6 text-muted-foreground">
-              Yukarıdaki kanıtlarda gerçekten kullandığım teknolojiler.
+          <div className="max-w-2xl">
+            <SectionEyebrow>tech.stack</SectionEyebrow>
+            <h3 className="mt-3 text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+              Araç seti
+            </h3>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+              Bloomedu, Aras Mali, Zeki Dekorasyon ve bu portfolyoda üretimde
+              taşıdığım stack — liste şişkin değil, kanıtlı.
             </p>
           </div>
 
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {siteConfig.techStack.map((group, index) => (
               <Reveal key={group.group} index={index}>
-                <div>
-                  <p className="font-mono text-[0.65rem] tracking-wide text-signal">
+                <div className="surface-plain h-full rounded-[var(--radius-lg)] p-4 sm:p-5">
+                  <p className="font-mono text-[0.7rem] font-medium tracking-wide text-signal">
                     {group.group}
                   </p>
-                  <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  <div className="mt-3 flex flex-wrap gap-1.5">
                     {group.items.map((item) => (
                       <span
                         key={item}
-                        className="rounded-md border border-border/80 bg-background/50 px-2 py-1 text-xs text-foreground/85"
+                        className="rounded-md border border-border bg-background/60 px-2.5 py-1 text-xs font-medium text-foreground/90"
                       >
                         {item}
                       </span>

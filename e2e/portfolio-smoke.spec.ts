@@ -15,8 +15,8 @@ test("projects page shows case-study cards", async ({ page }) => {
   await expect(page.getByRole("heading", { name: /Projeler/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Bloomedu/i }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: /Bu portfolyo/i }).first()).toBeVisible();
-  await expect(page.getByText("problem").first()).toBeVisible();
-  await expect(page.getByText("decision").first()).toBeVisible();
+  await expect(page.getByText("Problem").first()).toBeVisible();
+  await expect(page.getByText("Karar").first()).toBeVisible();
 });
 
 test("project detail exposes architectural decision cards", async ({ page }) => {
@@ -26,6 +26,20 @@ test("project detail exposes architectural decision cards", async ({ page }) => 
   await expect(page.getByText("architecture.decisions")).toBeVisible();
   await expect(page.getByRole("heading", { name: /Problem → karar → etki/i })).toBeVisible();
   await expect(page.getByText("product.screens")).toBeVisible();
+});
+
+test("project gallery lightbox closes with Escape", async ({ page }) => {
+  await page.goto("/projects/bloomedu");
+
+  const gallery = page.locator("section").filter({ hasText: "product.screens" });
+  const thumb = gallery.getByRole("button").first();
+  await expect(thumb).toBeVisible();
+  await thumb.click();
+
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
 });
 
 test("blog and guestbook public flows are reachable", async ({ page }) => {

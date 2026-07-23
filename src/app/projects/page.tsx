@@ -54,15 +54,15 @@ export default async function ProjectsPage() {
             <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-emerald-400/25 bg-emerald-400/[0.06] p-3">
                 <p className="text-2xl font-bold text-emerald-300">{live.length}</p>
-                <p className="mt-1 text-xs text-muted-foreground">yayında</p>
+                <p className="mt-1 text-xs text-muted-foreground">Yayında</p>
               </div>
               <div className="rounded-xl border border-amber-400/25 bg-amber-400/[0.06] p-3">
                 <p className="text-2xl font-bold text-amber-200">{building.length}</p>
-                <p className="mt-1 text-xs break-words text-muted-foreground">geliştiriyorum</p>
+                <p className="mt-1 text-xs break-words text-muted-foreground">Geliştiriyorum</p>
               </div>
               <div className="rounded-xl border border-signal/25 bg-signal/[0.06] p-3">
                 <p className="text-2xl font-bold text-signal">P/D/I</p>
-                <p className="mt-1 text-xs text-muted-foreground">şablon</p>
+                <p className="mt-1 text-xs text-muted-foreground">Şablon</p>
               </div>
             </div>
           </TiltCard>
@@ -282,11 +282,11 @@ function ProjectShowcase({
           <span className="inline-flex size-8 items-center justify-center rounded-lg border border-signal/25 bg-signal/[0.07] font-mono text-xs font-semibold tabular-nums text-signal">
             {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-signal">
-            <span className="signal-dot size-1.5" /> full-stack
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] tracking-wide text-signal">
+            <span className="signal-dot size-1.5" /> Full-stack
           </span>
           <span
-            className={`rounded-full border px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] ${getProjectStatusBadgeClass(project.status)}`}
+            className={`rounded-full border px-3 py-1 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(project.status)}`}
           >
             {getProjectStatusLabel(project.status)}
           </span>

@@ -5,17 +5,17 @@ import { Timeline } from "@/components/timeline";
 
 const cards = [
   {
-    eyebrow: "01 · sistem",
+    eyebrow: "01 · Sistem",
     title: "Özellik değil, sistem kurarım",
     body: "Bir ekranı çizerken veri modeli, hata yolu ve güvenlik sınırını aynı anda düşünürüm.",
   },
   {
-    eyebrow: "02 · zanaat",
+    eyebrow: "02 · Zanaat",
     title: "Kodun niyeti okunabilir olmalı",
     body: "TypeScript, Zod ve net modül sınırlarıyla büyüyen projeyi kontrol altında tutarım.",
   },
   {
-    eyebrow: "03 · yayın",
+    eyebrow: "03 · Yayın",
     title: "Demo değil, yayınlanabilir ürün",
     body: "SEO, form güvenliği ve dürüst durum etiketleri — süs değil, kanıt.",
   },

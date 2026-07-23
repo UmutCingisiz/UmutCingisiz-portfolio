@@ -37,19 +37,19 @@ const config: Record<
   { label: string; Icon: (props: { className?: string }) => React.ReactElement; wrapper: string; icon: string }
 > = {
   problem: {
-    label: "problem",
+    label: "Problem",
     Icon: ProblemIcon,
     wrapper: "border-border bg-muted/35",
     icon: "text-muted-foreground",
   },
   decision: {
-    label: "decision",
+    label: "Karar",
     Icon: DecisionIcon,
     wrapper: "border-border bg-muted/35",
     icon: "text-muted-foreground",
   },
   impact: {
-    label: "impact",
+    label: "Etki",
     Icon: ImpactIcon,
     wrapper: "border-signal/25 bg-signal/[0.06]",
     icon: "text-signal",

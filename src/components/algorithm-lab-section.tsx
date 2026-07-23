@@ -10,7 +10,7 @@ const scenarios = [
     name: "Dengeli rota",
     description: "En kısa yol ile riskli düğümler arasında dengeli seçim.",
     cost: 42,
-    signal: "gecikme / risk dengesi",
+    signal: "Gecikme / risk dengesi",
     path: [0, 1, 10, 11, 20, 21, 30, 31, 39],
     blocked: [9, 19, 29],
   },
@@ -18,7 +18,7 @@ const scenarios = [
     name: "Güvenli rota",
     description: "Daha uzun ama darboğazlardan uzak bir rota.",
     cost: 57,
-    signal: "hata toleransı öncelikli",
+    signal: "Hata toleransı öncelikli",
     path: [0, 8, 16, 24, 32, 33, 34, 35, 36, 37, 38, 39],
     blocked: [9, 17, 25],
   },
@@ -26,7 +26,7 @@ const scenarios = [
     name: "Agresif rota",
     description: "Düşük maliyet için yoğun düğümlere daha yakın geçiş.",
     cost: 35,
-    signal: "hız öncelikli karar",
+    signal: "Hız öncelikli karar",
     path: [0, 1, 2, 11, 20, 21, 30, 31, 39],
     blocked: [16, 24, 32],
   },
@@ -94,8 +94,8 @@ export function AlgorithmLabSection() {
                 onClick={() => setActiveIndex(index)}
                 className="rounded-xl border border-border bg-card/50 p-4 text-left transition-all duration-[var(--motion-base)] hover:-translate-y-0.5 hover:border-signal/40 aria-pressed:border-signal aria-pressed:bg-signal aria-pressed:text-signal-foreground"
               >
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] opacity-70">
-                  senaryo 0{index + 1}
+                <span className="font-mono text-[0.65rem] tracking-wide opacity-70">
+                  Senaryo 0{index + 1}
                 </span>
                 <span className="mt-2 block text-sm font-semibold">
                   {scenario.name}
@@ -104,8 +104,8 @@ export function AlgorithmLabSection() {
             ))}
 
             <div className="mt-2 rounded-xl border border-border bg-background/40 p-4">
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
-                rota maliyeti
+              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+                Rota maliyeti
               </p>
               <p className="mt-1 text-3xl font-bold text-foreground">
                 {active.cost}
@@ -119,7 +119,7 @@ export function AlgorithmLabSection() {
           <div className="relative">
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <h3 className="text-xl font-semibold text-foreground">{active.name}</h3>
-              <span className="rounded-full border border-signal/30 bg-signal/10 px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-signal">
+              <span className="rounded-full border border-signal/30 bg-signal/10 px-3 py-1 font-mono text-[0.65rem] tracking-wide text-signal">
                 {active.signal}
               </span>
             </div>
@@ -156,16 +156,16 @@ export function AlgorithmLabSection() {
 
             <ul className="mt-6 flex flex-wrap gap-2 text-xs text-muted-foreground">
               <li className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5">
-                başlangıç / bitiş
+                Başlangıç / Bitiş
               </li>
               <li className="rounded-full border border-signal/30 bg-signal/10 px-3 py-1.5">
-                seçilen yol
+                Seçilen yol
               </li>
               <li className="rounded-full border border-red-500/25 bg-red-500/10 px-3 py-1.5">
-                engelli düğüm
+                Engelli düğüm
               </li>
               <li className="rounded-full border border-border bg-card/40 px-3 py-1.5">
-                C / Java / Python yaklaşımı · trade-off anlatımı
+                C / Java / Python yaklaşımı · Trade-off anlatımı
               </li>
             </ul>
           </div>

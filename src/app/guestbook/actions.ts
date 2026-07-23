@@ -1,11 +1,12 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { auth, signIn, signOut } from "@/auth";
 import {
+  GUESTBOOK_APPROVED_TAG,
   insertGuestbookEntry,
   updateGuestbookStatus,
   type GuestbookStatus,
@@ -82,6 +83,7 @@ export async function submitGuestbookMessage(
   }
 
   revalidatePath("/guestbook");
+  // Pending insert does not change the public approved list cache.
   logPortfolioEvent("guestbook.submitted");
   redirect("/guestbook?sent=1");
 }
@@ -121,6 +123,8 @@ export async function moderateGuestbookEntry(
   }
 
   revalidatePath("/guestbook");
+  // Server Action: expire approved-list cache for this request (read-your-own-writes)
+  updateTag(GUESTBOOK_APPROVED_TAG);
   logPortfolioEvent("guestbook.moderated", { status: parsed.data.status });
   redirect("/guestbook?moderated=1");
 }

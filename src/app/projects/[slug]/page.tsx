@@ -61,17 +61,17 @@ export default async function ProjectDetailPage({ params }: Props) {
   const { prev, next } = getAdjacentProjects(slug);
   const decisionCards = [
     {
-      label: "problem",
+      label: "Problem",
       title: "Çözülen problem",
       body: frontmatter.problem,
     },
     {
-      label: "decision",
+      label: "Karar",
       title: "Mühendislik kararı",
       body: frontmatter.decision,
     },
     {
-      label: "impact",
+      label: "Etki",
       title: "Kanıtlanan etki",
       body: frontmatter.impact,
     },
@@ -103,7 +103,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             {frontmatter.category} / case.study
           </p>
           <span
-            className={`rounded-full border px-2.5 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.14em] ${getProjectStatusBadgeClass(frontmatter.status)}`}
+            className={`rounded-full border px-2.5 py-0.5 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(frontmatter.status)}`}
           >
             {getProjectStatusLabel(frontmatter.status)}
           </span>
@@ -167,8 +167,8 @@ export default async function ProjectDetailPage({ params }: Props) {
               Problem → karar → etki
             </h2>
           </div>
-          <span className="w-fit rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
-            {frontmatter.status}
+          <span className="w-fit rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+            {getProjectStatusLabel(frontmatter.status)}
           </span>
         </div>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
@@ -177,7 +177,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               key={card.label}
               className="rounded-lg border border-border bg-muted/35 p-4"
             >
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                 {card.label}
               </p>
               <h3 className="mt-2 text-sm font-semibold text-foreground">
@@ -205,8 +205,8 @@ export default async function ProjectDetailPage({ params }: Props) {
               href={`/projects/${prev.slug}`}
               className="group rounded-xl border border-border bg-card/40 px-4 py-3 transition-colors hover:border-signal/30 sm:max-w-[48%]"
             >
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                ← önceki
+              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+                ← Önceki
               </p>
               <p className="mt-1 font-medium text-foreground group-hover:text-signal">
                 {prev.title}
@@ -220,8 +220,8 @@ export default async function ProjectDetailPage({ params }: Props) {
               href={`/projects/${next.slug}`}
               className="group rounded-xl border border-border bg-card/40 px-4 py-3 text-right transition-colors hover:border-signal/30 sm:ml-auto sm:max-w-[48%]"
             >
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                sonraki →
+              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+                Sonraki →
               </p>
               <p className="mt-1 font-medium text-foreground group-hover:text-signal">
                 {next.title}

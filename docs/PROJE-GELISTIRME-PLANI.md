@@ -22,14 +22,11 @@ Kasıtlı kaldırmalar: `quality.standards` (hiring ile örtüşüyordu), GitHub
 
 | Öncelik | Madde | Not |
 |---------|--------|-----|
-| P1 | **LCP** | Mobil LCP ~3.8s → hedef &lt; ~2.5s. Ölçüm: `npm run lighthouse:home` → skorları `src/lib/lighthouse-metrics.ts` + `AUDIT.md` güncelle |
-| P1 | **Featured sayısı** | 3 MDX `featured: true` var; ana sayfa `getFeaturedProjects(2)`. Ya `3` yap ya bir projeyi `featured: false` |
-| P2 | **Ölü bileşen** | `QualityStandardsSection` home’da yoktu; dosya da temizlendiyse atla |
-| P2 | **Guestbook sınır** | Hâlâ `force-dynamic`. Onaylı liste için daha yumuşak cache / ISR düşün |
-| P3 | **Turnstile / anon** | İsteğe bağlı bot koruması veya anon yol |
-| P3 | **Coverage gate** | `coverage` CI’da çalışıyor; eşik altında fail henüz yok |
-| P3 | **i18n** | `next-intl` veya locale segment — ayrı faz (aşağıda) |
-| P3 | **Kart yoğunluğu** | Surface varyantları var; bazı bölümlerde hâlâ fazla kart hissi |
+| P1 | **LCP** | Kod uygulandı. Deploy sonrası `npm run lighthouse:home` → metrics + AUDIT |
+| P2 | **Kart yoğunluğu** | Surface varyantları var; bazı bölümlerde hâlâ fazla kart hissi |
+| P3 | **Turnstile / anon** | İsteğe bağlı |
+| P3 | **Coverage gate** | Eşik altında fail yok |
+| P3 | **i18n** | Ayrı faz |
 
 Aras Mali / Zeki Dekorasyon canlıya alınca: MDX’te `repo`, `demo`, `status: live` güncelle (içerik senin adımın da — manuel dosyada).
 

@@ -58,7 +58,7 @@ const ciUrl = `${siteConfig.githubRepo.replace(/\/$/, "")}/actions`;
 
 const proofSignals: readonly Proof[] = [
   {
-    label: "mimari",
+    label: "Mimari",
     title: "Uçtan uca ürün mimarisi",
     body: "App Router, Auth.js, Drizzle, Neon ve Redis aynı üründe — çalışan sistem.",
     evidence: "Vaka çalışması",
@@ -66,7 +66,7 @@ const proofSignals: readonly Proof[] = [
     icon: ArchIcon,
   },
   {
-    label: "kalite",
+    label: "Kalite",
     title: "Kalite kapısı olan geliştirme",
     body: "Lint, typecheck, Vitest ve Playwright CI’da; bozulmadan büyüyen disiplin.",
     evidence: "CI iş akışları",
@@ -75,7 +75,7 @@ const proofSignals: readonly Proof[] = [
     icon: QualityIcon,
   },
   {
-    label: "güvenlik",
+    label: "Güvenlik",
     title: "Güvenlik farkındalığı",
     body: "OAuth, moderasyon, Zod, honeypot ve fail-closed rate-limit.",
     evidence: "Teknik yazı",
@@ -83,7 +83,7 @@ const proofSignals: readonly Proof[] = [
     icon: SecurityIcon,
   },
   {
-    label: "yayın",
+    label: "Yayın",
     title: "Yayınlanabilir deneyim",
     body: "SEO, OG, error/loading ve production servis planı — demo değil canlı ürün.",
     evidence: "Guestbook",

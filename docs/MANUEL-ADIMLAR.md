@@ -23,8 +23,9 @@ Yeni sitede sıralama günler–haftalar sürebilir; kod tek başına 1. sıra g
 
 ### 2) İnsan QA / regresyon
 
+- [x] Lightbox Escape — Playwright e2e (`project gallery lightbox closes with Escape`)
 - [ ] Safari smoke (ana sayfa, menü, proje lightbox)
-- [ ] Klavye: lightbox Escape, mobil menü Escape / focus trap
+- [ ] Mobil menü Escape / focus trap (cihazda)
 - [ ] Contact gerçek gönderim (Resend üzerinden mail)
 - [ ] Recruiter 30 sn: BİGG dili dürüst mü? (Akdeniz kabulü + jüri en iyi proje — abartı yok)
 - [ ] Son deploy sonrası kısa regresyon (home → projects → blog → guestbook → contact)

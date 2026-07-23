@@ -18,15 +18,15 @@ export function getProjectStatusTone(status: ProjectStatus): ProjectStatusTone {
 export function getProjectStatusLabel(status: ProjectStatus) {
   switch (status) {
     case "live":
-      return "yayında";
+      return "Yayında";
     case "archived":
-      return "arşiv";
+      return "Arşiv";
     case "in-progress":
-      return "geliştiriliyor";
+      return "Geliştiriliyor";
     case "planned":
-      return "planlandı";
+      return "Planlandı";
     case "learning":
-      return "öğrenme";
+      return "Öğrenme";
     default:
       return status;
   }
