@@ -1,12 +1,16 @@
 /**
  * Run mobile Lighthouse against production home and print scores.
- * Update src/lib/lighthouse-metrics.ts after a fresh run.
+ * Update src/lib/lighthouse-metrics.ts + docs/AUDIT.md after a fresh run.
  */
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
-const out = path.join("docs", "lighthouse-home.json");
+const outDir = path.join(".lighthouse");
+const out = path.join(outDir, "home.json");
+const summaryPath = path.join(outDir, "home.summary.json");
+mkdirSync(outDir, { recursive: true });
+
 const chromeCandidates = [
   process.env.CHROME_PATH,
   process.env.LOCALAPPDATA &&
@@ -54,11 +58,8 @@ const summary = {
   lcp: report.audits["largest-contentful-paint"]?.displayValue,
   cls: report.audits["cumulative-layout-shift"]?.displayValue,
 };
-writeFileSync(
-  path.join("docs", "lighthouse-home.summary.json"),
-  `${JSON.stringify(summary, null, 2)}\n`,
-);
+writeFileSync(summaryPath, `${JSON.stringify(summary, null, 2)}\n`);
 console.log(summary);
 console.log(
-  "\nCopy scores into src/lib/lighthouse-metrics.ts when publishing.",
+  "\nCopy scores into src/lib/lighthouse-metrics.ts and docs/AUDIT.md when publishing.",
 );

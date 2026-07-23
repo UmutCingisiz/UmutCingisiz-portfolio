@@ -1,69 +1,87 @@
-# Proje Geliştirme Planı (Kod / UI Tarafı Tamamlandı)
+# Proje geliştirme planı
 
-Bu doküman, portfolyonun teknik ve UI geliştirme hedeflerinin kapanış durumunu tutar.
-Kod tarafında belirlenen maddeler tamamlandı; bundan sonra yayına alma için kalanlar `docs/MANUEL-ADIMLAR.md` dosyasındadır.
+**Güncelleme:** 2026-07-23  
+**Dal:** `feature/portfolio-v2` → `master`  
+**Site:** https://umutcingisiz.com
 
-## 1) Tamamlanan kritik teknik hedefler
+Bu dosya kod/UI tarafını tutar. Senin dış servis adımların → [`MANUEL-ADIMLAR.md`](./MANUEL-ADIMLAR.md). Skor / boşluk özeti → [`AUDIT.md`](./AUDIT.md).
 
-- [x] Test kapsamı büyütüldü: content, helper ve observability katmanları test edildi.
-- [x] E2E smoke altyapısı eklendi: ana sayfa, projeler, blog ve guestbook public akışları Playwright ile taranıyor.
-- [x] İçerik kalite kapısı eklendi: her proje problem, karar, etki ve durum sinyali taşıyor.
-- [x] CI kalitesi artırıldı: lint, typecheck, test, coverage, Playwright E2E ve build adımları tanımlandı.
-- [x] Gözlemlenebilirlik eklendi: contact, guestbook, view ve resume akışları structured event log üretiyor.
-- [x] Production observability provider kurulumu manuel adımlara eklendi (Sentry / Axiom / Datadog).
-- [x] Legacy DB temizliği tamamlandı: Drizzle tek kaynak haline geldi.
-- [x] Güvenlik sertleştirme görünür hale getirildi: rate-limit, OAuth, Zod, moderation ve smoke-test yaklaşımı.
+---
 
-## 2) Tamamlanan UI/UX geliştirmeleri
+## 1) Tamamlananlar (özet)
 
-- [x] Tipografi wordmark logo (`</ Umut Cingisiz >`) + yüzen kapsül header + scroll progress.
-- [x] Aydınlık mod kaldırıldı; tek koyu premium tema (siyah + signal cyan).
-- [x] Arka plan: aurora glow + nokta-matris (kareli grid yerine).
-- [x] Hero: Available pill, profil alanı, magnetic CTA.
-- [x] Terminal: hero altı prompt + Ctrl+`` glass full-screen terminal.
-- [x] Skills: güçlü / gelişen alanlar bento + tech stack (tekrar eden etiketler ayrıştırıldı).
-- [x] About: milestone timeline + ambient orb atmosferi.
-- [x] Hiring Proof / Quality Standards: ikon odaklı, kısa metin, ambient derinlik.
-- [x] Projeler sayfası: Apple-tarzı showcase, sabit `aspect-[4/3]` browser mockup, P/D/I kartları.
-- [x] Yanlış Bloomedu kapak görseli kaldırıldı; coverImage yoksa tutarlı placeholder kullanılıyor.
-- [x] Tilt kartlar, Reveal scroll animasyonları, Algorithm Lab path-drawing.
-- [x] GitHub activity: commit/repo sinyali (radar yüzde baskısı kaldırıldı).
-- [x] Mobil (390px): yatay overflow yok, menü ve dokunma hedefleri doğrulandı.
-- [x] İnce ayar: P/D/I nefes alanı, Quality Standards bento kartları, CTA cyan tutarlılığı.
-- [x] Guestbook empty state, blog tilt/spotlight, spring fiziği, cyan focus-visible.
-- [x] Offline network status toast; **Aras Mali Müşavirlik** projesi (in-progress) eklendi.
-- [x] Projeler sayfası: Yayında / Şu an geliştiriyorum gruplu liste.
-- [x] Header logo: `eng/dev` + `umut.cingisiz` yazılımcı wordmark.
+Kritik teknik: Vitest + Playwright smoke, content gate, CI (`lint` / `typecheck` / `test` / `coverage` / `e2e` / `build`), Drizzle tek DB kaynağı, fail-closed contact rate-limit, structured logging + Sentry, JSON-LD, per-route canonical, www→apex redirect.
 
-## 3) Bilinçli olarak ertelenenler
+Ürün yüzeyi: Hero (Müsait, kısa bio, ayrı CTA hover’ları), About + dürüst timeline (kulüp **üye**, BİGG **Akdeniz kabulü**, 2020–2026), `stack.map()` güçlü/gelişen kanıt satırları + `tech.stack`, Featured case study, Hiring (sticky reviewer + kanıt linkleri; CI `githubRepo`/actions), Algorithm Lab, GitHub recent repos (`signal.pulse`, pinned yok), Contact, Guestbook (OAuth + moderasyon), Blog MDX, proje galeri lightbox.
 
-- [ ] **EN/TR i18n:** Tüm UI + MDX + `site-config` çevirisi gerekir; yarım placeholder dil geçişi production kalitesini düşürür. Ayrı bir faz olarak `next-intl` (veya App Router locale segment) ile yapılmalı; metinleri sen gözden geçirdikten sonra.
+Kasıtlı kaldırmalar: `quality.standards` (hiring ile örtüşüyordu), GitHub `pinned.proof`, sahte SHA’lar, hero tech chip tekrarı.
 
-## 4) Tamamlanan kalite kapıları
+---
 
-- [x] `npm run lint`
-- [x] `npm run typecheck`
-- [x] `npm run test`
-- [x] `npm run coverage`
-- [x] `npm run test:e2e`
-- [x] `npm run check:content`
-- [x] `npm run build`
-- [x] `npm run check:all`
+## 2) Kalan kod işleri (öncelik)
 
-## 5) Yayına almadan önce kalan tek alan
+| Öncelik | Madde | Not |
+|---------|--------|-----|
+| P1 | **LCP** | Mobil LCP ~3.8s → hedef &lt; ~2.5s. Ölçüm: `npm run lighthouse:home` → skorları `src/lib/lighthouse-metrics.ts` + `AUDIT.md` güncelle |
+| P1 | **Featured sayısı** | 3 MDX `featured: true` var; ana sayfa `getFeaturedProjects(2)`. Ya `3` yap ya bir projeyi `featured: false` |
+| P2 | **Ölü bileşen** | `QualityStandardsSection` home’da yoktu; dosya da temizlendiyse atla |
+| P2 | **Guestbook sınır** | Hâlâ `force-dynamic`. Onaylı liste için daha yumuşak cache / ISR düşün |
+| P3 | **Turnstile / anon** | İsteğe bağlı bot koruması veya anon yol |
+| P3 | **Coverage gate** | `coverage` CI’da çalışıyor; eşik altında fail henüz yok |
+| P3 | **i18n** | `next-intl` veya locale segment — ayrı faz (aşağıda) |
+| P3 | **Kart yoğunluğu** | Surface varyantları var; bazı bölümlerde hâlâ fazla kart hissi |
 
-Kod / UI tarafında bu faz kapandı. Bundan sonra kalanlar manuel production adımları:
+Aras Mali / Zeki Dekorasyon canlıya alınca: MDX’te `repo`, `demo`, `status: live` güncelle (içerik senin adımın da — manuel dosyada).
 
-- Domain satın alma
-- Vercel deploy
-- Production env girişi
-- GitHub OAuth production callback
-- Upstash Redis kurulumu
-- Sentry / Axiom / Datadog observability provider kurulumu
-- Resend domain doğrulama
-- Production smoke test
-- CV ve profil görseli güncelliği
-- (İsteğe bağlı) EN/TR dil desteği — ayrı faz
-- (İsteğe bağlı) Mali müşavirlik / Zeki Dekorasyon için gerçek `repo`/`demo` / `coverImage`
+---
 
-Detaylı liste: `docs/MANUEL-ADIMLAR.md`.
+## 3) Ekstra fikirler (zorunlu değil)
+
+1. **Time-to-projects analytics** — Vercel Analytics / basit event: hero → projeler tıklama süresi (recruiter akışı).
+2. **Case study “next up”** — proje detayında bir sonraki featured’a net CTA (kısmen var; güçlendirilebilir).
+3. **Resume PDF version bump** — CV değişince `?v=` veya dosya adı ile cache bust.
+4. **Guestbook weekly digest** — onay bekleyenleri sana mail (Resend) — opsiyonel.
+5. **Lab ↔ Skills deep-link** — skills satırı lab’a gidiyor; lab’dan skills’e dönüş CTA.
+6. **Performance budget CI** — Lighthouse CI veya bundle size bütçesi (LCP P1 ile birlikte).
+7. **EN locale** — recruiter için `/en` (aşağıdaki i18n).
+8. **Project status badge tutarlılığı** — list/detay aynı helper (büyük ölçüde var; arşiv/live dilini bir kez daha gözden geçir).
+
+---
+
+## 4) i18n (bilinçli ertelenen)
+
+Tüm UI + MDX + `site-config` çevirisi gerekir. Yarım dil anahtarı production kalitesini düşürür. Ayrı faz: App Router locale segment veya `next-intl`; metinleri sen onayladıktan sonra.
+
+---
+
+## 5) Tasarım sözleşmesi (eski DESIGN-SYSTEM özeti)
+
+**North star:** Trust ↑ veya navigation ↑ veya engineering capability ↑ — değilse kaldır.
+
+| Konu | Kural |
+|------|--------|
+| Motion | `--motion-fast/base/slow/reveal`; en fazla 2 dikkat çeken motion; `prefers-reduced-motion` → tilt/orb kapalı |
+| Glow | Soft `--signal-glow`, strong yalnızca `.btn-signal`; sayfada ≤1 `ambient-orb` |
+| Tilt | Yalnızca Hero profil + Featured + Projects arşiv kartları |
+| Radius | `--radius-sm\|md\|lg\|xl` — keyfi büyük rounded yasak |
+| Kartlar | `surface-plain` / `surface-card` / `surface-interactive` |
+| CTA | Primary `.btn-signal` · Secondary outline/ghost · kartta tek primary |
+| Bölüm ritmi | Eyebrow → h2 → lead → içerik; her home bölümünün **tek** amacı |
+
+Home amaçları: Hero (kim+CTA) → About (nasıl) → Skills (harita) → Featured (vaka) → Hiring (kanıt link) → Lab (trade-off) → GitHub (repo sinyali) → Contact (dönüşüm). Quality bölümü yok.
+
+---
+
+## 6) Kalite komutları
+
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run coverage
+npm run test:e2e
+npm run check:content
+npm run build
+npm run check:all
+npm run lighthouse:home   # çıktı .lighthouse/ — skorları metrics + AUDIT’e kopyala
+```

@@ -1,92 +1,53 @@
-# Manuel Adımlar (Sadece Senin Yapacakların)
+# Manuel adımlar (senin yapacakların)
 
-Bu dosya, yalnızca senin dış servis ve yayın adımlarını içerir.
+Kod tarafı canlıda. Bu dosya yalnızca dış servis, doğrulama ve insan QA adımlarını tutar.
 
-Kod / UI tarafı tamamlandı. Bu listedeki maddeler bittiğinde proje canlıya alınabilir.
+Geliştirme backlog → [`PROJE-GELISTIRME-PLANI.md`](./PROJE-GELISTIRME-PLANI.md) · Audit → [`AUDIT.md`](./AUDIT.md)
 
-## 0) Secret rotation (ekran görüntüsü / sızıntı sonrası — ÖNCE BUNU YAP)
+---
 
-Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır. Vercel’e **eski değerleri yapıştırma**.
+## Açık maddeler
 
-- [x] **Neon:** Console → Project → Reset password → yeni `DATABASE_URL`’i `.env.local` + Vercel’e koy.
-- [x] **AUTH_SECRET:** Yerelde yenilendi (`.env.local`). Aynı değeri Vercel’e kopyala. Gerekirse tekrar: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`
-- [x] **GitHub OAuth:** [Developer settings → OAuth Apps](https://github.com/settings/developers) → Client secret’ı sil → Generate new → `AUTH_GITHUB_SECRET` güncelle (Client ID aynı kalabilir).
-- [x] **Callback URL (production):** `https://umutcingisiz.com/api/auth/callback/github`
-- [x] Upstash / Resend henüz yoksa Vercel’de bu anahtarları **hiç ekleme** (boş string koyma). Kod zaten Redis/Resend yoksa kademeli kapanıyor.
+### 1) Google Search Console (umutcingisiz araması)
 
-## 1) Domain ve production URL
+Kod hazır: sitemap, robots, Person `alternateName`, title’da domain, www→apex.
 
-- [x] Domain satın al. (`umutcingisiz.com`)
-- [x] `NEXT_PUBLIC_SITE_URL` değerini production domain ile güncelle.
+- [ ] [Search Console](https://search.google.com/search-console) → property: `https://umutcingisiz.com`
+- [ ] (İsteğe bağlı) `www` ayrı property veya domain property
+- [ ] HTML tag doğrulama → Vercel’e `GOOGLE_SITE_VERIFICATION` → redeploy
+- [ ] Sitemap: `https://umutcingisiz.com/sitemap.xml`
+- [ ] URL Inspection → ana sayfa → **İstek dizin oluştur**
+- [ ] Birkaç gün sonra “umutcingisiz” / “Umut Cingisiz” ara
 
-## 2) Vercel yayın
+Yeni sitede sıralama günler–haftalar sürebilir; kod tek başına 1. sıra garantisi vermez.
 
-- [x] Vercel'de projeyi oluştur.
-- [x] Yalnızca **dolu** env değişkenlerini Vercel'e taşı (boş Upstash/Resend ekleme).
-- [x] Production `AUTH_URL=https://umutcingisiz.com` (yerelde `http://localhost:3000` kalır).
-- [x] İlk deploy **Ready** oldu (build log yeşil).
-- [x] Domain bağlandı: `umutcingisiz.com` → Vercel (www yeşil; apex bazen “DNS Change Recommended” gösterebilir — site açılıyorsa OK).
+### 2) İnsan QA / regresyon
 
-## 3) Auth ve servisler
+- [ ] Safari smoke (ana sayfa, menü, proje lightbox)
+- [ ] Klavye: lightbox Escape, mobil menü Escape / focus trap
+- [ ] Contact gerçek gönderim (Resend üzerinden mail)
+- [ ] Recruiter 30 sn: BİGG dili dürüst mü? (Akdeniz kabulü + jüri en iyi proje — abartı yok)
+- [ ] Son deploy sonrası kısa regresyon (home → projects → blog → guestbook → contact)
 
-- [x] GitHub OAuth callback URL'ine production adresini ekle. (§0 ile aynı)
-- [x] Neon için yeni `DATABASE_URL` ekle ve `npm run db:push` ile Drizzle şemasını uygula. (2026-07-21 uygulandı)
-- [x] Upstash Redis oluşturunca (isteğe bağlı — blog sayacı / CV rate limit):
-  - [x] `UPSTASH_REDIS_REST_URL`
-  - [x] `UPSTASH_REDIS_REST_TOKEN`
-  - [x] Canlı blog sayacı testi OK
-- [x] Resend domain doğrulamasını tamamlayınca (iletişim formu mail göndersin):
-  - [x] Hostinger’a Resend DNS kayıtları eklendi (DKIM / send MX+TXT / opsiyonel DMARC)
-  - [x] Resend domain **Verified**
-  - [x] `RESEND_API_KEY`
-  - [x] `CONTACT_FROM_EMAIL=noreply@umutcingisiz.com`
-  - [x] `CONTACT_NOTIFY_EMAIL` (bildirim alacağın adres)
-  - [x] Canlı form testi: mail geldi
+### 3) Proje yayınlandığında
 
-## 4) Observability provider (Sentry)
+- [ ] Aras Mali / Zeki Dekorasyon canlı olunca MDX: `repo` + `demo` + `status: live`
+- [ ] (İleriki faz) EN/TR i18n metin onayı — ayrı geliştirme işi
 
-- [x] Sentry hesabı + Next.js projesi (`umutcingisiz` / `javascript-nextjs`, EU).
-- [x] SDK kodda hazır (`@sentry/nextjs`). Yerel + Vercel env:
-  - [x] `OBSERVABILITY_PROVIDER=sentry`
-  - [x] `OBSERVABILITY_DSN=<DSN>`
-  - [x] `NEXT_PUBLIC_SENTRY_DSN=<aynı DSN>`
-- [x] Sentry’de Issues / test hatası göründü (Error Received).
-- [x] Source map: `SENTRY_AUTH_TOKEN` Vercel’de (org token `org:ci`; sohbete yapıştırma).
+---
 
-## 5) Production smoke test
+## Tamamlanan ops (özet — tekrar etme)
 
-- [x] Ana sayfa açılıyor.
-- [x] Guestbook: GitHub giriş + mesaj + admin moderasyon çalışıyor.
-- [x] Projects: İncele → galeri / vaka çalışması; Demo yok; Kod linkleri doğru.
-- [x] Blog: kart / oku → yazı açılıyor.
-- [x] CV İndir: yeni PDF indiriliyor (tarayıcıda açılmıyor).
-- [x] Contact formu: Resend yoksa dürüst hata mesajı (mail gitmez — beklenen).
-- [x] Error / loading / 404 davranışları kontrol edildi.
-- [x] Open Graph önizlemeleri doğrulandı.
-- [x] Mobil genişlikte (≈390px) header menü ve proje kartları taşma yapmıyor.
-- [x] En az bir Playwright smoke koşusu temiz: `npm run test:e2e`.
+| Alan | Durum |
+|------|--------|
+| Secret rotation (Neon, AUTH_SECRET, GitHub OAuth) | ✅ |
+| Domain + `NEXT_PUBLIC_SITE_URL` | ✅ `umutcingisiz.com` |
+| Vercel deploy + `AUTH_URL` | ✅ |
+| Neon `db:push` | ✅ |
+| Upstash Redis (blog sayacı / rate limit) | ✅ |
+| Resend domain + canlı form mail | ✅ |
+| Sentry + source maps | ✅ |
+| Production smoke (guestbook, CV, OG, mobil menü, e2e) | ✅ |
+| CV / profil / galeriler (Bloomedu, Aras, Zeki ekranları) | ✅ |
 
-## 7) Google Search Console (isim araması — umutcingisiz)
-
-Kod tarafı hazır: sitemap, robots, Person `alternateName` (umutcingisiz), title’da domain, www→apex redirect.
-
-Senin yapman gerekenler (indeksleme için zorunlu):
-
-- [ ] [Google Search Console](https://search.google.com/search-console) → property ekle: `https://umutcingisiz.com`
-- [ ] (Varsa) `https://www.umutcingisiz.com` ayrı property veya domain property kullan
-- [ ] Sahiplik doğrulama: HTML tag yöntemi → Vercel’e `GOOGLE_SITE_VERIFICATION` env ekle (meta content değeri) → redeploy
-- [ ] Sitemap gönder: `https://umutcingisiz.com/sitemap.xml`
-- [ ] URL Inspection → `https://umutcingisiz.com/` → **İstek dizin oluştur**
-- [ ] Birkaç gün sonra “umutcingisiz” / “Umut Cingisiz” aramasını kontrol et
-
-Not: Yeni site veya az backlink ile ilk sıralama günler–haftalar sürebilir. Kod tek başına Google’a “hemen 1. sıra” garantisi vermez; GSC + sitemap şart.
-
-## 8) Yayın öncesi son kontrol
-
-- [x] CV dosyası güncellendi ve deploy’a gitti (`public/resume.pdf`).
-- [x] Profil görseli (`public/profile.jpg`) güncel.
-- [x] Portfolyo için gallery ekranları eklendi; diğer projeler isteğe bağlı.
-- [x] Aras Mali / Zeki Dekorasyon gallery ekranları eklendi (yerel geliştirme; repo/demo yok).
-- [ ] Aras / Zeki yayınlanınca `repo` + `demo` / `status: live` güncelle.
-- [ ] (İleriki faz) EN/TR dil desteği — ayrı i18n çalışması; bu turda bilinçli olarak ertelendi.
-- [ ] Son deploy'dan sonra manuel regresyon testi yapıldı.
+**Callback:** `https://umutcingisiz.com/api/auth/callback/github`

@@ -29,8 +29,8 @@ npm run check:all    # assets + content + env + db
 | Alan | Durum |
 |------|--------|
 | Koyu tema, tipografi wordmark, yüzen header + scroll progress | ✓ |
-| Hero, about timeline, skills bento, hiring proof, quality standards (bento) | ✓ |
-| Projeler: Apple-tarzı showcase, 4/3 mockup, P/D/I kartları | ✓ |
+| Hero, about timeline, skills map, hiring proof | ✓ |
+| Projeler: showcase, 4/3 mockup, P/D/I kartları | ✓ |
 | Terminal (Ctrl+\`), magnetic CTA, tilt kartlar, Reveal spring animasyonları | ✓ |
 | Algorithm Lab, GitHub activity, offline network toast, cyan focus-visible | ✓ |
 | 404, loading, error, global-error | ✓ |
@@ -41,10 +41,11 @@ npm run check:all    # assets + content + env + db
 | Observability (structured logs) ve content kalite kapısı | ✓ |
 | Vitest, Playwright E2E, coverage, CI, `check:content`, `check:all` | ✓ |
 
-## Dokumanlar (sade)
+## Dokümanlar
 
-- **[docs/PROJE-GELISTIRME-PLANI.md](docs/PROJE-GELISTIRME-PLANI.md)** — kod/UI tarafında tamamlananlar ve kapanış durumu.
-- **[docs/MANUEL-ADIMLAR.md](docs/MANUEL-ADIMLAR.md)** — production için senin manuel tamamlayacağın adımlar.
+- **[docs/PROJE-GELISTIRME-PLANI.md](docs/PROJE-GELISTIRME-PLANI.md)** — tamamlananlar, kalan kod, fikirler, tasarım sözleşmesi
+- **[docs/MANUEL-ADIMLAR.md](docs/MANUEL-ADIMLAR.md)** — senin GSC / QA / yayın adımların
+- **[docs/AUDIT.md](docs/AUDIT.md)** — Lighthouse + doğrulanmış boşluklar
 
 ## Dosya yapısı
 
@@ -53,8 +54,9 @@ npm run check:all    # assets + content + env + db
 ├── .github/workflows/
 │   └── ci.yml                     # Lint + typecheck + test + coverage + build
 ├── docs/
-│   ├── PROJE-GELISTIRME-PLANI.md  # Teknik/UI tamamlananlar
-│   └── MANUEL-ADIMLAR.md          # Production manuel adımlar
+│   ├── PROJE-GELISTIRME-PLANI.md  # Kod/UI plan + kalan işler
+│   ├── MANUEL-ADIMLAR.md          # Production manuel adımlar
+│   └── AUDIT.md                   # Audit snapshot
 ├── drizzle/
 │   ├── 0000_first_toad.sql
 │   └── meta/
@@ -96,7 +98,6 @@ npm run check:all    # assets + content + env + db
 │   │   ├── site-header.tsx / site-footer.tsx
 │   │   ├── skills-section.tsx
 │   │   ├── hiring-proof-section.tsx
-│   │   ├── quality-standards-section.tsx
 │   │   ├── featured-projects.tsx / featured-projects-list.tsx
 │   │   ├── github-activity-section.tsx / git-log-feed.tsx
 │   │   ├── hidden-terminal.tsx / terminal-prompt.tsx
@@ -162,7 +163,7 @@ npm run build
 npm run check:all
 ```
 
-`check:env` içinde Upstash ve Resend eksik görünmesi canlıya alma öncesi beklenen durumdur; bunlar `docs/MANUEL-ADIMLAR.md` içindeki production adımlarında tamamlanacak.
+`check:env` içinde Upstash ve Resend eksik görünmesi beklenen durum olabilir; canlıda tamamlandıysa yok say. Açık insan adımları: `docs/MANUEL-ADIMLAR.md`.
 
 ## Database
 
@@ -177,6 +178,8 @@ npm run db:push
 
 Deploy: [Vercel](https://vercel.com/new).
 
-## Sonraki Adım
+## Sonraki adım
 
-Kod ve UI/UX tarafı bu fazda kapandı. Yayına alma için kalan tek kaynak: `docs/MANUEL-ADIMLAR.md`.
+1. Senin: `docs/MANUEL-ADIMLAR.md` (özellikle GSC)
+2. Kod: `docs/PROJE-GELISTIRME-PLANI.md` §2 (LCP, featured sayısı, …)
+3. Durum: `docs/AUDIT.md`

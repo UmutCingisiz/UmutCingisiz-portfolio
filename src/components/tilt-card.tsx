@@ -25,7 +25,7 @@ type TiltCardProps<T extends ElementType> = {
 } & Omit<ComponentPropsWithoutRef<T>, "as" | "className" | "children">;
 
 /**
- * İmleç eğimli kart. Allowlist: docs/DESIGN-SYSTEM.md §4.
+ * İmleç eğimli kart. Allowlist: docs/PROJE-GELISTIRME-PLANI.md §5 (Tilt).
  * `prefers-reduced-motion` veya `enabled={false}` → no-op transform.
  */
 export function TiltCard<T extends ElementType = "div">({

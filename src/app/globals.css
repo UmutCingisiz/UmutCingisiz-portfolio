@@ -22,7 +22,7 @@
   /* İmza vurgu rengi: elektrik camgöbeği. Tüm birincil CTA/spotlight/glow buradan besleniyor. */
   --signal: #22d3ee;
   --signal-foreground: #03141a;
-  /* Glow budget ≤2: soft + strong (docs/DESIGN-SYSTEM.md) */
+  /* Glow budget ≤2: soft + strong (docs/PROJE-GELISTIRME-PLANI.md §5) */
   --signal-glow: rgba(34, 211, 238, 0.18);
   --signal-glow-strong: rgba(34, 211, 238, 0.4);
   --ambient-color: rgba(255, 255, 255, 0.08);
@@ -203,7 +203,7 @@ body::after {
   }
 }
 
-/* Card variants ≤3 — see docs/DESIGN-SYSTEM.md */
+/* Card variants ≤3 — see docs/PROJE-GELISTIRME-PLANI.md §5 */
 .surface-plain {
   position: relative;
   border: 1px solid var(--border);
