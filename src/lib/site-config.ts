@@ -1,10 +1,10 @@
 export const siteConfig = {
   name: "Umut Cingisiz",
-  role: "Bilgisayar mühendisi · full-stack developer",
+  role: "Bilgisayar Mühendisi · Full-Stack Developer",
   location: "Türkiye",
-  availability: "Full-stack rollerine açığım",
+  availability: "Yeni iş fırsatları için uygun",
   availabilityLabel: "Müsait",
-  availabilityDetail: "Full-stack iş ve staj için yazın",
+  availabilityDetail: "Yeni iş fırsatları için uygun",
   profileImage: "/profile.jpg",
   resumePath: "/resume.pdf",
   /** Ana sayfa GitHub repoları + profil yedek görseli */
@@ -25,7 +25,7 @@ export const siteConfig = {
   },
   headline: "Arayüzden veritabanına kadar ürünü ben kuruyorum.",
   description:
-    "Ekranı çizerken veri modeli ve hata yolunu da düşünürüm. Küçük parçaları birleştirip yayınlanabilir bir sistem bırakmayı hedeflerim.",
+    "Bir özelliği tek başına değil, veri modeli, güvenlik ve yayın adımıyla birlikte ele alırım. Amacım ekranda duran bir demo değil; bakımı yapılabilir, büyüyebilen bir ürün bırakmak.",
   shortBio:
     "Doğu Akdeniz Üniversitesi Bilgisayar Mühendisliği mezunuyum. Bloomedu ile TÜBİTAK BİGG Akdeniz’e kabul aldık; üniversite jürisi bitirme projemi en iyi seçti.",
   email: "cingisizumut1@gmail.com",

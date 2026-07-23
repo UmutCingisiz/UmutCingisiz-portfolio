@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 async function gotoContact(page: Page) {
   await page.goto("/#contact");
-  await expect(page.getByRole("heading", { name: /konuşalım/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /^İletişim$/i })).toBeVisible();
 }
 
 async function fillContact(

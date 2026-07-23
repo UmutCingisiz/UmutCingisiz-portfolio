@@ -33,7 +33,8 @@ export function FeaturedProjectsList({ projects }: Props) {
               Seçilmiş projeler
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-              Ne yaptım, neden böyle yaptım, sonuç ne oldu — kısa ve net.
+              Her kartta problem, aldığım teknik karar ve ortaya çıkan etki var.
+              Detay ve ekran görüntüleri için projeyi açın.
             </p>
           </div>
           <Link

@@ -14,11 +14,12 @@ export function ContactSection() {
           <div>
             <SectionEyebrow>contact.endpoint</SectionEyebrow>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Birlikte bir şey yapmak istersek yazın.
+              İletişim
             </h2>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              İş, staj veya proje için kısa bir not yeterli. Ne üzerinde
-              çalıştığınızı ve neye ihtiyacınız olduğunu yazmanız yeter.
+              İş teklifleri, staj ve proje işbirlikleri için buradan veya e-posta
+              üzerinden ulaşabilirsiniz. Mesajınıza mümkün olan en kısa sürede
+              dönüş yaparım.
             </p>
 
             <div className="mt-6 rounded-xl border border-border bg-card/60 p-4 backdrop-blur-sm sm:p-5">
@@ -32,7 +33,7 @@ export function ContactSection() {
                 {siteConfig.email}
               </a>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                {siteConfig.availability}
+                {siteConfig.availabilityLabel} · {siteConfig.availabilityDetail}
               </p>
             </div>
           </div>

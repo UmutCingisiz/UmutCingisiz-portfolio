@@ -6,18 +6,18 @@ import { Timeline } from "@/components/timeline";
 const cards = [
   {
     eyebrow: "01 · Sistem",
-    title: "Özellik değil, sistem",
+    title: "Sadece arayüze değil, uçtan uca ölçeklenebilir sistemler kurmayı hedefliyorum.",
     body: "Bir ekranı çizerken veri modelini, hata yolunu ve güvenlik sınırını birlikte düşünürüm.",
   },
   {
     eyebrow: "02 · Zanaat",
-    title: "Kodun niyeti okunur olsun",
-    body: "TypeScript ve net modül sınırlarıyla büyüyen projeyi takip edilebilir tutarım.",
+    title: "Kod her zaman temiz yapıda ve okunabilir olmalı.",
+    body: "Kullandığım teknolojilerin net modül sınırlarıyla büyüyen projeyi takip edilebilir tutarak kodun okunabilirliğini sağlarım.",
   },
   {
     eyebrow: "03 · Yayın",
-    title: "Demo değil, yayın",
-    body: "Form güvenliği, SEO ve dürüst durum etiketleri — işe yarayan detaylar.",
+    title: "Sistemi sadece kurmak değil, güncellenebilir bir şekilde yönetmeyi hedefliyorum.",
+    body: "Sistemi güncellemek için sadece kodu değiştirmek yeterli değil, sistemin durumunu takip etmek ve güncellemeleri yapmak gerekiyor. Bu yüzden sistemimizi güncelleyebilir ve yönetebilir hale getirmek için gerekli olan araçları ve süreçleri dikkatli bir şekilde planlayarak sağlarım.",
   },
 ] as const;
 
@@ -32,7 +32,7 @@ export function AboutSection() {
           <div>
             <SectionEyebrow>about.engineer</SectionEyebrow>
             <h2 className="mt-3 text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Nasıl çalışırım
+              Nasıl mühendislik yapıyorum
             </h2>
             <p className="mt-4 text-pretty text-sm leading-7 text-muted-foreground sm:text-base">
               {siteConfig.description}

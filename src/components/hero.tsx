@@ -72,18 +72,16 @@ export function Hero() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="order-1 lg:col-start-1 lg:row-start-1"
         >
-          <div className="inline-flex max-w-full items-center gap-2.5 rounded-2xl border border-emerald-400/40 bg-emerald-500/[0.12] py-2 pl-2.5 pr-4 shadow-[0_0_32px_rgba(16,185,129,0.18)] sm:gap-3 sm:py-2.5 sm:pl-3 sm:pr-5">
-            <span className="relative flex size-2.5 sm:size-3">
+          <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3 text-xs font-medium text-foreground/90 backdrop-blur-xl">
+            <span className="relative flex size-1.5">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex size-2.5 rounded-full bg-emerald-400 sm:size-3" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
             </span>
-            <span className="flex min-w-0 flex-col leading-tight">
-              <span className="text-sm font-bold tracking-tight text-emerald-300 sm:text-base">
-                {siteConfig.availabilityLabel}
-              </span>
-              <span className="text-[0.7rem] text-emerald-100/75 sm:text-xs">
-                {siteConfig.availabilityDetail}
-              </span>
+            <span className="font-mono text-[0.7rem] tracking-wide text-emerald-500 dark:text-emerald-400">
+              {siteConfig.availabilityLabel}
+            </span>
+            <span className="text-muted-foreground">
+              · {siteConfig.availabilityDetail}
             </span>
           </div>
 
