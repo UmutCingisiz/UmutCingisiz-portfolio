@@ -25,7 +25,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden scroll-mt-24 px-4 py-12 sm:px-6 sm:py-20"
+      className="relative overflow-hidden scroll-mt-28 px-4 py-12 sm:px-6 sm:py-20"
     >
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-12">

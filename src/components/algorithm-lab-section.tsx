@@ -61,7 +61,7 @@ export function AlgorithmLabSection() {
   return (
     <section
       id="algorithm-lab"
-      className="relative scroll-mt-24 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
+      className="relative scroll-mt-28 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
       aria-labelledby="algorithm-lab-heading"
     >
       <div className="mx-auto max-w-6xl">
@@ -69,7 +69,7 @@ export function AlgorithmLabSection() {
           <SectionEyebrow>algorithm.lab</SectionEyebrow>
           <h2
             id="algorithm-lab-heading"
-            className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+            className="mt-3 max-w-2xl text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
           >
             Rota seçiminde maliyet, risk ve hız trade-off’unu gösteriyorum.
           </h2>

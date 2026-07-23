@@ -18,7 +18,7 @@ export function FeaturedProjectsList({ projects }: Props) {
   return (
     <section
       id="projects"
-      className="relative scroll-mt-24 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
+      className="relative scroll-mt-28 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
     >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -50,7 +50,7 @@ export function FeaturedProjectsList({ projects }: Props) {
             .
           </p>
         ) : (
-          <ul className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <ul className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2">
             {projects.map((p, i) => (
               <li key={p.slug}>
                 <Reveal index={i} className="h-full">

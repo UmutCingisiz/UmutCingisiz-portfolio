@@ -59,11 +59,11 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden px-4 pb-10 pt-8 sm:px-6 sm:pb-20 sm:pt-20">
+    <section className="relative overflow-hidden px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-16">
       <div className="ambient-orb left-[8%] top-20 size-56 opacity-40 sm:size-64 sm:opacity-50" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
 
-      <div className="relative mx-auto grid max-w-7xl items-start gap-6 sm:gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:grid-rows-[auto_auto] lg:gap-x-12 lg:gap-y-6">
+      <div className="relative mx-auto grid max-w-6xl items-start gap-7 sm:gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:grid-rows-[auto_auto] lg:gap-x-10 lg:gap-y-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -143,7 +143,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.96, y: 24 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-          className="relative order-2 mx-auto w-full max-w-[320px] sm:max-w-md lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-none"
+          className="relative order-2 mx-auto w-full max-w-[300px] sm:max-w-sm lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-md lg:justify-self-end"
         >
           <div
             className="absolute -inset-5 rounded-[var(--radius-xl)] blur-3xl sm:-inset-7"
@@ -206,12 +206,12 @@ export function Hero() {
           {siteConfig.stats.map((stat) => (
             <div
               key={stat.label}
-              className="surface-card p-2.5 backdrop-blur-sm sm:p-3.5"
+              className="surface-card px-2.5 py-3 backdrop-blur-sm sm:p-3.5"
             >
-              <p className="font-mono text-[0.6rem] tracking-wide text-muted-foreground">
+              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                 {stat.label}
               </p>
-              <p className="mt-1 text-[0.7rem] font-semibold leading-snug text-foreground sm:text-sm">
+              <p className="mt-1 text-xs font-semibold leading-snug text-foreground sm:text-sm">
                 {stat.value}
               </p>
             </div>

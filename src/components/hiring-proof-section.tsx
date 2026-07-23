@@ -111,11 +111,11 @@ export function HiringProofSection() {
   return (
     <section
       id="hiring"
-      className="relative scroll-mt-24 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
+      className="relative scroll-mt-28 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
     >
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-10">
-          <div className="lg:sticky lg:top-24">
+          <div className="lg:sticky lg:top-28">
             <SectionEyebrow>hiring.proof</SectionEyebrow>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               İşe alım kararını hızlandıran teknik kanıtlar.

@@ -17,8 +17,8 @@ import { pageSocial } from "@/lib/site-metadata";
 
 export const metadata: Metadata = {
   ...pageSocial("/", {
-    title: `${siteConfig.name} | Full-Stack Engineer`,
-    description: siteConfig.shortBio,
+    title: `${siteConfig.name} | umutcingisiz.com`,
+    description: `${siteConfig.shortBio} · umutcingisiz`,
   }),
 };
 

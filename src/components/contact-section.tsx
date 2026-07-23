@@ -11,9 +11,9 @@ export function ContactSection({ contactSuccess }: Props) {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden scroll-mt-24 px-4 py-12 sm:px-6 sm:py-20"
+      className="relative overflow-hidden scroll-mt-28 px-4 py-12 sm:px-6 sm:py-20"
     >
-      <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-8">
+      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-8">
         <Reveal>
           <div>
             <SectionEyebrow>contact.endpoint</SectionEyebrow>

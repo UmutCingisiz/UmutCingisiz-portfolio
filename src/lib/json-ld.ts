@@ -9,6 +9,14 @@ export function personJsonLd(): JsonLd {
     "@type": "Person",
     "@id": `${origin}/#person`,
     name: siteConfig.name,
+    alternateName: [
+      "umutcingisiz",
+      "UmutCingisiz",
+      "umut cingisiz",
+      "Umut Ibrahim Cingisiz",
+    ],
+    givenName: "Umut",
+    familyName: "Cingisiz",
     url: origin,
     jobTitle: siteConfig.role,
     email: siteConfig.email,
@@ -17,7 +25,12 @@ export function personJsonLd(): JsonLd {
       addressLocality: "Gazimağusa",
       addressCountry: "CY",
     },
-    sameAs: [siteConfig.github, siteConfig.linkedin],
+    sameAs: [
+      origin,
+      "https://www.umutcingisiz.com",
+      siteConfig.github,
+      siteConfig.linkedin,
+    ],
     image: canonicalFor(siteConfig.profileImage),
   };
 }
@@ -28,6 +41,7 @@ export function websiteJsonLd(): JsonLd {
     "@type": "WebSite",
     "@id": `${origin}/#website`,
     name: siteConfig.name,
+    alternateName: ["umutcingisiz", "umutcingisiz.com"],
     url: origin,
     description: siteConfig.shortBio,
     inLanguage: "tr-TR",

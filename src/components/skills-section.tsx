@@ -201,7 +201,7 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-12 sm:px-6 sm:py-20"
+      className="relative scroll-mt-28 overflow-hidden border-y border-border bg-muted/20 px-4 py-12 sm:px-6 sm:py-20"
     >
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">

@@ -9,8 +9,10 @@ import { canonicalFor, getSiteOrigin } from "@/lib/site-url";
  */
 export function getSiteMetadata(): Metadata {
   const siteUrl = getSiteOrigin();
-  const title = `${siteConfig.name} | Full-Stack Engineer`;
-  const description = ogSiteDescription;
+  const title = `${siteConfig.name} | umutcingisiz.com`;
+  const description = `${ogSiteDescription} · umutcingisiz`;
+
+  const verificationToken = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 
   return {
     metadataBase: new URL(siteUrl),
@@ -19,10 +21,20 @@ export function getSiteMetadata(): Metadata {
       template: `%s | ${siteConfig.name}`,
     },
     description,
+    keywords: [
+      "Umut Cingisiz",
+      "umutcingisiz",
+      "UmutCingisiz",
+      "umutcingisiz.com",
+      "Full-stack developer",
+      "Bilgisayar mühendisi",
+      "Bloomedu",
+      "Gazimağusa",
+    ],
     openGraph: {
       type: "website",
       locale: "tr_TR",
-      siteName: siteConfig.name,
+      siteName: "umutcingisiz.com",
       title,
       description,
       url: siteUrl,
@@ -34,6 +46,9 @@ export function getSiteMetadata(): Metadata {
     },
     authors: [{ name: siteConfig.name, url: siteUrl }],
     creator: siteConfig.name,
+    ...(verificationToken
+      ? { verification: { google: verificationToken } }
+      : {}),
   };
 }
 

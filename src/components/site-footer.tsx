@@ -6,14 +6,32 @@ import { socialLinks } from "@/components/social-icons";
 export function SiteFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border bg-muted/20 py-12">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6">
+    <footer className="border-t border-border bg-muted/20 py-10 sm:py-12">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:gap-8 sm:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium text-foreground">
               {siteConfig.name}
             </p>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 font-mono text-xs text-muted-foreground">
+              <a
+                href="https://umutcingisiz.com"
+                className="transition-colors hover:text-foreground"
+                rel="me"
+              >
+                umutcingisiz.com
+              </a>
+              {" · "}
+              <a
+                href={siteConfig.github}
+                className="transition-colors hover:text-foreground"
+                rel="me noreferrer noopener"
+                target="_blank"
+              >
+                @{siteConfig.githubUsername}
+              </a>
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
               &copy; {year}. Next.js, Tailwind, Neon ve Redis ile full-stack portfolyo.
             </p>
           </div>

@@ -66,7 +66,22 @@ Eski `AUTH_SECRET`, `AUTH_GITHUB_SECRET` ve `DATABASE_URL` compromised sayılır
 - [x] Mobil genişlikte (≈390px) header menü ve proje kartları taşma yapmıyor.
 - [x] En az bir Playwright smoke koşusu temiz: `npm run test:e2e`.
 
-## 6) Yayın öncesi son kontrol
+## 7) Google Search Console (isim araması — umutcingisiz)
+
+Kod tarafı hazır: sitemap, robots, Person `alternateName` (umutcingisiz), title’da domain, www→apex redirect.
+
+Senin yapman gerekenler (indeksleme için zorunlu):
+
+- [ ] [Google Search Console](https://search.google.com/search-console) → property ekle: `https://umutcingisiz.com`
+- [ ] (Varsa) `https://www.umutcingisiz.com` ayrı property veya domain property kullan
+- [ ] Sahiplik doğrulama: HTML tag yöntemi → Vercel’e `GOOGLE_SITE_VERIFICATION` env ekle (meta content değeri) → redeploy
+- [ ] Sitemap gönder: `https://umutcingisiz.com/sitemap.xml`
+- [ ] URL Inspection → `https://umutcingisiz.com/` → **İstek dizin oluştur**
+- [ ] Birkaç gün sonra “umutcingisiz” / “Umut Cingisiz” aramasını kontrol et
+
+Not: Yeni site veya az backlink ile ilk sıralama günler–haftalar sürebilir. Kod tek başına Google’a “hemen 1. sıra” garantisi vermez; GSC + sitemap şart.
+
+## 8) Yayın öncesi son kontrol
 
 - [x] CV dosyası güncellendi ve deploy’a gitti (`public/resume.pdf`).
 - [x] Profil görseli (`public/profile.jpg`) güncel.

@@ -1,14 +1,15 @@
 import type { MetadataRoute } from "next";
 import { getAllPostsMeta } from "@/lib/content/posts";
 import { getAllProjectsMeta } from "@/lib/content/projects";
+import { getSiteOrigin } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const base = getSiteOrigin();
   const routes: MetadataRoute.Sitemap = [
     {
       url: base,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "weekly",
       priority: 1,
     },
     {

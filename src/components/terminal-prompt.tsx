@@ -13,8 +13,8 @@ export function TerminalPrompt() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="px-4 pb-4 sm:px-6" aria-label={`${shell.name} command shell`}>
-      <div className="mx-auto max-w-7xl">
+    <section className="px-4 py-5 sm:px-6 sm:py-6" aria-label={`${shell.name} command shell`}>
+      <div className="mx-auto max-w-6xl">
         <motion.button
           type="button"
           onClick={openTerminal}
@@ -23,7 +23,7 @@ export function TerminalPrompt() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="group flex w-full items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-[#05080c]/90 px-5 py-4 text-left font-mono shadow-lg shadow-black/30 ring-1 ring-cyan-400/10 backdrop-blur-xl transition-all duration-300 hover:border-cyan-400/35 hover:shadow-[0_0_40px_rgba(34,211,238,0.18)] sm:gap-4 sm:px-6"
+          className="group flex w-full items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-[#05080c]/90 px-4 py-3.5 text-left font-mono shadow-lg shadow-black/30 ring-1 ring-cyan-400/10 backdrop-blur-xl transition-all duration-300 hover:border-cyan-400/35 hover:shadow-[0_0_40px_rgba(34,211,238,0.18)] sm:gap-4 sm:px-5 sm:py-4"
         >
           <span className="flex items-center gap-1.5" aria-hidden>
             <span className="size-2.5 rounded-full bg-red-400/80" />

@@ -72,9 +72,9 @@ export async function GithubActivitySection() {
     return (
       <section
         id="github"
-        className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-20 sm:px-6"
+        className="scroll-mt-28 border-y border-border bg-muted/30 px-4 py-12 sm:px-6 sm:py-20"
       >
-        <div className="mx-auto max-w-5xl rounded-xl border border-border bg-card/60 p-6 backdrop-blur-sm">
+        <div className="mx-auto max-w-6xl rounded-xl border border-border bg-card/60 p-6 backdrop-blur-sm">
           <h2 className="text-xl font-semibold text-foreground">GitHub</h2>
           <p className="mt-2 text-sm leading-7 text-muted-foreground">
             {recentFailed
@@ -106,9 +106,9 @@ export async function GithubActivitySection() {
   return (
     <section
       id="github"
-      className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-12 sm:px-6 sm:py-20"
+      className="scroll-mt-28 border-y border-border bg-muted/30 px-4 py-12 sm:px-6 sm:py-20"
     >
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <div>
             <SectionEyebrow>github.signal</SectionEyebrow>
@@ -129,27 +129,29 @@ export async function GithubActivitySection() {
           </Link>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-2 rounded-[var(--radius-lg)] border border-border bg-card/40 px-3 py-2.5 sm:mt-8 sm:px-4 sm:py-3">
-          <span className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
-            signal.pulse
-          </span>
-          <span className="text-muted-foreground/40">·</span>
-          <span className="font-mono text-xs text-foreground/80">
-            {recent.length} recent repo
-          </span>
-          {languages.slice(0, 4).map((lang) => (
-            <span
-              key={lang}
-              className="rounded-md border border-border bg-muted/40 px-2 py-0.5 font-mono text-[0.65rem] text-muted-foreground"
-            >
-              {lang}
+        <div className="mt-6 flex flex-col gap-3 rounded-[var(--radius-lg)] border border-border bg-card/40 px-3 py-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 sm:px-4 sm:py-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+              signal.pulse
             </span>
-          ))}
+            <span className="text-muted-foreground/40">·</span>
+            <span className="font-mono text-xs text-foreground/80">
+              {recent.length} recent repo
+            </span>
+            {languages.slice(0, 4).map((lang) => (
+              <span
+                key={lang}
+                className="rounded-md border border-border bg-muted/40 px-2 py-0.5 font-mono text-[0.65rem] text-muted-foreground"
+              >
+                {lang}
+              </span>
+            ))}
+          </div>
           <a
             href={`https://github.com/${login}?tab=repositories`}
             target="_blank"
             rel="noreferrer noopener"
-            className="ml-auto font-mono text-[0.65rem] text-signal hover:underline"
+            className="font-mono text-[0.65rem] text-signal hover:underline sm:ml-auto"
           >
             Tüm repolar ↗
           </a>

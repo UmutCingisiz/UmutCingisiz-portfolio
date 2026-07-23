@@ -1,7 +1,7 @@
 export function AlgorithmLabSkeleton() {
   return (
     <section
-      className="scroll-mt-24 px-4 py-24 sm:px-6 sm:py-32"
+      className="scroll-mt-28 px-4 py-12 sm:px-6 sm:py-20"
       aria-busy="true"
       aria-label="Algoritma laboratuvarı yükleniyor"
     >

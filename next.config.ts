@@ -8,6 +8,17 @@ const nextConfig: NextConfig = {
   // kaynaklarının cross-origin diye bloklanmasını önler.
   allowedDevOrigins: ["127.0.0.1", "localhost"],
 
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.umutcingisiz.com" }],
+        destination: "https://umutcingisiz.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   images: {
     remotePatterns: [
       {
