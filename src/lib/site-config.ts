@@ -2,27 +2,19 @@ export const siteConfig = {
   name: "Umut Cingisiz",
   role: "Bilgisayar Mühendisi / Full-Stack Developer",
   location: "Gazimağusa, Kıbrıs",
-  availability: "Full-Stack Mühendislik Rolleri ve Yeni Fırsatlara Hazır",
+  availability: "Full-Stack Mühendislik Rolleri ve Yeni Fırsatlara Açık",
   profileImage: "/profile.jpg",
   resumePath: "/resume.pdf",
   /** Ana sayfa GitHub repoları + profil yedek görseli */
   githubUsername: "UmutCingisiz",
   /**
-   * Profilde öne çıkarılacak (pinned) repolar — owner hesabında olmasa bile
-   * (ör. ekip reposu Bloomedu) GitHub aktivite bölümünde üstte gösterilir.
+   * GitHub API dil alanı boş gelen repolar için dürüst override
+   * (ör. Java Examples — API null dönebilir).
    */
-  githubPinned: [
-    {
-      name: "Bloomedu",
-      fullName: "somethn7/Bloomedu",
-      description:
-        "AI destekli kişiselleştirilmiş eğitim — TÜBİTAK BİGG En İyi Proje. Adaptif öğrenme motoru ve full-stack ürün mimarisi.",
-      html_url: "https://github.com/somethn7/Bloomedu",
-      language: "TypeScript",
-      caseStudy: "/projects/bloomedu",
-      badge: "yayında · TÜBİTAK",
-    },
-  ],
+  githubLanguageOverrides: {
+    "java-examples": "Java",
+    javaexamples: "Java",
+  } as Record<string, string>,
   /** Portfolyo terminal — UC + cmd (kişisel + klasik shell) */
   terminal: {
     name: "ucmd",
@@ -32,9 +24,9 @@ export const siteConfig = {
   headline:
     "Sadece arayüz kodlamıyor; uçtan uca, ölçeklenebilir ve hataya dayanıklı sistemler tasarlıyorum.",
   description:
-    "Bu portfolyo benim için basit bir vitrin değil, somut bir mühendislik kanıtıdır: hibrit render mimarisi, Drizzle ORM veritabanı şeması, fail-safe Redis cache katmanı, server action'lar ve MDX içerik altyapısı tek çatı altında çalışıyor.",
+    "Bu site bir vitrin değil; gerçek ürün disiplinini küçük ölçekte taşıyan bir mühendislik kanıtı: hibrit render, typed içerik, auth, veri modeli, rate-limit ve CI aynı çatı altında çalışıyor.",
   shortBio:
-    "DAÜ Bilgisayar Mühendisliği mezunu; TÜBİTAK BİGG En İyi Proje ödüllü Bloomedu üzerinde full-stack ürün geliştiriyorum.",
+    "DAÜ Bilgisayar Mühendisliği mezunu. Bloomedu ile TÜBİTAK BİGG Akdeniz programına kabul aldım; üniversite bitirme projeleri arasından jüri tarafından en iyi proje seçildi. Kurumsal web’den mobil EdTech’e kadar full-stack ürünler ship ediyorum.",
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
   /** CI / Actions — profil değil, bu portfolyo reposu */
@@ -42,77 +34,96 @@ export const siteConfig = {
   linkedin: "https://www.linkedin.com/in/umut-ibrahim-cingisiz-878053309",
   stats: [
     { label: "Derece", value: "DAÜ Bilgisayar Müh." },
-    { label: "Ödül", value: "TÜBİTAK BİGG (En İyi Proje)" },
-    { label: "Liderlik", value: "YZ Geliştirme Kulübü" },
+    { label: "BİGG", value: "Akdeniz kabulü" },
+    { label: "Odak", value: "Full-stack ürün" },
   ],
   techSignal: [
-    "Next.js 16",
+    "Next.js",
     "TypeScript",
-    "React",
+    "React Native",
+    "PostgreSQL",
+    "Sanity",
+    "Express",
     "Python",
     "Java",
-    "C",
-    "PostgreSQL",
-    "Redis",
   ],
   proofPoints: [
-    "Guestbook: GitHub OAuth, moderasyon, sıkı rate limit",
-    "Blog: MDX, ISR, Upstash Redis görüntüleme, fallback UI",
-    "Çekirdek: Drizzle ORM, Zod doğrulama, defensive programming",
-    "Test: Vitest + Playwright E2E, CI kalite kapısı",
+    "Bloomedu: RN + Express + Postgres · BİGG Akdeniz kabulü",
+    "Aras Mali: Next.js + Sanity CMS · kurumsal lead akışı",
+    "Zeki Dekorasyon: SSG katalog · görsel performans",
+    "Portfolyo: Auth.js · Drizzle · Redis · CI kalite kapısı",
   ],
   currentFocus:
-    "TÜBİTAK ödüllü projemin ardından, ölçeklenebilir ve fail-safe sistemler üzerine yoğunlaşıyorum.",
-  /** Deneyim/liderlik zaman çizelgesi — about.engineer bölümünde bağlantılı
-      noktalarla gösterilir. En yeniden en eskiye sıralı. */
+    "BİGG sürecinin ardından ölçeklenebilir ürün mimarisi, fail-safe veri katmanları ve dürüst işe alım kanıtları üzerine yoğunlaşıyorum.",
+  /** Deneyim zaman çizelgesi — dürüst roller, abartısız. */
   milestones: [
+    {
+      period: "2026",
+      title: "TÜBİTAK BİGG 1812 — Akdeniz kabulü",
+      org: "Bloomedu",
+      points: [
+        "Bloomedu, üniversite bitirme projeleri arasından jüri tarafından en iyi proje seçildi.",
+        "TÜBİTAK BİGG 1812 Akdeniz programına kabul aldık; ön jüri sunumu ve ticarileşme süreci devam ediyor.",
+      ],
+    },
     {
       period: "2024 — günümüz",
       title: "Yapay Zeka Geliştirme Kulübü",
-      org: "Organizasyon Lideri",
+      org: "Üye",
       points: [
-        "Kulüp vizyonunu ve teknik yol haritasını kurdu; üye onboarding sürecini tasarladı.",
-        "Atölye ve proje gruplarını koordine ederek organizasyonel liderlik deneyimi kazandı.",
+        "Kulüp etkinliklerinde ve proje gruplarında aktif üye olarak yer aldım.",
+        "AI / ürün tartışmalarına katkı vererek ekip çalışması ve teknik iletişim deneyimi kazandım.",
       ],
     },
     {
-      period: "2026",
-      title: "TÜBİTAK BİGG 1812 — En İyi Proje",
-      org: "Bloomedu",
-      points: [
-        "14 takım arasından en iyi proje seçildi; Akdeniz 2026-1 ön jüri sunumuna kabul edildi.",
-        "AI destekli adaptif öğrenme motoru için ürün ve teknik sunum sorumluluğu üstlendi.",
-      ],
-    },
-    {
-      period: "2021 — 2026",
+      period: "2020 — 2026",
       title: "B.Sc. Bilgisayar Mühendisliği (İngilizce)",
       org: "Doğu Akdeniz Üniversitesi",
       points: [
-        "Algoritma, veri yapıları ve sistem tasarımı üzerine akademik temel oluşturdu.",
+        "Algoritma, veri yapıları, OOP (Java/C), yazılım mühendisliği ve sistem tasarımı üzerine akademik temel.",
+        "Bitirme projesi Bloomedu ile ürünleştirme ve jüri sunumu deneyimi.",
       ],
     },
   ],
   techStack: [
     {
-      group: "Frontend",
-      items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Motion"],
+      group: "Frontend & Mobil",
+      items: [
+        "React",
+        "Next.js",
+        "React Native",
+        "TypeScript",
+        "Tailwind CSS",
+        "Motion",
+      ],
     },
     {
       group: "Backend & Veri",
-      items: ["Node.js", "Server Actions", "PostgreSQL", "Drizzle ORM", "Redis"],
+      items: [
+        "Node.js",
+        "Express",
+        "Server Actions",
+        "PostgreSQL",
+        "Drizzle ORM",
+        "Redis",
+        "Firebase",
+      ],
     },
     {
-      group: "Dil & Algoritma",
-      items: ["Python", "Java", "C", "Veri Yapıları", "OOP"],
+      group: "İçerik & CMS",
+      items: ["MDX", "Sanity", "Zod", "ISR / SSG"],
     },
     {
-      group: "AI & Otomasyon",
-      items: ["LLM Entegrasyonu", "Prompt Akışları", "Zod", "REST API"],
+      group: "Dil & Akademik Temel",
+      items: ["Python", "Java", "C", "Veri Yapıları", "OOP", "Algoritma"],
+    },
+    {
+      group: "AI & Ürün",
+      items: ["OpenAI API", "Prompt akışları", "Adaptif öğrenme", "REST"],
     },
     {
       group: "Araçlar & Operasyon",
-      items: ["Git", "GitHub Actions", "Vitest", "Playwright", "Vercel"],
+      items: ["Git", "GitHub Actions", "Vitest", "Playwright", "Vercel", "Resend"],
     },
   ],
 } as const;

@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import {
-  fetchGithubRepoByFullName,
   fetchRecentGithubRepos,
   type GithubRepoSummary,
 } from "@/lib/github-repos";
@@ -11,27 +10,6 @@ import { GitLogFeed, type GitLogEntry } from "@/components/git-log-feed";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 
-async function resolvePinnedRepos(): Promise<GithubRepoSummary[]> {
-  const configured = siteConfig.githubPinned;
-  const resolved = await Promise.all(
-    configured.map(async (pin) => {
-      const live = await fetchGithubRepoByFullName(pin.fullName);
-      return {
-        name: live?.name ?? pin.name,
-        description: live?.description ?? pin.description,
-        html_url: live?.html_url ?? pin.html_url,
-        pushed_at: live?.pushed_at ?? "",
-        stargazers_count: live?.stargazers_count,
-        language: live?.language ?? pin.language,
-        pinned: true,
-        badge: pin.badge,
-        caseStudy: pin.caseStudy,
-      } satisfies GithubRepoSummary;
-    }),
-  );
-  return resolved;
-}
-
 function RepoCard({
   repo,
   index,
@@ -39,24 +17,13 @@ function RepoCard({
   repo: GithubRepoSummary;
   index: number;
 }) {
-  const primaryHref = repo.caseStudy ?? repo.html_url;
-  const isExternal = !repo.caseStudy;
-
   return (
     <Reveal index={index} className="h-full">
-      <article
-        className={`surface-card group flex h-full flex-col p-5 ${
-          repo.pinned ? "border-signal/30 ring-1 ring-signal/20" : ""
-        }`}
-      >
+      <article className="surface-card group flex h-full flex-col p-5">
         <div className="relative flex items-start justify-between gap-3">
           <h3 className="font-semibold text-foreground">{repo.name}</h3>
-          {repo.pinned ? (
-            <span className="shrink-0 rounded-full border border-signal/30 bg-signal/[0.08] px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-signal">
-              {repo.badge ?? "pinned"}
-            </span>
-          ) : typeof repo.stargazers_count === "number" &&
-            repo.stargazers_count > 0 ? (
+          {typeof repo.stargazers_count === "number" &&
+          repo.stargazers_count > 0 ? (
             <span className="font-mono text-xs text-muted-foreground">
               ★ {repo.stargazers_count}
             </span>
@@ -73,24 +40,20 @@ function RepoCard({
               <span className="signal-dot size-1.5" />
               {repo.language}
             </span>
-          ) : null}
-          {isExternal ? (
-            <a
-              href={primaryHref}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
-            >
-              Repoyu aç →
-            </a>
           ) : (
-            <Link
-              href={primaryHref}
-              className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
-            >
-              Case study →
-            </Link>
+            <span className="inline-flex items-center gap-1.5 text-muted-foreground/70">
+              <span className="size-1.5 rounded-full bg-border" />
+              dil bilinmiyor
+            </span>
           )}
+          <a
+            href={repo.html_url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
+          >
+            Repoyu aç →
+          </a>
         </div>
       </article>
     </Reveal>
@@ -101,17 +64,11 @@ export async function GithubActivitySection() {
   const login = getGithubUsername();
   if (!login) return null;
 
-  const [repos, pinned] = await Promise.all([
-    fetchRecentGithubRepos(login),
-    resolvePinnedRepos(),
-  ]);
-
+  const repos = await fetchRecentGithubRepos(login);
   const recentFailed = repos === null;
-  const recent = (repos ?? []).filter(
-    (r) => !pinned.some((p) => p.name.toLowerCase() === r.name.toLowerCase()),
-  );
+  const recent = repos ?? [];
 
-  if (!recent.length && !pinned.length) {
+  if (!recent.length) {
     return (
       <section
         id="github"
@@ -120,12 +77,14 @@ export async function GithubActivitySection() {
         <div className="mx-auto max-w-5xl rounded-xl border border-border bg-card/60 p-6 backdrop-blur-sm">
           <h2 className="text-xl font-semibold text-foreground">GitHub</h2>
           <p className="mt-2 text-sm leading-7 text-muted-foreground">
-            Repo listesi yüklenemedi (API limiti veya kullanıcı adı).{" "}
+            {recentFailed
+              ? "Repo listesi yüklenemedi (API limiti veya ağ)."
+              : "Henüz listelenecek recent repo yok."}{" "}
             <Link
               href={siteConfig.github}
               className="underline underline-offset-4 hover:text-foreground"
             >
-              Profil bağlantını kontrol et
+              Profili aç
             </Link>
             .
           </p>
@@ -134,17 +93,20 @@ export async function GithubActivitySection() {
     );
   }
 
-  // Log feed yalnızca recent — pinned (ör. Bloomedu) "canlı WIP" gibi görünmesin
   const logEntries: GitLogEntry[] = recent.slice(0, 6).map((repo) => ({
     repo: repo.name,
     language: repo.language ?? null,
     url: repo.html_url,
   }));
 
+  const languages = Array.from(
+    new Set(recent.map((r) => r.language).filter(Boolean)),
+  ) as string[];
+
   return (
     <section
       id="github"
-      className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-24 sm:px-6 sm:py-32"
+      className="scroll-mt-24 border-y border-border bg-muted/30 px-4 py-14 sm:px-6 sm:py-28"
     >
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
@@ -154,8 +116,7 @@ export async function GithubActivitySection() {
               Canlı geliştirme aktivitesi
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Üstte pinned kanıt (yayında ürünler); altta GitHub API’den gerçek
-              recent repo feed’i — sahte commit hash yok.
+              GitHub API’den gerçek recent repo feed’i — sahte commit hash yok.
             </p>
           </div>
           <Link
@@ -168,45 +129,46 @@ export async function GithubActivitySection() {
           </Link>
         </div>
 
-        {recentFailed && pinned.length > 0 ? (
-          <p
-            role="status"
-            className="mt-6 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-foreground"
+        {/* Craft strip — recent kart tasarımına dokunmadan üst sinyal */}
+        <div className="mt-8 flex flex-wrap items-center gap-2 rounded-[var(--radius-lg)] border border-border bg-card/40 px-4 py-3">
+          <span className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+            signal.pulse
+          </span>
+          <span className="text-muted-foreground/40">·</span>
+          <span className="font-mono text-xs text-foreground/80">
+            {recent.length} recent repo
+          </span>
+          {languages.slice(0, 5).map((lang) => (
+            <span
+              key={lang}
+              className="rounded-md border border-border bg-muted/40 px-2 py-0.5 font-mono text-[0.65rem] text-muted-foreground"
+            >
+              {lang}
+            </span>
+          ))}
+          <a
+            href={`https://github.com/${login}?tab=repositories`}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="ml-auto font-mono text-[0.65rem] text-signal hover:underline"
           >
-            Recent repo listesi şu an alınamadı; pinned kanıtlar gösteriliyor.
-          </p>
-        ) : null}
-
-        {pinned.length > 0 ? (
-          <div className="mt-10">
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-signal">
-              pinned.proof · yayında
-            </p>
-            <ul className="mt-4 grid gap-4 sm:grid-cols-2">
-              {pinned.map((repo, index) => (
-                <li key={`pinned-${repo.html_url}`}>
-                  <RepoCard repo={repo} index={index} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
+            tüm repolar ↗
+          </a>
+        </div>
 
         {logEntries.length > 0 ? (
-          <Reveal className="mt-10">
+          <Reveal className="mt-8">
             <GitLogFeed entries={logEntries} />
           </Reveal>
         ) : null}
 
-        {recent.length > 0 ? (
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-            {recent.slice(0, 6).map((repo, index) => (
-              <li key={repo.html_url}>
-                <RepoCard repo={repo} index={index + pinned.length} />
-              </li>
-            ))}
-          </ul>
-        ) : null}
+        <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+          {recent.slice(0, 6).map((repo, index) => (
+            <li key={repo.html_url}>
+              <RepoCard repo={repo} index={index} />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -1,41 +1,50 @@
 ---
 title: "Bloomedu: AI Destekli Kişiselleştirilmiş Eğitim"
-description: "Bloom Taksonomisi'ni temel alarak öğrencilerin bilişsel gelişimini yapay zeka ile dinamik olarak analiz eden ve kişiselleştiren EdTech girişimi."
+description: "Otizm spektrumundaki çocuklar için eğitim oyunları — React Native istemci, Express/Postgres backend ve LLM destekli adaptif akış. TÜBİTAK BİGG Akdeniz kabulü."
 date: "2026-04-09"
 tags:
-  - Next.js
-  - AI Integration
+  - React Native
+  - Express
   - PostgreSQL
+  - OpenAI
   - EdTech
 category: full-stack
-problem: "Geleneksel eğitim platformları öğrenciyi çoğunlukla tek skorla değerlendiriyor; öğretmen ise öğrencinin Bloom Taksonomisi'nde hangi bilişsel basamakta zorlandığını anlık ve açıklanabilir şekilde göremiyor."
-decision: "Klasik sabit test akışı yerine LLM destekli adaptif motor seçildi; öğrenci yanıtları taksonomi basamağına göre yorumlanıp ilişkisel veride izlenerek hem kişiselleştirilmiş soru üretimi hem de öğretmen için takip edilebilir gelişim modeli kurgulandı."
-impact: "14 takım arasından En İyi Proje seçildi; teknik derinliği ve ticarileşme potansiyeliyle TÜBİTAK BİGG 1812 Akdeniz 2026-1 dönemi ön jüri sunumuna kabul edildi."
+problem: "Geleneksel eğitim araçları öğrenciyi tek skorla ölçüyor; bilişsel basamağı ve bireysel ilerlemeyi açıklanabilir şekilde takip etmek zor."
+decision: "Sabit test yerine RN mobil istemci + Express/Postgres backend + LLM destekli adaptif motor seçildi; oturum, seviye ve gelişim verisi ilişkisel modelde tutuldu."
+impact: "Üniversite bitirme projeleri arasından jüri tarafından en iyi proje seçildi; TÜBİTAK BİGG 1812 Akdeniz programına kabul aldık. Ön jüri / ticarileşme süreci devam ediyor."
 status: live
 repo: "https://github.com/somethn7/Bloomedu"
 featured: true
+gallery:
+  - src: "/images/projects/bloomedu/01.png"
+    alt: "Bloomedu uygulama ekranı 1"
+    caption: "Mobil istemci · giriş / akış"
+  - src: "/images/projects/bloomedu/02.png"
+    alt: "Bloomedu uygulama ekranı 2"
+    caption: "Oyun seviyeleri · kategoriler"
+  - src: "/images/projects/bloomedu/03.png"
+    alt: "Bloomedu uygulama ekranı 3"
+    caption: "Etkileşim · öğrenme oturumu"
+  - src: "/images/projects/bloomedu/04.png"
+    alt: "Bloomedu uygulama ekranı 4"
+    caption: "İlerleme · geri bildirim"
+  - src: "/images/projects/bloomedu/05.png"
+    alt: "Bloomedu uygulama ekranı 5"
+    caption: "Ürün yüzeyi · detay"
 ---
 
-Her öğrencinin öğrenme hızı, bilgiyi işleme biçimi ve bilişsel algısı birbirinden tamamen farklıdır. Ancak mevcut eğitim platformlarının çoğu, tüm öğrencileri aynı statik testlerden geçirerek başarıyı sadece bir "skor" olarak ölçer. **Bloomedu**, bu sorunu kökünden çözmek için Bloom Taksonomisi'nin pedagojik gücünü modern yapay zeka yetenekleriyle birleştiren bir girişim olarak doğdu.
+**Bloomedu**, Bloom Taksonomisi düşüncesini modern AI yetenekleriyle birleştiren bir EdTech ürünüdür. Ekip reposu: [`somethn7/Bloomedu`](https://github.com/somethn7/Bloomedu).
 
-Ekip arkadaşlarımla birlikte hayata geçirdiğimiz bu projede, teknik altyapıyı tamamen bir "startup" mantığıyla ölçeklenebilir ve adaptif olacak şekilde tasarladık. Kaynak kod: ekip reposu [`somethn7/Bloomedu`](https://github.com/somethn7/Bloomedu).
+### Mimari
 
-### Mimari ve Teknik Yaklaşım
+- **İstemci:** React Native — seviye/kategori oyunları, navigasyon, TTS ve yerel depolama
+- **Backend:** Express + PostgreSQL (Supabase/Railway) — oturum, oyun verisi, mail
+- **AI:** OpenAI ile sohbet / adaptif prompt akışları; “cevap anahtarı” değil Sokratik eğitmen rolü
 
-Bir öğrenci Bloomedu sistemine girdiğinde, karşılaştığı sorular statik bir veritabanından rastgele çekilmez. Sistem arka planda şu veri akışını işletir:
+### BİGG süreci (dürüst özet)
 
-1. **Bilişsel Seviye Tespiti:** Öğrencinin verdiği ilk yanıtlar yapay zeka (LLM) tarafından analiz edilir. Öğrenci sadece formülü mü hatırlıyor (Bilgi/Hatırlama), yoksa formülü farklı bir senaryoya uyarlayabiliyor mu (Uygulama/Analiz)?
-2. **Dinamik Prompt Mühendisliği (Prompt Engineering):** Sistem, öğrencinin takıldığı basamağı tespit ettiğinde, arka planda LLM'e özel yapılandırılmış promptlar gönderir. Örneğin; *"Öğrenci 'Uygulama' basamağında zorlanıyor. Ona bu konunun pratik hayattaki kullanımını sorgulatan, ipucu destekli yeni bir soru üret."*
-3. **Gerçek Zamanlı Gelişim Takibi:** Elde edilen veriler, ilişkisel veritabanımızda loglanarak hem öğretmenler hem de öğrenciler için anlamlı grafiklere ve gelişim raporlarına dönüştürülür.
+Bloomedu yalnızca bir bitirme projesi olarak kalmadı. Üniversite jürisi tarafından bitirme projeleri arasından **en iyi proje** seçildi ve **TÜBİTAK BİGG 1812 Akdeniz** programına **kabul** aldık. Bu, “BİGG En İyi Proje ödülü” iddiası değil; program kabulü + üniversite jüri seçimidir.
 
-### Karşılaşılan Zorluklar ve Çözümler
+### Öğrendiklerim
 
-Yapay zekayı bir "cevap makinesi" olmaktan çıkarıp bir "öğretmen" formatına sokmak teknik açıdan zorluydu. Başlangıçta LLM, öğrencilere doğrudan doğru cevabı verme eğilimindeydi. 
-
-Bu sorunu çözmek için **Sistem Promptlarını (System Prompts)** çok katmanlı hale getirdik. Yapay zekaya, *"Sen bir cevap anahtarı değilsin, sen Sokratik sorgulama yapan bir eğitmensin"* rolünü vererek halüsinasyonları (hallucination) ve kolaya kaçma durumlarını minimize ettik. Ayrıca API maliyetlerini düşürmek için, her etkileşimde tam bağlam (full context) göndermek yerine, sadece öğrencinin mevcut taksonomi vektörünü gönderdiğimiz optimize edilmiş bir caching (önbellekleme) yapısı kurguladık.
-
-### Girişimcilik ve BİGG Süreci
-
-Bloomedu, sadece kodladığımız bir proje olarak kalmadı. 14 takım arasından **En İyi Proje** seçilmesi ve Antalya Teknokent'te gerçekleştirilen **TÜBİTAK BİGG 1812 Ön Jüri Sunumu** sürecine kabul edilmesi, teknik bir mimariyi iş modeline dönüştürme ve ticarileşme stratejilerini (B2B ve B2C eğitim modelleri) yatırımcılara aktarma konusunda bize muazzam bir vizyon kattı.
-
-Mühendislik, sadece çalışan kod yazmak değil; doğru problemi tespit edip, en optimum teknolojiyle o problemi çözmektir. Bloomedu, benim bu felsefeyi tam anlamıyla hayata geçirdiğim en değerli ürünlerden biridir.
+Ürünü pedagojik bir problem etrafında şekillendirmek, API maliyetini prompt/context disipliniyle yönetmek ve mobil–backend ayrımını production’a yakın tutmak — Bloomedu’nun bana kattığı asıl mühendislik dersleri bunlar.

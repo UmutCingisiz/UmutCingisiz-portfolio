@@ -9,7 +9,6 @@ import { GithubActivitySkeleton } from "@/components/github-activity-skeleton";
 import { HashScroll } from "@/components/hash-scroll";
 import { Hero } from "@/components/hero";
 import { HiringProofSection } from "@/components/hiring-proof-section";
-import { QualityStandardsSection } from "@/components/quality-standards-section";
 import { SkillsSection } from "@/components/skills-section";
 import { StatusBanner } from "@/components/status-banner";
 import { TerminalPrompt } from "@/components/terminal-prompt";
@@ -46,7 +45,6 @@ export default async function Home({
       <SkillsSection />
       <FeaturedProjects />
       <HiringProofSection />
-      <QualityStandardsSection />
       <AlgorithmLabIsland />
       <Suspense fallback={<GithubActivitySkeleton />}>
         <GithubActivitySection />

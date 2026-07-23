@@ -25,11 +25,11 @@ export function FeaturedProjectsList({ projects }: Props) {
           <div>
             <SectionEyebrow>selected.case_studies</SectionEyebrow>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Vitrin değil, kararların ve sonuçların kanıt panosu.
+              Seçilmiş vaka çalışmaları — problem, karar, etki.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
-              Bu kartlar &ldquo;ne kullandım?&rdquo; listesinden daha fazlası: problem,
-              mühendislik kararı, teknik risk ve sonuç hikayesini görünür kılar.
+              Her kart bir ürün hikâyesi: neyi çözdüm, neden o mimariyi seçtim,
+              sonuç ne oldu. Tech badge listesi değil.
             </p>
           </div>
           <Link
@@ -51,7 +51,7 @@ export function FeaturedProjectsList({ projects }: Props) {
             .
           </p>
         ) : (
-          <ul className="mt-12 grid gap-6 lg:grid-cols-2">
+          <ul className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {projects.map((p, i) => (
               <li key={p.slug}>
                 <Reveal index={i} className="h-full">

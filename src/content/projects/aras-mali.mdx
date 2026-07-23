@@ -1,6 +1,6 @@
 ---
 title: "Aras Mali Müşavirlik: Sanity CMS’li Kurumsal Web"
-description: "TÜRMOB üyesi mali müşavirlik ofisi için Next.js + Sanity CMS ile SEO odaklı kurumsal site — hizmetler, blog, vergi takvimi, hesaplama araçları ve randevu/iletişim akışı."
+description: "TÜRMOB odaklı mali müşavirlik ofisi için Next.js + Sanity — hizmetler, blog, vergi takvimi, hesaplayıcılar ve randevu/iletişim."
 date: "2026-07-18"
 tags:
   - Next.js
@@ -10,11 +10,11 @@ tags:
   - SEO
   - Tailwind CSS
 category: full-stack
-problem: "Wix/WordPress tabanlı mali müşavirlik siteleri yavaş yükleniyor, Core Web Vitals zayıf kalıyor ve yazılımcı olmayan ofis sahibinin içeriği güvenle güncellemesi zorlaşıyor."
-decision: "Next.js App Router (SSG/ISR) + Sanity CMS (e-posta/şifre Studio) + Resend formları seçildi; GROQ ile tip-güvenli içerik, JSON-LD/sitemap SEO omurgası, KDV/maaş/stopaj hesaplayıcıları ve WhatsApp/randevu CTA’ları aynı üründe birleştirildi."
-impact: "Hedef: arasmali.com üzerinde hızlı, SEO dostu kurumsal vitrin; ofisin blog/hizmet/vergi takvimini Studio’dan güncellemesi; nitelikli lead ve randevu dönüşümü. Aktif geliştirme aşamasında."
+problem: "Wix/WordPress kurumsal siteler yavaş kalıyor; ofis sahibi içeriği güvenle ve sık güncelleyemiyor; lead/randevu dönüşümü zayıf."
+decision: "Next.js App Router (SSG/ISR) + Sanity Studio + Resend formları; GROQ ile tip-güvenli içerik, JSON-LD/SEO omurgası ve KDV/maaş/stopaj araçları aynı üründe."
+impact: "Hedef: hızlı, SEO dostu kurumsal vitrin; Studio’dan içerik güncelleme; nitelikli lead. Aktif geliştirme — canlı domain hazırlığı sürüyor."
 status: in-progress
-featured: false
+featured: true
 gallery:
   - src: "/images/projects/aras-mali/01.png"
     alt: "Aras Mali ana sayfa hero — TÜRMOB üyesi kurumsal vitrin"
@@ -33,23 +33,23 @@ gallery:
     caption: "Hizmetler · detay linkleri"
 ---
 
-**Aras Mali Müşavirlik** için geliştirdiğim kurumsal web ürünü; muhasebe, vergi danışmanlığı, bordro, şirket kuruluşu ve finansal danışmanlık hizmetlerini tek bir modern yüzeyde toplar. Admin paneli GitHub gerektirmez — ofis sahibi `/studio` üzerinden e-posta/şifre ile içerik yönetir.
+**Aras Mali Müşavirlik** için geliştirdiğim kurumsal web; muhasebe, vergi, bordro ve danışmanlık hizmetlerini modern bir yüzeyde toplar. Admin paneli GitHub bilmez — ofis sahibi `/studio` üzerinden e-posta/şifre ile içerik yönetir.
 
-## Ürün yüzeyi
+### Ürün yüzeyi
 
-- **Ana sayfa:** Hero, sayaçlar, hizmet özeti, son yazılar, referanslar, SSS, CTA
-- **Hizmetler:** Dinamik slug’lı detay sayfaları (SEO için kritik)
-- **Blog + Vergi Takvimi:** Mevzuat ve beyanname takibi — Sanity collection’ları
-- **Hesaplama araçları:** KDV, net–brüt maaş, stopaj ön hesaplayıcıları
-- **İletişim / randevu:** Zod + Resend Server Action, WhatsApp butonu, harita
+- Ana sayfa: hero, hizmet özeti, yazılar, SSS, CTA
+- Hizmetler: dinamik slug detayları (SEO)
+- Blog + vergi takvimi: Sanity collection’ları
+- Hesaplayıcılar: KDV, net–brüt maaş, stopaj
+- İletişim / randevu: Zod + Resend Server Action, WhatsApp
 
-## Mimari kararlar
+### Mimari
 
-1. **Sanity Content Lake + ISR:** İçerik kaydı → webhook → Vercel revalidate; teknik bilgi olmadan yayın
-2. **Fallback veri katmanı:** Sanity henüz bağlı değilken de site ayakta kalsın diye typed fallback içerik
-3. **Server-first sayfalar:** Animasyonlar izole client bileşenlerde; SSG/SEO avantajı korunur
-4. **SEO omurgası:** metadata şablonu, sitemap, robots, JSON-LD (Organization / FAQ)
+1. Sanity Content Lake + ISR / revalidate
+2. Typed fallback içerik (CMS bağlanana kadar ayakta kalma)
+3. Server-first sayfalar; animasyonlar izole client adalarında
+4. metadata, sitemap, robots, JSON-LD
 
-## Durum
+### Durum
 
-Geliştirme devam ediyor. Canlı domain hedefi `arasmali.com`; production env ve Sanity proje bağları tamamlandıkça yayınlanacak.
+Geliştirme devam ediyor. Production env ve Sanity bağları tamamlandıkça yayınlanacak.

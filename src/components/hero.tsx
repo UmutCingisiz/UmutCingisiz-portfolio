@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { ContactLink } from "@/components/contact-link";
+import { Magnetic } from "@/components/magnetic";
 import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
@@ -14,6 +15,15 @@ function ArrowRightIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M3.333 8h9.334M8.667 4l4 4-4 4" />
+    </svg>
+  );
+}
+
+function DownloadIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M8 2.5v7.5M5 7.5l3 3 3-3" />
+      <path d="M3 13.5h10" />
     </svg>
   );
 }
@@ -93,21 +103,27 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
-            <ContactLink className="btn-signal group inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 sm:h-12">
-              İletişim
-              <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
-            </ContactLink>
-            <Link
-              href="/projects"
-              className="inline-flex h-11 items-center rounded-xl border border-border bg-card/55 px-5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted sm:h-12"
-            >
-              Projeleri İncele
-            </Link>
+            <Magnetic>
+              <ContactLink className="btn-signal group inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 sm:h-12">
+                İletişim
+                <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </ContactLink>
+            </Magnetic>
+            <Magnetic strength={0.28}>
+              <Link
+                href="/projects"
+                className="btn-outline-rise group inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold sm:h-12"
+              >
+                Projeleri İncele
+                <ArrowRightIcon className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </Link>
+            </Magnetic>
             <a
               href="/api/resume"
               download="Umut-Cingisiz-CV.pdf"
-              className="inline-flex h-11 items-center rounded-xl px-4 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground sm:h-12"
+              className="btn-ghost-rise group inline-flex h-11 items-center gap-2 rounded-xl px-4 text-sm font-medium sm:h-12"
             >
+              <DownloadIcon className="size-4 transition-transform duration-200 group-hover:translate-y-0.5" />
               CV İndir
             </a>
           </div>

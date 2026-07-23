@@ -1,19 +1,19 @@
 ---
 title: "Zeki Dekorasyon: Performans Odaklı Dijital Katalog"
-description: "Next.js mimarisiyle inşa edilmiş, yüksek çözünürlüklü görselleri milisaniyeler içinde sunan SEO uyumlu bahçe mobilyaları vitrini."
+description: "Next.js + Tailwind ile bahçe mobilyaları kataloğu — SSG, next/image ve ölçülebilir Core Web Vitals odaklı vitrin."
 date: "2026-02-15"
 tags:
   - Next.js
   - SSG
   - Image Optimization
   - Tailwind CSS
-  - Frontend Architecture
+  - TypeScript
 category: full-stack
-problem: "Bahçe mobilyaları gibi görsel odaklı bir sektörde, yüksek çözünürlüklü ürün fotoğraflarının LCP performansını düşürmesi, katalog akışını yavaşlatması ve SEO görünürlüğünü zayıflatması."
-decision: "Geleneksel SPA yerine Next.js SSG, dosya tabanlı ürün modeli ve `next/image` optimizasyonu seçildi; böylece hızlı ilk yükleme, düşük bakım maliyeti ve ürün sayısı arttığında ölçeklenebilir katalog yapısı hedeflendi."
-impact: "Proje geliştirme aşamasında; hedef çıktı sıfıra yakın CLS, hızlı görsel katalog deneyimi ve küçük işletme için ölçülebilir organik görünürlük artışı."
+problem: "Görsel ağırlıklı bahçe mobilyası kataloğunda yüksek çözünürlüklü fotoğraflar LCP’yi düşürüyor, layout shift yaratıyor ve SEO’yu zayıflatıyor."
+decision: "SPA yerine Next.js SSG, dosya/ürün modeli ve next/image seçildi; aspect-ratio rezervi ile CLS kontrolü, lazy-load ve WebP dönüşümü hedeflendi."
+impact: "Hızlı katalog gezintisi, düşük bakım maliyeti ve küçük işletme için ölçeklenebilir ürün sayfası iskeleti. Geliştirme / yayın hazırlığı devam ediyor."
 status: in-progress
-featured: false
+featured: true
 gallery:
   - src: "/images/projects/zeki-dekorasyon/01.png"
     alt: "Zeki Dekorasyon ana sayfa hero ve kategori kartları"
@@ -32,24 +32,15 @@ gallery:
     caption: "Hakkımızda · timeline · footer"
 ---
 
-Görsel ağırlıklı bir sektör olan bahçe ve dış mekan mobilyalarında, müşterinin satın alma kararını doğrudan fotoğrafların kalitesi ve sitenin hızı belirler. **Zeki Dekorasyon** için geliştirdiğim dijital ürün kataloğunda temel mühendislik hedefim; yüksek çözünürlüklü ürün görsellerinden taviz vermeden, kullanıcıya anında tepki veren (instant-loading) bir arayüz sunmaktı.
+Görsel sektörlerde satın alma kararı çoğu zaman fotoğraf kalitesi ve sitenin hızıyla başlar. **Zeki Dekorasyon** için kurduğum dijital katalogda amaç; kaliteden ödün vermeden anında tepki veren bir arayüz sunmaktı.
 
-Müşterinin mevcut hantal yapısını, modern web teknolojileriyle baştan aşağı yeniden kurguladım.
+### Mimari kararlar
 
-### Mimari Kararlar ve Performans Optimizasyonu
-
-Bir e-ticaret veya katalog sitesini yavaşlatan en büyük unsur istemci tarafında (client-side) yapılan ağır veri çekme işlemleri ve optimize edilmemiş fotoğraflardır. Bu darboğazı aşmak için şu mimari adımları izledim:
-
-1. **Static Site Generation (SSG) ile Ön Derleme:** Ürün sayfalarını her kullanıcı girdiğinde veritabanından çekmek yerine, build (derleme) aşamasında Next.js ile statik HTML dosyalarına dönüştürdüm. Bu sayede sunucu yanıt süresi (TTFB) milisaniyeler seviyesine indi.
-2. **Gelişmiş Görsel Yönetimi:** Sitedeki tüm ürün karelerini `next/image` bileşeni ile entegre ettim. Bu sayede görseller, kullanıcının cihazına ve ekran çözünürlüğüne göre otomatik olarak boyutlandırıldı (srcset), WebP formatına çevrildi ve sadece ekranda göründüklerinde yüklenecek (lazy-loading) şekilde optimize edildi.
-3. **Layout Shift (Düzen Kayması) Koruması:** Fotoğrafların yüklenme esnasında metinleri aşağı iterek kötü bir deneyim yaratmasını önlemek için, görsellerin en-boy oranlarını (aspect ratio) önceden belirleyerek sayfa iskeletini sabitledim.
-
-### Darboğazlar ve Teknik Çözümler
-
-Geliştirme sürecinde, ürün dizin yapılarının (directory structures) büyümesiyle birlikte build hatalarıyla karşılaştım. Özellikle dinamik sayfa yollarının (dynamic routes) oluşturulmasında veri bütünlüğünü sağlamak gerekiyordu. 
-
-Veri katmanını ve dosya dizinlerini modüler bir yapıya ayırarak, Next.js'in `generateStaticParams` metodunu ürün ID'leri ve kategori slug'ları ile tam uyumlu çalışacak şekilde yeniden düzenledim. Bu refactor işlemi, projenin sadece daha hızlı çalışmasını değil, gelecekte eklenecek yüzlerce yeni ürün için de kusursuz bir şekilde ölçeklenebilmesini (scalability) sağladı.
+1. **SSG:** Ürün sayfalarını build’de statik HTML’e çevirerek TTFB’yi düşürmek
+2. **next/image:** srcset, WebP ve lazy-load ile cihazına uygun görsel sunmak
+3. **Aspect-ratio rezervi:** yükleme sırasında metin kaymasını (CLS) engellemek
+4. **Modüler ürün modeli:** `generateStaticParams` ile büyüyen katalogda build bütünlüğü
 
 ### Sonuç
 
-Zeki Dekorasyon projesi; doğru teknoloji seçiminin (Next.js) ve detaylı performans optimizasyonunun, ticari bir işletmenin dijital varlığını nasıl dönüştürebileceğini gösteren güçlü bir vaka analizi oldu.
+Bu proje, doğru render stratejisinin küçük bir işletmenin dijital vitrinini nasıl dönüştürebileceğini gösteren pratik bir vaka çalışmasıdır.

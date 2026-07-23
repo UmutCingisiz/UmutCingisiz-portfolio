@@ -1,64 +1,34 @@
 # Audit — Kalan İşler
 
-**Güncelleme:** 2026-07-22 (kalan High/Med kapanış batch)
+**Güncelleme:** 2026-07-23 (içerik dürüstlük + UX batch)
 
 ---
 
-## Bu batch’te kapatıldı
+## Bu batch
 
 | Madde | Durum |
 |-------|--------|
-| Quality + tarihli Lighthouse footnote | ✅ checklist korundu; skor bento yok; `lighthouse-metrics.ts` bağlı |
-| Home ambient-orb bütçesi | ✅ ≤1 (yalnızca Hero) |
-| Hero CLS (max-h vs aspect) | ✅ aspect rezervi; çelişen `max-h` kaldırıldı |
-| OG dil parity | ✅ `Müsait` |
-| Skills growing proof linkleri | ✅ Bloomedu / blog / guestbook |
-| Contact fail-closed unit test | ✅ `tests/contact-fail-closed.test.ts` + `decideContactRateLimit` |
+| Hero CTA hover (Projeler / CV) | ✅ İletişim’den farklı dil (`btn-outline-rise` / `btn-ghost-rise`) |
+| about + milestones dürüstlük | ✅ kulüp üye · BİGG Akdeniz kabulü · 2020–2026 |
+| stack.map / tech.stack | ✅ güçlü/gelişen ayrı · proje kanıtlı |
+| selected.case_studies | ✅ copy + 3 featured |
+| hiring.proof | ✅ eski sticky/reviewer + yeni artifact linkleri |
+| quality.standards | ❌ kaldırıldı — amaç hiring/CI ile örtüşüyordu; Lighthouse satırı hiring’e taşındı |
+| github pinned | ❌ kaldırıldı · `signal.pulse` strip · Java language override |
+| Proje MDX + lightbox | ✅ Bloomedu görseller · büyütülebilir galeri |
+| Metin yoğunluğu | ✅ bölüm padding / kısa copy |
 
 ---
 
-## P1 — daha önce kapatıldı
-
-| Madde | Durum |
-|-------|--------|
-| Gerçek Lighthouse + tarih | ✅ `src/lib/lighthouse-metrics.ts` |
-| Contact Playwright e2e | ✅ `e2e/contact.spec.ts` + `CONTACT_E2E_MOCK=1` |
-| `error.tsx` noindex | ✅ robots meta inject |
-
-Yeniden ölçüm: `npm run lighthouse:home` → skorları `lighthouse-metrics.ts` içine kopyala.
-
----
-
-## Manuel QA (insan — release checklist)
+## Manuel QA (insan)
 
 - [ ] Safari smoke
-- [ ] Keyboard navigation (desktop + mobil menü)
-- [ ] Screen reader: menü `aria-expanded`
-- [ ] Contact gerçek gönderim (1 mesaj, spam değil)
-- [ ] Recruiter 30 sn testi
+- [ ] Keyboard + lightbox Escape
+- [ ] Contact gerçek gönderim
+- [ ] Recruiter 30 sn / dürüstlük kontrolü (BİGG dili)
 
 ---
 
-## V3 / uzun dönem (release blocker değil)
+## V3
 
-| Madde | Not |
-|-------|-----|
-| Guestbook ISR / cache | Hâlâ `force-dynamic` |
-| Turnstile / anon guestbook | Bilinçli GitHub-only |
-| Full Motion bundle audit | Lab code-split yapıldı |
-| Coverage expansion (actions) | Gate şu an content + request-ip |
-| EN/TR i18n | Opsiyonel |
-| Perf iyileştirme | Son ölçüm (2026-07-22): Perf **72** · LCP **3.8s** · CLS **0** — LCP için sonraki iterasyon |
-
----
-
-## Dil kuralı (bilinçli)
-
-- Eyebrow / terminal / teknik etiketler → EN  
-- Açıklama gövdesi → TR  
-
----
-
-## Not
-
-Hero tilt/glow ve Hiring/Quality ayrımı senior review’da “dokunma / düşük ROI” olarak bırakıldı.
+Guestbook ISR · Turnstile · i18n · LCP iyileştirme (hâlâ ~3.8s)

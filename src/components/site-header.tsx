@@ -61,7 +61,7 @@ function useActiveHomeSection() {
       return;
     }
 
-    const ids = ["about", "skills", "projects", "hiring", "quality", "algorithm-lab", "github", "contact"];
+    const ids = ["about", "skills", "projects", "hiring", "algorithm-lab", "github", "contact"];
     const elements = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));

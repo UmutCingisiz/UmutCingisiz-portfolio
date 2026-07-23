@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-test("home page exposes hiring proof and quality standards", async ({ page }) => {
+test("home page exposes hiring proof and project CTAs", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.getByRole("heading", { name: /Umut Cingisiz/i })).toBeVisible();
   await expect(page.getByText("hiring.proof")).toBeVisible();
-  await expect(page.getByText("quality.standards")).toBeVisible();
+  await expect(page.getByText("reviewer_path")).toBeVisible();
   await expect(page.getByRole("link", { name: "Projeleri İncele" })).toBeVisible();
 });
 

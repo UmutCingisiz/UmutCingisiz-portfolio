@@ -25,6 +25,24 @@ function BinaryIcon({ className }: { className?: string }) {
   );
 }
 
+function CatalogIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M3 10h18M9 4v16" />
+    </svg>
+  );
+}
+
+function CmsIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M4 6h16M4 12h10M4 18h14" />
+      <circle cx="18" cy="12" r="2" />
+    </svg>
+  );
+}
+
 function SparkIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -53,104 +71,127 @@ function ShieldIcon({ className }: { className?: string }) {
   );
 }
 
-type StrongSkill = {
+type SkillItem = {
   title: string;
   tagline: string;
-  proof: string;
-  href?: string;
-  icon: (props: { className?: string }) => ReactNode;
-};
-
-type GrowingSkill = {
-  title: string;
-  tagline: string;
+  body: string;
   proof: string;
   href: string;
   icon: (props: { className?: string }) => ReactNode;
 };
 
-/* Araç adları burada tekrar edilmiyor — o liste tek kaynak olarak
-   aşağıdaki "Kullandığım teknolojiler" bölümünde. Başlıklar da bilinçli
-   olarak tech.stack kategori adlarından farklı tutulur (örn. "AI & Otomasyon"
-   yerine "LLM Destekli Akışlar") — aynı etiketin iki kez görünmesini önler. */
-const strong: readonly StrongSkill[] = [
+const strong: readonly SkillItem[] = [
   {
     title: "Full-Stack Ürün Geliştirme",
-    tagline: "uçtan uca sistem",
-    proof: "2 yayında · 2 lab · auth'tan deploy'a",
+    tagline: "auth · db · CMS · deploy",
+    body: "Aras Mali (Next + Sanity), Zeki Dekorasyon (SSG katalog) ve bu portfolyo (Auth.js, Drizzle, Redis) ile uçtan uca ürün yüzeyi kuruyorum.",
+    proof: "portfolyo case study →",
+    href: "/projects/portfolio-web",
     icon: StackIcon,
   },
   {
+    title: "Performanslı Frontend / Katalog",
+    tagline: "SSG · next/image · CLS",
+    body: "Görsel ağırlıklı kataloglarda LCP ve layout shift’i kontrol altında tutmak için statik üretim ve görsel rezervasyonu kullanıyorum.",
+    proof: "Zeki Dekorasyon →",
+    href: "/projects/zeki-dekorasyon",
+    icon: CatalogIcon,
+  },
+  {
+    title: "İçerik Sistemleri & SEO",
+    tagline: "Sanity · MDX · metadata",
+    body: "Ofis sahibinin Studio’dan güncellediği kurumsal içerik ile typed MDX blog’u aynı disiplinle taşıyorum.",
+    proof: "Aras Mali →",
+    href: "/projects/aras-mali",
+    icon: CmsIcon,
+  },
+  {
     title: "Algoritmik Problem Çözme",
-    tagline: "rota & graph optimizasyonu",
-    proof: "40+ düğümlü simülasyon · algoritma lab →",
+    tagline: "akademik temel · lab",
+    body: "DAÜ müfredatı (veri yapıları, Java/C OOP) ve sitedeki algoritma lab’ı ile trade-off’ları görünür kılıyorum.",
+    proof: "algoritma lab →",
     href: "#algorithm-lab",
     icon: BinaryIcon,
   },
 ];
 
-const growing: readonly GrowingSkill[] = [
+const growing: readonly SkillItem[] = [
   {
-    title: "LLM Destekli Akışlar",
-    tagline: "prompt & agent tasarımı",
-    proof: "Bloomedu case study →",
+    title: "LLM Destekli Ürün Akışları",
+    tagline: "prompt · adaptif öğrenme",
+    body: "Bloomedu’da OpenAI entegrasyonu ve Sokratik prompt disiplini ile AI’yi ‘cevap makinesi’ olmaktan çıkarıp ürün davranışına bağladım.",
+    proof: "Bloomedu →",
     href: "/projects/bloomedu",
     icon: SparkIcon,
   },
   {
-    title: "Üretim Gözlemlenebilirliği",
-    tagline: "structured log · tracing",
-    proof: "güvenlik yazısı →",
-    href: "/blog/nextjs-server-actions-guvenlik",
+    title: "Mobil + Backend Ürün Çifti",
+    tagline: "React Native · Express · Postgres",
+    body: "Bloomedu Client/Backend ayrımıyla oturum, oyun seviyeleri ve AI chat’i production’a yakın bir hat üzerinde taşıyorum.",
+    proof: "Bloomedu repo →",
+    href: "/projects/bloomedu",
     icon: ServerIcon,
   },
   {
-    title: "Dağıtık Sistem Tasarımı",
-    tagline: "fail-safe · ölçeklenme",
-    proof: "guestbook auth + moderasyon →",
-    href: "/guestbook",
+    title: "Güvenlik & Kötüye Kullanım",
+    tagline: "OAuth · rate-limit · Zod",
+    body: "Guestbook ve iletişim formunda fail-closed rate limit, honeypot ve typed validation — büyüttüğüm ama her ship’te uyguladığım alan.",
+    proof: "güvenlik yazısı →",
+    href: "/blog/nextjs-server-actions-guvenlik",
     icon: ShieldIcon,
   },
 ];
 
-function StrongCard({
+function SkillCard({
   skill,
-  icon: Icon,
+  tone,
   index,
 }: {
-  skill: StrongSkill;
-  icon: (props: { className?: string }) => ReactNode;
+  skill: SkillItem;
+  tone: "strong" | "growing";
   index: number;
 }) {
+  const Icon = skill.icon;
   return (
     <Reveal index={index} className="h-full">
-      <article className="surface-card group relative flex h-full flex-col overflow-hidden p-7 sm:p-8">
-        <div className="relative flex items-start justify-between gap-4">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-signal">
-            <span className="signal-dot size-1.5" /> güçlü alan
+      <article className="surface-card group relative flex h-full flex-col p-5 sm:p-6">
+        <div className="flex items-start justify-between gap-3">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.14em] ${
+              tone === "strong"
+                ? "border-signal/25 bg-signal/[0.07] text-signal"
+                : "border-border bg-muted/40 text-muted-foreground"
+            }`}
+          >
+            {tone === "strong" ? (
+              <>
+                <span className="signal-dot size-1.5" /> güçlü
+              </>
+            ) : (
+              "gelişen"
+            )}
           </span>
-          <div className="flex size-16 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-signal/25 bg-signal/[0.08] text-signal">
-            <Icon className="size-8" />
+          <div
+            className={`flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-md)] border ${
+              tone === "strong"
+                ? "border-signal/25 bg-signal/[0.08] text-signal"
+                : "border-border bg-muted/50 text-muted-foreground"
+            }`}
+          >
+            <Icon className="size-5" />
           </div>
         </div>
-        <h3 className="relative mt-7 text-2xl font-bold tracking-tight text-foreground sm:text-[1.7rem]">
+        <h3 className="mt-4 text-lg font-semibold tracking-tight text-foreground">
           {skill.title}
         </h3>
-        <p className="relative mt-2 font-mono text-sm text-muted-foreground">
-          {skill.tagline}
-        </p>
-        {skill.href ? (
-          <Link
-            href={skill.href}
-            className="relative mt-auto pt-8 font-mono text-xs text-signal/80 underline-offset-4 transition-colors hover:text-signal hover:underline"
-          >
-            {skill.proof}
-          </Link>
-        ) : (
-          <p className="relative mt-auto pt-8 font-mono text-xs text-signal/80">
-            {skill.proof}
-          </p>
-        )}
+        <p className="mt-1 font-mono text-xs text-muted-foreground">{skill.tagline}</p>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">{skill.body}</p>
+        <Link
+          href={skill.href}
+          className="mt-auto pt-5 font-mono text-xs text-signal/85 underline-offset-4 transition-colors hover:text-signal hover:underline"
+        >
+          {skill.proof}
+        </Link>
       </article>
     </Reveal>
   );
@@ -160,65 +201,50 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-16 sm:px-6 sm:py-32"
+      className="relative scroll-mt-24 overflow-hidden border-y border-border bg-muted/20 px-4 py-14 sm:px-6 sm:py-28"
     >
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <SectionEyebrow>stack.map()</SectionEyebrow>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Güçlü olduğum ve büyüttüğüm alanlar.
+            Güçlü olduğum alanlar. Bilinçli büyüttüğüm alanlar.
           </h2>
-          <p className="mt-5 text-sm leading-7 text-muted-foreground">
-            Üretimde güvenle taşıdığım alanlar ve bilinçli büyüttüğüm
-            yetkinlikler — her biri proje veya lab çıktısına bağlanır.
+          <p className="mt-4 text-sm leading-7 text-muted-foreground">
+            Her madde gerçek bir projeye veya akademik temele bağlı — boş yetkinlik
+            listesi değil.
           </p>
         </div>
 
-        {/* Mobilde güçlü alanlar önce; lg’de solda gelişen / sağda güçlü. */}
-        <div className="mt-14 grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-stretch">
-          <div className="order-2 flex h-full flex-col gap-4 lg:order-1">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {"// geliştirdiğim alanlar"}
+        <div className="mt-12 space-y-12">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-signal">
+              {"// güçlü olduğum alanlar"}
             </p>
-            <div className="grid flex-1 gap-4 lg:grid-rows-3">
-              {growing.map((skill, index) => (
-                <Reveal key={skill.title} index={index} className="h-full">
-                  <article className="surface-card group relative flex h-full items-center gap-4 p-5">
-                    <div className="flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-border bg-muted/50 text-muted-foreground transition-colors duration-[var(--motion-base)] group-hover:border-signal/30 group-hover:text-signal">
-                      <skill.icon className="size-6" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
-                        gelişen
-                      </p>
-                      <h3 className="mt-1 text-balance font-semibold text-foreground">{skill.title}</h3>
-                      <p className="font-mono text-xs text-muted-foreground">{skill.tagline}</p>
-                      <Link
-                        href={skill.href}
-                        className="mt-2 inline-block font-mono text-[0.65rem] text-signal/80 underline-offset-4 transition-colors hover:text-signal hover:underline"
-                      >
-                        {skill.proof}
-                      </Link>
-                    </div>
-                  </article>
-                </Reveal>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {strong.map((skill, index) => (
+                <SkillCard key={skill.title} skill={skill} tone="strong" index={index} />
               ))}
             </div>
           </div>
 
-          <div className="order-1 flex h-full flex-col gap-4 lg:order-2">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-signal">
-              {"// güçlü olduğum alanlar"}
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              {"// geliştirdiğim alanlar"}
             </p>
-            <div className="grid flex-1 gap-4 sm:grid-cols-2">
-              <StrongCard skill={strong[0]} icon={StackIcon} index={0} />
-              <StrongCard skill={strong[1]} icon={BinaryIcon} index={1} />
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {growing.map((skill, index) => (
+                <SkillCard
+                  key={skill.title}
+                  skill={skill}
+                  tone="growing"
+                  index={index}
+                />
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Kullandığım teknolojiler — kategori bazlı */}
-        <div className="mt-16 border-t border-border pt-14">
+        <div className="mt-14 border-t border-border pt-12 sm:mt-16 sm:pt-14">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <SectionEyebrow>tech.stack</SectionEyebrow>
@@ -227,12 +253,12 @@ export function SkillsSection() {
               </h3>
             </div>
             <p className="max-w-sm text-sm leading-7 text-muted-foreground">
-              Üretimde tercih ettiğim araçlar; her biri gerçek projelerde
-              denenmiş.
+              Bloomedu, Aras Mali, Zeki Dekorasyon ve bu portfolyoda gerçekten
+              dokunduğum araçlar.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {siteConfig.techStack.map((group, index) => (
               <Reveal key={group.group} index={index} className="h-full">
                 <div className="premium-card group h-full rounded-2xl p-5">
