@@ -14,7 +14,7 @@ test("projects page shows case-study cards", async ({ page }) => {
 
   await expect(page.getByRole("heading", { name: /Projeler/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Bloomedu/i }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /Bu Portfolyo/i }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: /Bu portfolyo/i }).first()).toBeVisible();
   await expect(page.getByText("problem").first()).toBeVisible();
   await expect(page.getByText("decision").first()).toBeVisible();
 });
@@ -22,7 +22,7 @@ test("projects page shows case-study cards", async ({ page }) => {
 test("project detail exposes architectural decision cards", async ({ page }) => {
   await page.goto("/projects/portfolio-web");
 
-  await expect(page.getByRole("heading", { name: /Full-Stack Mühendislik Kanıtı/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /full-stack mühendislik kanıtı/i })).toBeVisible();
   await expect(page.getByText("architecture.decisions")).toBeVisible();
   await expect(page.getByRole("heading", { name: /Problem → karar → etki/i })).toBeVisible();
   await expect(page.getByText("product.screens")).toBeVisible();

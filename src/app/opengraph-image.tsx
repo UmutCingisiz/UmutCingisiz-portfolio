@@ -3,7 +3,7 @@ import path from "path";
 import { ImageResponse } from "next/og";
 import { siteConfig } from "@/lib/site-config";
 
-export const alt = `${siteConfig.name} — Full-Stack Portfolio`;
+export const alt = `${siteConfig.name} — full-stack portfolyo`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -118,20 +118,19 @@ export default async function Image() {
                 }}
               />
               <div
-                style={{
-                  display: "flex",
-                  fontSize: 16,
-                  fontFamily: "ui-monospace, monospace",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#34d399",
-                }}
-              >
-                Müsait
-              </div>
-              <div style={{ display: "flex", fontSize: 16, color: "#a1a1aa" }}>
-                · yeni fırsatlara açık
-              </div>
+              style={{
+                display: "flex",
+                fontSize: 16,
+                fontFamily: "ui-monospace, monospace",
+                letterSpacing: "0.04em",
+                color: "#34d399",
+              }}
+            >
+              Müsait
+            </div>
+            <div style={{ display: "flex", fontSize: 16, color: "#a1a1aa" }}>
+              · yeni fırsatlara açık
+            </div>
             </div>
 
             <div
@@ -140,8 +139,7 @@ export default async function Image() {
                 marginTop: 28,
                 fontSize: 18,
                 fontFamily: "ui-monospace, monospace",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
+                letterSpacing: "0.06em",
                 color: "#a1a1aa",
               }}
             >

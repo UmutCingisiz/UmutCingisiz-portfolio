@@ -217,23 +217,6 @@ export function Hero() {
             </div>
           ))}
         </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.35, ease: "easeOut" }}
-          className="order-4 hidden flex-wrap gap-1.5 sm:flex lg:col-span-2"
-          aria-label="Teknoloji sinyali"
-        >
-          {siteConfig.techSignal.map((tech) => (
-            <span
-              key={tech}
-              className="rounded-md border border-border/70 bg-muted/35 px-2 py-1 font-mono text-[0.65rem] text-muted-foreground"
-            >
-              {tech}
-            </span>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

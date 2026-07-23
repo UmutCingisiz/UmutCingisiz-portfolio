@@ -26,7 +26,7 @@ export function getSiteMetadata(): Metadata {
       "umutcingisiz",
       "UmutCingisiz",
       "umutcingisiz.com",
-      "Full-stack developer",
+      "full-stack developer",
       "Bilgisayar mühendisi",
       "Bloomedu",
       "Gazimağusa",

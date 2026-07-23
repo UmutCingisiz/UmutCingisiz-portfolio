@@ -58,24 +58,24 @@ const ciUrl = `${siteConfig.githubRepo.replace(/\/$/, "")}/actions`;
 
 const proofSignals: readonly Proof[] = [
   {
-    label: "architecture",
+    label: "mimari",
     title: "Uçtan uca ürün mimarisi",
     body: "App Router, Auth.js, Drizzle, Neon ve Redis aynı üründe — çalışan sistem.",
-    evidence: "Case study",
+    evidence: "Vaka çalışması",
     href: "/projects/portfolio-web",
     icon: ArchIcon,
   },
   {
-    label: "quality",
+    label: "kalite",
     title: "Kalite kapısı olan geliştirme",
     body: "Lint, typecheck, Vitest ve Playwright CI’da; bozulmadan büyüyen disiplin.",
-    evidence: "CI workflows",
+    evidence: "CI iş akışları",
     href: ciUrl,
     external: true,
     icon: QualityIcon,
   },
   {
-    label: "security",
+    label: "güvenlik",
     title: "Güvenlik farkındalığı",
     body: "OAuth, moderasyon, Zod, honeypot ve fail-closed rate-limit.",
     evidence: "Teknik yazı",
@@ -83,9 +83,9 @@ const proofSignals: readonly Proof[] = [
     icon: SecurityIcon,
   },
   {
-    label: "delivery",
+    label: "yayın",
     title: "Yayınlanabilir deneyim",
-    body: "SEO, OG, error/loading ve production servis planı — demo değil ship.",
+    body: "SEO, OG, error/loading ve production servis planı — demo değil canlı ürün.",
     evidence: "Guestbook",
     href: "/guestbook",
     icon: DeliveryIcon,
@@ -99,7 +99,7 @@ const reviewPath = [
 ] as const;
 
 const quickLinks = [
-  { value: "Projeler", label: "Case-study listesi", href: "/projects" },
+  { value: "Projeler", label: "Vaka listesi", href: "/projects" },
   { value: "Blog", label: "Teknik yazılar", href: "/blog" },
   { value: "CI", label: "Kalite pipeline", href: ciUrl, external: true },
   { value: "Guestbook", label: "Auth + moderasyon", href: "/guestbook" },

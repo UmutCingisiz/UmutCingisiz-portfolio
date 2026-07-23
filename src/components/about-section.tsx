@@ -5,17 +5,17 @@ import { Timeline } from "@/components/timeline";
 
 const cards = [
   {
-    eyebrow: "01 · systems",
+    eyebrow: "01 · sistem",
     title: "Özellik değil, sistem kurarım",
-    body: "Ekranı çizerken veri modeli, hata yolu ve güvenlik sınırını birlikte düşünürüm.",
+    body: "Bir ekranı çizerken veri modeli, hata yolu ve güvenlik sınırını aynı anda düşünürüm.",
   },
   {
-    eyebrow: "02 · craft",
+    eyebrow: "02 · zanaat",
     title: "Kodun niyeti okunabilir olmalı",
     body: "TypeScript, Zod ve net modül sınırlarıyla büyüyen projeyi kontrol altında tutarım.",
   },
   {
-    eyebrow: "03 · ship",
+    eyebrow: "03 · yayın",
     title: "Demo değil, yayınlanabilir ürün",
     body: "SEO, form güvenliği ve dürüst durum etiketleri — süs değil, kanıt.",
   },
@@ -32,27 +32,11 @@ export function AboutSection() {
           <div>
             <SectionEyebrow>about.engineer</SectionEyebrow>
             <h2 className="mt-3 text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Bilgisayar mühendisi. Ürün düşünen full-stack geliştirici.
+              Nasıl mühendislik yapıyorum
             </h2>
             <p className="mt-4 text-pretty text-sm leading-7 text-muted-foreground sm:text-base">
-              {siteConfig.shortBio} {siteConfig.location} merkezli çalışıyorum.
+              {siteConfig.description}
             </p>
-
-            <div className="surface-plain mt-6 p-4 sm:p-5">
-              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
-                Üretim kanıtları
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {siteConfig.proofPoints.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-[var(--radius-sm)] border border-border bg-muted/50 px-3 py-2 text-xs leading-snug text-foreground/85 sm:text-sm"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
           <div className="grid gap-3">

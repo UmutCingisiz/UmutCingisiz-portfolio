@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: "Umut Cingisiz",
-  role: "Bilgisayar mühendisi / Full-stack developer",
+  role: "Bilgisayar mühendisi · full-stack developer",
   location: "Gazimağusa, Kıbrıs",
-  availability: "Full-stack mühendislik rollerine açık",
+  availability: "Full-stack rollerine açık",
   profileImage: "/profile.jpg",
   resumePath: "/resume.pdf",
   /** Ana sayfa GitHub repoları + profil yedek görseli */
@@ -23,38 +23,23 @@ export const siteConfig = {
   },
   headline:
     "Sadece arayüz değil — uçtan uca, ölçeklenebilir sistemler tasarlıyorum.",
+  /** About bölümü — hero shortBio’dan farklı açı */
   description:
-    "Bu site bir vitrin değil; auth, veri modeli, rate-limit ve CI’nin birlikte çalıştığı küçük ölçekli bir mühendislik kanıtı.",
+    "Gazimağusa merkezli çalışıyorum. Ekranı çizerken veri modeli, güvenlik sınırı ve yayın yolunu birlikte kurarım.",
+  /** Hero kimlik cümlesi — BİGG detayı timeline’da */
   shortBio:
-    "DAÜ Bilgisayar Mühendisliği mezunu. Bloomedu ile TÜBİTAK BİGG Akdeniz’e kabul aldım; bitirme jürisinde en iyi proje seçildi. Full-stack ürünler ship ediyorum.",
+    "DAÜ bilgisayar mühendisliği mezunu. Auth, veri ve CI’nin birlikte çalıştığı full-stack ürünler kuruyorum.",
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
   /** CI / Actions — profil değil, bu portfolyo reposu */
   githubRepo: "https://github.com/UmutCingisiz/UmutCingisiz-portfolio",
   linkedin: "https://www.linkedin.com/in/umut-ibrahim-cingisiz-878053309",
   stats: [
-    { label: "Derece", value: "DAÜ Bilgisayar Müh." },
-    { label: "BİGG", value: "Akdeniz kabulü" },
-    { label: "Odak", value: "Full-stack ürün" },
+    { label: "Derece", value: "DAÜ bilgisayar müh." },
+    { label: "Konum", value: "Gazimağusa" },
+    { label: "Odak", value: "Ürün mühendisliği" },
   ],
-  techSignal: [
-    "Next.js",
-    "TypeScript",
-    "React Native",
-    "PostgreSQL",
-    "Sanity",
-    "Express",
-    "Python",
-    "Java",
-  ],
-  proofPoints: [
-    "Bloomedu · RN + Express + Postgres",
-    "Aras Mali · Next.js + Sanity",
-    "Zeki Dekorasyon · SSG katalog",
-    "Portfolyo · Auth · Drizzle · CI",
-  ],
-  currentFocus:
-    "Ölçeklenebilir ürün mimarisi ve fail-safe veri katmanları.",
+  currentFocus: "Ölçeklenebilir ürün mimarisi ve fail-safe veri katmanları.",
   /** Deneyim zaman çizelgesi — dürüst roller, abartısız. */
   milestones: [
     {
@@ -62,32 +47,29 @@ export const siteConfig = {
       title: "TÜBİTAK BİGG 1812 — Akdeniz kabulü",
       org: "Bloomedu",
       points: [
-        "Bloomedu, üniversite bitirme projeleri arasından jüri tarafından en iyi proje seçildi.",
-        "TÜBİTAK BİGG 1812 Akdeniz programına kabul aldık; ön jüri sunumu ve ticarileşme süreci devam ediyor.",
+        "Bitirme jürisinde en iyi proje seçildi; BİGG Akdeniz programına kabul aldık.",
       ],
     },
     {
       period: "2024 — günümüz",
-      title: "Yapay Zeka Geliştirme Kulübü",
+      title: "Yapay zeka geliştirme kulübü",
       org: "Üye",
       points: [
-        "Kulüp etkinliklerinde ve proje gruplarında aktif üye olarak yer aldım.",
-        "AI / ürün tartışmalarına katkı vererek ekip çalışması ve teknik iletişim deneyimi kazandım.",
+        "Etkinlik ve proje gruplarında aktif üye; teknik iletişim ve ekip çalışması.",
       ],
     },
     {
       period: "2020 — 2026",
-      title: "B.Sc. Bilgisayar Mühendisliği (İngilizce)",
+      title: "B.Sc. bilgisayar mühendisliği (İngilizce)",
       org: "Doğu Akdeniz Üniversitesi",
       points: [
-        "Algoritma, veri yapıları, OOP (Java/C), yazılım mühendisliği ve sistem tasarımı üzerine akademik temel.",
-        "Bitirme projesi Bloomedu ile ürünleştirme ve jüri sunumu deneyimi.",
+        "Algoritma, veri yapıları, OOP (Java/C) ve yazılım mühendisliği temeli.",
       ],
     },
   ],
   techStack: [
     {
-      group: "Frontend & Mobil",
+      group: "Frontend ve mobil",
       items: [
         "React",
         "Next.js",
@@ -98,7 +80,7 @@ export const siteConfig = {
       ],
     },
     {
-      group: "Backend & Veri",
+      group: "Backend ve veri",
       items: [
         "Node.js",
         "Express",
@@ -110,19 +92,19 @@ export const siteConfig = {
       ],
     },
     {
-      group: "İçerik & CMS",
+      group: "İçerik ve CMS",
       items: ["MDX", "Sanity", "Zod", "ISR / SSG"],
     },
     {
-      group: "Dil & Akademik Temel",
-      items: ["Python", "Java", "C", "Veri Yapıları", "OOP", "Algoritma"],
+      group: "Dil ve akademik",
+      items: ["Python", "Java", "C", "Veri yapıları", "OOP", "Algoritma"],
     },
     {
-      group: "AI & Ürün",
+      group: "AI ve ürün",
       items: ["OpenAI API", "Prompt akışları", "Adaptif öğrenme", "REST"],
     },
     {
-      group: "Araçlar & Operasyon",
+      group: "Araçlar ve operasyon",
       items: ["Git", "GitHub Actions", "Vitest", "Playwright", "Vercel", "Resend"],
     },
   ],
