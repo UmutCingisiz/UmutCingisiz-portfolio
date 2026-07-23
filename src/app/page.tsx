@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { AboutSection } from "@/components/about-section";
 import { AlgorithmLabIsland } from "@/components/algorithm-lab-island";
 import { ContactSection } from "@/components/contact-section";
+import { ContactSuccessToast } from "@/components/contact-success-toast";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { GithubActivitySection } from "@/components/github-activity-section";
 import { GithubActivitySkeleton } from "@/components/github-activity-skeleton";
@@ -35,6 +36,7 @@ export default async function Home({
   return (
     <>
       <HashScroll />
+      <ContactSuccessToast active={contactSuccess} />
       <StatusBanner
         resumeLimited={resumeLimited}
         resumeMissing={resumeMissing}
@@ -49,7 +51,7 @@ export default async function Home({
       <Suspense fallback={<GithubActivitySkeleton />}>
         <GithubActivitySection />
       </Suspense>
-      <ContactSection contactSuccess={contactSuccess} />
+      <ContactSection />
     </>
   );
 }

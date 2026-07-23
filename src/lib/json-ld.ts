@@ -22,8 +22,7 @@ export function personJsonLd(): JsonLd {
     email: siteConfig.email,
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Gazimağusa",
-      addressCountry: "CY",
+      addressCountry: "TR",
     },
     sameAs: [
       origin,

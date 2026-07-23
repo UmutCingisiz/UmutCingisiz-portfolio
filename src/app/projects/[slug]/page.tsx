@@ -233,7 +233,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
       <section className="mt-6 rounded-xl border border-border bg-card/50 p-6 sm:p-7">
         <h2 className="text-xl font-semibold tracking-tight text-foreground">
-          Bu proje hakkında konuşalım
+          Bu proje hakkında yazın
         </h2>
         <p className="mt-2 text-sm leading-7 text-muted-foreground">
           Mimari kararlar, stack seçimleri veya işbirliği için kısa bir mesaj

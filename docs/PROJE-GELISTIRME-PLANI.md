@@ -34,14 +34,26 @@ Aras Mali / Zeki Dekorasyon canlıya alınca: MDX’te `repo`, `demo`, `status: 
 
 ## 3) Ekstra fikirler (zorunlu değil)
 
-1. **Time-to-projects analytics** — Vercel Analytics / basit event: hero → projeler tıklama süresi (recruiter akışı).
-2. **Case study “next up”** — proje detayında bir sonraki featured’a net CTA (kısmen var; güçlendirilebilir).
-3. **Resume PDF version bump** — CV değişince `?v=` veya dosya adı ile cache bust.
-4. **Guestbook weekly digest** — onay bekleyenleri sana mail (Resend) — opsiyonel.
-5. **Lab ↔ Skills deep-link** — skills satırı lab’a gidiyor; lab’dan skills’e dönüş CTA.
-6. **Performance budget CI** — Lighthouse CI veya bundle size bütçesi (LCP P1 ile birlikte).
-7. **EN locale** — recruiter için `/en` (aşağıdaki i18n).
-8. **Project status badge tutarlılığı** — list/detay aynı helper (büyük ölçüde var; arşiv/live dilini bir kez daha gözden geçir).
+1. **Time-to-projects analytics** — hero → projeler tıklama süresi.
+2. **Case study “next up”** — detayda sonraki featured CTA güçlendir.
+3. **Resume PDF version bump** — CV cache bust.
+4. **Guestbook weekly digest** — onay bekleyenleri Resend ile mail.
+5. **Lab ↔ Skills deep-link** — lab’dan skills’e dönüş.
+6. **Performance budget CI** — Lighthouse / bundle eşiği.
+7. **EN locale** — ayrı faz.
+
+### Guestbook: e-posta ile giriş (değerlendirme)
+
+**Fikir:** Herkes GitHub kullanmıyor; magic link / e-posta OTP ile de deftere yazılabilsin.
+
+| | |
+|--|--|
+| **Artı** | Erişim artar; stajyer / recruiter / aile üyesi engeli kalkar |
+| **Eksi** | Spam / sahte kimlik riski yükselir; moderasyon yükü artar |
+| **Teknik** | Auth.js `Resend` / Nodemailer provider + `email` verified; şemada `github_id` opsiyonel veya `provider_user_id` genellemesi; rate-limit e-posta başına |
+| **Öneri** | **Şimdilik GitHub kalsın.** E-posta girişi ayrı faz: önce Resend magic link, ardından `guestbook_entry` kimlik alanını sağlayıcıdan bağımsız hale getir. GitHub’ı kaldırma — ikisini yan yana sun. |
+
+Karar: kodlanmadı; onayınla V3 işine alınabilir.
 
 ---
 

@@ -72,15 +72,19 @@ export function Hero() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="order-1 lg:col-start-1 lg:row-start-1"
         >
-          <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3 text-xs font-medium text-foreground/90 backdrop-blur-xl">
-            <span className="relative flex size-1.5">
+          <div className="inline-flex max-w-full items-center gap-2.5 rounded-2xl border border-emerald-400/40 bg-emerald-500/[0.12] py-2 pl-2.5 pr-4 shadow-[0_0_32px_rgba(16,185,129,0.18)] sm:gap-3 sm:py-2.5 sm:pl-3 sm:pr-5">
+            <span className="relative flex size-2.5 sm:size-3">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+              <span className="relative inline-flex size-2.5 rounded-full bg-emerald-400 sm:size-3" />
             </span>
-            <span className="font-mono text-[0.7rem] tracking-wide text-emerald-500 dark:text-emerald-400">
-              Müsait
+            <span className="flex min-w-0 flex-col leading-tight">
+              <span className="text-sm font-bold tracking-tight text-emerald-300 sm:text-base">
+                {siteConfig.availabilityLabel}
+              </span>
+              <span className="text-[0.7rem] text-emerald-100/75 sm:text-xs">
+                {siteConfig.availabilityDetail}
+              </span>
             </span>
-            <span className="text-muted-foreground">· yeni fırsatlara açık</span>
           </div>
 
           <p className="mt-5 font-mono text-[0.7rem] tracking-wide text-muted-foreground sm:mt-6 sm:text-xs">
@@ -206,17 +210,17 @@ export function Hero() {
           initial={{ y: 10 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.4, delay: 0.12, ease: "easeOut" }}
-          className="order-3 grid grid-cols-3 gap-2 sm:gap-3 lg:col-start-1 lg:row-start-2"
+          className="order-3 grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3 lg:col-start-1 lg:row-start-2"
         >
           {siteConfig.stats.map((stat) => (
             <div
               key={stat.label}
-              className="surface-card px-2.5 py-3 backdrop-blur-sm sm:p-3.5"
+              className="surface-card flex items-baseline justify-between gap-3 px-3 py-3 backdrop-blur-sm sm:flex-col sm:items-stretch sm:justify-start sm:p-3.5"
             >
-              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+              <p className="shrink-0 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                 {stat.label}
               </p>
-              <p className="mt-1 text-xs font-semibold leading-snug text-foreground sm:text-sm">
+              <p className="text-right text-sm font-semibold leading-snug text-foreground sm:mt-1 sm:text-left sm:text-sm">
                 {stat.value}
               </p>
             </div>

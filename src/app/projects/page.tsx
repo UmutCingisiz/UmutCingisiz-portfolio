@@ -36,14 +36,12 @@ export default async function ProjectsPage() {
         <div className="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-start">
           <div>
             <SectionEyebrow>project.archive</SectionEyebrow>
-            <h1 className="mt-4 max-w-4xl text-5xl font-bold tracking-[-0.05em] text-foreground sm:text-6xl">
-              Projeler, CV satırı değil; karar ve etki kanıtı.
+            <h1 className="mt-4 max-w-4xl text-4xl font-bold tracking-[-0.04em] text-foreground sm:text-5xl lg:text-6xl">
+              Projeler
             </h1>
-            <p className="mt-5 max-w-2xl leading-8 text-muted-foreground">
-              Hepsi uçtan uca{" "}
-              <span className="font-medium text-foreground">full-stack</span>{" "}
-              işler. Önce yayında olanlar, ardından aktif geliştirdiklerim —
-              her biri problem, karar ve etki üzerinden okunur.
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base sm:leading-8">
+              Full-stack işler. Yayında olanlar üstte, üzerinde çalıştıklarım
+              altta. Her birinde problem, karar ve etki var.
             </p>
           </div>
 
@@ -198,13 +196,13 @@ function ProjectVisual({ project }: { project: ProjectMeta }) {
 
   if (coverImage) {
     return (
-      <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border bg-muted">
+      <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-[4/3] sm:rounded-3xl">
         <Image
           src={coverImage}
           alt={project.gallery?.[0]?.alt ?? project.title}
           fill
-          sizes="(min-width: 1024px) 560px, 90vw"
-          className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          sizes="(min-width: 1024px) 560px, 92vw"
+          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] group-active:scale-[1.02]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
       </div>
@@ -212,7 +210,7 @@ function ProjectVisual({ project }: { project: ProjectMeta }) {
   }
 
   return (
-    <div className="relative flex aspect-[4/3] w-full flex-col overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card via-muted to-card">
+    <div className="relative flex aspect-[16/10] w-full flex-col overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-card via-muted to-card sm:aspect-[4/3] sm:rounded-3xl">
       <div
         className="ambient-orb -right-14 -top-14 size-64 opacity-45"
         style={{ background: "radial-gradient(circle, var(--signal-glow), transparent 65%)" }}
@@ -268,16 +266,25 @@ function ProjectShowcase({
   const flip = localIndex % 2 === 1;
 
   return (
-    <article className="group grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
-      <div className={`relative ${flip ? "lg:order-2" : "lg:order-1"}`}>
-        <TiltCard as="div" max={5} className="relative rounded-[var(--radius-xl)]">
-          <Link href={`/projects/${project.slug}`} aria-label={project.title} className="block">
+    <article className="group grid items-start gap-6 sm:gap-8 lg:grid-cols-2 lg:items-center lg:gap-14">
+      {/* Mobilde görsel her zaman üstte; lg'de tek/çift sıraya göre flip */}
+      <div
+        className={`relative w-full min-w-0 ${flip ? "lg:order-2" : "lg:order-1"}`}
+      >
+        <TiltCard as="div" max={5} className="relative w-full rounded-[var(--radius-xl)]">
+          <Link
+            href={`/projects/${project.slug}`}
+            aria-label={`${project.title} — incele`}
+            className="block w-full"
+          >
             <ProjectVisual project={project} />
           </Link>
         </TiltCard>
       </div>
 
-      <div className={`flex flex-col justify-center ${flip ? "lg:order-1" : "lg:order-2"}`}>
+      <div
+        className={`flex min-w-0 flex-col justify-center ${flip ? "lg:order-1" : "lg:order-2"}`}
+      >
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex size-8 items-center justify-center rounded-lg border border-signal/25 bg-signal/[0.07] font-mono text-xs font-semibold tabular-nums text-signal">
             {String(index + 1).padStart(2, "0")}

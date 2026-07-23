@@ -67,7 +67,7 @@ Kapandı (menü a11y, hash, hiring CTA, canonical, fail-closed, JSON-LD, deep-li
 | 4 | Ölü Quality bileşeni | ✅ Yok |
 | 5 | Guestbook cache | ✅ `force-dynamic` kalktı; onaylı liste `unstable_cache` 60s + tag |
 | 6 | Manuel QA | ✅ Playwright smoke + lightbox Escape e2e. **Safari / recruiter 30 sn** hâlâ senin — [`MANUEL-ADIMLAR.md`](./MANUEL-ADIMLAR.md) §2 |
-| 7 | V3 (Turnstile, i18n, coverage eşiği) | ⏸ Bilinçli ertelendi |
+| 7 | V3 (Turnstile, i18n, coverage eşiği, guestbook e-posta girişi) | ⏸ Bilinçli ertelendi — e-posta girişi değerlendirmesi plan §3’te |
 
 Seviye: **Solid Mid** (2026-07-22). Tam rescore yapılmadı.
 

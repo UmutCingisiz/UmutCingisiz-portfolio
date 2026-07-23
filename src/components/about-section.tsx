@@ -6,18 +6,18 @@ import { Timeline } from "@/components/timeline";
 const cards = [
   {
     eyebrow: "01 · Sistem",
-    title: "Özellik değil, sistem kurarım",
-    body: "Bir ekranı çizerken veri modeli, hata yolu ve güvenlik sınırını aynı anda düşünürüm.",
+    title: "Özellik değil, sistem",
+    body: "Bir ekranı çizerken veri modelini, hata yolunu ve güvenlik sınırını birlikte düşünürüm.",
   },
   {
     eyebrow: "02 · Zanaat",
-    title: "Kodun niyeti okunabilir olmalı",
-    body: "TypeScript, Zod ve net modül sınırlarıyla büyüyen projeyi kontrol altında tutarım.",
+    title: "Kodun niyeti okunur olsun",
+    body: "TypeScript ve net modül sınırlarıyla büyüyen projeyi takip edilebilir tutarım.",
   },
   {
     eyebrow: "03 · Yayın",
-    title: "Demo değil, yayınlanabilir ürün",
-    body: "SEO, form güvenliği ve dürüst durum etiketleri — süs değil, kanıt.",
+    title: "Demo değil, yayın",
+    body: "Form güvenliği, SEO ve dürüst durum etiketleri — işe yarayan detaylar.",
   },
 ] as const;
 
@@ -32,7 +32,7 @@ export function AboutSection() {
           <div>
             <SectionEyebrow>about.engineer</SectionEyebrow>
             <h2 className="mt-3 text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Nasıl mühendislik yapıyorum
+              Nasıl çalışırım
             </h2>
             <p className="mt-4 text-pretty text-sm leading-7 text-muted-foreground sm:text-base">
               {siteConfig.description}
@@ -60,7 +60,7 @@ export function AboutSection() {
 
         <div className="mt-12 border-t border-border pt-10 sm:mt-14 sm:pt-12">
           <h3 className="font-mono text-[0.7rem] tracking-wide text-muted-foreground">
-            Deneyim ve yolculuk
+            Deneyim
           </h3>
           <Timeline items={siteConfig.milestones} />
         </div>

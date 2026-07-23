@@ -29,7 +29,7 @@ export function getSiteMetadata(): Metadata {
       "full-stack developer",
       "Bilgisayar mühendisi",
       "Bloomedu",
-      "Gazimağusa",
+      "Türkiye",
     ],
     openGraph: {
       type: "website",

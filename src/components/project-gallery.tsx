@@ -150,21 +150,22 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
             </>
           ) : null}
           <div
-            className="relative max-h-[85vh] w-full max-w-5xl"
+            className="relative flex max-h-[90vh] w-full max-w-5xl flex-col items-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-border bg-muted">
+            <div className="relative h-[min(76vh,820px)] w-full overflow-hidden rounded-xl border border-border bg-muted/40">
               <Image
                 src={shots[active].src}
                 alt={shots[active].alt}
                 fill
                 className="object-contain"
-                sizes="90vw"
+                sizes="100vw"
                 priority
               />
             </div>
             <p className="mt-3 text-center font-mono text-xs text-muted-foreground">
-              {String(active + 1).padStart(2, "0")} / {String(shots.length).padStart(2, "0")}
+              {String(active + 1).padStart(2, "0")} /{" "}
+              {String(shots.length).padStart(2, "0")}
               {shots[active].caption ? ` · ${shots[active].caption}` : ""}
             </p>
           </div>

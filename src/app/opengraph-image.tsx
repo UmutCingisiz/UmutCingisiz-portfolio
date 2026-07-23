@@ -19,7 +19,7 @@ export default async function Image() {
   }
 
   const headlineShort =
-    "Sadece arayüz kodlamıyor; uçtan uca, ölçeklenebilir sistemler tasarlıyorum.";
+    siteConfig.headline;
 
   return new ImageResponse(
     (
@@ -126,10 +126,10 @@ export default async function Image() {
                 color: "#34d399",
               }}
             >
-              Müsait
+              {siteConfig.availabilityLabel}
             </div>
-            <div style={{ display: "flex", fontSize: 16, color: "#a1a1aa" }}>
-              · yeni fırsatlara açık
+            <div style={{ display: "flex", fontSize: 15, color: "#a1a1aa" }}>
+              · {siteConfig.availabilityDetail}
             </div>
             </div>
 

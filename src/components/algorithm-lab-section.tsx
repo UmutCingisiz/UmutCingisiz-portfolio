@@ -71,12 +71,11 @@ export function AlgorithmLabSection() {
             id="algorithm-lab-heading"
             className="mt-3 max-w-2xl text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
           >
-            Rota seçiminde maliyet, risk ve hız trade-off’unu gösteriyorum.
+            Öncelik değişince rota da değişir
           </h2>
           <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground">
-            Bu interaktif görselleştirme canlı bir pathfinding solver değil;
-            üç hazır senaryoyla öncelik değişince yolun ve maliyetin nasıl
-            kaydığını anlatır.
+            Canlı bir solver değil. Üç senaryo var: dengeli, güvenli, agresif.
+            Seçince yol ve maliyet nasıl kayıyor, onu gösteriyorum.
           </p>
         </Reveal>
 

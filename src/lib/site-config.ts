@@ -1,8 +1,10 @@
 export const siteConfig = {
   name: "Umut Cingisiz",
   role: "Bilgisayar mühendisi · full-stack developer",
-  location: "Gazimağusa, Kıbrıs",
-  availability: "Full-stack rollerine açık",
+  location: "Türkiye",
+  availability: "Full-stack rollerine açığım",
+  availabilityLabel: "Müsait",
+  availabilityDetail: "Full-stack iş ve staj için yazın",
   profileImage: "/profile.jpg",
   resumePath: "/resume.pdf",
   /** Ana sayfa GitHub repoları + profil yedek görseli */
@@ -15,32 +17,28 @@ export const siteConfig = {
     "java-examples": "Java",
     javaexamples: "Java",
   } as Record<string, string>,
-  /** Portfolyo terminal — UC + cmd (kişisel + klasik shell) */
+  /** Portfolyo terminal — UC + cmd */
   terminal: {
     name: "ucmd",
     version: "1.0",
-    tagline: "Umut Cingisiz · command shell",
+    tagline: "Komutlarla sitede gez",
   },
-  headline:
-    "Çalışan ürünler yazıyorum — arayüzden veri katmanına, güvenlikten yayına.",
-  /** About bölümü — konum iddiası yok; mühendislik tutumu */
+  headline: "Arayüzden veritabanına kadar ürünü ben kuruyorum.",
   description:
-    "Önce problemi ve sınırları netleştiririm. Sonra arayüz, veri modeli ve yayın yolunu aynı ürün akışında birleştiririm — süs değil, çalışan sistem.",
-  /** Hero destek cümlesi */
+    "Ekranı çizerken veri modeli ve hata yolunu da düşünürüm. Küçük parçaları birleştirip yayınlanabilir bir sistem bırakmayı hedeflerim.",
   shortBio:
-    "DAÜ Bilgisayar Mühendisliği mezunuyum. Bloomedu ile BİGG Akdeniz kabulü aldım; bitirme jürisinde en iyi proje seçildi. Bu site de o disiplinin canlı kanıtı.",
+    "Doğu Akdeniz Üniversitesi Bilgisayar Mühendisliği mezunuyum. Bloomedu ile TÜBİTAK BİGG Akdeniz’e kabul aldık; üniversite jürisi bitirme projemi en iyi seçti.",
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
   /** CI / Actions — profil değil, bu portfolyo reposu */
   githubRepo: "https://github.com/UmutCingisiz/UmutCingisiz-portfolio",
   linkedin: "https://www.linkedin.com/in/umut-ibrahim-cingisiz-878053309",
   stats: [
-    { label: "Derece", value: "DAÜ Bilgisayar Müh." },
-    { label: "Konum", value: "Gazimağusa" },
-    { label: "Odak", value: "Ürün mühendisliği" },
+    { label: "Okul", value: "Doğu Akdeniz Üniversitesi" },
+    { label: "Konum", value: "Türkiye" },
+    { label: "Odak", value: "Full-stack" },
   ],
-  currentFocus: "Ölçeklenebilir ürün mimarisi ve fail-safe veri katmanları.",
-  /** Deneyim zaman çizelgesi — dürüst roller, abartısız. */
+  currentFocus: "Full-stack ürünler: auth, veri ve güvenli formlar.",
   milestones: [
     {
       period: "2026",
@@ -55,15 +53,15 @@ export const siteConfig = {
       title: "Yapay zeka geliştirme kulübü",
       org: "Üye",
       points: [
-        "Etkinlik ve proje gruplarında aktif üye; teknik iletişim ve ekip çalışması.",
+        "Etkinlik ve proje gruplarında yer alıyorum; ekip içinde teknik konuşmayı yürütüyorum.",
       ],
     },
     {
       period: "2020 — 2026",
-      title: "B.Sc. bilgisayar mühendisliği (İngilizce)",
+      title: "Bilgisayar mühendisliği (İngilizce)",
       org: "Doğu Akdeniz Üniversitesi",
       points: [
-        "Algoritma, veri yapıları, OOP (Java/C) ve yazılım mühendisliği temeli.",
+        "Algoritma, veri yapıları, OOP (Java/C) ve yazılım mühendisliği.",
       ],
     },
   ],

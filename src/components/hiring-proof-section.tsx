@@ -60,7 +60,7 @@ const proofSignals: readonly Proof[] = [
   {
     label: "Mimari",
     title: "Uçtan uca ürün mimarisi",
-    body: "App Router, Auth.js, Drizzle, Neon ve Redis aynı üründe — çalışan sistem.",
+    body: "App Router, Auth.js, Drizzle, Neon ve Redis aynı üründe çalışıyor.",
     evidence: "Vaka çalışması",
     href: "/projects/portfolio-web",
     icon: ArchIcon,
@@ -68,7 +68,7 @@ const proofSignals: readonly Proof[] = [
   {
     label: "Kalite",
     title: "Kalite kapısı olan geliştirme",
-    body: "Lint, typecheck, Vitest ve Playwright CI’da; bozulmadan büyüyen disiplin.",
+    body: "Lint, typecheck, Vitest ve Playwright CI’da koşuyor.",
     evidence: "CI iş akışları",
     href: ciUrl,
     external: true,
@@ -85,7 +85,7 @@ const proofSignals: readonly Proof[] = [
   {
     label: "Yayın",
     title: "Yayınlanabilir deneyim",
-    body: "SEO, OG, error/loading ve production servis planı — demo değil canlı ürün.",
+    body: "SEO, OG, error/loading ve production servis planı hazır.",
     evidence: "Guestbook",
     href: "/guestbook",
     icon: DeliveryIcon,
@@ -118,10 +118,10 @@ export function HiringProofSection() {
           <div className="lg:sticky lg:top-28">
             <SectionEyebrow>hiring.proof</SectionEyebrow>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              İşe alım kararını hızlandıran teknik kanıtlar.
+              Tıklayıp bakabileceğiniz kanıtlar
             </h2>
             <p className="mt-3 text-pretty text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
-              Sayı değil, tıklanabilir artifact — her kart tek doğrulanabilir kaynağa gider.
+              Her kart bir yere gider: case study, CI, yazı veya guestbook.
             </p>
 
             <div className="mt-6 grid grid-cols-2 gap-2.5 sm:mt-8 sm:gap-3">

@@ -245,14 +245,14 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={openTerminal}
-              className="group hidden items-center gap-2 rounded-xl border border-signal/30 bg-signal/[0.08] px-3 py-2 font-mono text-xs text-signal transition-all hover:border-signal/50 hover:bg-signal/[0.15] hover:shadow-[0_0_20px_var(--signal-glow)] xl:inline-flex"
-              aria-label={`${siteConfig.terminal.name} terminalini aç (Ctrl+\`)`}
+              className="group inline-flex items-center gap-1.5 rounded-xl border border-signal/35 bg-signal/[0.1] px-2.5 py-2 font-mono text-xs text-signal transition-all hover:border-signal/55 hover:bg-signal/[0.18] hover:shadow-[0_0_20px_var(--signal-glow)] sm:gap-2 sm:px-3"
+              aria-label={`${siteConfig.terminal.name} terminalini aç`}
             >
               <TerminalIcon className="size-4" />
               <span className="font-bold tracking-wide">
                 {siteConfig.terminal.name}
               </span>
-              <kbd className="rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-[0.6rem]">
+              <kbd className="hidden rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-[0.6rem] xl:inline">
                 Ctrl `
               </kbd>
             </button>

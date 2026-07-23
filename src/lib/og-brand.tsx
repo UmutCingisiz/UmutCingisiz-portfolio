@@ -107,4 +107,4 @@ export function OgFooter({ left, right }: { left: ReactNode; right?: ReactNode }
 
 /** Sosyal önizleme için kısa meta açıklama (~140 karakter) */
 export const ogSiteDescription =
-  "DAÜ bilgisayar mühendisliği · TÜBİTAK BİGG Akdeniz · full-stack ürünler.";
+  "Doğu Akdeniz Üniversitesi · TÜBİTAK BİGG Akdeniz · full-stack ürünler.";

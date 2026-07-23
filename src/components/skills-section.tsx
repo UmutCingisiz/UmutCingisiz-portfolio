@@ -131,8 +131,8 @@ export function SkillsSection() {
             Yetkinlik haritası
           </h2>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            Güçlü alanlar ve bilinçli büyüttüğüm alanlar. Her satır tek bir kanıta
-            bağlanır — aynı proje iki kez anlatılmaz.
+            Güçlü olduğum alanlar ve şu an büyüttüklerim. Her satırın yanında bir
+            kanıt linki var.
           </p>
         </div>
 
@@ -148,8 +148,8 @@ export function SkillsSection() {
               Araç seti
             </h3>
             <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
-              Bloomedu, Aras Mali, Zeki Dekorasyon ve bu portfolyoda üretimde
-              taşıdığım stack — liste şişkin değil, kanıtlı.
+              Bloomedu, Aras Mali, Zeki Dekorasyon ve bu sitede kullandığım
+              araçlar.
             </p>
           </div>
 
