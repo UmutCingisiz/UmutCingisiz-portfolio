@@ -9,14 +9,22 @@ import { siteConfig } from "@/lib/site-config";
 import { GitLogFeed, type GitLogEntry } from "@/components/git-log-feed";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
+import { getDictionary } from "@/i18n/dictionaries";
+import { getRequestLocale } from "@/i18n/get-locale";
 
 function RepoCard({
   repo,
   index,
+  openLabel,
+  languageUnknown,
 }: {
   repo: GithubRepoSummary;
   index: number;
+  openLabel: string;
+  languageUnknown: string;
 }) {
+  const isInternal = repo.html_url.startsWith("/");
+
   return (
     <Reveal index={index} className="h-full">
       <article className="surface-card group flex h-full flex-col p-5">
@@ -43,17 +51,26 @@ function RepoCard({
           ) : (
             <span className="inline-flex items-center gap-1.5 text-muted-foreground/70">
               <span className="size-1.5 rounded-full bg-border" />
-              dil bilinmiyor
+              {languageUnknown}
             </span>
           )}
-          <a
-            href={repo.html_url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
-          >
-            Repoyu aç →
-          </a>
+          {isInternal ? (
+            <Link
+              href={repo.html_url}
+              className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
+            >
+              {openLabel}
+            </Link>
+          ) : (
+            <a
+              href={repo.html_url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
+            >
+              {openLabel}
+            </a>
+          )}
         </div>
       </article>
     </Reveal>
@@ -63,6 +80,10 @@ function RepoCard({
 export async function GithubActivitySection() {
   const login = getGithubUsername();
   if (!login) return null;
+
+  const locale = await getRequestLocale();
+  const dictionary = getDictionary(locale);
+  const t = dictionary.github;
 
   const repos = await fetchRecentGithubRepos(login);
   const recentFailed = repos === null;
@@ -77,14 +98,12 @@ export async function GithubActivitySection() {
         <div className="mx-auto max-w-6xl rounded-xl border border-border bg-card/60 p-6 backdrop-blur-sm">
           <h2 className="text-xl font-semibold text-foreground">GitHub</h2>
           <p className="mt-2 text-sm leading-7 text-muted-foreground">
-            {recentFailed
-              ? "Repo listesi yüklenemedi (API limiti veya ağ)."
-              : "Henüz listelenecek recent repo yok."}{" "}
+            {recentFailed ? t.emptyFailed : t.emptyNone}{" "}
             <Link
               href={siteConfig.github}
               className="underline underline-offset-4 hover:text-foreground"
             >
-              Profili aç
+              {t.openProfile}
             </Link>
             .
           </p>
@@ -111,12 +130,12 @@ export async function GithubActivitySection() {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <div>
-            <SectionEyebrow>github.signal</SectionEyebrow>
+            <SectionEyebrow>{t.eyebrow}</SectionEyebrow>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Canlı geliştirme aktivitesi
+              {t.title}
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-              GitHub API’den gerçek recent repo feed’i — sahte commit hash yok.
+              {t.subtitle}
             </p>
           </div>
           <Link
@@ -136,7 +155,7 @@ export async function GithubActivitySection() {
             </span>
             <span className="text-muted-foreground/40">·</span>
             <span className="font-mono text-xs text-foreground/80">
-              {recent.length} recent repo
+              {recent.length} {t.recentCount}
             </span>
             {languages.slice(0, 4).map((lang) => (
               <span
@@ -153,7 +172,7 @@ export async function GithubActivitySection() {
             rel="noreferrer noopener"
             className="font-mono text-[0.65rem] text-signal hover:underline sm:ml-auto"
           >
-            Tüm repolar ↗
+            {t.allRepos}
           </a>
         </div>
 
@@ -165,8 +184,13 @@ export async function GithubActivitySection() {
 
         <ul className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4">
           {recent.slice(0, 6).map((repo, index) => (
-            <li key={repo.html_url}>
-              <RepoCard repo={repo} index={index} />
+            <li key={`${repo.name}-${repo.html_url}`}>
+              <RepoCard
+                repo={repo}
+                index={index}
+                openLabel={t.openRepo}
+                languageUnknown={t.languageUnknown}
+              />
             </li>
           ))}
         </ul>

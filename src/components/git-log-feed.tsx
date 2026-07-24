@@ -27,12 +27,14 @@ export function GitLogFeed({ entries }: { entries: GitLogEntry[] }) {
       </div>
 
       <div className="space-y-1 px-4 py-4 font-mono text-[0.8rem] leading-relaxed sm:text-sm">
-        {entries.map((entry, index) => (
+        {entries.map((entry, index) => {
+          const external = entry.url.startsWith("http");
+          return (
           <motion.a
             key={entry.url}
             href={entry.url}
-            target="_blank"
-            rel="noreferrer noopener"
+            target={external ? "_blank" : undefined}
+            rel={external ? "noreferrer noopener" : undefined}
             initial={prefersReducedMotion ? undefined : { opacity: 0, x: -10 }}
             whileInView={
               prefersReducedMotion ? undefined : { opacity: 1, x: 0 }
@@ -49,7 +51,8 @@ export function GitLogFeed({ entries }: { entries: GitLogEntry[] }) {
               </span>
             ) : null}
           </motion.a>
-        ))}
+          );
+        })}
         <div className="flex items-center gap-2 px-1 pt-2 text-cyan-200/70">
           <span className="text-emerald-400">$</span>
           <span

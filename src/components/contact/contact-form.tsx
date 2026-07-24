@@ -5,6 +5,7 @@ import { useActionState, useEffect, useState } from "react";
 import type { ContactFormState } from "@/actions/contact";
 import { submitContactForm } from "@/actions/contact";
 import { ContactSuccessState } from "@/components/contact/contact-success-state";
+import { useI18n } from "@/i18n/locale-provider";
 
 const SUCCESS_STORAGE_KEY = "portfolio.contact.sent";
 
@@ -14,6 +15,8 @@ type Props = {
 };
 
 export function ContactForm({ initialSuccess = false }: Props) {
+  const { dictionary } = useI18n();
+  const t = dictionary.contact.form;
   const [success, setSuccess] = useState(initialSuccess);
   const [state, formAction, pending] = useActionState<
     ContactFormState | null,
@@ -38,6 +41,17 @@ export function ContactForm({ initialSuccess = false }: Props) {
       /* private mode */
     }
   }, [initialSuccess]);
+
+  useEffect(() => {
+    if (state && "success" in state && state.success) {
+      setSuccess(true);
+      try {
+        sessionStorage.setItem(SUCCESS_STORAGE_KEY, "1");
+      } catch {
+        /* private mode */
+      }
+    }
+  }, [state]);
 
   const errorState =
     state && "ok" in state && state.ok === false ? state : null;
@@ -71,7 +85,7 @@ export function ContactForm({ initialSuccess = false }: Props) {
 
       <div>
         <label htmlFor="contact-name" className="text-sm font-medium text-foreground">
-          İsim
+          {t.name}
         </label>
         <input
           id="contact-name"
@@ -93,7 +107,7 @@ export function ContactForm({ initialSuccess = false }: Props) {
 
       <div>
         <label htmlFor="contact-email" className="text-sm font-medium text-foreground">
-          E-posta
+          {t.email}
         </label>
         <input
           id="contact-email"
@@ -115,7 +129,7 @@ export function ContactForm({ initialSuccess = false }: Props) {
 
       <div>
         <label htmlFor="contact-msg" className="text-sm font-medium text-foreground">
-          Mesaj
+          {t.message}
         </label>
         <textarea
           id="contact-msg"
@@ -128,7 +142,7 @@ export function ContactForm({ initialSuccess = false }: Props) {
           aria-invalid={Boolean(fieldErrors?.message)}
           aria-describedby={fieldErrors?.message ? "contact-msg-error" : undefined}
           className="mt-2 w-full resize-y rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus-visible:border-signal/50 focus-visible:ring-2 focus-visible:ring-signal/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60 aria-[invalid=true]:border-red-500/50"
-          placeholder="Kısa proje özeti veya sorun…"
+          placeholder={t.placeholder}
         />
         {fieldErrors?.message ? (
           <p id="contact-msg-error" className="mt-2 text-sm text-red-600 dark:text-red-400" role="alert">
@@ -149,7 +163,7 @@ export function ContactForm({ initialSuccess = false }: Props) {
         aria-busy={pending}
         className="btn-signal inline-flex h-11 items-center rounded-lg px-5 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-40"
       >
-        {pending ? "Gönderiliyor…" : "Gönder"}
+        {pending ? t.sending : t.submit}
       </button>
     </form>
   );

@@ -1,10 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { ContactLink } from "@/components/contact-link";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
+import { useI18n } from "@/i18n/locale-provider";
 import { getSiteOrigin } from "@/lib/site-url";
 
 export function SiteFooter() {
+  const { dictionary } = useI18n();
   const year = new Date().getFullYear();
   const origin = getSiteOrigin();
   let hostLabel = "umutcingisiz.com";
@@ -69,26 +73,26 @@ export function SiteFooter() {
         <div className="flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
           <div className="flex flex-wrap gap-4">
             <Link href="/#about" className="transition-colors hover:text-foreground">
-              Hakkımda
+              {dictionary.footer.about}
             </Link>
             <Link href="/projects" className="transition-colors hover:text-foreground">
-              Projeler
+              {dictionary.footer.projects}
             </Link>
             <Link href="/blog" className="transition-colors hover:text-foreground">
-              Blog
+              {dictionary.footer.blog}
             </Link>
             <Link href="/guestbook" className="transition-colors hover:text-foreground">
-              Ziyaretçi Defteri
+              {dictionary.footer.guestbook}
             </Link>
             <ContactLink className="transition-colors hover:text-foreground">
-              İletişim
+              {dictionary.footer.contact}
             </ContactLink>
             <a
               href="/api/resume"
               download
               className="transition-colors hover:text-foreground"
             >
-              CV indir
+              {dictionary.footer.downloadCv}
             </a>
           </div>
           <p className="font-mono text-[0.65rem]">Next.js · TypeScript · Vercel</p>

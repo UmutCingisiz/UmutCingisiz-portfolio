@@ -2,7 +2,6 @@
 
 import { createHash } from "crypto";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { Resend } from "resend";
 
 import {
@@ -87,7 +86,7 @@ export async function submitContactForm(
       };
     }
     logPortfolioEvent("contact.sent", { e2eMock: true });
-    redirect("/?contact=sent");
+    return { success: true };
   }
 
   const emailKey = `email:${emailNorm}`;
@@ -176,6 +175,5 @@ export async function submitContactForm(
     logPortfolioError("contact.rate_limit_guard_failed", error, { phase: "write" });
   });
   logPortfolioEvent("contact.sent");
-  
-  redirect("/?contact=sent");
+  return { success: true };
 }

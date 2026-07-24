@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { ContactLink } from "@/components/contact-link";
+import { useI18n } from "@/i18n/locale-provider";
 import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
@@ -38,6 +39,7 @@ function initialsFromName(name: string) {
 }
 
 export function Hero() {
+  const { dictionary } = useI18n();
   const githubLogin = getGithubUsername();
   const [imageMode, setImageMode] = useState<ProfileImageMode>("local");
 
@@ -73,15 +75,15 @@ export function Hero() {
               <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
             </span>
             <span className="font-mono text-[0.7rem] tracking-wide text-emerald-500 dark:text-emerald-400">
-              {siteConfig.availabilityLabel}
+              {dictionary.hero.availabilityLabel}
             </span>
             <span className="text-muted-foreground">
-              · {siteConfig.availabilityDetail}
+              · {dictionary.hero.availabilityDetail}
             </span>
           </div>
 
           <p className="mt-5 font-mono text-[0.7rem] tracking-wide text-muted-foreground sm:mt-6 sm:text-xs">
-            {siteConfig.role}
+            {dictionary.hero.role}
           </p>
 
           <h1 className="mt-2 text-balance text-3xl font-bold tracking-[-0.04em] text-foreground sm:mt-3 sm:text-5xl lg:text-6xl">
@@ -89,23 +91,23 @@ export function Hero() {
           </h1>
 
           <p className="mt-3 max-w-xl text-pretty text-base font-semibold tracking-tight text-foreground/90 sm:text-xl lg:text-2xl">
-            {siteConfig.headline}
+            {dictionary.hero.headline}
           </p>
 
           <p className="mt-4 max-w-xl text-pretty text-sm leading-6 text-muted-foreground sm:leading-7">
-            {siteConfig.shortBio}
+            {dictionary.hero.shortBio}
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-2.5 sm:mt-8 sm:gap-3">
             <ContactLink className="btn-signal group inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition-all duration-200 sm:h-11 sm:px-5">
-              İletişim
+              {dictionary.hero.contact}
               <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
             </ContactLink>
             <Link
               href="/projects"
               className="btn-outline-rise group inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold sm:h-11 sm:px-5"
             >
-              Projeleri incele
+              {dictionary.hero.viewProjects}
               <ArrowRightIcon className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
             <a
@@ -114,7 +116,7 @@ export function Hero() {
               className="btn-ghost-rise group inline-flex h-10 items-center gap-2 rounded-xl px-3.5 text-sm font-medium sm:h-11 sm:px-4"
             >
               <DownloadIcon className="size-4 transition-transform duration-200 group-hover:translate-y-0.5" />
-              CV indir
+              {dictionary.hero.downloadCv}
             </a>
           </div>
 
@@ -145,7 +147,7 @@ export function Hero() {
               <Image
                 key={profileSrc}
                 src={profileSrc}
-                alt={`${siteConfig.name} profil fotoğrafı`}
+                alt={`${siteConfig.name} ${dictionary.hero.profileAlt}`}
                 fill
                 priority
                 fetchPriority="high"
@@ -171,15 +173,14 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Eski konum: sol kolon altı — minimal, arka plansız çipler */}
         <motion.ul
           initial={{ y: 10 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.4, delay: 0.12, ease: "easeOut" }}
           className="order-3 flex flex-wrap items-center gap-x-4 gap-y-2 lg:col-start-1 lg:row-start-2"
-          aria-label="Özet bilgiler"
+          aria-label={dictionary.hero.statsAria}
         >
-          {siteConfig.stats.map((stat) => (
+          {dictionary.hero.stats.map((stat) => (
             <li
               key={stat.label}
               className="inline-flex items-baseline gap-1.5 text-xs text-muted-foreground/80"

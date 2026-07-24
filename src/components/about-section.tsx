@@ -1,27 +1,14 @@
-import { siteConfig } from "@/lib/site-config";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { Timeline } from "@/components/timeline";
+import { getDictionary } from "@/i18n/dictionaries";
+import { getRequestLocale } from "@/i18n/get-locale";
+import { siteConfig } from "@/lib/site-config";
 
-const cards = [
-  {
-    eyebrow: "01 · Sistem",
-    title: "Sadece arayüze değil, uçtan uca ölçeklenebilir sistemler kurmayı hedefliyorum.",
-    body: "Bir ekranı çizerken veri modelini, hata yolunu ve güvenlik sınırını birlikte düşünürüm.",
-  },
-  {
-    eyebrow: "02 · Zanaat",
-    title: "Kod her zaman temiz yapıda ve okunabilir olmalı.",
-    body: "Kullandığım teknolojilerin net modül sınırlarıyla büyüyen projeyi takip edilebilir tutarak kodun okunabilirliğini sağlarım.",
-  },
-  {
-    eyebrow: "03 · Yayın",
-    title: "Sistemi sadece kurmak değil, güncellenebilir bir şekilde yönetmeyi hedefliyorum.",
-    body: "Sistemi güncellemek için sadece kodu değiştirmek yeterli değil, sistemin durumunu takip etmek ve güncellemeleri yapmak gerekiyor. Bu yüzden sistemimizi güncelleyebilir ve yönetebilir hale getirmek için gerekli olan araçları ve süreçleri dikkatli bir şekilde planlayarak sağlarım.",
-  },
-] as const;
+export async function AboutSection() {
+  const locale = await getRequestLocale();
+  const dictionary = getDictionary(locale);
 
-export function AboutSection() {
   return (
     <section
       id="about"
@@ -30,17 +17,17 @@ export function AboutSection() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-12">
           <div>
-            <SectionEyebrow>about.engineer</SectionEyebrow>
+            <SectionEyebrow>{dictionary.about.eyebrow}</SectionEyebrow>
             <h2 className="mt-3 text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Nasıl mühendislik yapıyorum
+              {dictionary.about.title}
             </h2>
             <p className="mt-4 text-pretty text-sm leading-7 text-muted-foreground sm:text-base">
-              {siteConfig.description}
+              {dictionary.about.description}
             </p>
           </div>
 
           <div className="grid gap-3">
-            {cards.map((card, index) => (
+            {dictionary.about.cards.map((card, index) => (
               <Reveal key={card.title} index={index}>
                 <article className="rounded-xl border border-border bg-card/70 p-4 transition-all duration-200 hover:-translate-y-1 hover:border-border/80 hover:shadow-lg sm:p-5">
                   <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
@@ -60,7 +47,7 @@ export function AboutSection() {
 
         <div className="mt-12 border-t border-border pt-10 sm:mt-14 sm:pt-12">
           <h3 className="font-mono text-[0.7rem] tracking-wide text-muted-foreground">
-            Deneyim
+            {dictionary.about.experience}
           </h3>
           <Timeline items={siteConfig.milestones} />
         </div>

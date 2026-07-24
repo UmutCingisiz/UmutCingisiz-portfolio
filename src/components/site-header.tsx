@@ -11,17 +11,9 @@ import { Logo } from "@/components/logo";
 import { Magnetic } from "@/components/magnetic";
 import { socialLinks } from "@/components/social-icons";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+import { useI18n } from "@/i18n/locale-provider";
 
 const MOBILE_NAV_ID = "mobile-primary-navigation";
-
-const nav = [
-  { href: "/", label: "Ana Sayfa", sectionId: null },
-  { href: "/#about", label: "Hakkımda", sectionId: "about" },
-  { href: "/#skills", label: "Yetenekler", sectionId: "skills" },
-  { href: "/projects", label: "Projeler", sectionId: null },
-  { href: "/blog", label: "Blog", sectionId: null },
-  { href: "/guestbook", label: "Ziyaretçi Defteri", sectionId: null },
-] as const;
 
 function MenuIcon({ className }: { className?: string }) {
   return (
@@ -108,6 +100,7 @@ function isNavCurrent(
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const { dictionary } = useI18n();
   const activeSection = useActiveHomeSection();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -119,6 +112,20 @@ export function SiteHeader() {
     damping: 36,
     restDelta: 0.001,
   });
+
+  const nav = [
+    { href: "/", label: dictionary.nav.home, short: dictionary.nav.home, sectionId: null as string | null },
+    { href: "/#about", label: dictionary.nav.about, short: dictionary.nav.about, sectionId: "about" },
+    { href: "/#skills", label: dictionary.nav.skills, short: dictionary.nav.skills, sectionId: "skills" },
+    { href: "/projects", label: dictionary.nav.projects, short: dictionary.nav.projects, sectionId: null },
+    { href: "/blog", label: dictionary.nav.blog, short: dictionary.nav.blog, sectionId: null },
+    {
+      href: "/guestbook",
+      label: dictionary.nav.guestbook,
+      short: dictionary.nav.guestbookShort,
+      sectionId: null,
+    },
+  ] as const;
 
   const closeMobile = useCallback(() => {
     setMobileOpen(false);
@@ -154,7 +161,7 @@ export function SiteHeader() {
         className="sticky top-0 z-50 bg-background px-3 pt-3 pb-2 sm:px-5 sm:pt-4"
       >
         <div
-          className={`mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 rounded-2xl border px-3 transition-all duration-300 sm:h-16 sm:gap-3 sm:px-5 ${
+          className={`mx-auto flex h-14 max-w-6xl items-center gap-2 rounded-2xl border px-2.5 transition-all duration-300 sm:h-16 sm:gap-3 sm:px-4 ${
             scrolled
               ? "border-border bg-background/80 shadow-xl shadow-black/30 backdrop-blur-2xl backdrop-saturate-150"
               : "border-border/50 bg-background/50 shadow-lg shadow-black/10 backdrop-blur-xl"
@@ -162,15 +169,15 @@ export function SiteHeader() {
         >
           <Link
             href="/"
-            className="group relative z-10 inline-flex h-full min-w-0 shrink items-center self-stretch rounded-xl px-1 transition-opacity hover:opacity-80"
+            className="group relative z-10 inline-flex h-full shrink-0 items-center self-stretch rounded-xl px-0.5 transition-opacity hover:opacity-80"
             aria-label={siteConfig.name}
           >
-            <Logo className="text-sm sm:text-lg" />
+            <Logo className="text-sm sm:text-base" />
           </Link>
 
           <nav
-            className="hidden items-center gap-0.5 rounded-xl border border-border/70 bg-muted/30 p-1.5 lg:flex"
-            aria-label="Ana navigasyon"
+            className="mx-auto hidden min-w-0 items-center gap-0.5 rounded-xl border border-border/70 bg-muted/30 p-1 lg:flex"
+            aria-label={dictionary.nav.ariaMain}
           >
             {nav.map((item, i) => {
               const current = isNavCurrent(
@@ -185,21 +192,24 @@ export function SiteHeader() {
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.05 * i }}
+                  className="min-w-0"
                 >
                   <Link
                     href={item.href}
                     aria-current={current ? "page" : undefined}
-                    className="group relative whitespace-nowrap rounded-lg px-3 py-2 text-[0.85rem] text-muted-foreground transition-all duration-200 hover:bg-muted/70 hover:text-foreground aria-[current=page]:bg-muted/70 aria-[current=page]:text-foreground"
+                    title={item.label}
+                    className="group relative inline-flex whitespace-nowrap rounded-lg px-1.5 py-1.5 text-[0.72rem] text-muted-foreground transition-all duration-200 hover:bg-muted/70 hover:text-foreground aria-[current=page]:bg-muted/70 aria-[current=page]:text-foreground xl:px-2.5 xl:text-[0.8rem]"
                   >
-                    {item.label}
-                    <span className="absolute inset-x-4 bottom-1 h-px origin-left scale-x-0 bg-signal transition-transform duration-300 group-hover:scale-x-100 group-aria-[current=page]:scale-x-100" />
+                    <span className="xl:hidden">{item.short}</span>
+                    <span className="hidden xl:inline">{item.label}</span>
+                    <span className="absolute inset-x-2 bottom-0.5 h-px origin-left scale-x-0 bg-signal transition-transform duration-300 group-hover:scale-x-100 group-aria-[current=page]:scale-x-100" />
                   </Link>
                 </motion.div>
               );
             })}
           </nav>
 
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-1.5">
             <button
               type="button"
               onClick={openTerminal}
@@ -210,7 +220,7 @@ export function SiteHeader() {
               <span className="font-bold tracking-wide">
                 {siteConfig.terminal.name}
               </span>
-              <kbd className="hidden rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-[0.6rem] xl:inline">
+              <kbd className="hidden rounded border border-signal/30 bg-signal/10 px-1.5 py-0.5 text-[0.6rem] 2xl:inline">
                 Ctrl `
               </kbd>
             </button>
@@ -221,20 +231,18 @@ export function SiteHeader() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden size-9 items-center justify-center rounded-xl border border-border bg-card/45 text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted hover:text-foreground xl:inline-flex"
+                className="hidden size-8 items-center justify-center rounded-lg border border-border bg-card/45 text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted hover:text-foreground 2xl:inline-flex"
                 aria-label={label}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Icon className="size-[18px]" />
+                <Icon className="size-4" />
               </motion.a>
             ))}
 
-            <div className="hidden h-5 w-px bg-border xl:block" />
-
             <Magnetic className="hidden sm:inline-flex">
-              <ContactLink className="btn-signal inline-flex rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200">
-                İletişim
+              <ContactLink className="btn-signal inline-flex rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-200 xl:rounded-xl xl:px-3.5 xl:py-2 xl:text-sm">
+                {dictionary.nav.contact}
               </ContactLink>
             </Magnetic>
 
@@ -243,7 +251,9 @@ export function SiteHeader() {
               type="button"
               onClick={() => setMobileOpen((open) => !open)}
               className="inline-flex size-9 items-center justify-center rounded-lg text-foreground lg:hidden"
-              aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
+              aria-label={
+                mobileOpen ? dictionary.nav.closeMenu : dictionary.nav.openMenu
+              }
               aria-expanded={mobileOpen}
               aria-haspopup="dialog"
               aria-controls={MOBILE_NAV_ID}
@@ -275,7 +285,7 @@ export function SiteHeader() {
             id={MOBILE_NAV_ID}
             role="dialog"
             aria-modal="true"
-            aria-label="Mobil menü"
+            aria-label={dictionary.nav.openMenu}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -284,13 +294,13 @@ export function SiteHeader() {
           >
             <nav
               className="mx-auto flex min-h-full max-w-sm flex-col items-stretch justify-center gap-3"
-              aria-label="Mobil navigasyon"
+              aria-label={dictionary.nav.ariaMain}
             >
               <button
                 type="button"
                 onClick={closeMobile}
                 className="mb-2 ml-auto inline-flex size-11 items-center justify-center rounded-xl border border-border bg-card/60 text-foreground transition-colors hover:bg-muted"
-                aria-label="Menüyü kapat"
+                aria-label={dictionary.nav.closeMenu}
               >
                 <CloseIcon className="size-5" />
               </button>
@@ -304,7 +314,7 @@ export function SiteHeader() {
                   onNavigate={closeMobile}
                   className="btn-signal flex h-12 items-center justify-center rounded-xl text-base font-semibold"
                 >
-                  İletişim
+                  {dictionary.nav.contact}
                 </ContactLink>
               </motion.div>
 

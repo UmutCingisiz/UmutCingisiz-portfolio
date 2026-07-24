@@ -10,6 +10,55 @@ export const siteConfig = {
   /** Ana sayfa GitHub repoları + profil yedek görseli */
   githubUsername: "UmutCingisiz",
   /**
+   * Ana sayfa GitHub feed whitelist — yalnızca bu elit projeler listelenir.
+   * Öğrenme / README depoları otomatik elenir.
+   */
+  pinnedRepos: [
+    "UmutCingisiz-portfolio",
+    "Bloomedu",
+    "aras-mali",
+    "zeki-dekorasyon",
+  ] as const,
+  /**
+   * Kişisel hesap dışında kalan (ekip/org) veya alternatif tam adlar.
+   * İlk başarılı API yanıtı kullanılır.
+   */
+  pinnedRepoSources: {
+    Bloomedu: ["somethn7/Bloomedu", "gozdeertas/Bloomedu"],
+    "UmutCingisiz-portfolio": ["UmutCingisiz/UmutCingisiz-portfolio"],
+  } as Record<string, readonly string[]>,
+  /**
+   * Henüz public GitHub reposu olmayan seçkin projeler için dürüst vitrin.
+   * html_url portfolyo case study sayfasına gider.
+   */
+  pinnedRepoFallbacks: {
+    "aras-mali": {
+      description:
+        "Next.js + Sanity CMS kurumsal site — hizmetler, blog, hesaplayıcılar, randevu.",
+      html_url: "/projects/aras-mali",
+      language: "TypeScript",
+      pushed_at: "2026-07-18T00:00:00Z",
+      caseStudy: "/projects/aras-mali",
+    },
+    "zeki-dekorasyon": {
+      description:
+        "Next.js SSG katalog — image optimization ve WhatsApp fiyat / iletişim akışı.",
+      html_url: "/projects/zeki-dekorasyon",
+      language: "TypeScript",
+      pushed_at: "2026-02-15T00:00:00Z",
+      caseStudy: "/projects/zeki-dekorasyon",
+    },
+  } as Record<
+    string,
+    {
+      description: string;
+      html_url: string;
+      language: string;
+      pushed_at: string;
+      caseStudy?: string;
+    }
+  >,
+  /**
    * GitHub API dil alanı boş gelen repolar için dürüst override
    * (ör. Java Examples — API null dönebilir).
    */

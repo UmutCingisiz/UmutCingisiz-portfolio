@@ -39,10 +39,10 @@ test.describe("contact form", () => {
     });
     await page.getByRole("button", { name: "Gönder" }).click();
 
-    await expect(page).toHaveURL(/\?contact=sent/);
     await expect(
       page.getByRole("heading", { name: /Teşekkürler, mesajınız alındı/i }),
     ).toBeVisible();
+    await expect(page).not.toHaveURL(/\?contact=sent/);
     await expect(page.locator("#contact-name")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Gönder" })).toHaveCount(0);
   });

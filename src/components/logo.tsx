@@ -34,7 +34,7 @@ export function Logo({ className }: LogoProps) {
         </span>
       </span>
 
-      <span className="inline-flex min-w-0 items-center gap-x-1.5 leading-none">
+      <span className="hidden min-w-0 items-center gap-x-1.5 leading-none xl:inline-flex">
         <span className="text-[0.9em] font-black uppercase leading-none tracking-[-0.03em] text-foreground sm:text-[1.05em]">
           Umut
         </span>

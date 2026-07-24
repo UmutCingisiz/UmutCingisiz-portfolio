@@ -91,8 +91,8 @@
   --color-ring: var(--ring);
   --color-signal: var(--signal);
   --color-signal-foreground: var(--signal-foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans-face);
+  --font-mono: var(--font-mono-face);
 }
 
 * {
@@ -141,7 +141,7 @@ body {
   min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-sans-face), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Koyu mod arka plan dokusu — "kareli" grid-line yerine yumuşak aurora +
