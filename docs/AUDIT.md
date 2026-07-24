@@ -1,405 +1,437 @@
-# Portfolio Site Audit — Tam Envanter + Test
+# Portfolio Site Audit — Code Review (filtresiz)
 
 **Tarih:** 2026-07-24  
 **Site:** https://umutcingisiz.com  
-**Repo:** `feature/portfolio-v2` (bu dosya yerel kaynakla senkron; production deploy gecikmeli olabilir)  
-**Yöntem:** Kod taraması + Vitest + content gate + production tarayıcı snapshot (home + /projects)
-
-Plan / manuel: [`PROJE-GELISTIRME-PLANI.md`](./PROJE-GELISTIRME-PLANI.md) · [`MANUEL-ADIMLAR.md`](./MANUEL-ADIMLAR.md)
+**Commit referansı:** `d624247`  
+**Yöntem:** Kod tarama + production içerik + Lighthouse snapshot (`lighthouse-metrics.ts`) + yapısal SEO/robots kontrolü  
+**Plan / manuel:** [`PROJE-GELISTIRME-PLANI.md`](./PROJE-GELISTIRME-PLANI.md) · [`MANUEL-ADIMLAR.md`](./MANUEL-ADIMLAR.md)  
+**İnteraktif özet:** Cursor Canvas → `portfolio-site-audit.canvas.tsx`
 
 ---
 
-## 0) Özet karar
+## 0) Tek cümlelik hüküm
 
-| Metrik | Değer |
+**Solid Mid (7.3/10)** — mühendislik yüzeyi junior değil; Hiring + Projects + Guestbook “gerçekten iyi” sinyali veriyor. Hero / ucmd gürültüsü + Perf 72 + ince blog, FAANG polish ve “üst düzey portfolyo” barının altında.
+
+| Soru | Cevap |
+|------|--------|
+| Junior mu? | **Hayır** |
+| Mid mi? | **Evet — Solid Mid / erken Senior eşiği** |
+| Senior seviyesi mi? | **Kısmen** (ürün disiplini var; görsel sadelik + perf + içerik derinliği eksik) |
+| FAANG’e yaklaşmış mı? | **Hayır** |
+| Template mi? | **Hayır** — ama dark-cyan + terminal + eyebrow dili template *hissi* riski taşıyor |
+
+### Recruiter — ilk 30 saniye (filtresiz)
+
+> “Bu çocuk gerçekten mühendislik yapıyor (Bloomedu/BİGG, P/D/I, auth, CI) — ama site biraz fazla ‘dark cyan terminal portfolio’ klişesine yaslanıyor. Hero + ucmd + eyebrow gürültüsü template hissini besliyor; Hiring + Projects sayfası ise tersine ikna ediyor.”
+
+İki kutup arası: **“Gerçekten iyi”** (kanıt yüzeyleri) vs **“Template kullanmış”** (görsel dil). Şu an ikisinin karışımı; net skor Hiring’e tıklayana kadar belirsiz kalıyor.
+
+---
+
+## 1) Ölçümler
+
+| Kaynak | Sonuç |
 |--------|--------|
-| Genel seviye | **Solid Mid** — gerçek ürün yüzeyleri var (auth, guestbook, CI, case study) |
-| En güçlü | Featured/Projects case study · Contact form · Guestbook · Lightbox |
-| En zayıf risk | Lightbox focus trap · LCP yeniden ölçüm · GSC manuel · Hero yoğunluğu |
-| Template mi? | Hayır — ama kart/tilt tekrarı ve “dev aesthetic” eyebrow’lar dikkat dağıtabilir |
-
-### Bu turda yapılan lokal düzeltmeler (deploy öncesi)
-
-- Müsait pill eski stile döndü: `Müsait · Yeni iş fırsatları için uygun`
-- Role: `Bilgisayar Mühendisi · Full-Stack Developer`
-- about h2: **Nasıl mühendislik yapıyorum** (+ description yenilendi; kart metinleri kullanıcıda kaldı)
-- selected.case_studies açıklaması yenilendi
-- contact.endpoint resmiyete çekildi (`İletişim`)
-- Mesaj validasyon tonu yumuşatıldı
-- ucmd teaser büyütüldü (başlık, glow, komut chip’leri, “Terminali aç”)
+| Lighthouse mobile (2026-07-22) | Perf **72** · A11y **93** · BP **100** · SEO **100** |
+| LCP | **3.8 s** (hedef ≤2.5s) |
+| CLS | **0** |
+| Vitest | 28/28 |
+| `check:content` | OK |
+| Playwright | CI’da; lokal Chromium bu ortamda yok |
+| GSC / Safari / recruiter 30s | Manuel — `MANUEL-ADIMLAR.md` |
 
 ---
 
-## 1) Test sonuçları (2026-07-24)
+## 2) Yüzey puanları (özet)
 
-| Test | Sonuç |
-|------|--------|
-| `npx tsc --noEmit` | ✅ |
-| `npm run test` (Vitest) | ✅ 7 dosya · **28/28** |
-| `npm run check:content` | ✅ |
-| Production home snapshot | ✅ açılıyor; bölümler mevcut |
-| Production `/projects` snapshot | ✅ Yayında 2 · Geliştiriyorum 2 · P/D/I |
-| Playwright e2e | ⏸ Bu ortamda Chromium binary yok; CI’da koşuyor |
-| Lighthouse yeniden ölçüm | ⏸ Deploy sonrası `npm run lighthouse:home` |
-| Safari / recruiter 30 sn | ⏸ Manuel (`MANUEL-ADIMLAR`) |
-| GSC | ⏸ Manuel |
-
-### Production’da gözlenen (canlı — henüz bu commit değilse eski metin görünebilir)
-
-- Header: Logo UC + Umut Cingisiz · `ucmd` · İletişim · hamburger
-- Hero: Müsait rozeti · ad · headline · bio · 3 CTA · sosyal · foto · stats
-- Terminal teaser tıklanabilir
-- Skills / Featured (3 kart + kapak) / Hiring / Lab / GitHub / Contact form
-- Projects: görsel üstte, status grupları, P/D/I
-
----
-
-## 2) Kimlik (tek kaynak: `src/lib/site-config.ts`)
-
-| Alan | Değer |
-|------|--------|
-| name | Umut Cingisiz |
-| role | Bilgisayar Mühendisi · Full-Stack Developer |
-| location | Türkiye |
-| availabilityLabel | Müsait |
-| availabilityDetail | Yeni iş fırsatları için uygun |
-| headline | Arayüzden veritabanına kadar ürünü ben kuruyorum. |
-| shortBio | Doğu Akdeniz Üniversitesi … Bloomedu / BİGG / jüri |
-| stats | Okul → Doğu Akdeniz Üniversitesi · Konum → Türkiye · Odak → Full-stack |
-| terminal | ucmd v1.0 · Komutlarla sitede gez |
-| email / github / linkedin / githubRepo | config’te |
+| Yüzey | Puan | 1 satır |
+|-------|------|---------|
+| Hero | **6.2** | Marka var; first viewport şişkin + LCP |
+| Navbar | **8.0** | A11y güçlendi; section coverage eksik |
+| ucmd / Terminal | **5.8** | Karakter; ikinci hero maliyeti |
+| About | **7.2** | İyi omurga; kart title duvarı |
+| Skills | **8.1** | Kanıt linkli harita |
+| Featured | **7.4** | P/D/I güçlü; tilt/magnetic |
+| Hiring | **8.8** | En net recruiter path |
+| Algorithm Lab | **6.0** | Dürüst; scroll maliyeti |
+| GitHub | **6.6** | Gerçek API; zayıf repo listesi |
+| Contact | **8.6** | Success + fail-closed |
+| Footer | **6.2** | Minimal; CV yok |
+| Home (bütün) | **7.4** | |
+| /projects | **8.2** | |
+| /projects/[slug] | **8.0** | |
+| /blog | **5.4** | |
+| /guestbook | **8.0** | |
+| SEO | **8.4** | |
+| Performance | **5.2** | |
+| A11y | **8.1** | |
+| Kod kalitesi | **8.0** | |
+| **GENEL** | **7.3** | |
 
 ---
 
-## 3) Resim resim site envanteri
+## 3) Bölüm bölüm review
 
-Her bölüm için: **ne dönüşür**, **dosya**, **görsel parçalar**, **etkileşim**, **veri**, **nasıl değiştirilir**.
-
-### 3.1 Global chrome (her sayfa)
-
-**Görüntü:** Üstte yapışkan koyu cam header; solda UC mühür + Umut/Cingisiz wordmark; sağda `ucmd`, cyan İletişim, mobilde hamburger. Altta footer (isim, domain, @github, sosyal, linkler). Arka plan: nokta grid + hafif aurora.
-
-| Parça | Dosya | Ne işe yarar | Nasıl değiştirilir |
-|-------|--------|--------------|-------------------|
-| Layout / font / analytics | `src/app/layout.tsx` | Geist, dark, Analytics, Speed Insights, JsonLd | Font preload, provider env |
-| Skip link | `skip-to-content.tsx` | “İçeriğe atla” → `#main-content` | Metin |
-| Header | `site-header.tsx` | Nav, menü a11y, scroll progress, ucmd | `navItems` dizisi |
-| Logo UC | `logo.tsx` | U \| C mühür + wordmark | Grid/flex harf yuvaları |
-| Footer | `site-footer.tsx` | Telif, linkler | Metin / link listesi |
-| Hidden terminal | `hidden-terminal.tsx` | Ctrl+` / openTerminal overlay | Komut `case`’leri |
-| Network toast | `network-status.tsx` | Offline bildirimi (EN) | Metni TR’ye çek |
-| Globals / token | `globals.css` | `--signal`, surfaces, motion, btn-* | CSS değişkenleri |
-| www→apex | `next.config.ts` | Redirect | Host kuralı |
-
-**Nav etiketleri:** Ana Sayfa · Hakkımda · Yetenekler · Projeler · Blog · Ziyaretçi Defteri  
-**Hash izleme (home):** about, skills, projects, hiring, algorithm-lab, github, contact — nav’da hiring/lab/github/contact ayrı madde yok.
+Her bölüm: ❌ hatalar · ⚠️ eksikler · 💡 öneriler · ⭐ iyi örnekler · 🎯 nasıl · 📈 etki
 
 ---
 
-### 3.2 Ana sayfa sırası (`src/app/page.tsx`)
+### 3.1 Navbar (`site-header.tsx`, `logo.tsx`)
 
-1. HashScroll  
-2. ContactSuccessToast (`?contact=sent`)  
-3. StatusBanner (CV missing/limited)  
-4. Hero  
-5. TerminalPrompt (ucmd)  
-6. About (`#about`)  
-7. Skills (`#skills`)  
-8. Featured (`#projects`)  
-9. Hiring (`#hiring`)  
-10. Algorithm Lab (`#algorithm-lab`)  
-11. GitHub (`#github`)  
-12. Contact (`#contact`)
+**Puan: 8.0/10**
+
+❌ Logo alt satırı `fullstack/engineer` — `siteConfig.role` ile uyumsuz (`logo.tsx`).  
+⚠️ Nav’da hiring / contact / github yok; IntersectionObserver bu id’leri izliyor ama menüde yok.  
+⚠️ Desktop İletişim hâlâ `Magnetic` içinde.  
+💡 Sticky + scroll progress + skip link + mobil dialog a11y (overflow-hidden, Escape, focus trap) — iyi.  
+⭐ [rauno.me](https://rauno.me) — minimal nav, sıfır süs.  
+🎯 Logo tagline’ı `siteConfig.role`’dan al; nav’a “İletişim”; Magnetic kaldır.  
+📈 **High** (ilk izlenim + tutarlılık)
 
 ---
 
-### 3.3 Hero — “ilk kare”
+### 3.2 Hero (`hero.tsx`)
 
-**Görüntü:** Sol kolon metin; sağda (desktop) eğimli profil foto + current_focus bandı; altta 3 stat kartı. Üstte yeşil Müsait pill.
+**Puan: 6.2/10**
 
-| Parça | Dosya / kaynak | Değiştir |
-|-------|----------------|----------|
-| Müsait pill | `hero.tsx` + `availabilityLabel/Detail` | site-config |
-| Role satırı | `siteConfig.role` | site-config |
-| h1 ad | `siteConfig.name` | site-config |
-| Headline (gradient) | `siteConfig.headline` | site-config |
-| Bio | `siteConfig.shortBio` | site-config |
-| CTA İletişim | ContactLink → `#contact` | `contact-link.tsx` |
-| CTA Projeler | `/projects` | hero.tsx |
-| CTA CV | `/api/resume` | resume route |
-| Sosyal | `social-icons.tsx` | href listesi |
-| Foto | `/profile.jpg` + GitHub fallback | public/ + githubUsername |
-| Stats | `siteConfig.stats` | Okul/Konum/Odak |
-| current_focus overlay | `siteConfig.currentFocus` | site-config |
-| Tilt / Magnetic | `tilt-card.tsx`, `magnetic.tsx` | strength / allowlist |
-| Ambient orb | hero + globals | mobilde gizli (LCP) |
-
-**Risk:** İlk viewport yoğun (pill + role + ad + headline + bio + 3 CTA + sosyal + foto + stats).
+❌ First viewport bütçesi aşılıyor: pill + role + H1 + headline + bio + 3 CTA + sosyal + foto + current_focus + 3 stat.  
+❌ LCP adayı foto + client Hero → Perf 72 / LCP 3.8s ile uyumlu.  
+⚠️ Headline artık düz renk (iyi) ama foto üzerinde overlay hâlâ dikkat çalıyor.  
+⚠️ Geist = çok kullanılan “AI portfolio” fontu; marka ayrışması zayıf.  
+💡 Müsait pill kompakt; Magnetic CTA’lardan kalktı — doğru yön.  
+⭐ [linear.app](https://linear.app) hero — tek headline, tek CTA, bol boşluk.  
+⭐ [delba.dev](https://delba.dev) — sade, tipografi odaklı.  
+🎯 CTA’yı 2’ye indir (İletişim + Projeler; CV secondary/footer). Stats’ı about’a taşı veya tek satır meta yap. Overlay’i kaldır veya sadece hover’da göster. Server Component iskelet + küçük client ada.  
+📈 **High**
 
 ---
 
-### 3.4 ucmd TerminalPrompt — “ikinci kare”
+### 3.3 ucmd / Terminal (`terminal-prompt.tsx`, `hidden-terminal.tsx`)
 
-**Görüntü:** `interactive.shell` etiketi + “ucmd — sitede komutla gez”; altında büyük koyu terminal kartı (traffic lights, ucmd badge, `$ show_projects()`, komut chip’leri, “Terminali aç”).
+**Puan: 5.8/10**
 
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Teaser UI | `terminal-prompt.tsx` | başlık, chip’ler, glow |
-| Overlay shell | `hidden-terminal.tsx` | komutlar |
-| Açma API | `lib/terminal.ts` | event adı |
-| Header ucmd | `site-header.tsx` | her boyutta görünür |
-| Tagline / ad | `siteConfig.terminal` | site-config |
-
-**Komutlar (gerçek):** help, whoami, about, skills, projects/show_projects, blog, contact, social, resume/cv, status, version/ucmd, clear.
+❌ Home’da Hero’dan hemen sonra ikinci “vitrin” — dikkat ve scroll bütçesini yer.  
+⚠️ Recruiter’ın bir kısmı “gimmick” diye geçer; diğer kısmı sever — risk asimetrik.  
+💡 Komutla gezinme gerçek özellik; Ctrl+` tutarlı.  
+⭐ Karakter istiyorsan: tek satır teaser (kart değil) veya sadece header `ucmd`.  
+🎯 Ana sayfada büyük glow kartı küçült; detayı overlay’e bırak.  
+📈 **High** (home conversion / first impression)
 
 ---
 
-### 3.5 About (`#about`)
+### 3.4 About + Experience (`about-section.tsx`, `timeline.tsx`)
 
-**Görüntü:** Sol: eyebrow `about.engineer` + h2 + description. Sağ: 3 surface kart (Sistem / Zanaat / Yayın). Altta “Deneyim” timeline.
+**Puan: 7.2/10**
 
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| h2 / layout | `about-section.tsx` | başlık |
-| Intro paragraf | `siteConfig.description` | site-config |
-| 3 kart | `about-section.tsx` `cards` | title/body |
-| Timeline | `timeline.tsx` + `milestones` | site-config.milestones |
-
----
-
-### 3.6 Skills (`#skills`)
-
-**Görüntü:** `stack.map()` · Yetkinlik haritası · iki kolon numaralı liste (Güçlü / Gelişen) · altta `tech.stack` araç panelleri.
-
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Güçlü/Gelişen satırlar | `skills-section.tsx` | domain/detail/proof/href |
-| Tech grupları | `siteConfig.techStack` | group/items |
-| Lab deep-link | `#algorithm-lab` | lab id |
+❌ 01/02/03 kart **title**’ları aşırı uzun — H3 gibi değil, paragraf gibi duruyor.  
+⚠️ “Deneyim” timeline dürüst (kulüp **üye**, BİGG **kabul**) — iyi; ama iş/staj satırı yok.  
+💡 Flat hover kartlar (tilt yok) — gürültü azaltıldı.  
+⭐ [brittanychiang.com](https://brittanychiang.com) about — kısa, scannable.  
+🎯 Title’ları ≤8 kelime; body’de detay. İsteğe bağlı tek “şu an arıyorum” satırı.  
+📈 **Medium**
 
 ---
 
-### 3.7 Featured / selected.case_studies (`#projects`)
+### 3.5 Skills (`skills-section.tsx`)
 
-**Görüntü:** 3 kolon (lg) kart; üstte kapak 16:10; badge Full-stack + durum; P/D/I; İncele / Kod.
+**Puan: 8.1/10**
 
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Liste UI | `featured-projects-list.tsx` | açıklama, layout |
-| Limit 3 | `featured-projects.tsx` | `getFeaturedProjects(3)` |
-| İçerik | `src/content/projects/*.mdx` | featured, gallery, P/D/I |
-| Kapak | `coverImage` veya `gallery[0]` | MDX |
-| Status etiketi | `project-status.ts` | Yayında / Geliştiriliyor |
-
-**Şu an featured:** Aras Mali, Bloomedu, Zeki Dekorasyon (`portfolio-web` featured:false).
+💡 Güçlü/gelişen + kanıt linki — portfolyolarda nadir ve değerli.  
+⚠️ `tech.stack` pill ormanı hâlâ “chip dump” riski.  
+❌ Domain metinleri ile featured projeler hafif tekrar.  
+⭐ Aynı kanıt modeli: her skill → tek proje/yazı.  
+🎯 Pill sayısını grup başına ≤5 tut; akademik dilleri daralt.  
+📈 **Medium**
 
 ---
 
-### 3.8 Hiring (`#hiring`)
+### 3.6 Featured Projects (`featured-projects-list.tsx`)
 
-**Görüntü:** Sol sticky: h2, quick link 2×2 (Projeler/Blog/CI/Guestbook), reviewer_path, Lighthouse satırı. Sağ: Mimari/Kalite/Güvenlik/Yayın kartları + “Kanıtı incele →”.
+**Puan: 7.4/10**
 
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Kartlar / linkler | `hiring-proof-section.tsx` | proofSignals, quickLinks |
-| CI URL | `siteConfig.githubRepo` + `/actions` | site-config |
-| Lighthouse sayıları | `lib/lighthouse-metrics.ts` | ölçüm sonrası güncelle |
-
----
-
-### 3.9 Algorithm Lab (`#algorithm-lab`)
-
-**Görüntü:** Senaryo butonları (Dengeli/Güvenli/Agresif) · maliyet · 8×5 grid yol · lejant.
-
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Island lazy | `algorithm-lab-island.tsx` | dynamic import |
-| Senaryolar | `algorithm-lab-section.tsx` `scenarios` | path/cost/signal |
-| Skeleton | `algorithm-lab-skeleton.tsx` | yükleme UI |
+❌ Her kartta hardcoded `Full-stack` chip — `category` frontmatter yok sayılıyor.  
+⚠️ `TiltCard` + `Magnetic` + `gradient-border` — Task 4 after/hiring’de sadeleşti; burada hâlâ gürültü.  
+💡 P/D/I blokları recruiter için altın standart.  
+💡 Mobil `object-contain` kapak — doğru yön.  
+⭐ [reads.cv](https://reads.cv) case cards — az efekt, çok içerik.  
+🎯 Tilt’i kaldır veya sadece desktop hover; chip’i `p.category`’den al; Magnetic kaldır.  
+📈 **High**
 
 ---
 
-### 3.10 GitHub (`#github`)
+### 3.7 Hiring Proof (`hiring-proof-section.tsx`)
 
-**Görüntü:** `github.signal` · recent repos · dil chip’leri · repo kartları.
+**Puan: 8.8/10**
 
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Section | `github-activity-section.tsx` | kopya |
-| Feed | `git-log-feed.tsx` | etiket |
-| API | `lib/github-repos.ts` | per_page, revalidate |
-| Dil override | `githubLanguageOverrides` | site-config |
-
----
-
-### 3.11 Contact (`#contact`)
-
-**Görüntü:** Sol İletişim metni + mailto kartı. Sağ secure.form (İsim/E-posta/Mesaj/Gönder). Başarıda altta toast.
-
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Section kopya | `contact-section.tsx` | h2/lead |
-| Form UI | `contact/contact-form.tsx` | alanlar |
-| Zod | `lib/contact-schema.ts` | min uzunluk / mesajlar |
-| Action | `actions/contact.ts` | redirect `/?contact=sent` |
-| Toast | `contact-success-toast.tsx` | süre / metin |
-| Rate limit | `contact-rate-limit.ts` | limitler; fail-closed |
-| Banner CV | `status-banner.tsx` | resume query |
+💡 Site’nin en güçlü “beni işe al” yüzeyi: her kart → gerçek URL (CI, case, blog, guestbook).  
+💡 Lighthouse skorunu **dürüst** göstermek güven artırır (72 gizlenmiyor).  
+⚠️ Hâlâ “kart duvarı”; quick link grid + proof list biraz tekrar.  
+⭐ Bu bölümü koru; sadeleştir ama silme.  
+🎯 Quick links’i tek satıra indir; Lighthouse’u Perf iyileşince güncelle.  
+📈 **High** (zaten yüksek — koru)
 
 ---
 
-### 3.12 `/projects` arşiv
+### 3.8 Algorithm Lab (`algorithm-lab-*`)
 
-**Görüntü:** `project.archive` · h1 Projeler · review.mode sayaçları · status.live / status.wip showcase (görsel + metin flip).
+**Puan: 6.0/10**
 
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Sayfa | `app/projects/page.tsx` | gruplar, ProjectVisual |
-| Meta | `lib/content/projects.ts` | yükleyici |
-| MDX | `content/projects/*.mdx` | status, gallery |
-
-**İçerik:** live → portfolio-web, bloomedu · building → aras-mali, zeki-dekorasyon.
+⚠️ Hiring’den sonra yorgunluk bölgesi; trade-off güzel ama işe alım için zorunlu değil.  
+💡 “Canlı solver değil” dürüstlüğü iyi.  
+🎯 Home’dan çıkarıp `/lab` veya Skills altına tek link yapmayı değerlendir.  
+📈 **Medium** (home yoğunluğu)
 
 ---
 
-### 3.13 `/projects/[slug]` + lightbox
+### 3.9 GitHub Activity (`github-activity-section.tsx`)
 
-**Görüntü:** case.study header · tags · repo/demo · product.screens galeri · architecture.decisions P/D/I · MDX gövde · prev/next · iletişim CTA.
+**Puan: 6.6/10**
 
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Sayfa | `projects/[slug]/page.tsx` | layout |
-| Galeri / lightbox | `project-gallery.tsx` | Escape/oklar; **focus trap eksik** |
-| OG | `projects/[slug]/opengraph-image.tsx` | görsel |
-| JSON-LD | CreativeWork | source |
+💡 Gerçek API, sahte SHA yok — önceki audit’ten ilerleme.  
+❌ Feed’de `README`, `Instructive-Basic_HTML-CSS` gibi zayıf sinyaller “junior repo dump” hissi verir.  
+🎯 Whitelist / exclude list; veya sadece `siteConfig` pin’leri.  
+📈 **High** (recruiter güveni)
+
+---
+
+### 3.10 Contact (`contact-section.tsx`, `contact-form.tsx`, `contact-success-state.tsx`)
+
+**Puan: 8.6/10**
+
+💡 Success state form’u DOM’dan kaldırıyor — double-submit yok.  
+💡 Fail-closed rate-limit, Zod, honeypot, Resend.  
+⚠️ Copy’de “staj” geçiyor; availability “yeni iş fırsatları” — framing drift.  
+⚠️ Honeypot bot’a `?contact=sent` → sahte başarı toast.  
+⭐ Cal.com / Stripe-style success: form yerine net onay paneli (sizde var).  
+🎯 Staj cümlesini netleştir veya kaldır; honeypot’u sessiz no-op yap.  
+📈 **Medium**
+
+---
+
+### 3.11 Footer (`site-footer.tsx`)
+
+**Puan: 6.2/10**
+
+❌ Domain URL hardcode (`https://umutcingisiz.com`) — `getSiteOrigin()` değil.  
+⚠️ CV indir yok; About yok.  
+⚠️ “Next.js · TypeScript · …” tech flex satırı zayıf sinyal.  
+🎯 CV + e-posta + Projeler/Blog; origin helper; tech satırını sil veya tek satır yap.  
+📈 **Medium**
+
+---
+
+### 3.12 Home — Responsive / Scroll
+
+**Puan: 7.0/10**
+
+💡 `max-w-6xl`, scroll-mt, hash scroll var.  
+⚠️ Mobilde bölüm sayısı (9) uzun; sticky hiring desktop’ta iyi, mobilde yığılır.  
+⚠️ Loading “Yükleniyor…” flash’ı (Suspense) hissettirebiliyor.  
+🎯 Home’dan Lab veya ucmd kartını incelt; skeleton’ları daha sessiz yap.  
+📈 **Medium**
+
+---
+
+### 3.13 `/projects` + `[slug]`
+
+**Puan: 8.2 / 8.0**
+
+💡 Live / WIP ayrımı + P/D/I + gallery lightbox focus trap — güçlü.  
+⚠️ `ambient-orb`, Tilt, Magnetic, hardcoded Full-stack chip hâlâ var.  
+⚠️ Aras/Zeki henüz live değil — dürüst status iyi; etki henüz “hedef” dilinde.  
+⭐ Case study derinliği: gallery + MDX body.  
+🎯 Projects sayfasında tilt/orb kes; category chip düzelt.  
+📈 **High**
 
 ---
 
 ### 3.14 Blog
 
-| Rota | Dosya | Not |
-|------|--------|-----|
-| `/blog` | `blog/page.tsx` + `blog-post-list.tsx` | technical.notes · kartlar |
-| `/blog/[slug]` | `[slug]/page.tsx` | MDX, related, view tracker |
-| İçerik | `content/blog/*.mdx` | 3 yazı |
-| Views | `/api/views/[slug]` + Redis | rate limit |
+**Puan: 5.4/10**
+
+❌ 3 yazı, hepsi ~1 dk — “blog var” kutusu işaretli ama derinlik yok.  
+⚠️ Kartlarda Tilt + gradient-border.  
+💡 MDX pipeline, reading time, related, views API — teknik omurga iyi.  
+⭐ Bir tane derin yazı (Bloomedu mimarisi / BİGG süreci) tüm blog puanını taşır.  
+🎯 1 long-form + 2 kısa tut; listede tilt kaldır.  
+📈 **High**
 
 ---
 
 ### 3.15 Guestbook
 
-**Görüntü:** GitHub ile giriş · mesaj formu · onaylı liste · admin bekleyen/gizlenen.
+**Puan: 8.0/10**
 
-| Parça | Dosya | Değiştir |
-|-------|--------|----------|
-| Sayfa | `guestbook/page.tsx` | UI |
-| Actions | `guestbook/actions.ts` | moderasyon + cache tag |
-| Auth | `auth.ts` GitHub OAuth | callback URL |
-| DB | Drizzle + Neon `guestbook_entry` | schema |
-| Cache | `listCachedApprovedEntries` 60s | guestbook.ts |
-| E-posta giriş fikri | Plan §3 | henüz kodlanmadı |
+💡 OAuth + moderasyon = gerçek ürün.  
+⚠️ Boş/az mesaj = social proof zayıf.  
+⚠️ Form pending `aria-busy` / disable eksik olabilir.  
+🎯 2–3 onaylı mesaj ekle (arkadaş/mentor); form a11y eşitle.  
+📈 **Medium**
 
 ---
 
-### 3.16 SEO / sistem
+## 4) Tasarım checklist
 
-| Parça | Dosya |
+| Madde | Durum | Not |
+|-------|--------|-----|
+| İlk izlenim (5 sn) | ⚠️ | İsim + BİGG okunur; gürültü template riski |
+| Renk paleti | ✅ | Dark + signal cyan tutarlı; purple-slop yok |
+| Font | ⚠️ | Geist — güvenli ama jenerik |
+| Spacing | ✅/⚠️ | Ritim var; kart içi 4/5 karışık |
+| Grid | ✅ | max-w-6xl tutarlı |
+| Responsive | ✅/⚠️ | Çalışır; proje görselleri düzeldi; home uzun |
+| Dark mode | ✅ | Tek tema — bilinçli |
+| Hover | ⚠️ | Bazı yerlerde fazla (tilt/magnetic) |
+| Animasyon | ⚠️ | Reveal iyi; orb/tilt fazla |
+| Scroll | ⚠️ | Çok bölüm |
+| CTA | ⚠️ | Hero’da 3 yarışıyor |
+| Kartlar | ⚠️ | About/Hiring sadeleşti; Featured/Projects hâlâ zengin |
+
+---
+
+## 5) UX checklist
+
+| Madde | Durum |
 |-------|--------|
-| Sitemap / robots | `sitemap.ts`, `robots.ts` |
-| Root OG | `opengraph-image.tsx` |
-| Metadata | `site-metadata.ts` |
-| JSON-LD Person/WebSite | `json-ld.ts` |
-| Manifest / icons | `manifest.ts`, `icon.tsx` |
-| Sentry | `@sentry/nextjs` + tunnel |
-| Resume API | `api/resume/route.ts` |
-| CI | `.github/workflows/ci.yml` |
+| Kullanıcı ne yapacağını anlıyor mu? | ✅ (İletişim / Projeler net) |
+| Landing dönüşüm odaklı mı? | ⚠️ (çok bölüm dağıtıyor) |
+| Menü mantıklı mı? | ⚠️ (contact/hiring eksik) |
+| Footer yeterli mi? | ⚠️ |
+| Formlar | ✅ Contact güçlü |
+| Loading | ✅ route loading’ler var |
+| Error mesajları | ✅ contact; ⚠️ global-error leak riski |
+| Empty state | ✅ gallery / github |
+| Success state | ✅ contact |
 
 ---
 
-### 3.17 Tasarım token’ları (globals)
+## 6) Frontend / a11y / perf / SEO
 
-| Token | Kullanım |
-|-------|----------|
-| `--signal` cyan | CTA, focus, link |
-| `--signal-glow` / strong | soft halo / btn-signal |
-| `surface-plain/card/interactive` | kart varyantları |
-| `--motion-*` | hover/reveal süreleri |
-| `--radius-sm…xl` | köşe |
-| `.btn-signal` `.btn-outline-rise` `.btn-ghost-rise` | CTA hiyerarşisi |
-| Tilt allowlist | Hero foto · Featured · Projects arşiv |
+### Frontend
+- Component sınırları genel olarak temiz; `site-config` tek kimlik kaynağı (birkaç hardcode drift hariç).
+- Ağır client adalar: Header, Hero, Lab, Gallery, Tilt/Magnetic/Reveal.
+- Tekrar: `SectionEyebrow` + `surface-*` + tilt pattern.
 
----
+### Accessibility
+- ✅ Skip link, `lang="tr"`, menu/lightbox focus trap, Escape, `aria-modal`
+- ⚠️ Network toast EN; guestbook pending a11y; bazı dekoratif eyebrow’lar okuyucuya gürültü
 
-## 4) Bulgular / eksikler (öncelik)
+### Performance
+- ❌ Perf 72, LCP 3.8s — **90+ değil**
+- ✅ CLS 0, `next/image`, font `display: swap`, mono preload kapalı
+- 🎯 `npm run lighthouse:home` deploy sonrası tekrar; hero sadeleştirmeden 90 zor
 
-| Pri | Bulgu | Etki | Öneri |
-|-----|--------|------|--------|
-| P1 | Lightbox’ta focus trap yok | Klavyeli kullanıcı | Trap + ilk odak + restore |
-| P1 | LCP skoru eski (72 / 3.8s) | Perf iddiası | Deploy sonrası yeniden ölç |
-| P1 | GSC yapılmadı | Arama | MANUEL §1 |
-| P2 | Network toast İngilizce | Dil tutarsızlığı | TR metin |
-| P2 | StatusBanner `public/resume.pdf` yolu sızdırıyor | Amatör sinyal | Genel mesaj |
-| P2 | Featured chip hep “Full-stack” | Esneklik | frontmatter.category |
-| P2 | Hero ilk ekran yoğun | Recruiter okuma | Stats’ı küçült / kaydır |
-| P2 | Lighthouse hiring sabit | Güven | metrics güncelle |
-| P3 | Resume rate-limit Redis yoksa fail-open | Tutarlılık | Contact gibi fail-closed düşün |
-| P3 | Nav’da hiring/lab yok | Keşif | İsteğe bağlı hash link |
-| P3 | Guestbook yalnızca GitHub | Erişim | E-posta girişi (plan §3) |
-| P3 | Playwright lokal browser eksik | Dev | `npx playwright install` |
+### SEO
+- ✅ Title/description, OG/Twitter card, sitemap, robots, Host, per-route canonical, Person/WebSite/BlogPosting JSON-LD
+- ⚠️ `twitter:site` yok; project OG type website; home description kaynakları hafif dağınık
+- ✅ www→apex
+
+### Güven / error
+- ✅ SSL (Vercel), 404, route error’lar, contact rate-limit
+- ⚠️ `global-error` `error.message` sızıntısı riski
+- ✅ Social: GitHub, LinkedIn, mail, CV API
 
 ---
 
-## 5) Fonksiyon kontrol listesi (yeniden test)
+## 7) Product
 
-| Fonksiyon | Beklenen | Durum |
-|-----------|----------|--------|
-| Home yüklenir | 200, bölümler | ✅ prod |
-| ContactLink scroll | `#contact` | ✅ kod |
-| Contact gönder → toast → URL temiz | `/?contact=sent` → `/` | ✅ kod + e2e spec |
-| Contact validation | kısa mesaj soft uyarı | ✅ schema |
-| Contact fail-closed | DB/Redis fail → blok | ✅ test |
-| CV indir | PDF / missing / limited banner | ✅ kod |
-| ucmd aç | header + teaser + Ctrl+` | ✅ kod |
-| Terminal komutlar | projects/blog/contact… | ✅ kod |
-| Featured kapak + İncele | 3 kart | ✅ kod / prod |
-| Projects mobil görsel üstte | order/min-w-0 | ✅ kod |
-| Lightbox Escape / oklar | dialog kapanır | ✅ kod + e2e |
-| Skills proof linkleri | proje/blog/lab | ✅ |
-| Hiring CI → repo/actions | githubRepo | ✅ |
-| Lab senaryo değiştir | maliyet/grid | ✅ |
-| GitHub recent + Java override | API + override | ✅ prod Java-Examples |
-| Guestbook OAuth + moderasyon | Neon + Auth | ✅ (env’e bağlı) |
-| Blog MDX + views | ISR / Redis | ✅ kod |
-| www→apex | redirect | ✅ next.config |
-| JSON-LD / sitemap / robots | SEO | ✅ |
-| CI lint/type/test/e2e/build | workflow | ✅ repo |
+Site **sadece vitrin değil**: guestbook, contact, CI, auth, rate-limit gerçekten çalışıyor. Bu, “portfolio product” tanımına uyuyor.  
+Eksik olan: dış kullanıcıya sürekli değer (blog derinliği, canlı müşteri domainleri). İçerik hacmi thin; mimari kalın.
 
 ---
 
-## 6) Değişiklik rehberi (hızlı)
+## 8) UI Pixel Review (işaretler)
 
-| Ne değişecek? | Nereye bak |
-|---------------|------------|
-| İsim / bio / okul / konum / müsait | `site-config.ts` |
-| About kartları | `about-section.tsx` |
-| Skills satırları | `skills-section.tsx` |
-| Tech chip grupları | `site-config.techStack` |
-| Proje hikâyesi / galeri | `content/projects/*.mdx` |
-| Featured sayısı | `featured-projects.tsx` |
-| Hiring kartları | `hiring-proof-section.tsx` |
-| Contact metin / toast | `contact-section.tsx`, `contact-success-toast.tsx` |
-| Form kuralları | `contact-schema.ts` |
-| ucmd görünüm | `terminal-prompt.tsx`, `site-header.tsx` |
-| Logo UC | `logo.tsx` |
-| Renk / glow / surface | `globals.css` |
-| Lighthouse rakamları | `lighthouse-metrics.ts` + AUDIT §1 |
+| Bulgu | Dosya / alan | Etki |
+|-------|----------------|------|
+| Logo tagline ≠ role | `logo.tsx` | High |
+| About kart title duvarı | `about-section.tsx` | High |
+| Featured sabit Full-stack chip | `featured-projects-list.tsx` | Medium |
+| Hero current_focus overlay | `hero.tsx` | Medium |
+| Projects ambient-orb + tilt | `projects/page.tsx` | Medium |
+| Blog tilt cards | `blog-post-list.tsx` | Low |
+| Radius xl/2xl/3xl karışımı | projects | Low |
+| Footer domain hardcode | `site-footer.tsx` | Low |
+| Header Magnetic CTA | `site-header.tsx` | Low |
 
 ---
 
-## 7) Sonraki adımlar
+## 9) Roadmap
 
-1. Bu tur değişikliklerini **commit + push + deploy**  
-2. `npm run lighthouse:home` → metrics + bu dosya skor satırı  
-3. GSC + Safari manuel (`MANUEL-ADIMLAR`)  
-4. İsteğe bağlı P1: lightbox focus trap  
-5. İsteğe bağlı: guestbook e-posta girişi (plan §3)
+### V1 — Trust & speed (önce bunu bitir)
+1. Hero first-viewport bütçesi + LCP (hedef Perf ≥85, sonra 90)  
+2. Noise budget: tilt/magnetic/glow kotası  
+3. Logo/role/chip tek kaynak  
+4. Nav’a İletişim; footer’a CV  
+5. GitHub whitelist  
+6. Guestbook’a 2–3 gerçek mesaj  
+
+### V2 — Proof depth
+1. 1 uzun Bloomedu/BİGG yazısı  
+2. Featured/Projects flat kart  
+3. ucmd’yi küçült veya header-only  
+4. Aras/Zeki live + doğru status  
+5. Honeypot sessiz; global-error generic  
+
+### V3 — Üst düzey
+1. Lighthouse CI gate  
+2. İsteğe bağlı EN  
+3. Analytics: hero → projects time  
+4. Tipografi özelleştirme (Geist’ten çıkış kararı)
+
+---
+
+## 10) Öncelik kuyruğu (şimdi ne yapılmalı)
+
+| # | İş | Etki |
+|---|-----|------|
+| 1 | Hero sadeleştir + LCP | High |
+| 2 | Design noise budget (Featured/Projects/Blog) | High |
+| 3 | GitHub feed kalitesi | High |
+| 4 | Blog: 1 derin yazı | High |
+| 5 | Config drift (logo, chips, contact copy) | Medium |
+| 6 | Footer CV + origin helper | Medium |
+| 7 | Lab’i home’dan incelt/taşı | Medium |
+| 8 | global-error + honeypot + network TR | Low–Med |
+
+---
+
+## 11) Config drift (deep scan ekleri)
+
+| # | Yer | Sorun |
+|---|-----|--------|
+| 1 | `contact-section.tsx` | “staj” vs `availability*` “yeni iş fırsatları” |
+| 2 | `hero.tsx` / resume route | CV dosya adı `Umut-Cingisiz-CV.pdf` sabit |
+| 3 | `site-footer.tsx` | Domain hardcode; `getSiteOrigin()` yok |
+| 4 | `opengraph-image.tsx` | Tech chip’ler + `"UC"` sabit |
+| 5 | Featured / projects chip | Sabit `"Full-stack"`; `category` kullanılmıyor |
+| 6 | `json-ld.ts` sameAs | `origin` + `www.` çift sinyal |
+| 7 | Home meta vs `ogSiteDescription` | Description kaynakları dağınık |
+| 8 | Bloomedu repo | `somethn7/Bloomedu` — kişisel profil değil (dürüst katkı notu gerekebilir) |
+| 9 | `actions/contact.ts` honeypot | Bot → `?contact=sent` → sahte success UX |
+| 10 | `guestbook-message-form` | Pending’de textarea disable / `aria-busy` yok |
+| 11 | `global-error.tsx` | `error.message` kullanıcıya sızabilir |
+
+---
+
+## 12) Envanter (hızlı referans — nasıl değiştirilir)
+
+| Bölüm | Ana dosya | Metin kaynağı |
+|-------|-----------|----------------|
+| Kimlik | — | `src/lib/site-config.ts` |
+| Hero | `hero.tsx` | site-config |
+| Header | `site-header.tsx` | nav dizisi |
+| About | `about-section.tsx` | cards const + milestones |
+| Skills | `skills-section.tsx` | skills dizisi |
+| Featured | `featured-projects-list.tsx` | MDX `featured` |
+| Hiring | `hiring-proof-section.tsx` | `proofSignals` |
+| Contact | `contact-section.tsx` + `contact/*` | — |
+| Projects | `app/projects/page.tsx` + MDX | `content/projects` |
+| Blog | `content/blog` | MDX |
+| SEO | `site-metadata.ts`, `json-ld.ts`, `sitemap.ts`, `robots.ts` | — |
+| LH sayıları | `lighthouse-metrics.ts` | `npm run lighthouse:home` |
+
+---
+
+*Bu audit uygulama listesi değildir; hükümdür. V1 maddeleri bir sonraki uygulama turunun backlog’udur.*

@@ -78,7 +78,7 @@ export function ContactSuccessToast({ active }: Props) {
                   Teşekkürler, mesajınız alındı
                 </p>
                 <p className="mt-1 text-sm leading-5 text-muted-foreground">
-                  Form yerine onay ekranı açıldı. En kısa sürede dönüş yapacağım.
+                  Mail başarıyla gönderildi.
                 </p>
               </div>
               <button
