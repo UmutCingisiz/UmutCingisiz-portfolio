@@ -40,9 +40,6 @@ export async function ContactSection({ contactSuccess = false }: Props) {
               >
                 {siteConfig.email}
               </a>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Direkt mail
-              </p>
             </div>
           </div>
         </Reveal>
