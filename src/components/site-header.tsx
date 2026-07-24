@@ -162,7 +162,7 @@ export function SiteHeader() {
         >
           <Link
             href="/"
-            className="group relative z-10 inline-flex min-w-0 shrink items-center rounded-xl px-1 py-2 transition-opacity hover:opacity-80"
+            className="group relative z-10 inline-flex h-full min-w-0 shrink items-center self-stretch rounded-xl px-1 transition-opacity hover:opacity-80"
             aria-label={siteConfig.name}
           >
             <Logo className="text-sm sm:text-lg" />

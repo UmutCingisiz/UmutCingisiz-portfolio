@@ -39,7 +39,9 @@ export function ContactForm({ initialSuccess = false }: Props) {
     }
   }, [initialSuccess]);
 
-  const fieldErrors = state?.ok === false ? state.fieldErrors : undefined;
+  const errorState =
+    state && "ok" in state && state.ok === false ? state : null;
+  const fieldErrors = errorState?.fieldErrors;
 
   if (success) {
     return (
@@ -135,9 +137,9 @@ export function ContactForm({ initialSuccess = false }: Props) {
         ) : null}
       </div>
 
-      {state?.ok === false && !fieldErrors?.name && !fieldErrors?.email && !fieldErrors?.message ? (
+      {errorState && !fieldErrors?.name && !fieldErrors?.email && !fieldErrors?.message ? (
         <p className="text-sm text-red-600 dark:text-red-400" role="alert">
-          {state.error}
+          {errorState.error}
         </p>
       ) : null}
 

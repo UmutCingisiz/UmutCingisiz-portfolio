@@ -23,11 +23,11 @@ export const siteConfig = {
     version: "1.0",
     tagline: "Komutlarla sitede gez",
   },
-  headline: "Arayüzden veritabanına kadar ürünü ben kuruyorum.",
+  headline: "Modern, Ölçeklenebilir. Yüksek Performanslı.",
   description:
     "Bir özelliği tek başına değil, veri modeli, güvenlik ve yayın adımıyla birlikte ele alırım. Amacım ekranda duran bir demo değil; bakımı yapılabilir, büyüyebilen bir ürün bırakmak.",
   shortBio:
-    "Doğu Akdeniz Üniversitesi Bilgisayar Mühendisliği mezunuyum. Bloomedu ile TÜBİTAK BİGG Akdeniz’e kabul aldık; üniversite jürisi bitirme projemi en iyi seçti.",
+    "Kullanıcı deneyimini merkeze alan, modern web teknolojileriyle ölçeklenebilir full-stack mimariler, yapay zeka destekli çözümler ve yüksek performanslı uygulamalar inşa ediyorum.",
   email: "cingisizumut1@gmail.com",
   github: "https://github.com/UmutCingisiz",
   /** CI / Actions — profil değil, bu portfolyo reposu */

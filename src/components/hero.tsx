@@ -8,7 +8,6 @@ import { ContactLink } from "@/components/contact-link";
 import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
-import { TiltCard } from "@/components/tilt-card";
 
 function ArrowRightIcon({ className }: { className?: string }) {
   return (
@@ -89,11 +88,11 @@ export function Hero() {
             {siteConfig.name}
           </h1>
 
-          <p className="mt-3 max-w-xl text-pretty text-base font-semibold tracking-tight text-foreground/90 sm:mt-3 sm:text-xl lg:text-2xl">
+          <p className="mt-3 max-w-xl text-pretty text-base font-semibold tracking-tight text-foreground/90 sm:text-xl lg:text-2xl">
             {siteConfig.headline}
           </p>
 
-          <p className="mt-4 max-w-xl text-pretty text-sm leading-6 text-muted-foreground sm:mt-5 sm:leading-7">
+          <p className="mt-4 max-w-xl text-pretty text-sm leading-6 text-muted-foreground sm:leading-7">
             {siteConfig.shortBio}
           </p>
 
@@ -141,74 +140,57 @@ export function Hero() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="relative order-2 mx-auto w-full max-w-[280px] sm:max-w-sm lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-md lg:justify-self-end"
         >
-          {/* Magnetic yok — sadece hafif tilt */}
-          <TiltCard
-            as="div"
-            max={4}
-            className="relative overflow-hidden rounded-2xl border border-border bg-card/50 p-1.5 sm:p-2"
-          >
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-muted">
-              {profileSrc ? (
-                <Image
-                  key={profileSrc}
-                  src={profileSrc}
-                  alt={`${siteConfig.name} profil fotoğrafı`}
-                  fill
-                  priority
-                  fetchPriority="high"
-                  quality={70}
-                  sizes="(min-width: 1024px) 400px, (min-width: 640px) 360px, min(90vw, 280px)"
-                  className="object-cover object-top"
-                  onError={handleImageError}
-                  unoptimized={imageMode === "github"}
-                />
-              ) : (
-                <div className="flex h-full flex-col items-center justify-center px-8 text-center">
-                  <div className="flex size-20 items-center justify-center rounded-2xl border border-border bg-muted text-2xl font-bold text-foreground">
-                    {initialsFromName(siteConfig.name)}
-                  </div>
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-border bg-muted">
+            {profileSrc ? (
+              <Image
+                key={profileSrc}
+                src={profileSrc}
+                alt={`${siteConfig.name} profil fotoğrafı`}
+                fill
+                priority
+                fetchPriority="high"
+                quality={70}
+                sizes="(min-width: 1024px) 400px, (min-width: 640px) 360px, min(90vw, 280px)"
+                className="object-cover object-top"
+                onError={handleImageError}
+                unoptimized={imageMode === "github"}
+              />
+            ) : (
+              <div className="flex h-full flex-col items-center justify-center px-8 text-center">
+                <div className="flex size-20 items-center justify-center rounded-2xl border border-border bg-muted text-2xl font-bold text-foreground">
+                  {initialsFromName(siteConfig.name)}
                 </div>
-              )}
-
-              {imageMode === "github" ? (
-                <p className="absolute left-3 top-3 rounded-md border border-border bg-background/80 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground backdrop-blur">
-                  GitHub avatar
-                </p>
-              ) : null}
-
-              {/* Minimal current_focus — fotoğrafı boğmasın */}
-              <div className="absolute inset-x-2.5 bottom-2.5 rounded-lg border border-white/10 bg-background/55 px-2.5 py-1.5 backdrop-blur-sm sm:inset-x-3 sm:bottom-3 sm:px-3 sm:py-2">
-                <p className="font-mono text-[0.55rem] tracking-wide text-muted-foreground/90">
-                  current_focus
-                </p>
-                <p className="mt-0.5 line-clamp-2 text-[0.65rem] font-medium leading-snug text-foreground/90 sm:text-[0.7rem]">
-                  {siteConfig.currentFocus}
-                </p>
               </div>
-            </div>
-          </TiltCard>
+            )}
+
+            {imageMode === "github" ? (
+              <p className="absolute left-3 top-3 rounded-md border border-border bg-background/80 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground backdrop-blur">
+                GitHub avatar
+              </p>
+            ) : null}
+          </div>
         </motion.div>
 
-        <motion.div
+        {/* Eski konum: sol kolon altı — minimal, arka plansız çipler */}
+        <motion.ul
           initial={{ y: 10 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.4, delay: 0.12, ease: "easeOut" }}
-          className="order-3 grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3 lg:col-start-1 lg:row-start-2"
+          className="order-3 flex flex-wrap items-center gap-x-4 gap-y-2 lg:col-start-1 lg:row-start-2"
+          aria-label="Özet bilgiler"
         >
           {siteConfig.stats.map((stat) => (
-            <div
+            <li
               key={stat.label}
-              className="flex items-baseline justify-between gap-3 rounded-xl border border-border bg-card/50 px-3 py-3 sm:flex-col sm:items-stretch sm:justify-start sm:p-3.5"
+              className="inline-flex items-baseline gap-1.5 text-xs text-muted-foreground/80"
             >
-              <p className="shrink-0 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+              <span className="font-mono text-[0.65rem] tracking-wide text-muted-foreground/60">
                 {stat.label}
-              </p>
-              <p className="text-right text-sm font-semibold leading-snug text-foreground sm:mt-1 sm:text-left sm:text-sm">
-                {stat.value}
-              </p>
-            </div>
+              </span>
+              <span className="font-medium text-foreground/85">{stat.value}</span>
+            </li>
           ))}
-        </motion.div>
+        </motion.ul>
       </div>
     </section>
   );

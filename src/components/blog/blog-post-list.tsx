@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getAllPostsMeta } from "@/lib/content/posts";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { TiltCard } from "@/components/tilt-card";
 
 export function BlogPostList() {
   const posts = getAllPostsMeta();
@@ -41,14 +40,10 @@ export function BlogPostList() {
           {posts.map((post, index) => (
             <li key={post.slug}>
               <Reveal index={index}>
-                <TiltCard
-                  as="article"
-                  max={5}
-                  className="surface-interactive gradient-border group rounded-2xl p-6"
-                >
+                <article className="group rounded-2xl border border-border bg-card/70 p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="relative z-10 block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
+                    className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
                   >
                     <div className="flex flex-wrap items-center gap-3">
                       <time
@@ -75,7 +70,7 @@ export function BlogPostList() {
                       oku →
                     </span>
                   </Link>
-                </TiltCard>
+                </article>
               </Reveal>
             </li>
           ))}

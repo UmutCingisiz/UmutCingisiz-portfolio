@@ -149,55 +149,50 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
           role="dialog"
           aria-modal="true"
           aria-label={current.alt}
-          className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-md"
+          className="fixed inset-0 z-50 grid place-items-center bg-background/95 p-4 backdrop-blur-md sm:p-8"
           onClick={close}
         >
-          <div
-            className="flex items-center justify-between gap-3 border-b border-border/70 px-3 py-3 sm:px-5"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            ref={closeButtonRef}
+            type="button"
+            onClick={close}
+            className="absolute right-3 top-3 z-20 inline-flex h-11 items-center rounded-lg border border-border bg-card px-4 text-sm font-medium text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 sm:right-6 sm:top-6"
           >
-            <p className="min-w-0 truncate font-mono text-xs text-muted-foreground">
-              {String(active + 1).padStart(2, "0")} /{" "}
-              {String(shots.length).padStart(2, "0")}
-              {current.caption ? ` · ${current.caption}` : ""}
-            </p>
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={close}
-              className="inline-flex h-11 shrink-0 items-center rounded-lg border border-border bg-card px-4 text-sm font-medium text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
-            >
-              Kapat
-            </button>
-          </div>
+            Kapat
+          </button>
+
+          {shots.length > 1 ? (
+            <>
+              <button
+                type="button"
+                aria-label="Önceki görsel"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  showPrev();
+                }}
+                className="absolute left-2 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-border bg-card/95 text-lg text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 sm:left-6 sm:size-12"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                aria-label="Sonraki görsel"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  showNext();
+                }}
+                className="absolute right-2 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-border bg-card/95 text-lg text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 sm:right-6 sm:size-12"
+              >
+                →
+              </button>
+            </>
+          ) : null}
 
           <div
-            className="relative flex min-h-0 flex-1 items-center justify-center px-2 py-3 sm:px-12 sm:py-6"
+            className="relative flex max-h-[min(85dvh,900px)] w-full max-w-5xl flex-col items-center"
             onClick={(e) => e.stopPropagation()}
           >
-            {shots.length > 1 ? (
-              <>
-                <button
-                  type="button"
-                  aria-label="Önceki görsel"
-                  onClick={showPrev}
-                  className="absolute left-1 top-1/2 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-border bg-card/95 text-lg text-foreground shadow-lg hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 sm:left-4 sm:size-12"
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  aria-label="Sonraki görsel"
-                  onClick={showNext}
-                  className="absolute right-1 top-1/2 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-border bg-card/95 text-lg text-foreground shadow-lg hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 sm:right-4 sm:size-12"
-                >
-                  →
-                </button>
-              </>
-            ) : null}
-
-            {/* Mobil: tam genişlik + contain; kırpma yok */}
-            <div className="relative mx-auto h-[min(72dvh,820px)] w-full max-w-5xl overflow-hidden rounded-lg border border-border bg-muted/30 sm:rounded-xl">
+            <div className="relative h-[min(78dvh,820px)] w-full overflow-hidden rounded-lg bg-transparent sm:rounded-xl">
               <Image
                 src={current.src}
                 alt={current.alt}
@@ -207,6 +202,11 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
                 priority
               />
             </div>
+            <p className="mt-3 text-center font-mono text-xs text-muted-foreground">
+              {String(active + 1).padStart(2, "0")} /{" "}
+              {String(shots.length).padStart(2, "0")}
+              {current.caption ? ` · ${current.caption}` : ""}
+            </p>
           </div>
         </div>
       ) : null}

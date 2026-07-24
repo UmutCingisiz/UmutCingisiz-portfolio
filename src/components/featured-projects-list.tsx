@@ -1,12 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ProjectMeta } from "@/lib/content/projects";
-import { Magnetic } from "@/components/magnetic";
 import { PdiBlock } from "@/components/pdi-block";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { TiltCard } from "@/components/tilt-card";
 import {
+  getProjectCategoryLabel,
   getProjectStatusBadgeClass,
   getProjectStatusLabel,
 } from "@/lib/project-status";
@@ -62,11 +61,7 @@ export function FeaturedProjectsList({ projects }: Props) {
               return (
                 <li key={p.slug} className="min-w-0">
                   <Reveal index={i} className="h-full">
-                    <TiltCard
-                      as="article"
-                      max={4}
-                      className="surface-interactive gradient-border group flex h-full flex-col overflow-hidden"
-                    >
+                    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card/70 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
                       <Link
                         href={`/projects/${p.slug}`}
                         className="relative block aspect-[4/3] w-full overflow-hidden bg-muted sm:aspect-[16/10]"
@@ -89,9 +84,8 @@ export function FeaturedProjectsList({ projects }: Props) {
 
                       <div className="flex flex-1 flex-col p-4 sm:p-5">
                         <div className="flex items-start justify-between gap-3">
-                          <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-2.5 py-1 font-mono text-[0.65rem] font-medium tracking-wide text-signal">
-                            <span className="signal-dot size-1.5" aria-hidden />
-                            Full-stack
+                          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-2.5 py-1 font-mono text-[0.65rem] font-medium tracking-wide text-foreground">
+                            {getProjectCategoryLabel(p.category)}
                           </span>
                           <span
                             className={`rounded-full border px-2 py-0.5 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(p.status)}`}
@@ -125,14 +119,12 @@ export function FeaturedProjectsList({ projects }: Props) {
                         </div>
 
                         <div className="mt-auto flex flex-wrap gap-2 pt-5">
-                          <Magnetic>
-                            <Link
-                              href={`/projects/${p.slug}`}
-                              className="btn-signal inline-flex h-9 items-center rounded-lg px-3.5 text-sm font-semibold transition-all duration-200"
-                            >
-                              İncele →
-                            </Link>
-                          </Magnetic>
+                          <Link
+                            href={`/projects/${p.slug}`}
+                            className="btn-signal inline-flex h-9 items-center rounded-lg px-3.5 text-sm font-semibold transition-all duration-200"
+                          >
+                            İncele →
+                          </Link>
                           {p.repo ? (
                             <a
                               href={p.repo}
@@ -145,7 +137,7 @@ export function FeaturedProjectsList({ projects }: Props) {
                           ) : null}
                         </div>
                       </div>
-                    </TiltCard>
+                    </article>
                   </Reveal>
                 </li>
               );

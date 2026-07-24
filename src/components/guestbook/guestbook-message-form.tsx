@@ -34,7 +34,7 @@ export function GuestbookMessageForm({ canWrite, dbConfigured }: Props) {
   }
 
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} className="space-y-4" aria-busy={pending}>
       <div>
         <label
           htmlFor="guestbook-message"
@@ -49,7 +49,9 @@ export function GuestbookMessageForm({ canWrite, dbConfigured }: Props) {
           minLength={1}
           maxLength={2000}
           rows={4}
-          className="w-full resize-y rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition focus-visible:border-signal/50 focus-visible:ring-2 focus-visible:ring-signal/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          disabled={pending}
+          aria-busy={pending}
+          className="w-full resize-y rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition focus-visible:border-signal/50 focus-visible:ring-2 focus-visible:ring-signal/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60"
           placeholder="Kısa ve nazik bir not bırak…"
         />
         {state?.ok === false ? (
@@ -61,6 +63,7 @@ export function GuestbookMessageForm({ canWrite, dbConfigured }: Props) {
       <button
         type="submit"
         disabled={pending}
+        aria-busy={pending}
         className="btn-signal inline-flex rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-50"
       >
         {pending ? "Gönderiliyor…" : "Moderasyon için gönder"}

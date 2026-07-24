@@ -2,12 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { getAllProjectsMeta, type ProjectMeta } from "@/lib/content/projects";
-import { Magnetic } from "@/components/magnetic";
 import { PdiBlock } from "@/components/pdi-block";
 import { SectionEyebrow } from "@/components/section-eyebrow";
-import { TiltCard } from "@/components/tilt-card";
 import { pageSocial } from "@/lib/site-metadata";
 import {
+  getProjectCategoryLabel,
   getProjectStatusBadgeClass,
   getProjectStatusLabel,
   isShippedStatus,
@@ -31,7 +30,6 @@ export default async function ProjectsPage() {
 
   return (
     <div className="relative flex-1 overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
-      <div className="ambient-orb right-0 top-20 size-80 opacity-35" />
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-start">
           <div>
@@ -45,7 +43,7 @@ export default async function ProjectsPage() {
             </p>
           </div>
 
-          <TiltCard as="div" max={4} className="surface-interactive gradient-border p-5">
+          <div className="rounded-xl border border-border bg-card/70 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               review.mode
             </p>
@@ -63,7 +61,7 @@ export default async function ProjectsPage() {
                 <p className="mt-1 text-xs text-muted-foreground">Şablon</p>
               </div>
             </div>
-          </TiltCard>
+          </div>
         </div>
 
         {live.length > 0 ? (
@@ -210,12 +208,6 @@ function ProjectVisual({ project }: { project: ProjectMeta }) {
 
   return (
     <div className="relative flex aspect-[16/10] w-full flex-col overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-card via-muted to-card sm:aspect-[4/3] sm:rounded-3xl">
-      <div
-        className="ambient-orb -right-14 -top-14 size-64 opacity-45"
-        style={{ background: "radial-gradient(circle, var(--signal-glow), transparent 65%)" }}
-      />
-      <div className="bento-dots pointer-events-none absolute inset-0 opacity-25 [mask-image:radial-gradient(circle_at_70%_30%,black,transparent_70%)]" />
-
       <div className="relative flex items-center gap-1.5 border-b border-border/60 bg-background/30 px-4 py-3">
         <span className="size-2 rounded-full bg-foreground/15" />
         <span className="size-2 rounded-full bg-foreground/15" />
@@ -268,28 +260,26 @@ function ProjectShowcase({
     <article className="group grid items-start gap-6 sm:gap-8 lg:grid-cols-2 lg:items-center lg:gap-14">
       {/* Mobilde görsel her zaman üstte; lg'de tek/çift sıraya göre flip */}
       <div
-        className={`relative w-full min-w-0 ${flip ? "lg:order-2" : "lg:order-1"}`}
+        className={`relative w-full min-w-0 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg ${flip ? "lg:order-2" : "lg:order-1"}`}
       >
-        <TiltCard as="div" max={5} className="relative w-full rounded-[var(--radius-xl)]">
-          <Link
-            href={`/projects/${project.slug}`}
-            aria-label={`${project.title} — incele`}
-            className="block w-full"
-          >
-            <ProjectVisual project={project} />
-          </Link>
-        </TiltCard>
+        <Link
+          href={`/projects/${project.slug}`}
+          aria-label={`${project.title} — incele`}
+          className="block w-full overflow-hidden rounded-2xl"
+        >
+          <ProjectVisual project={project} />
+        </Link>
       </div>
 
       <div
         className={`flex min-w-0 flex-col justify-center ${flip ? "lg:order-1" : "lg:order-2"}`}
       >
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex size-8 items-center justify-center rounded-lg border border-signal/25 bg-signal/[0.07] font-mono text-xs font-semibold tabular-nums text-signal">
+          <span className="inline-flex size-8 items-center justify-center rounded-lg border border-border bg-muted/40 font-mono text-xs font-semibold tabular-nums text-foreground">
             {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/25 bg-signal/[0.07] px-3 py-1 font-mono text-[0.65rem] tracking-wide text-signal">
-            <span className="signal-dot size-1.5" /> Full-stack
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-3 py-1 font-mono text-[0.65rem] tracking-wide text-foreground">
+            {getProjectCategoryLabel(project.category)}
           </span>
           <span
             className={`rounded-full border px-3 py-1 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(project.status)}`}
@@ -326,14 +316,12 @@ function ProjectShowcase({
         </div>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          <Magnetic>
-            <Link
-              href={`/projects/${project.slug}`}
-              className="btn-signal inline-flex h-11 items-center rounded-lg px-5 text-sm font-semibold transition-all duration-200"
-            >
-              İncele →
-            </Link>
-          </Magnetic>
+          <Link
+            href={`/projects/${project.slug}`}
+            className="btn-signal inline-flex h-11 items-center rounded-lg px-5 text-sm font-semibold transition-all duration-200"
+          >
+            İncele →
+          </Link>
           {project.repo ? (
             <a
               href={project.repo}

@@ -1,6 +1,26 @@
 import type { ProjectMeta } from "@/lib/content/projects";
+import type { ProjectCategory } from "@/lib/content/schema";
 
 export type ProjectStatus = ProjectMeta["status"];
+
+/** MDX `category` → chip metni; boşsa "Project". */
+export function getProjectCategoryLabel(
+  category?: ProjectCategory | null,
+): string {
+  if (!category) return "Project";
+  switch (category) {
+    case "full-stack":
+      return "Full-stack";
+    case "frontend":
+      return "Frontend";
+    case "backend":
+      return "Backend";
+    case "devops":
+      return "DevOps";
+    default:
+      return "Project";
+  }
+}
 
 export type ProjectStatusTone = "live" | "archived" | "building";
 

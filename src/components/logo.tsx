@@ -3,7 +3,7 @@ type LogoProps = {
 };
 
 /**
- * UC mühür — eşit harf yuvaları, sabit ayırıcı (mobilde kayma yok).
+ * UC mühür + wordmark — header’da dikey merkez için items-center + leading-none.
  */
 export function Logo({ className }: LogoProps) {
   return (
@@ -34,17 +34,12 @@ export function Logo({ className }: LogoProps) {
         </span>
       </span>
 
-      <span className="flex min-w-0 flex-col justify-center gap-0.5">
-        <span className="inline-flex items-baseline gap-x-1.5">
-          <span className="text-[0.9em] font-black uppercase tracking-[-0.03em] text-foreground sm:text-[1.05em]">
-            Umut
-          </span>
-          <span className="text-[0.9em] font-black uppercase tracking-[-0.03em] text-signal sm:text-[1.05em]">
-            Cingisiz
-          </span>
+      <span className="inline-flex min-w-0 items-center gap-x-1.5 leading-none">
+        <span className="text-[0.9em] font-black uppercase leading-none tracking-[-0.03em] text-foreground sm:text-[1.05em]">
+          Umut
         </span>
-        <span className="hidden font-mono text-[0.55rem] font-medium uppercase tracking-[0.22em] text-muted-foreground transition-colors duration-300 group-hover:text-signal/85 sm:inline">
-          fullstack<span className="mx-1 text-signal/45">/</span>engineer
+        <span className="text-[0.9em] font-black uppercase leading-none tracking-[-0.03em] text-signal sm:text-[1.05em]">
+          Cingisiz
         </span>
       </span>
     </span>

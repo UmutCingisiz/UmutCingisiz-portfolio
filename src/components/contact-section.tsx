@@ -21,9 +21,10 @@ export function ContactSection({ contactSuccess = false }: Props) {
               İletişim
             </h2>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              İş teklifleri, staj ve proje işbirlikleri için buradan veya e-posta
-              üzerinden ulaşabilirsiniz. Mesajınıza mümkün olan en kısa sürede
-              dönüş yaparım.
+              {siteConfig.availabilityDetail}. İş teklifleri ve proje
+              işbirlikleri için buradan veya e-posta üzerinden
+              ulaşabilirsiniz. Mesajınıza mümkün olan en kısa sürede dönüş
+              yaparım.
             </p>
 
             <div className="mt-6 rounded-xl border border-border bg-card/60 p-4 backdrop-blur-sm sm:p-5">

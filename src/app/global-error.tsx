@@ -35,7 +35,7 @@ export default function GlobalError({ error, reset }: Props) {
           Uygulama yüklenemedi
         </h1>
         <p style={{ marginTop: "1rem", maxWidth: "28rem", opacity: 0.8 }}>
-          {error.message || "Beklenmeyen bir sorun oluştu."}
+          Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyin.
         </p>
         <button
           type="button"

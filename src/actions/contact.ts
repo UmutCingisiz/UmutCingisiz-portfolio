@@ -26,6 +26,8 @@ export type ContactFormState =
       error: string;
       fieldErrors?: ContactFieldErrors;
     }
+  /** Honeypot: istemci pending bitsin; mail/DB yok, sahte redirect yok */
+  | { success: true }
   | null;
 
 function normalizeEmail(e: string) {
@@ -50,7 +52,7 @@ export async function submitContactForm(
 ): Promise<ContactFormState> {
   const trap = formData.get("_company_website_trap");
   if (typeof trap === "string" && trap.trim() !== "") {
-    redirect("/?contact=sent");
+    return { success: true };
   }
 
   const parsed = parseContactFormFields({

@@ -2,9 +2,18 @@ import Link from "next/link";
 import { ContactLink } from "@/components/contact-link";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
+import { getSiteOrigin } from "@/lib/site-url";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  const origin = getSiteOrigin();
+  let hostLabel = "umutcingisiz.com";
+  try {
+    hostLabel = new URL(origin).host.replace(/^www\./, "");
+  } catch {
+    /* keep fallback */
+  }
+
   return (
     <footer className="border-t border-border bg-muted/20 py-10 sm:py-12">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:gap-8 sm:px-6">
@@ -15,11 +24,11 @@ export function SiteFooter() {
             </p>
             <p className="mt-1 font-mono text-xs text-muted-foreground">
               <a
-                href="https://umutcingisiz.com"
+                href={origin}
                 className="transition-colors hover:text-foreground"
                 rel="me"
               >
-                umutcingisiz.com
+                {hostLabel}
               </a>
               {" · "}
               <a
@@ -32,7 +41,7 @@ export function SiteFooter() {
               </a>
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              &copy; {year}. Next.js, Tailwind, Neon ve Redis ile full-stack portfolyo.
+              &copy; {year} {siteConfig.name}
             </p>
           </div>
 
@@ -59,14 +68,30 @@ export function SiteFooter() {
 
         <div className="flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
           <div className="flex flex-wrap gap-4">
-            <Link href="/projects" className="transition-colors hover:text-foreground">Projeler</Link>
-            <Link href="/blog" className="transition-colors hover:text-foreground">Blog</Link>
-            <Link href="/guestbook" className="transition-colors hover:text-foreground">Ziyaretçi Defteri</Link>
-            <ContactLink className="transition-colors hover:text-foreground">İletişim</ContactLink>
+            <Link href="/#about" className="transition-colors hover:text-foreground">
+              Hakkımda
+            </Link>
+            <Link href="/projects" className="transition-colors hover:text-foreground">
+              Projeler
+            </Link>
+            <Link href="/blog" className="transition-colors hover:text-foreground">
+              Blog
+            </Link>
+            <Link href="/guestbook" className="transition-colors hover:text-foreground">
+              Ziyaretçi Defteri
+            </Link>
+            <ContactLink className="transition-colors hover:text-foreground">
+              İletişim
+            </ContactLink>
+            <a
+              href="/api/resume"
+              download
+              className="transition-colors hover:text-foreground"
+            >
+              CV indir
+            </a>
           </div>
-          <p className="font-mono text-[0.65rem]">
-            Next.js &middot; TypeScript &middot; Tailwind &middot; Neon &middot; Vercel
-          </p>
+          <p className="font-mono text-[0.65rem]">Next.js · TypeScript · Vercel</p>
         </div>
       </div>
     </footer>
