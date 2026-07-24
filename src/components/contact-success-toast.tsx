@@ -15,23 +15,29 @@ type Props = {
 export function ContactSuccessToast({ active }: Props) {
   const router = useRouter();
   const prefersReducedMotion = useReducedMotion();
-  const [visible, setVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+  const [prevActive, setPrevActive] = useState(active);
+
+  if (active !== prevActive) {
+    setPrevActive(active);
+    if (active) setDismissed(false);
+  }
+
+  const visible = active && !dismissed;
 
   useEffect(() => {
-    if (!active) {
-      setVisible(false);
-      return;
-    }
-    setVisible(true);
-    const hide = window.setTimeout(() => setVisible(false), 4200);
+    if (!visible) return;
+
+    const hide = window.setTimeout(() => setDismissed(true), 4200);
     const nav = window.setTimeout(() => {
       router.replace("/#contact", { scroll: false });
     }, 4500);
+
     return () => {
       window.clearTimeout(hide);
       window.clearTimeout(nav);
     };
-  }, [active, router]);
+  }, [visible, router]);
 
   return (
     <AnimatePresence>
@@ -84,7 +90,7 @@ export function ContactSuccessToast({ active }: Props) {
               <button
                 type="button"
                 onClick={() => {
-                  setVisible(false);
+                  setDismissed(true);
                   router.replace("/#contact", { scroll: false });
                 }}
                 className="shrink-0 rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"

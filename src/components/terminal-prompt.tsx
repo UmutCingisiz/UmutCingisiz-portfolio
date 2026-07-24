@@ -7,9 +7,12 @@ import { openTerminal } from "@/lib/terminal";
 const shell = siteConfig.terminal;
 
 const quickHints = [
-  { cmd: "show_projects()", hint: "Projeler" },
-  { cmd: "blog", hint: "Blog" },
+  { cmd: "help", hint: "Komutlar" },
+  { cmd: "whoami", hint: "Biyografi" },
+  { cmd: "projects", hint: "Projeler" },
+  { cmd: "skills", hint: "Stack" },
   { cmd: "contact", hint: "İletişim" },
+  { cmd: "clear", hint: "Temizle" },
 ] as const;
 
 /**
@@ -111,7 +114,7 @@ export function TerminalPrompt() {
             <div className="flex min-w-0 items-center gap-2.5 text-sm sm:text-base">
               <span className="font-semibold text-emerald-400/95">$</span>
               <span className="truncate font-medium tracking-tight text-cyan-50/95 transition-colors duration-300 group-hover:text-white">
-                show_projects()
+                help
               </span>
               <span
                 className={[

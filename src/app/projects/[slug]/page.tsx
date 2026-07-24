@@ -78,7 +78,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   ];
 
   return (
-    <article className="mx-auto max-w-5xl flex-1 px-4 py-16 sm:px-6 sm:py-24">
+    <article className="mx-auto max-w-5xl flex-1 px-4 pb-16 pt-4 sm:px-6 sm:pb-24 sm:pt-6">
       <JsonLd
         data={projectCreativeWorkJsonLd({
           slug,
@@ -90,14 +90,18 @@ export default async function ProjectDetailPage({ params }: Props) {
           demo: frontmatter.demo,
         })}
       />
-      <Link
-        href="/projects"
-        className="inline-flex rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
-      >
-        ← Projeler
-      </Link>
 
-      <header className="mt-8 overflow-hidden rounded-xl border border-border bg-card/60 p-7 backdrop-blur-sm sm:p-9">
+      <div className="sticky top-[4.75rem] z-30 -mx-4 mb-6 border-b border-border/70 bg-background/90 px-4 py-3 backdrop-blur-md sm:top-[5.25rem] sm:-mx-6 sm:px-6">
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card/70 px-3.5 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:border-signal/35 hover:bg-muted"
+        >
+          <span aria-hidden>←</span>
+          Projelere Dön
+        </Link>
+      </div>
+
+      <header className="overflow-hidden rounded-xl border border-border bg-card/60 p-7 backdrop-blur-sm sm:p-9">
         <div className="flex flex-wrap items-center gap-2">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             {frontmatter.category} / case.study
@@ -157,7 +161,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
       <ProjectGallery title={frontmatter.title} items={frontmatter.gallery} />
 
-      <section className="mt-8 rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm sm:p-7">
+      <section className="mt-12 border-t border-border pt-10">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -167,17 +171,14 @@ export default async function ProjectDetailPage({ params }: Props) {
               Problem → karar → etki
             </h2>
           </div>
-          <span className="w-fit rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+          <span className="w-fit font-mono text-[0.65rem] tracking-wide text-muted-foreground">
             {getProjectStatusLabel(frontmatter.status)}
           </span>
         </div>
-        <div className="mt-6 grid gap-3 md:grid-cols-3">
+        <div className="mt-8 grid gap-8 md:grid-cols-3 md:gap-6">
           {decisionCards.map((card) => (
-            <article
-              key={card.label}
-              className="rounded-lg border border-border bg-muted/35 p-4"
-            >
-              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+            <article key={card.label} className="min-w-0">
+              <p className="font-mono text-[0.65rem] tracking-wide text-signal/80">
                 {card.label}
               </p>
               <h3 className="mt-2 text-sm font-semibold text-foreground">
@@ -195,47 +196,52 @@ export default async function ProjectDetailPage({ params }: Props) {
         {content}
       </div>
 
-      {(prev || next) ? (
-        <nav
-          aria-label="Komşu projeler"
-          className="mt-2 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:justify-between"
-        >
-          {prev ? (
-            <Link
-              href={`/projects/${prev.slug}`}
-              className="group rounded-xl border border-border bg-card/40 px-4 py-3 transition-colors hover:border-signal/30 sm:max-w-[48%]"
-            >
-              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
-                ← Önceki
-              </p>
-              <p className="mt-1 font-medium text-foreground group-hover:text-signal">
-                {prev.title}
-              </p>
-            </Link>
-          ) : (
-            <span />
-          )}
-          {next ? (
-            <Link
-              href={`/projects/${next.slug}`}
-              className="group rounded-xl border border-border bg-card/40 px-4 py-3 text-right transition-colors hover:border-signal/30 sm:ml-auto sm:max-w-[48%]"
-            >
-              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
-                Sonraki →
-              </p>
-              <p className="mt-1 font-medium text-foreground group-hover:text-signal">
-                {next.title}
-              </p>
-            </Link>
-          ) : null}
-        </nav>
-      ) : null}
+      <nav
+        aria-label="Komşu projeler"
+        className="mt-2 space-y-4 border-t border-border pt-10"
+      >
+        {prev ? (
+          <Link
+            href={`/projects/${prev.slug}`}
+            className="group inline-flex max-w-full items-baseline gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <span aria-hidden>←</span>
+            <span className="truncate group-hover:text-signal">{prev.title}</span>
+          </Link>
+        ) : null}
 
-      <section className="mt-6 rounded-xl border border-border bg-card/50 p-6 sm:p-7">
+        {next ? (
+          <Link
+            href={`/projects/${next.slug}`}
+            className="group relative block overflow-hidden rounded-2xl border border-signal/35 bg-gradient-to-br from-signal/[0.12] via-card/80 to-card/40 p-6 transition-all duration-200 hover:border-signal/55 hover:shadow-[0_0_40px_var(--signal-glow)] sm:p-8"
+          >
+            <p className="font-mono text-[0.7rem] tracking-[0.18em] text-signal">
+              next.up
+            </p>
+            <p className="mt-3 text-sm font-medium text-muted-foreground">
+              Sıradaki proje
+            </p>
+            <h2 className="mt-2 max-w-2xl text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              {next.title}
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground line-clamp-2">
+              {next.description}
+            </p>
+            <span className="btn-signal mt-6 inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold">
+              İncele
+              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
+                →
+              </span>
+            </span>
+          </Link>
+        ) : null}
+      </nav>
+
+      <section className="mt-10 border-t border-border pt-10">
         <h2 className="text-xl font-semibold tracking-tight text-foreground">
           Bu proje hakkında yazın
         </h2>
-        <p className="mt-2 text-sm leading-7 text-muted-foreground">
+        <p className="mt-2 max-w-xl text-sm leading-7 text-muted-foreground">
           Mimari kararlar, stack seçimleri veya işbirliği için kısa bir mesaj
           yeterli.
         </p>

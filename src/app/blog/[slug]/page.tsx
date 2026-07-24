@@ -61,7 +61,7 @@ export default async function BlogPostPage({ params }: Props) {
   const related = getRelatedPosts(slug, 3);
 
   return (
-    <article className="mx-auto max-w-3xl flex-1 px-4 py-16 sm:px-6 sm:py-24">
+    <article className="mx-auto max-w-3xl flex-1 px-4 pb-16 pt-4 sm:px-6 sm:pb-24 sm:pt-6">
       <JsonLd
         data={blogPostingJsonLd({
           slug,
@@ -71,13 +71,16 @@ export default async function BlogPostPage({ params }: Props) {
           tags: frontmatter.tags,
         })}
       />
-      <Link
-        href="/blog"
-        className="inline-flex rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
-      >
-        ← Blog
-      </Link>
-      <header className="mt-8 rounded-xl border border-border bg-card/60 p-7 backdrop-blur-sm">
+      <div className="sticky top-[4.75rem] z-30 -mx-4 mb-6 border-b border-border/70 bg-background/90 px-4 py-3 backdrop-blur-md sm:top-[5.25rem] sm:-mx-6 sm:px-6">
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card/70 px-3.5 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:border-signal/35 hover:bg-muted"
+        >
+          <span aria-hidden>←</span>
+          Bloga Dön
+        </Link>
+      </div>
+      <header className="rounded-xl border border-border bg-card/60 p-7 backdrop-blur-sm">
         <time
           dateTime={frontmatter.date}
           className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"

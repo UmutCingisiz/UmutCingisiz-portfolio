@@ -132,7 +132,7 @@ export function HiringProofSection() {
                   {...("external" in item && item.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="block rounded-xl border border-border bg-card/70 p-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-4"
+                  className="block rounded-xl border border-border/60 bg-transparent p-3 transition-colors hover:border-signal/30 hover:bg-muted/30 sm:p-4"
                 >
                   <p className="text-base font-bold tracking-tight text-signal sm:text-lg">
                     {item.value}
@@ -174,7 +174,7 @@ export function HiringProofSection() {
                 : {};
               return (
                 <Reveal key={signal.title} index={index}>
-                  <article className="rounded-xl border border-border bg-card/70 p-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-5">
+                  <article className="border-b border-border/70 py-5 last:border-b-0 sm:py-6">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex items-start gap-3">
                         <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-muted/50 text-foreground sm:size-10">

@@ -26,10 +26,10 @@ export async function AboutSection() {
             </p>
           </div>
 
-          <div className="grid gap-3">
+          <div className="grid gap-8 sm:gap-10">
             {dictionary.about.cards.map((card, index) => (
               <Reveal key={card.title} index={index}>
-                <article className="rounded-xl border border-border bg-card/70 p-4 transition-all duration-200 hover:-translate-y-1 hover:border-border/80 hover:shadow-lg sm:p-5">
+                <article className="min-w-0">
                   <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                     {card.eyebrow}
                   </p>

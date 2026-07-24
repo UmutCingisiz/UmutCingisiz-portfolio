@@ -88,7 +88,7 @@ export function SiteFooter() {
               {dictionary.footer.contact}
             </ContactLink>
             <a
-              href="/api/resume"
+              href="/api/resume?v=1.1"
               download
               className="transition-colors hover:text-foreground"
             >

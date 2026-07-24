@@ -30,19 +30,18 @@ export async function ContactSection({ contactSuccess = false }: Props) {
               {dictionary.hero.availabilityDetail}. {t.body}
             </p>
 
-            <div className="mt-6 rounded-xl border border-border bg-card/60 p-4 backdrop-blur-sm sm:p-5">
-              <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+            <div className="mt-6 rounded-xl border border-signal/35 bg-signal/[0.07] p-4 shadow-[0_0_0_1px_rgba(34,211,238,0.08)] backdrop-blur-sm sm:p-5">
+              <p className="font-mono text-[0.65rem] tracking-wide text-signal">
                 direct.mail
               </p>
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="mt-2 block break-all text-base font-semibold text-foreground hover:underline"
+                className="mt-2 block break-all text-lg font-semibold tracking-tight text-foreground transition-colors hover:text-signal"
               >
                 {siteConfig.email}
               </a>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                {dictionary.hero.availabilityLabel} ·{" "}
-                {dictionary.hero.availabilityDetail}
+                Direkt mail
               </p>
             </div>
           </div>

@@ -23,8 +23,8 @@ describe("content loaders", () => {
 
   test("returns expected blog slugs", () => {
     const slugs = getPostSlugs();
-    expect(slugs).toContain("mdx-ile-blog");
-    expect(slugs).toContain("server-actions-ve-formlar");
+    expect(slugs).toHaveLength(2);
+    expect(slugs).toContain("bloomedu-bigg-sureci");
     expect(slugs).toContain("nextjs-server-actions-guvenlik");
   });
 

@@ -20,13 +20,6 @@ const sample = [
     language: "JavaScript",
   },
   {
-    name: "Zeki_Dekorasyon",
-    description: "catalog",
-    html_url: "https://github.com/u/Zeki_Dekorasyon",
-    pushed_at: "2026-02-01T00:00:00Z",
-    language: "TypeScript",
-  },
-  {
     name: "UmutCingisiz-portfolio",
     description: "portfolio",
     html_url: "https://github.com/u/UmutCingisiz-portfolio",
@@ -34,9 +27,9 @@ const sample = [
     language: "TypeScript",
   },
   {
-    name: "ArasMali",
-    description: "firm site",
-    html_url: "https://github.com/u/ArasMali",
+    name: "Bloomedu",
+    description: "edtech",
+    html_url: "https://github.com/org/Bloomedu",
     pushed_at: "2026-02-15T00:00:00Z",
     language: "TypeScript",
   },
@@ -44,31 +37,32 @@ const sample = [
 
 describe("normalizeRepoKey", () => {
   it("ignores case, dashes and underscores", () => {
-    expect(normalizeRepoKey("zeki-dekorasyon")).toBe("zekidekorasyon");
-    expect(normalizeRepoKey("Zeki_Dekorasyon")).toBe("zekidekorasyon");
+    expect(normalizeRepoKey("UmutCingisiz-portfolio")).toBe(
+      "umutcingisizportfolio",
+    );
+    expect(normalizeRepoKey("umut_cingisiz_portfolio")).toBe(
+      "umutcingisizportfolio",
+    );
   });
 });
 
 describe("filterPinnedGithubRepos", () => {
-  it("keeps only whitelisted repos with flexible name matching", () => {
+  it("keeps only whitelisted public repos in pinned order", () => {
     const result = filterPinnedGithubRepos(sample, [
       "UmutCingisiz-portfolio",
       "Bloomedu",
-      "aras-mali",
-      "zeki-dekorasyon",
     ]);
 
     expect(result.map((r) => r.name)).toEqual([
       "UmutCingisiz-portfolio",
-      "ArasMali",
-      "Zeki_Dekorasyon",
+      "Bloomedu",
     ]);
     expect(result.every((r) => r.pinned)).toBe(true);
   });
 
   it("drops weak learning repos even if recently pushed", () => {
-    const result = filterPinnedGithubRepos(sample, ["aras-mali"]);
+    const result = filterPinnedGithubRepos(sample, ["Bloomedu"]);
     expect(result).toHaveLength(1);
-    expect(result[0]?.name).toBe("ArasMali");
+    expect(result[0]?.name).toBe("Bloomedu");
   });
 });

@@ -49,10 +49,7 @@ function useActiveHomeSection() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
-    if (pathname !== "/") {
-      setActiveSection(null);
-      return;
-    }
+    if (pathname !== "/") return;
 
     const ids = ["about", "skills", "projects", "hiring", "algorithm-lab", "github", "contact"];
     const elements = ids
@@ -80,7 +77,7 @@ function useActiveHomeSection() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  return activeSection;
+  return pathname === "/" ? activeSection : null;
 }
 
 function isNavCurrent(

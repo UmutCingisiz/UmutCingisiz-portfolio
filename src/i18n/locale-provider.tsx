@@ -39,39 +39,45 @@ export function LocaleProvider({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [clientLocale, setClientLocale] = useState(locale);
+  const [optimisticLocale, setOptimisticLocale] = useState<Locale | null>(null);
   const [isPending, startTransition] = useTransition();
 
+  const activeLocale = optimisticLocale ?? locale;
+  const activeDictionary =
+    activeLocale === locale ? dictionary : getDictionary(activeLocale);
+
   useEffect(() => {
-    setClientLocale(locale);
-    document.documentElement.lang = locale;
-  }, [locale]);
+    document.documentElement.lang = activeLocale;
+  }, [activeLocale]);
 
   const setLocale = useCallback(
     (next: Locale) => {
-      if (!localeSwitchEnabled || next === clientLocale) return;
+      if (!localeSwitchEnabled || next === activeLocale) return;
       writeLocaleCookie(next);
-      setClientLocale(next);
-      document.documentElement.lang = next;
+      setOptimisticLocale(next);
       startTransition(() => {
         void setLocaleAction(next).then(() => {
           router.refresh();
         });
       });
     },
-    [clientLocale, router],
+    [activeLocale, router],
   );
 
-  const value = useMemo<LocaleContextValue>(() => {
-    const dict =
-      clientLocale === locale ? dictionary : getDictionary(clientLocale);
-    return {
-      locale: clientLocale,
-      dictionary: dict,
+  // Server locale yakalayınca optimistic’i bırak (render sırasında güvenli reset)
+  if (optimisticLocale !== null && optimisticLocale === locale) {
+    setOptimisticLocale(null);
+  }
+
+  const value = useMemo<LocaleContextValue>(
+    () => ({
+      locale: activeLocale,
+      dictionary: activeDictionary,
       setLocale,
       isPending,
-    };
-  }, [clientLocale, dictionary, isPending, locale, setLocale]);
+    }),
+    [activeDictionary, activeLocale, isPending, setLocale],
+  );
 
   return (
     <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>

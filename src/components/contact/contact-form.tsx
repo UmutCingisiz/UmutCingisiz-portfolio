@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 
 import type { ContactFormState } from "@/actions/contact";
 import { submitContactForm } from "@/actions/contact";
@@ -14,44 +14,44 @@ type Props = {
   initialSuccess?: boolean;
 };
 
+function readStoredSuccess() {
+  try {
+    return sessionStorage.getItem(SUCCESS_STORAGE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function writeStoredSuccess(value: boolean) {
+  try {
+    if (value) sessionStorage.setItem(SUCCESS_STORAGE_KEY, "1");
+    else sessionStorage.removeItem(SUCCESS_STORAGE_KEY);
+  } catch {
+    /* private mode */
+  }
+}
+
 export function ContactForm({ initialSuccess = false }: Props) {
   const { dictionary } = useI18n();
   const t = dictionary.contact.form;
-  const [success, setSuccess] = useState(initialSuccess);
+  const [success, setSuccess] = useState(
+    () => initialSuccess || readStoredSuccess(),
+  );
   const [state, formAction, pending] = useActionState<
     ContactFormState | null,
     FormData
   >(submitContactForm, null);
 
-  useEffect(() => {
-    if (initialSuccess) {
-      setSuccess(true);
-      try {
-        sessionStorage.setItem(SUCCESS_STORAGE_KEY, "1");
-      } catch {
-        /* private mode */
-      }
-      return;
-    }
-    try {
-      if (sessionStorage.getItem(SUCCESS_STORAGE_KEY) === "1") {
-        setSuccess(true);
-      }
-    } catch {
-      /* private mode */
-    }
-  }, [initialSuccess]);
+  const actionSuccess = Boolean(state && "success" in state && state.success);
+  if (actionSuccess && !success) {
+    writeStoredSuccess(true);
+    setSuccess(true);
+  }
 
-  useEffect(() => {
-    if (state && "success" in state && state.success) {
-      setSuccess(true);
-      try {
-        sessionStorage.setItem(SUCCESS_STORAGE_KEY, "1");
-      } catch {
-        /* private mode */
-      }
-    }
-  }, [state]);
+  if (initialSuccess && !success) {
+    writeStoredSuccess(true);
+    setSuccess(true);
+  }
 
   const errorState =
     state && "ok" in state && state.ok === false ? state : null;
@@ -62,11 +62,7 @@ export function ContactForm({ initialSuccess = false }: Props) {
       <ContactSuccessState
         onReset={() => {
           setSuccess(false);
-          try {
-            sessionStorage.removeItem(SUCCESS_STORAGE_KEY);
-          } catch {
-            /* private mode */
-          }
+          writeStoredSuccess(false);
         }}
       />
     );

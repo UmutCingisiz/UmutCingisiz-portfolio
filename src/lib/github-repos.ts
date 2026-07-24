@@ -117,22 +117,9 @@ async function fetchPinnedFromSources(pinned: string) {
   return null;
 }
 
-function fallbackPinnedRepo(pinned: string): GithubRepoSummary | null {
-  const fallback = siteConfig.pinnedRepoFallbacks[pinned];
-  if (!fallback) return null;
-  return {
-    name: pinned,
-    description: fallback.description,
-    html_url: fallback.html_url,
-    pushed_at: fallback.pushed_at,
-    language: fallback.language,
-    pinned: true,
-    caseStudy: fallback.caseStudy,
-  };
-}
-
 /**
- * Whitelist sırasıyla: kullanıcı reposu → org/fullName kaynakları → dürüst fallback.
+ * Whitelist sırasıyla: kullanıcı reposu → org/fullName kaynakları.
+ * Public olmayan / fallback vitrin kartları feed’e girmez.
  */
 export async function fetchRecentGithubRepos(login: string) {
   const url = `https://api.github.com/users/${encodeURIComponent(login)}/repos?sort=pushed&per_page=100&type=owner`;
@@ -151,12 +138,6 @@ export async function fetchRecentGithubRepos(login: string) {
     const fromSource = await fetchPinnedFromSources(pinned);
     if (fromSource) {
       resolved.push(fromSource);
-      continue;
-    }
-
-    const fallback = fallbackPinnedRepo(pinned);
-    if (fallback) {
-      resolved.push(fallback);
     }
   }
 

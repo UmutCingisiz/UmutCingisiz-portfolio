@@ -55,7 +55,16 @@ export function HiddenTerminal() {
         case "ls":
           push({
             kind: "out",
-            text: "whoami · about · skills · projects · show_projects · blog · contact · social · resume · status · version · ucmd · clear",
+            text: "help      — komut listesi",
+          });
+          push({ kind: "out", text: "whoami    — kısa biyografi" });
+          push({ kind: "out", text: "projects  — projelere git / kaydır" });
+          push({ kind: "out", text: "skills    — teknolojiler" });
+          push({ kind: "out", text: "contact   — e-posta + iletişim formu" });
+          push({ kind: "out", text: "clear     — ekranı temizle" });
+          push({
+            kind: "out",
+            text: "also: about · blog · social · resume · status · version",
           });
           break;
         case "version":
@@ -65,21 +74,26 @@ export function HiddenTerminal() {
             kind: "out",
             text: `${shell.name} v${shell.version} · ${shell.tagline}`,
           });
-          push({
-            kind: "out",
-            text: "built for systems thinking — not landing-page demos.",
-          });
           break;
         case "whoami":
-          push({ kind: "out", text: `${siteConfig.name} — ${siteConfig.role}` });
-          push({ kind: "out", text: siteConfig.currentFocus });
+          push({ kind: "out", text: `${siteConfig.name}` });
+          push({ kind: "out", text: siteConfig.role });
+          push({
+            kind: "out",
+            text: "Full-stack · Next.js / TypeScript · ürün odaklı mühendislik",
+          });
+          push({ kind: "out", text: siteConfig.shortBio });
           break;
         case "about":
           push({ kind: "out", text: siteConfig.shortBio });
           break;
         case "skills":
-          push({ kind: "out", text: "core: TypeScript · React/Next.js · Python · C · Java" });
-          push({ kind: "out", text: "growing: PostgreSQL · Redis · DevOps · system design" });
+          for (const group of siteConfig.techStack) {
+            push({
+              kind: "out",
+              text: `${group.group}: ${group.items.join(" · ")}`,
+            });
+          }
           break;
         case "status":
           push({
@@ -89,19 +103,26 @@ export function HiddenTerminal() {
           push({ kind: "out", text: `focus: ${siteConfig.availability}` });
           break;
         case "projects":
-        case "show_projects":
-          push({ kind: "out", text: "→ /projects sayfasına yönlendiriliyor..." });
+        case "show_projects": {
+          push({ kind: "out", text: "→ projeler…" });
           setOpen(false);
-          router.push("/projects");
+          const onHome = window.location.pathname === "/";
+          const projectsSection = document.getElementById("projects");
+          if (onHome && projectsSection) {
+            projectsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            router.push("/projects");
+          }
           break;
+        }
         case "blog":
-          push({ kind: "out", text: "→ /blog sayfasına yönlendiriliyor..." });
+          push({ kind: "out", text: "→ /blog" });
           setOpen(false);
           router.push("/blog");
           break;
         case "contact":
           push({ kind: "out", text: siteConfig.email });
-          push({ kind: "out", text: "→ /#contact bölümüne yönlendiriliyor..." });
+          push({ kind: "out", text: "→ /#contact" });
           setOpen(false);
           router.push("/#contact");
           break;
@@ -111,14 +132,15 @@ export function HiddenTerminal() {
           break;
         case "resume":
         case "cv":
-          push({ kind: "out", text: "→ CV indiriliyor (/api/resume)..." });
-          window.open("/api/resume", "_blank");
+          push({ kind: "out", text: "→ /api/resume?v=1.1" });
+          window.open("/api/resume?v=1.1", "_blank");
           break;
         case "clear":
+        case "cls":
           setHistory([
             {
               kind: "sys",
-              text: `${shell.name} v${shell.version} — session cleared.`,
+              text: `${shell.name} v${shell.version} — ekran temizlendi. help yaz.`,
             },
           ]);
           break;
@@ -167,12 +189,12 @@ export function HiddenTerminal() {
   }, [history]);
 
   const quickCommands = [
+    "help",
     "whoami",
+    "projects",
     "skills",
-    "show_projects()",
     "contact",
-    "resume",
-    "version",
+    "clear",
   ];
 
   return (

@@ -61,7 +61,7 @@ export function FeaturedProjectsList({ projects }: Props) {
               return (
                 <li key={p.slug} className="min-w-0">
                   <Reveal index={i} className="h-full">
-                    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card/70 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+                    <article className="group flex h-full flex-col overflow-hidden rounded-xl transition-all duration-200 hover:-translate-y-1">
                       <Link
                         href={`/projects/${p.slug}`}
                         className="relative block aspect-[4/3] w-full overflow-hidden bg-muted sm:aspect-[16/10]"

@@ -40,7 +40,7 @@ export function BlogPostList() {
           {posts.map((post, index) => (
             <li key={post.slug}>
               <Reveal index={index}>
-                <article className="group rounded-2xl border border-border bg-card/70 p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+                <article className="group border-b border-border/70 py-6 transition-colors first:pt-0 last:border-b-0 hover:border-signal/30">
                   <Link
                     href={`/blog/${post.slug}`}
                     className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"

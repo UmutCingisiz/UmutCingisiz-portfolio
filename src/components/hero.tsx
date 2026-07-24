@@ -98,26 +98,26 @@ export function Hero() {
             {dictionary.hero.shortBio}
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-2.5 sm:mt-8 sm:gap-3">
-            <ContactLink className="btn-signal group inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition-all duration-200 sm:h-11 sm:px-5">
+          <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+            <a
+              href="/api/resume?v=1.1"
+              download="Umut-Cingisiz-CV.pdf"
+              className="btn-signal group order-1 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all duration-200 sm:order-3 sm:h-11 sm:w-auto sm:justify-start"
+            >
+              <DownloadIcon className="size-4 transition-transform duration-200 group-hover:translate-y-0.5" />
+              {dictionary.hero.downloadCv}
+            </a>
+            <ContactLink className="btn-outline-rise group order-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold sm:order-1 sm:h-11 sm:w-auto sm:justify-start sm:px-5">
               {dictionary.hero.contact}
               <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
             </ContactLink>
             <Link
               href="/projects"
-              className="btn-outline-rise group inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold sm:h-11 sm:px-5"
+              className="btn-outline-rise group order-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold sm:order-2 sm:h-11 sm:w-auto sm:justify-start sm:px-5"
             >
               {dictionary.hero.viewProjects}
               <ArrowRightIcon className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
-            <a
-              href="/api/resume"
-              download="Umut-Cingisiz-CV.pdf"
-              className="btn-ghost-rise group inline-flex h-10 items-center gap-2 rounded-xl px-3.5 text-sm font-medium sm:h-11 sm:px-4"
-            >
-              <DownloadIcon className="size-4 transition-transform duration-200 group-hover:translate-y-0.5" />
-              {dictionary.hero.downloadCv}
-            </a>
           </div>
 
           <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-6">

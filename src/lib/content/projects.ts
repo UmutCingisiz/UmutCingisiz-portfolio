@@ -66,6 +66,10 @@ export function filterProjectsByCategory(
   return all.filter((p) => p.category === category);
 }
 
+/**
+ * Komşu projeler — `getAllProjectsMeta()` sırasına göre (yeniden eskiye).
+ * Önceki = listedeki bir üst (index - 1), Sonraki = listedeki bir alt (index + 1).
+ */
 export function getAdjacentProjects(slug: string): {
   prev: ProjectMeta | null;
   next: ProjectMeta | null;
@@ -74,7 +78,7 @@ export function getAdjacentProjects(slug: string): {
   const index = all.findIndex((project) => project.slug === slug);
   if (index < 0) return { prev: null, next: null };
   return {
-    prev: all[index + 1] ?? null,
-    next: all[index - 1] ?? null,
+    prev: index > 0 ? (all[index - 1] ?? null) : null,
+    next: index < all.length - 1 ? (all[index + 1] ?? null) : null,
   };
 }

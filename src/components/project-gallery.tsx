@@ -1,9 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+
+function subscribeNoop() {
+  return () => {};
+}
+
+function useIsClient() {
+  return useSyncExternalStore(subscribeNoop, () => true, () => false);
+}
 
 export type GalleryItem = {
   src: string;
@@ -39,7 +47,7 @@ function CloseIcon({ className }: { className?: string }) {
 export function ProjectGallery({ title, items }: ProjectGalleryProps) {
   const shots = items?.filter((item) => item.src.trim().length > 0) ?? [];
   const [active, setActive] = useState<number | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsClient();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const triggerRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
@@ -51,10 +59,6 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
   const showNext = useCallback(() => {
     setActive((i) => (i === null ? i : (i + 1) % shots.length));
   }, [shots.length]);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (active === null) return;
