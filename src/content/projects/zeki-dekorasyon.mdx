@@ -1,6 +1,6 @@
 ---
 title: "Zeki Dekorasyon: Performans Odaklı Dijital Katalog"
-description: "Next.js + Tailwind ile bahçe mobilyaları kataloğu — SSG, next/image ve ölçülebilir Core Web Vitals odaklı vitrin."
+description: "Next.js katalog sitesi — SSG, next/image ve WhatsApp üzerinden fiyat / iletişim akışı."
 date: "2026-02-15"
 tags:
   - Next.js
@@ -8,10 +8,11 @@ tags:
   - Image Optimization
   - Tailwind CSS
   - TypeScript
+  - WhatsApp
 category: full-stack
-problem: "Görsel ağırlıklı bahçe mobilyası kataloğunda yüksek çözünürlüklü fotoğraflar LCP’yi düşürüyor, layout shift yaratıyor ve SEO’yu zayıflatıyor."
-decision: "SPA yerine Next.js SSG, dosya/ürün modeli ve next/image seçildi; aspect-ratio rezervi ile CLS kontrolü, lazy-load ve WebP dönüşümü hedeflendi."
-impact: "Hızlı katalog gezintisi, düşük bakım maliyeti ve küçük işletme için ölçeklenebilir ürün sayfası iskeleti. Geliştirme / yayın hazırlığı devam ediyor."
+problem: "Görsel ağırlıklı bahçe mobilyası kataloğunda yüksek çözünürlüklü fotoğraflar LCP’yi düşürüyor; klasik formlar dönüşümü yavaşlatıyor, müşteri WhatsApp’tan soruyor."
+decision: "Next.js SSG katalog + next/image; birincil iletişim kanalı olarak ürün ve iletişim sayfalarında WhatsApp deep-link entegrasyonu. Aspect-ratio rezervi ile CLS kontrolü."
+impact: "Hızlı katalog gezintisi, düşük bakım maliyeti ve WhatsApp üzerinden doğrudan lead. Geliştirme / yayın hazırlığı sürüyor (WIP)."
 status: in-progress
 featured: true
 gallery:
@@ -23,7 +24,7 @@ gallery:
     caption: "Katalog · kategori / materyal / renk"
   - src: "/images/projects/zeki-dekorasyon/03.png"
     alt: "Ürün detay sayfası — görsel, özellikler, WhatsApp fiyat"
-    caption: "Ürün detay · next/image · CTA"
+    caption: "Ürün detay · next/image · WhatsApp CTA"
   - src: "/images/projects/zeki-dekorasyon/04.png"
     alt: "İletişim sayfası — kartlar, harita placeholder, SSS"
     caption: "İletişim · WhatsApp · FAQ"
@@ -32,15 +33,22 @@ gallery:
     caption: "Hakkımızda · timeline · footer"
 ---
 
-Görsel sektörlerde satın alma kararı çoğu zaman fotoğraf kalitesi ve sitenin hızıyla başlar. **Zeki Dekorasyon** için kurduğum dijital katalogda amaç; kaliteden ödün vermeden anında tepki veren bir arayüz sunmaktı.
+Görsel sektörlerde satın alma kararı çoğu zaman fotoğraf kalitesi ve sitenin hızıyla başlar. **Zeki Dekorasyon** için kurduğum dijital katalog bir Next.js vitrindir: ürünler SSG ile sunulur; fiyat ve sipariş soruları için birincil kanal **WhatsApp** entegrasyonudur.
+
+### Ürün yüzeyi
+
+- Koleksiyon / kategori kataloğu (filtreler, kart ızgarası)
+- Ürün detay: `next/image`, özellikler, **WhatsApp ile fiyat sor** CTA
+- İletişim: WhatsApp deep-link + SSS
+- Statik kurumsal sayfalar (hakkımızda, timeline)
 
 ### Mimari kararlar
 
 1. **SSG:** Ürün sayfalarını build’de statik HTML’e çevirerek TTFB’yi düşürmek
-2. **next/image:** srcset, WebP ve lazy-load ile cihazına uygun görsel sunmak
-3. **Aspect-ratio rezervi:** yükleme sırasında metin kaymasını (CLS) engellemek
-4. **Modüler ürün modeli:** `generateStaticParams` ile büyüyen katalogda build bütünlüğü
+2. **next/image:** srcset, WebP ve lazy-load ile cihazına uygun görsel
+3. **Aspect-ratio rezervi:** yükleme sırasında CLS’i engellemek
+4. **WhatsApp-first iletişim:** form yığını yerine müşterinin zaten kullandığı kanala deep-link
 
-### Sonuç
+### Durum
 
-Bu proje, doğru render stratejisinin küçük bir işletmenin dijital vitrinini nasıl dönüştürebileceğini gösteren pratik bir vaka çalışmasıdır.
+Proje **WIP** — katalog ve WhatsApp akışı ürünleştirildi; canlı domain / son yayın adımları sürüyor.

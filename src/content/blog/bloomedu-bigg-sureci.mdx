@@ -1,0 +1,111 @@
+---
+title: "Bloomedu × BİGG: Adaptif eğitim mimarisinden ön jüriye"
+description: "React Native + Express/Postgres + LLM destekli Bloomedu’nun mimari kararları, 14 üniversite takımı arasından En İyi Proje seçimi ve 9 Nisan 2026 TÜBİTAK BİGG Akdeniz ön jüri süreci."
+date: "2026-07-20"
+tags:
+  - Bloomedu
+  - EdTech
+  - React Native
+  - Architecture
+  - BİGG
+  - Product
+---
+
+Bu yazı bir “proje günlüğü” değil. **Bloomedu**’yu bitirme ödevi seviyesinden, jüri ve **TÜBİTAK BİGG 1812 Akdeniz** ön jürisine taşırken aldığımız mimari kararları, bilinçli trade-off’ları ve ürün vizyonunu Tech Lead gözüyle anlatıyorum.
+
+Kısa bağlam: Bloomedu, otizm spektrumundaki çocuklar için **adaptif eğitim oyunları** sunan bir mobil üründür. İstemci React Native; oturum ve ilerleme verisi Express + PostgreSQL üzerinde; öğrenme akışında LLM destekli bir eğitmen katmanı vardır. Ekip reposu: [`somethn7/Bloomedu`](https://github.com/somethn7/Bloomedu).
+
+---
+
+## Ürün problemi: skor değil, basamak
+
+Klasik eğitim araçlarının çoğu çocuğu tek bir skora indirger. Pedagojik açıdan asıl ihtiyaç ise **Bloom taksonomisine yakın bilişsel basamakları** izlemek ve bir sonraki görevi bireysel ilerlemeye göre seçmektir.
+
+Bu yüzden sabit test bankası yerine şu sözleşmeyi seçtik:
+
+1. Oyun oturumu ölçülebilir bir **öğrenme adımı**dır (seviye, kategori, tamamlanma, hata örüntüsü).
+2. İlerleme ilişkisel modelde tutulur; “son skor” tek kaynak değildir.
+3. AI katmanı cevap anahtarı değil; Sokratik, sınırlı bağlamlı bir **adaptif yönlendirici**dir.
+
+Bu sözleşme olmadan LLM entegrasyonu sadece pahalı bir sohbet kutusu olurdu.
+
+---
+
+## Mimari: istemci / API / öğrenme motoru
+
+### React Native istemci
+
+Mobil istemci; seviye ve kategori navigasyonu, oturum yaşam döngüsü, yerel depolama ve TTS gibi çocuk deneyimine yakın parçaları taşır. Buradaki kritik karar, **iş kuralını telefona gömmek yerine** API’ye taşımaktı: offline tolerans için yerel durum tutulabilir, fakat “hangi seviye açılır / kapanır” sunucu tarafında doğrulanır.
+
+### Express + PostgreSQL
+
+Backend’i ince tutup bilinçli sınırlarla büyüttük:
+
+- Auth / oturum
+- Oyun ve ilerleme kayıtları
+- Mail / bildirim uçları
+- AI çağrıları için sunucu tarafı proxy (anahtar istemcide değil)
+
+PostgreSQL seçimi bilinçliydi: ilerleme ve ilişki sorguları için doküman deposundan daha dürüst bir model. Şema büyüdükçe migration disiplini, “hızlı prototip JSON”dan daha pahalı görünür; jüri ve BİGG sürecinde ise **açıklanabilir veri modeli** güven verdi.
+
+### LLM katmanı: maliyet + pedagoji sınırı
+
+OpenAI çağrılarını istemciden değil API üzerinden yürüttük. Prompt’lar “her şeyi bil” değil; seviye bağlamı, çocuğun son adımları ve güvenli dil kısıtlarıyla sınırlandı. Ürün vizyonu açısından AI’nın işi:
+
+- yanlış cevabı utandırmadan yeniden çerçevelemek
+- bir üst bilişsel basamağa kontrollü geçiş önermek
+- öğretmen/ebeveyn raporuna ham sohbet dökmek yerine **özetlenebilir sinyal** üretmek
+
+Maliyet kontrolü buradan gelir: sınırsız chat değil, oturum başına sınırlı tur ve dar context.
+
+---
+
+## Jüri sinyali: 14 takım, En İyi Proje
+
+Üniversite bitirme jürisinde Bloomedu, **14 üniversite takımı** arasından sıyrılarak **En İyi Proje** seçildi. Bu cümleyi süslemek yerine mühendislik karşılığını yazıyorum:
+
+- Problem ifadesi klinik/pedagojik olarak netti; “AI’lı uygulama” genellemesi değildi.
+- Demo, tek ekran animasyon değil; oturum → oyun → ilerleme zincirini gösteriyordu.
+- Mimari anlatımı “kullandığımız kütüphaneler” listesi değil; **neden bu sınırlar** sorusuna cevaptı.
+
+Jüri ödülü ürünün bitmiş olduğu anlamına gelmez. Anlamı şudur: problem seçimi + teknik anlatım + çalışır demosu, aynı ağırlık sınıfındaki takımlar arasında ayırt edici bulundu.
+
+---
+
+## 9 Nisan 2026 — TÜBİTAK BİGG Akdeniz ön jüri
+
+**9 Nisan 2026**’da Bloomedu’yu **TÜBİTAK BİGG 1812 Akdeniz** ön jürisine sunduk. Bu sunum, akademik jüriden farklı bir dil ister:
+
+| Akademik jüri | BİGG ön jüri |
+|---------------|--------------|
+| Teknik derinlik, yöntem | Problem–çözüm–pazar–ölçeklenebilirlik |
+| “Nasıl yaptık?” | “Kim öder, neden şimdi, nasıl büyür?” |
+| Mimari doğruluk | Risk, regülasyon, ekip kapasitesi |
+
+Ön jüriye hazırlanırken ürünü üç katmana ayırdık:
+
+1. **Çekirdek öğrenme döngüsü** (oyundan veriye)
+2. **Güven ve veri sınırları** (çocuk verisi, API anahtarları, sunucu proxy)
+3. **Ticarileşme yolu** (BİGG kabulü sonrası ön jüri / program adımları)
+
+Program tarafında aldığımız net sonuç: Bloomedu **BİGG Akdeniz’e kabul** edildi. Bunu “BİGG En İyi Proje ödülü” diye abartmıyorum; üniversite jürisindeki En İyi Proje ile program kabulü ayrı sinyaller. İkisi birlikte, ürünün hem teknik hem süreç olarak ciddiye alındığını gösteriyor.
+
+---
+
+## Bilinçli trade-off’lar
+
+**RN + ayrı API:** Monolitik bir full-stack web daha hızlı demo verirdi. Ama hedef cihaz mobil ve pedagojik oturum uzun; native istemci + ince API, jüri demosunda daha dürüst hissettirdi.
+
+**LLM’i kenara değil merkeze koymamak:** Ürünün kalbi adaptif seviye motoru ve veri modeli. LLM yokken de oyun oynanabilir kalmalı; AI “baharat” değil “omurga” da değil — **yönlendirici katman**.
+
+**Özellik hızı vs. açıklanabilirlik:** BİGG sürecinde her yeni ekrandan önce “bu jüride hangi riski azaltıyor?” sorusunu sorduk. Scope creep, ön jüri narratifini öldürür.
+
+---
+
+## Portfolyoya taşıdığım ders
+
+Bloomedu bana şunu öğretti: güçlü bir portfolyo projesi, en yeni kütüphaneyi göstermek değil; **problem sınırını, veri modelini ve yayın baskısı altında alınan kararları** anlatabilmektir.
+
+Bu sitedeki case study ve guestbook/contact gibi yüzeyler de aynı disiplinin devamı: demo değil, bakımı yapılabilir sistem. Bloomedu ise o disiplinin en uzun ve en gerçek dünyaya yakın kanıtı.
+
+İlgili proje sayfası: [`/projects/bloomedu`](/projects/bloomedu).

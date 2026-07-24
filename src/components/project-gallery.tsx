@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
 
 export type GalleryItem = {
@@ -15,12 +16,30 @@ type ProjectGalleryProps = {
   items?: GalleryItem[];
 };
 
+function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      aria-hidden
+    >
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  );
+}
+
 /**
  * Proje detayında uygulama içi ekran görüntüleri + lightbox büyütme.
+ * Lightbox, ancestor transform/backdrop-filter'dan bağımsız olsun diye body portal'ına gider.
  */
 export function ProjectGallery({ title, items }: ProjectGalleryProps) {
   const shots = items?.filter((item) => item.src.trim().length > 0) ?? [];
   const [active, setActive] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const triggerRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
@@ -32,6 +51,10 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
   const showNext = useCallback(() => {
     setActive((i) => (i === null ? i : (i + 1) % shots.length));
   }, [shots.length]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (active === null) return;
@@ -74,6 +97,86 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
   });
 
   const current = active !== null ? shots[active] : null;
+
+  const lightbox =
+    mounted && current && active !== null
+      ? createPortal(
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={current.alt}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90"
+            onClick={close}
+          >
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={close}
+              className="absolute right-4 top-4 z-30 inline-flex size-11 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:right-6 sm:top-6"
+              aria-label="Kapat"
+            >
+              <CloseIcon className="size-5" />
+            </button>
+
+            {shots.length > 1 ? (
+              <>
+                <button
+                  type="button"
+                  aria-label="Önceki görsel"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    showPrev();
+                  }}
+                  className="absolute left-3 top-1/2 z-30 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-lg text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:left-6 sm:size-12"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  aria-label="Sonraki görsel"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    showNext();
+                  }}
+                  className="absolute right-3 top-1/2 z-30 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-lg text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:right-6 sm:size-12"
+                >
+                  →
+                </button>
+              </>
+            ) : null}
+
+            <figure
+              className="relative z-10 flex max-h-[90dvh] w-full max-w-5xl flex-col items-center justify-center gap-3 px-14 sm:gap-4 sm:px-20"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative h-[min(72dvh,780px)] w-full">
+                <Image
+                  src={current.src}
+                  alt={current.alt}
+                  fill
+                  className="object-contain object-center"
+                  sizes="100vw"
+                  priority
+                />
+              </div>
+
+              <figcaption className="flex w-full max-w-xl flex-col items-center gap-1 px-2 text-center">
+                <span className="font-mono text-xs tracking-wide text-white/60 tabular-nums">
+                  {String(active + 1).padStart(2, "0")} /{" "}
+                  {String(shots.length).padStart(2, "0")}
+                </span>
+                {current.caption || current.alt ? (
+                  <span className="text-sm leading-5 text-white/85">
+                    {current.caption ?? current.alt}
+                  </span>
+                ) : null}
+              </figcaption>
+            </figure>
+          </div>,
+          document.body,
+        )
+      : null;
 
   return (
     <section className="mt-8 rounded-xl border border-border bg-card/50 p-4 backdrop-blur-sm sm:p-6">
@@ -143,73 +246,7 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
         </div>
       )}
 
-      {current && active !== null ? (
-        <div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label={current.alt}
-          className="fixed inset-0 z-50 grid place-items-center bg-background/95 p-4 backdrop-blur-md sm:p-8"
-          onClick={close}
-        >
-          <button
-            ref={closeButtonRef}
-            type="button"
-            onClick={close}
-            className="absolute right-3 top-3 z-20 inline-flex h-11 items-center rounded-lg border border-border bg-card px-4 text-sm font-medium text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 sm:right-6 sm:top-6"
-          >
-            Kapat
-          </button>
-
-          {shots.length > 1 ? (
-            <>
-              <button
-                type="button"
-                aria-label="Önceki görsel"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  showPrev();
-                }}
-                className="absolute left-2 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-border bg-card/95 text-lg text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 sm:left-6 sm:size-12"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                aria-label="Sonraki görsel"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  showNext();
-                }}
-                className="absolute right-2 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-border bg-card/95 text-lg text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 sm:right-6 sm:size-12"
-              >
-                →
-              </button>
-            </>
-          ) : null}
-
-          <div
-            className="relative flex max-h-[min(85dvh,900px)] w-full max-w-5xl flex-col items-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative h-[min(78dvh,820px)] w-full overflow-hidden rounded-lg bg-transparent sm:rounded-xl">
-              <Image
-                src={current.src}
-                alt={current.alt}
-                fill
-                className="object-contain object-center"
-                sizes="100vw"
-                priority
-              />
-            </div>
-            <p className="mt-3 text-center font-mono text-xs text-muted-foreground">
-              {String(active + 1).padStart(2, "0")} /{" "}
-              {String(shots.length).padStart(2, "0")}
-              {current.caption ? ` · ${current.caption}` : ""}
-            </p>
-          </div>
-        </div>
-      ) : null}
+      {lightbox}
     </section>
   );
 }
