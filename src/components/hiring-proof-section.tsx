@@ -132,7 +132,7 @@ export function HiringProofSection() {
                   {...("external" in item && item.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="surface-card block p-3 transition-colors duration-[var(--motion-base)] hover:border-signal/30 sm:p-4"
+                  className="block rounded-xl border border-border bg-card/70 p-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-4"
                 >
                   <p className="text-base font-bold tracking-tight text-signal sm:text-lg">
                     {item.value}
@@ -174,10 +174,10 @@ export function HiringProofSection() {
                 : {};
               return (
                 <Reveal key={signal.title} index={index}>
-                  <article className="surface-card group relative overflow-hidden p-4 sm:p-5">
-                    <div className="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <article className="rounded-xl border border-border bg-card/70 p-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-5">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex items-start gap-3">
-                        <div className="flex size-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-signal/25 bg-signal/[0.08] text-signal sm:size-10">
+                        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-muted/50 text-foreground sm:size-10">
                           <Icon className="size-4 sm:size-5" />
                         </div>
                         <div>
@@ -189,17 +189,17 @@ export function HiringProofSection() {
                           </h3>
                         </div>
                       </div>
-                      <span className="w-fit shrink-0 rounded-md border border-border bg-muted/50 px-2 py-0.5 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+                      <span className="w-fit shrink-0 rounded-md border border-border bg-muted/40 px-2 py-0.5 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                         {signal.evidence}
                       </span>
                     </div>
-                    <p className="relative mt-3 text-sm leading-6 text-muted-foreground">
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
                       {signal.body}
                     </p>
                     <Link
                       href={signal.href}
                       {...linkProps}
-                      className="relative mt-4 inline-flex text-sm font-medium text-signal underline-offset-4 hover:underline"
+                      className="mt-4 inline-flex text-sm font-medium text-signal underline-offset-4 hover:underline"
                     >
                       Kanıtı incele →
                     </Link>

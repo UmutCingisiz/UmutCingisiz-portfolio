@@ -3,7 +3,11 @@ import { siteConfig } from "@/lib/site-config";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 
-export function ContactSection() {
+type Props = {
+  contactSuccess?: boolean;
+};
+
+export function ContactSection({ contactSuccess = false }: Props) {
   return (
     <section
       id="contact"
@@ -42,9 +46,9 @@ export function ContactSection() {
         <Reveal index={1}>
           <div className="rounded-xl border border-border bg-card/60 p-4 text-left backdrop-blur-sm sm:p-5">
             <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
-              secure.form
+              {contactSuccess ? "message.received" : "secure.form"}
             </p>
-            <ContactForm />
+            <ContactForm initialSuccess={contactSuccess} />
           </div>
         </Reveal>
       </div>

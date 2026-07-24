@@ -9,7 +9,8 @@ type Props = {
 };
 
 /**
- * İletişim formu başarısı — şık toast; ardından URL temizlenir (anasayfa).
+ * Kısa onay toast’u. Asıl başarı UI: iletişim bölümündeki success state.
+ * URL temizlenir; form sessionStorage ile kapalı kalır.
  */
 export function ContactSuccessToast({ active }: Props) {
   const router = useRouter();
@@ -22,10 +23,10 @@ export function ContactSuccessToast({ active }: Props) {
       return;
     }
     setVisible(true);
-    const hide = window.setTimeout(() => setVisible(false), 3200);
+    const hide = window.setTimeout(() => setVisible(false), 4200);
     const nav = window.setTimeout(() => {
-      router.replace("/", { scroll: false });
-    }, 3600);
+      router.replace("/#contact", { scroll: false });
+    }, 4500);
     return () => {
       window.clearTimeout(hide);
       window.clearTimeout(nav);
@@ -50,21 +51,17 @@ export function ContactSuccessToast({ active }: Props) {
               : { opacity: 0, y: 16, scale: 0.98 }
           }
           transition={{ type: "spring", stiffness: 380, damping: 26 }}
-          className="fixed bottom-5 left-1/2 z-[80] w-[min(92vw,420px)] -translate-x-1/2"
+          className="fixed bottom-5 left-1/2 z-[80] w-[min(92vw,440px)] -translate-x-1/2"
         >
-          <div className="relative overflow-hidden rounded-2xl border border-emerald-400/35 bg-card/95 px-4 py-3.5 shadow-[0_24px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:px-5 sm:py-4">
+          <div className="relative overflow-hidden rounded-2xl border border-emerald-400/40 bg-card px-5 py-4 shadow-[0_28px_90px_rgba(0,0,0,0.6)] backdrop-blur-xl sm:px-6 sm:py-5">
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/70 to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/80 to-transparent"
             />
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -left-8 top-1/2 size-24 -translate-y-1/2 rounded-full bg-emerald-400/15 blur-2xl"
-            />
-            <div className="relative flex items-start gap-3">
-              <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
+            <div className="relative flex items-start gap-3.5">
+              <span className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-2xl border border-emerald-400/35 bg-emerald-400/12 text-emerald-300">
                 <svg
-                  className="size-4"
+                  className="size-5"
                   viewBox="0 0 16 16"
                   fill="none"
                   stroke="currentColor"
@@ -77,18 +74,18 @@ export function ContactSuccessToast({ active }: Props) {
                 </svg>
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold tracking-tight text-foreground">
-                  Mailiniz başarıyla gönderildi
+                <p className="text-base font-semibold tracking-tight text-foreground">
+                  Teşekkürler, mesajınız alındı
                 </p>
-                <p className="mt-0.5 text-xs leading-5 text-muted-foreground sm:text-sm">
-                  Mesajınızı aldım. En kısa sürede dönüş yapacağım.
+                <p className="mt-1 text-sm leading-5 text-muted-foreground">
+                  Form yerine onay ekranı açıldı. En kısa sürede dönüş yapacağım.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => {
                   setVisible(false);
-                  router.replace("/", { scroll: false });
+                  router.replace("/#contact", { scroll: false });
                 }}
                 className="shrink-0 rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 aria-label="Bildirimi kapat"
@@ -102,7 +99,7 @@ export function ContactSuccessToast({ active }: Props) {
                 className="absolute bottom-0 left-0 h-0.5 bg-emerald-400/80"
                 initial={{ width: "100%" }}
                 animate={{ width: "0%" }}
-                transition={{ duration: 3.2, ease: "linear" }}
+                transition={{ duration: 4.2, ease: "linear" }}
               />
             ) : null}
           </div>

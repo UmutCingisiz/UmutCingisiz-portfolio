@@ -42,14 +42,14 @@ export function AboutSection() {
           <div className="grid gap-3">
             {cards.map((card, index) => (
               <Reveal key={card.title} index={index}>
-                <article className="surface-card group relative p-4 sm:p-5">
+                <article className="rounded-xl border border-border bg-card/70 p-4 transition-all duration-200 hover:-translate-y-1 hover:border-border/80 hover:shadow-lg sm:p-5">
                   <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                     {card.eyebrow}
                   </p>
-                  <h3 className="relative mt-2 text-base font-semibold tracking-tight text-foreground sm:text-lg">
+                  <h3 className="mt-2 text-base font-semibold tracking-tight text-foreground sm:text-lg">
                     {card.title}
                   </h3>
-                  <p className="relative mt-2 text-sm leading-6 text-muted-foreground">
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
                     {card.body}
                   </p>
                 </article>

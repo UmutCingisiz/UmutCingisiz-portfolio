@@ -29,7 +29,7 @@ test.describe("contact form", () => {
     await expect(page).not.toHaveURL(/\?contact=sent/);
   });
 
-  test("successful submit shows toast then lands on home", async ({ page }) => {
+  test("successful submit replaces form with success state", async ({ page }) => {
     await gotoContact(page);
 
     await fillContact(page, {
@@ -41,10 +41,10 @@ test.describe("contact form", () => {
 
     await expect(page).toHaveURL(/\?contact=sent/);
     await expect(
-      page.getByText(/Mailiniz başarıyla gönderildi/i),
+      page.getByRole("heading", { name: /Teşekkürler, mesajınız alındı/i }),
     ).toBeVisible();
-    await expect(page.locator("#contact-name")).toBeVisible();
-    await expect(page).not.toHaveURL(/\?contact=sent/, { timeout: 8000 });
+    await expect(page.locator("#contact-name")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Gönder" })).toHaveCount(0);
   });
 
   test("rate-limit path returns honest error", async ({ page }) => {

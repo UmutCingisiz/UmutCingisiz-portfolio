@@ -10,6 +10,7 @@ import { ContactLink } from "@/components/contact-link";
 import { Logo } from "@/components/logo";
 import { Magnetic } from "@/components/magnetic";
 import { socialLinks } from "@/components/social-icons";
+import { useFocusTrap } from "@/hooks/use-focus-trap";
 
 const MOBILE_NAV_ID = "mobile-primary-navigation";
 
@@ -131,61 +132,18 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (!mobileOpen) return;
+    document.body.classList.add("overflow-hidden");
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("overflow-hidden");
     };
   }, [mobileOpen]);
 
-  useEffect(() => {
-    if (!mobileOpen) return;
-
-    const panel = mobilePanelRef.current;
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-
-    const focusables = () => {
-      if (!panel) return [] as HTMLElement[];
-      return Array.from(
-        panel.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-        ),
-      ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
-    };
-
-    const items = focusables();
-    items[0]?.focus();
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeMobile();
-        return;
-      }
-
-      if (event.key !== "Tab") return;
-      const list = focusables();
-      if (list.length === 0) return;
-      const first = list[0];
-      const last = list[list.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      previouslyFocused?.focus?.();
-    };
-  }, [mobileOpen, closeMobile]);
+  useFocusTrap(mobilePanelRef, {
+    active: mobileOpen,
+    onEscape: closeMobile,
+    restoreFocusRef: menuButtonRef,
+  });
 
   return (
     <>
@@ -287,6 +245,7 @@ export function SiteHeader() {
               className="inline-flex size-9 items-center justify-center rounded-lg text-foreground lg:hidden"
               aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
               aria-expanded={mobileOpen}
+              aria-haspopup="dialog"
               aria-controls={MOBILE_NAV_ID}
             >
               {mobileOpen ? (
@@ -321,12 +280,21 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 overflow-y-auto bg-background/95 px-6 py-20 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto bg-background/95 px-4 pb-10 pt-20 backdrop-blur-xl sm:px-6 lg:hidden"
           >
             <nav
               className="mx-auto flex min-h-full max-w-sm flex-col items-stretch justify-center gap-3"
               aria-label="Mobil navigasyon"
             >
+              <button
+                type="button"
+                onClick={closeMobile}
+                className="mb-2 ml-auto inline-flex size-11 items-center justify-center rounded-xl border border-border bg-card/60 text-foreground transition-colors hover:bg-muted"
+                aria-label="Menüyü kapat"
+              >
+                <CloseIcon className="size-5" />
+              </button>
+
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}

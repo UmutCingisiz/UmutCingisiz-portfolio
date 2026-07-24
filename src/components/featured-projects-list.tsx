@@ -69,7 +69,7 @@ export function FeaturedProjectsList({ projects }: Props) {
                     >
                       <Link
                         href={`/projects/${p.slug}`}
-                        className="relative block aspect-[16/10] w-full overflow-hidden bg-muted"
+                        className="relative block aspect-[4/3] w-full overflow-hidden bg-muted sm:aspect-[16/10]"
                         aria-label={`${p.title} görseli`}
                       >
                         {cover ? (
@@ -78,14 +78,13 @@ export function FeaturedProjectsList({ projects }: Props) {
                             alt={p.gallery?.[0]?.alt ?? p.title}
                             fill
                             sizes="(min-width: 1024px) 360px, (min-width: 768px) 45vw, 92vw"
-                            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] group-active:scale-[1.02]"
+                            className="object-contain object-top transition-transform duration-500 group-hover:scale-[1.02] sm:object-cover"
                           />
                         ) : (
                           <div className="flex h-full items-center justify-center font-mono text-xs text-muted-foreground">
                             {p.title}
                           </div>
                         )}
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" />
                       </Link>
 
                       <div className="flex flex-1 flex-col p-4 sm:p-5">

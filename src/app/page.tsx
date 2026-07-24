@@ -51,7 +51,7 @@ export default async function Home({
       <Suspense fallback={<GithubActivitySkeleton />}>
         <GithubActivitySection />
       </Suspense>
-      <ContactSection />
+      <ContactSection contactSuccess={contactSuccess} />
     </>
   );
 }

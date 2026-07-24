@@ -196,15 +196,14 @@ function ProjectVisual({ project }: { project: ProjectMeta }) {
 
   if (coverImage) {
     return (
-      <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-[4/3] sm:rounded-3xl">
+      <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-[4/3] sm:rounded-3xl">
         <Image
           src={coverImage}
           alt={project.gallery?.[0]?.alt ?? project.title}
           fill
           sizes="(min-width: 1024px) 560px, 92vw"
-          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] group-active:scale-[1.02]"
+          className="object-contain object-top transition-transform duration-500 group-hover:scale-[1.02] sm:object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
       </div>
     );
   }

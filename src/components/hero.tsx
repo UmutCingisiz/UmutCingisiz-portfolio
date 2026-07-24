@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { ContactLink } from "@/components/contact-link";
-import { Magnetic } from "@/components/magnetic";
 import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
@@ -60,19 +59,16 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-16">
-      {/* Mobile: no animated orb — blur+paint competes with LCP */}
-      <div className="ambient-orb left-[8%] top-20 hidden size-56 opacity-40 sm:block sm:size-64 sm:opacity-50" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent" />
 
-      <div className="relative mx-auto grid max-w-6xl items-start gap-7 sm:gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:grid-rows-[auto_auto] lg:gap-x-10 lg:gap-y-6">
-        {/* No opacity:0 — LCP (name or photo) must be visible on first paint */}
+      <div className="relative mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:grid-rows-[auto_auto] lg:gap-x-12 lg:gap-y-6">
         <motion.div
           initial={{ y: 12 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="order-1 lg:col-start-1 lg:row-start-1"
         >
-          <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3 text-xs font-medium text-foreground/90 backdrop-blur-xl">
+          <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3 text-xs font-medium text-foreground/90">
             <span className="relative flex size-1.5">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
@@ -93,7 +89,7 @@ export function Hero() {
             {siteConfig.name}
           </h1>
 
-          <p className="mt-3 max-w-xl text-pretty text-base font-semibold tracking-tight text-gradient-premium sm:mt-3 sm:text-xl lg:text-2xl">
+          <p className="mt-3 max-w-xl text-pretty text-base font-semibold tracking-tight text-foreground/90 sm:mt-3 sm:text-xl lg:text-2xl">
             {siteConfig.headline}
           </p>
 
@@ -102,21 +98,17 @@ export function Hero() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-2.5 sm:mt-8 sm:gap-3">
-            <Magnetic>
-              <ContactLink className="btn-signal group inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition-all duration-200 sm:h-11 sm:px-5">
-                İletişim
-                <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
-              </ContactLink>
-            </Magnetic>
-            <Magnetic strength={0.28}>
-              <Link
-                href="/projects"
-                className="btn-outline-rise group inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold sm:h-11 sm:px-5"
-              >
-                Projeleri incele
-                <ArrowRightIcon className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-              </Link>
-            </Magnetic>
+            <ContactLink className="btn-signal group inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition-all duration-200 sm:h-11 sm:px-5">
+              İletişim
+              <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </ContactLink>
+            <Link
+              href="/projects"
+              className="btn-outline-rise group inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold sm:h-11 sm:px-5"
+            >
+              Projeleri incele
+              <ArrowRightIcon className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </Link>
             <a
               href="/api/resume"
               download="Umut-Cingisiz-CV.pdf"
@@ -147,23 +139,15 @@ export function Hero() {
           initial={{ y: 10 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className="relative order-2 mx-auto w-full max-w-[300px] sm:max-w-sm lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-md lg:justify-self-end"
+          className="relative order-2 mx-auto w-full max-w-[280px] sm:max-w-sm lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-md lg:justify-self-end"
         >
-          <div
-            className="absolute -inset-5 hidden rounded-[var(--radius-xl)] blur-3xl sm:-inset-7 sm:block"
-            aria-hidden
-            style={{
-              background:
-                "radial-gradient(60% 60% at 30% 20%, var(--signal-glow), transparent 70%)",
-            }}
-          />
-
+          {/* Magnetic yok — sadece hafif tilt */}
           <TiltCard
             as="div"
-            max={5}
-            className="surface-interactive gradient-border relative overflow-hidden p-2 sm:p-2.5 sm:backdrop-blur"
+            max={4}
+            className="relative overflow-hidden rounded-2xl border border-border bg-card/50 p-1.5 sm:p-2"
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-lg)] bg-gradient-to-br from-muted via-card to-muted">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-muted">
               {profileSrc ? (
                 <Image
                   key={profileSrc}
@@ -173,7 +157,7 @@ export function Hero() {
                   priority
                   fetchPriority="high"
                   quality={70}
-                  sizes="(min-width: 1024px) 400px, (min-width: 640px) 360px, min(90vw, 300px)"
+                  sizes="(min-width: 1024px) 400px, (min-width: 640px) 360px, min(90vw, 280px)"
                   className="object-cover object-top"
                   onError={handleImageError}
                   unoptimized={imageMode === "github"}
@@ -192,11 +176,12 @@ export function Hero() {
                 </p>
               ) : null}
 
-              <div className="absolute inset-x-2 bottom-2 rounded-xl border border-border bg-background/82 p-2.5 backdrop-blur-md sm:inset-x-2.5 sm:bottom-2.5 sm:p-3">
-                <p className="font-mono text-[0.6rem] text-muted-foreground">
+              {/* Minimal current_focus — fotoğrafı boğmasın */}
+              <div className="absolute inset-x-2.5 bottom-2.5 rounded-lg border border-white/10 bg-background/55 px-2.5 py-1.5 backdrop-blur-sm sm:inset-x-3 sm:bottom-3 sm:px-3 sm:py-2">
+                <p className="font-mono text-[0.55rem] tracking-wide text-muted-foreground/90">
                   current_focus
                 </p>
-                <p className="mt-1 text-[0.7rem] font-medium leading-snug text-foreground sm:text-xs">
+                <p className="mt-0.5 line-clamp-2 text-[0.65rem] font-medium leading-snug text-foreground/90 sm:text-[0.7rem]">
                   {siteConfig.currentFocus}
                 </p>
               </div>
@@ -213,7 +198,7 @@ export function Hero() {
           {siteConfig.stats.map((stat) => (
             <div
               key={stat.label}
-              className="surface-card flex items-baseline justify-between gap-3 px-3 py-3 backdrop-blur-sm sm:flex-col sm:items-stretch sm:justify-start sm:p-3.5"
+              className="flex items-baseline justify-between gap-3 rounded-xl border border-border bg-card/50 px-3 py-3 sm:flex-col sm:items-stretch sm:justify-start sm:p-3.5"
             >
               <p className="shrink-0 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                 {stat.label}
