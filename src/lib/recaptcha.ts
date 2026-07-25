@@ -20,9 +20,9 @@ function siteKeyConfigured() {
 
 /**
  * reCAPTCHA v2 doğrulaması.
- * - Anahtarlar yoksa (yerel geliştirme): atlanır.
- * - Site key var ama secret yoksa: fail-closed.
- * - Secret varsa: Google siteverify → `success: true` yeterli.
+ * - Her iki anahtar yoksa (yerel geliştirme): atlanır.
+ * - Yalnızca biri varsa: fail-closed (yanlış yapılandırma).
+ * - İkisi de varsa: Google siteverify → `success: true` yeterli.
  */
 export async function verifyRecaptchaToken(
   token: unknown,
@@ -31,15 +31,16 @@ export async function verifyRecaptchaToken(
   const secret = process.env.RECAPTCHA_SECRET_KEY?.trim();
   const hasSiteKey = siteKeyConfigured();
 
-  if (!secret) {
-    if (hasSiteKey) {
-      return {
-        ok: false,
-        error:
-          "Spam koruması yapılandırması eksik. Lütfen daha sonra tekrar dene veya e-posta ile ulaş.",
-      };
-    }
+  if (!secret && !hasSiteKey) {
     return { ok: true, skipped: true };
+  }
+
+  if (!secret || !hasSiteKey) {
+    return {
+      ok: false,
+      error:
+        "Spam koruması yapılandırması eksik. Lütfen daha sonra tekrar dene veya e-posta ile ulaş.",
+    };
   }
 
   if (typeof token !== "string" || token.trim() === "") {

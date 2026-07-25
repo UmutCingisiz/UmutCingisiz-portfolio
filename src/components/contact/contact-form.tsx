@@ -208,6 +208,11 @@ export function ContactForm({ initialSuccess = false }: Props) {
           onExpired={() => setCaptchaToken(null)}
           onErrored={() => setCaptchaToken(null)}
         />
+      ) : process.env.NODE_ENV === "production" ? (
+        <p className="text-sm text-amber-700 dark:text-amber-300" role="status">
+          Spam koruması (reCAPTCHA) bu ortamda yapılandırılmamış. Form
+          gönderimi engellenebilir — e-posta bağlantısını kullan.
+        </p>
       ) : null}
 
       {bannerError ? (
@@ -218,9 +223,13 @@ export function ContactForm({ initialSuccess = false }: Props) {
 
       <button
         type="submit"
-        disabled={pending || (Boolean(siteKey) && !captchaToken)}
+        disabled={
+          pending ||
+          (Boolean(siteKey) && !captchaToken) ||
+          (!siteKey && process.env.NODE_ENV === "production")
+        }
         aria-busy={pending}
-        className="btn-signal inline-flex h-11 items-center rounded-lg px-5 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-40"
+        className="btn-signal inline-flex h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-40 sm:h-11 sm:w-auto"
       >
         {pending ? t.sending : t.submit}
       </button>

@@ -23,13 +23,22 @@ describe("verifyRecaptchaToken (v2)", () => {
     expect(result.ok).toBe(false);
   });
 
-  test("rejects missing token when secret is configured", async () => {
+  test("fail-closed when secret is set but site key is missing", async () => {
+    vi.stubEnv("NEXT_PUBLIC_RECAPTCHA_SITE_KEY", "");
+    vi.stubEnv("RECAPTCHA_SECRET_KEY", "sk_test");
+    const result = await verifyRecaptchaToken("token");
+    expect(result.ok).toBe(false);
+  });
+
+  test("rejects missing token when both keys are configured", async () => {
+    vi.stubEnv("NEXT_PUBLIC_RECAPTCHA_SITE_KEY", "pk_test");
     vi.stubEnv("RECAPTCHA_SECRET_KEY", "sk_test");
     const result = await verifyRecaptchaToken("");
     expect(result.ok).toBe(false);
   });
 
   test("accepts when siteverify returns success: true", async () => {
+    vi.stubEnv("NEXT_PUBLIC_RECAPTCHA_SITE_KEY", "pk_test");
     vi.stubEnv("RECAPTCHA_SECRET_KEY", "sk_test");
     vi.stubGlobal(
       "fetch",
@@ -44,6 +53,7 @@ describe("verifyRecaptchaToken (v2)", () => {
   });
 
   test("rejects when siteverify returns success: false", async () => {
+    vi.stubEnv("NEXT_PUBLIC_RECAPTCHA_SITE_KEY", "pk_test");
     vi.stubEnv("RECAPTCHA_SECRET_KEY", "sk_test");
     vi.stubGlobal(
       "fetch",

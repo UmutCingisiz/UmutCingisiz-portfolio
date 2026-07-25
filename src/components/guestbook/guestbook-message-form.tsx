@@ -64,7 +64,7 @@ export function GuestbookMessageForm({ canWrite, dbConfigured }: Props) {
         type="submit"
         disabled={pending}
         aria-busy={pending}
-        className="btn-signal inline-flex rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-50"
+        className="btn-signal inline-flex h-12 w-full items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 sm:h-11 sm:w-auto"
       >
         {pending ? "Gönderiliyor…" : "Moderasyon için gönder"}
       </button>
