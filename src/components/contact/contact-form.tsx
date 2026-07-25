@@ -4,11 +4,13 @@ import {
   startTransition,
   useActionState,
   useCallback,
+  useEffect,
   useRef,
   useState,
   type FormEvent,
 } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
+import { useRouter } from "next/navigation";
 
 import type { ContactFormState } from "@/actions/contact";
 import { submitContactForm } from "@/actions/contact";
@@ -41,16 +43,17 @@ function writeStoredSuccess(value: boolean) {
   }
 }
 
-/** reCAPTCHA v2 checkbox — site key yoksa doğrulama atlanır (yerel geliştirme). */
-export function ContactForm({ initialSuccess = false }: Props) {
+type FieldsProps = {
+  onSuccess: () => void;
+};
+
+/** Ayrı instance: reset’te key ile remount → useActionState temizlenir. */
+function ContactFormFields({ onSuccess }: FieldsProps) {
   const { dictionary } = useI18n();
   const t = dictionary.contact.form;
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() ?? "";
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [success, setSuccess] = useState(
-    () => initialSuccess || readStoredSuccess(),
-  );
   const [clientError, setClientError] = useState<string | null>(null);
   const [state, formAction, pending] = useActionState<
     ContactFormState | null,
@@ -58,15 +61,9 @@ export function ContactForm({ initialSuccess = false }: Props) {
   >(submitContactForm, null);
 
   const actionSuccess = Boolean(state && "success" in state && state.success);
-  if (actionSuccess && !success) {
-    writeStoredSuccess(true);
-    setSuccess(true);
-  }
-
-  if (initialSuccess && !success) {
-    writeStoredSuccess(true);
-    setSuccess(true);
-  }
+  useEffect(() => {
+    if (actionSuccess) onSuccess();
+  }, [actionSuccess, onSuccess]);
 
   const errorState =
     state && "ok" in state && state.ok === false ? state : null;
@@ -93,7 +90,6 @@ export function ContactForm({ initialSuccess = false }: Props) {
         formData.set(RECAPTCHA_FORM_FIELD, captchaToken);
       }
 
-      // useActionState action'ı manuel çağrıda startTransition içinde olmalı
       startTransition(() => {
         formAction(formData);
       });
@@ -101,19 +97,6 @@ export function ContactForm({ initialSuccess = false }: Props) {
     },
     [captchaToken, formAction, resetCaptcha, siteKey],
   );
-
-  if (success) {
-    return (
-      <ContactSuccessState
-        onReset={() => {
-          setSuccess(false);
-          writeStoredSuccess(false);
-          setClientError(null);
-          resetCaptcha();
-        }}
-      />
-    );
-  }
 
   const bannerError =
     clientError ??
@@ -234,5 +217,35 @@ export function ContactForm({ initialSuccess = false }: Props) {
         {pending ? t.sending : t.submit}
       </button>
     </form>
+  );
+}
+
+/** reCAPTCHA v2 checkbox — site key yoksa doğrulama atlanır (yerel geliştirme). */
+export function ContactForm({ initialSuccess = false }: Props) {
+  const router = useRouter();
+  const [formInstance, setFormInstance] = useState(0);
+  const [success, setSuccess] = useState(
+    () => initialSuccess || readStoredSuccess(),
+  );
+
+  const handleSuccess = useCallback(() => {
+    writeStoredSuccess(true);
+    setSuccess(true);
+  }, []);
+
+  const handleReset = useCallback(() => {
+    writeStoredSuccess(false);
+    setSuccess(false);
+    // Eski action state + ?contact=sent yeniden success’e kilitlemesin
+    setFormInstance((n) => n + 1);
+    router.replace("/#contact", { scroll: false });
+  }, [router]);
+
+  if (success) {
+    return <ContactSuccessState onReset={handleReset} />;
+  }
+
+  return (
+    <ContactFormFields key={formInstance} onSuccess={handleSuccess} />
   );
 }
