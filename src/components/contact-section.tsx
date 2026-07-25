@@ -17,7 +17,7 @@ export async function ContactSection({ contactSuccess = false }: Props) {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden scroll-mt-28 px-4 py-16 sm:px-6 sm:py-24"
+      className="relative scroll-mt-28 px-4 py-16 sm:px-6 sm:py-24"
     >
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-8">
         <Reveal>

@@ -28,12 +28,10 @@ import { pageSocial } from "@/lib/site-metadata";
  */
 export const metadata: Metadata = {
   title: "Ziyaretçi defteri",
-  description:
-    "GitHub ile oturum, Neon Postgres ve moderasyon — kısa ziyaretçi notları.",
+  description: "GitHub ile kısa bir not bırak; onay sonrası yayınlanır.",
   ...pageSocial("/guestbook", {
     title: "Ziyaretçi defteri",
-    description:
-      "GitHub ile oturum, Neon Postgres ve moderasyon — kısa ziyaretçi notları.",
+    description: "GitHub ile kısa bir not bırak; onay sonrası yayınlanır.",
   }),
 };
 
@@ -137,15 +135,7 @@ export default async function GuestbookPage({
         Ziyaretçi defteri
       </h1>
       <p className="mt-4 leading-relaxed text-muted-foreground">
-        GitHub ile giriş yap, kısa bir not bırak; site sahibinin onayından sonra
-        herkese açılır. Onay / red paneli yalnızca site sahibine görünür —
-        diğer ziyaretçiler sadece yayınlanan mesajları görür.
-      </p>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground/90">
-        GitHub hesabı olmayanlar şu an mesaj bırakamaz. Bu bilinçli: anonim
-        defterler spam ve botlara açık kalır. İleride e-posta doğrulamalı veya
-        Anonim not eklenebilir; şimdilik GitHub kimliği
-        güvenilir bir filtre.
+        GitHub ile giriş yap, kısa bir not bırak; onay sonrası yayınlanır.
       </p>
 
       <div className="mt-6 space-y-2">
@@ -187,8 +177,7 @@ export default async function GuestbookPage({
       <div className="mt-10 rounded-xl border border-border bg-card/60 p-6">
         <h2 className="text-lg font-semibold text-foreground">Hesap</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Mesaj yazmak için GitHub ile oturum aç. Oturumu bu sayfadan
-          kapatabilirsin.
+          Mesaj yazmak için GitHub ile oturum aç.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           {session?.user?.githubId ? (
@@ -229,10 +218,6 @@ export default async function GuestbookPage({
               sadece sen
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground">
-            Bu blok yalnızca admin hesabında görünür. Normal ziyaretçiler
-            onay bekleyen mesajları göremez.
-          </p>
           <ul className="space-y-4">
             {pending.map((entry) => (
               <li

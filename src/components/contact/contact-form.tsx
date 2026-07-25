@@ -8,11 +8,12 @@ import {
   useState,
   type FormEvent,
 } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import type ReCAPTCHA from "react-google-recaptcha";
 
 import type { ContactFormState } from "@/actions/contact";
 import { submitContactForm } from "@/actions/contact";
 import { ContactSuccessState } from "@/components/contact/contact-success-state";
+import { RecaptchaCheckbox } from "@/components/contact/recaptcha-checkbox";
 import { useI18n } from "@/i18n/locale-provider";
 import { RECAPTCHA_FORM_FIELD } from "@/lib/recaptcha";
 
@@ -200,16 +201,13 @@ export function ContactForm({ initialSuccess = false }: Props) {
       </div>
 
       {siteKey ? (
-        <div className="overflow-x-auto">
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={siteKey}
-            theme="dark"
-            onChange={(value) => setCaptchaToken(value)}
-            onExpired={() => setCaptchaToken(null)}
-            onErrored={() => setCaptchaToken(null)}
-          />
-        </div>
+        <RecaptchaCheckbox
+          ref={recaptchaRef}
+          sitekey={siteKey}
+          onChange={(value) => setCaptchaToken(value)}
+          onExpired={() => setCaptchaToken(null)}
+          onErrored={() => setCaptchaToken(null)}
+        />
       ) : null}
 
       {bannerError ? (
