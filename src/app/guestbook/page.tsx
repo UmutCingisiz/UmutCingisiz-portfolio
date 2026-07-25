@@ -144,7 +144,7 @@ export default async function GuestbookPage({
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground/90">
         GitHub hesabı olmayanlar şu an mesaj bırakamaz. Bu bilinçli: anonim
         defterler spam ve botlara açık kalır. İleride e-posta doğrulamalı veya
-        Turnstile korumalı anonim not eklenebilir; şimdilik GitHub kimliği
+        Anonim not eklenebilir; şimdilik GitHub kimliği
         güvenilir bir filtre.
       </p>
 

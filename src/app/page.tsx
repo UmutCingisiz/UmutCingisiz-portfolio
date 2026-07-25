@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { AboutSection } from "@/components/about-section";
-import { AlgorithmLabIsland } from "@/components/algorithm-lab-island";
 import { ContactSection } from "@/components/contact-section";
 import { ContactSuccessToast } from "@/components/contact-success-toast";
 import { FeaturedProjects } from "@/components/featured-projects";
@@ -41,13 +40,13 @@ export default async function Home({
         resumeLimited={resumeLimited}
         resumeMissing={resumeMissing}
       />
+      {/* Akış: Hero → shell → About/Skills → Projeler → Hiring → GitHub → İletişim */}
       <Hero />
       <TerminalPrompt />
       <AboutSection />
       <SkillsSection />
       <FeaturedProjects />
       <HiringProofSection />
-      <AlgorithmLabIsland />
       <Suspense fallback={<GithubActivitySkeleton />}>
         <GithubActivitySection />
       </Suspense>

@@ -1,11 +1,20 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import {
+  startTransition,
+  useActionState,
+  useCallback,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import type { ContactFormState } from "@/actions/contact";
 import { submitContactForm } from "@/actions/contact";
 import { ContactSuccessState } from "@/components/contact/contact-success-state";
 import { useI18n } from "@/i18n/locale-provider";
+import { RECAPTCHA_FORM_FIELD } from "@/lib/recaptcha";
 
 const SUCCESS_STORAGE_KEY = "portfolio.contact.sent";
 
@@ -31,12 +40,17 @@ function writeStoredSuccess(value: boolean) {
   }
 }
 
+/** reCAPTCHA v2 checkbox — site key yoksa doğrulama atlanır (yerel geliştirme). */
 export function ContactForm({ initialSuccess = false }: Props) {
   const { dictionary } = useI18n();
   const t = dictionary.contact.form;
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() ?? "";
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [success, setSuccess] = useState(
     () => initialSuccess || readStoredSuccess(),
   );
+  const [clientError, setClientError] = useState<string | null>(null);
   const [state, formAction, pending] = useActionState<
     ContactFormState | null,
     FormData
@@ -57,19 +71,57 @@ export function ContactForm({ initialSuccess = false }: Props) {
     state && "ok" in state && state.ok === false ? state : null;
   const fieldErrors = errorState?.fieldErrors;
 
+  const resetCaptcha = useCallback(() => {
+    recaptchaRef.current?.reset();
+    setCaptchaToken(null);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setClientError(null);
+
+      const form = event.currentTarget;
+      const formData = new FormData(form);
+
+      if (siteKey) {
+        if (!captchaToken) {
+          setClientError("Lütfen 'Robot değilim' doğrulamasını tamamla.");
+          return;
+        }
+        formData.set(RECAPTCHA_FORM_FIELD, captchaToken);
+      }
+
+      // useActionState action'ı manuel çağrıda startTransition içinde olmalı
+      startTransition(() => {
+        formAction(formData);
+      });
+      if (siteKey) resetCaptcha();
+    },
+    [captchaToken, formAction, resetCaptcha, siteKey],
+  );
+
   if (success) {
     return (
       <ContactSuccessState
         onReset={() => {
           setSuccess(false);
           writeStoredSuccess(false);
+          setClientError(null);
+          resetCaptcha();
         }}
       />
     );
   }
 
+  const bannerError =
+    clientError ??
+    (errorState && !fieldErrors?.name && !fieldErrors?.email && !fieldErrors?.message
+      ? errorState.error
+      : null);
+
   return (
-    <form action={formAction} className="mt-6 space-y-5 text-left" noValidate>
+    <form onSubmit={handleSubmit} className="mt-6 space-y-5 text-left" noValidate>
       <input
         type="text"
         name="_company_website_trap"
@@ -147,15 +199,28 @@ export function ContactForm({ initialSuccess = false }: Props) {
         ) : null}
       </div>
 
-      {errorState && !fieldErrors?.name && !fieldErrors?.email && !fieldErrors?.message ? (
+      {siteKey ? (
+        <div className="overflow-x-auto">
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={siteKey}
+            theme="dark"
+            onChange={(value) => setCaptchaToken(value)}
+            onExpired={() => setCaptchaToken(null)}
+            onErrored={() => setCaptchaToken(null)}
+          />
+        </div>
+      ) : null}
+
+      {bannerError ? (
         <p className="text-sm text-red-600 dark:text-red-400" role="alert">
-          {errorState.error}
+          {bannerError}
         </p>
       ) : null}
 
       <button
         type="submit"
-        disabled={pending}
+        disabled={pending || (Boolean(siteKey) && !captchaToken)}
         aria-busy={pending}
         className="btn-signal inline-flex h-11 items-center rounded-lg px-5 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-40"
       >

@@ -52,32 +52,6 @@ export const siteConfig = {
     { label: "Odak", value: "Full-stack" },
   ],
   currentFocus: "Full-stack ürünler: auth, veri ve güvenli formlar.",
-  milestones: [
-    {
-      period: "2026",
-      title: "TÜBİTAK BİGG 1812 — Akdeniz kabulü",
-      org: "Bloomedu",
-      points: [
-        "Bitirme jürisinde en iyi proje seçildi; BİGG Akdeniz programına kabul aldık.",
-      ],
-    },
-    {
-      period: "2024 — günümüz",
-      title: "Yapay zeka geliştirme kulübü",
-      org: "Üye",
-      points: [
-        "Etkinlik ve proje gruplarında yer alıyorum; ekip içinde teknik konuşmayı yürütüyorum.",
-      ],
-    },
-    {
-      period: "2020 — 2026",
-      title: "Bilgisayar mühendisliği (İngilizce)",
-      org: "Doğu Akdeniz Üniversitesi",
-      points: [
-        "Algoritma, veri yapıları, OOP (Java/C) ve yazılım mühendisliği.",
-      ],
-    },
-  ],
   techStack: [
     {
       group: "Frontend ve mobil",
@@ -96,7 +70,9 @@ export const siteConfig = {
         "Node.js",
         "Express",
         "Server Actions",
+        "Auth.js",
         "PostgreSQL",
+        "Neon",
         "Drizzle ORM",
         "Redis",
         "Firebase",
@@ -116,7 +92,7 @@ export const siteConfig = {
     },
     {
       group: "Araçlar ve operasyon",
-      items: ["Git", "GitHub Actions", "Vitest", "Playwright", "Vercel", "Resend"],
+      items: ["Git", "GitHub Actions", "Vercel", "Resend", "reCAPTCHA v2"],
     },
   ],
 } as const;

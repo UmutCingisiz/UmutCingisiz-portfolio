@@ -28,17 +28,9 @@ export function TerminalPrompt() {
       aria-label={`${shell.name} command shell`}
     >
       <div className="mx-auto max-w-6xl">
-        <div className="mb-3.5 flex flex-wrap items-end justify-between gap-2">
-          <div>
-            <p className="font-mono text-[0.65rem] tracking-[0.16em] text-signal/80">
-              interactive.shell
-            </p>
-            <p className="mt-1 text-sm font-semibold tracking-tight text-foreground sm:text-base">
-              {shell.name} — power-user kabuğu
-            </p>
-          </div>
-          <p className="hidden max-w-xs text-right text-xs leading-5 text-muted-foreground sm:block">
-            Komutla gez. Keşfetmek için tıkla veya Ctrl&nbsp;`
+        <div className="mb-3.5">
+          <p className="text-sm font-semibold tracking-tight text-foreground sm:text-base">
+            {shell.name} - Terminal
           </p>
         </div>
 

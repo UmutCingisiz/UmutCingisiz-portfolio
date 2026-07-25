@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { getAllProjectsMeta, type ProjectMeta } from "@/lib/content/projects";
+import { ArchitectureBlock } from "@/components/architecture-block";
 import { PdiBlock } from "@/components/pdi-block";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { pageSocial } from "@/lib/site-metadata";
@@ -297,6 +298,15 @@ function ProjectShowcase({
         <p className="mt-3 text-pretty text-sm leading-7 text-muted-foreground sm:mt-4 sm:text-base sm:leading-8">
           {project.description}
         </p>
+
+        {project.architectureLabel && project.architectureSummary ? (
+          <div className="mt-5">
+            <ArchitectureBlock
+              label={project.architectureLabel}
+              summary={project.architectureSummary}
+            />
+          </div>
+        ) : null}
 
         <div className="mt-5 flex flex-wrap gap-1.5">
           {project.tags.slice(0, 5).map((t) => (

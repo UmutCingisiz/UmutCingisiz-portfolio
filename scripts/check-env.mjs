@@ -43,6 +43,11 @@ const groups = [
     required: false,
   },
   {
+    label: "Google reCAPTCHA v2 Checkbox (iletişim spam koruması)",
+    keys: ["NEXT_PUBLIC_RECAPTCHA_SITE_KEY", "RECAPTCHA_SECRET_KEY"],
+    required: false,
+  },
+  {
     label: "Observability / Sentry (isteğe bağlı)",
     keys: [
       "OBSERVABILITY_PROVIDER",

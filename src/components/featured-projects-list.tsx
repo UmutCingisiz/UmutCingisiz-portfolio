@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ProjectMeta } from "@/lib/content/projects";
+import { ArchitectureBlock } from "@/components/architecture-block";
 import { PdiBlock } from "@/components/pdi-block";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
@@ -22,7 +23,7 @@ export function FeaturedProjectsList({ projects }: Props) {
   return (
     <section
       id="projects"
-      className="relative scroll-mt-28 overflow-hidden px-4 py-12 sm:px-6 sm:py-20"
+      className="relative scroll-mt-28 overflow-hidden px-4 py-16 sm:px-6 sm:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -105,6 +106,15 @@ export function FeaturedProjectsList({ projects }: Props) {
                         <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">
                           {p.description}
                         </p>
+
+                        {p.architectureLabel && p.architectureSummary ? (
+                          <div className="mt-4">
+                            <ArchitectureBlock
+                              label={p.architectureLabel}
+                              summary={p.architectureSummary}
+                            />
+                          </div>
+                        ) : null}
 
                         <div className="mt-4 grid gap-2.5">
                           {p.problem ? (

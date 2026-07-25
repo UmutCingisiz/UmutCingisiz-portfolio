@@ -7,6 +7,7 @@ import {
   getProjectMetaBySlug,
   getProjectSlugs,
 } from "@/lib/content/projects";
+import { ArchitectureBlock } from "@/components/architecture-block";
 import { ContactLink } from "@/components/contact-link";
 import { JsonLd } from "@/components/json-ld";
 import { ProjectGallery } from "@/components/project-gallery";
@@ -118,6 +119,14 @@ export default async function ProjectDetailPage({ params }: Props) {
         <p className="mt-4 max-w-2xl leading-7 text-muted-foreground">
           {frontmatter.description}
         </p>
+        {frontmatter.architectureLabel && frontmatter.architectureSummary ? (
+          <div className="mt-5 max-w-2xl">
+            <ArchitectureBlock
+              label={frontmatter.architectureLabel}
+              summary={frontmatter.architectureSummary}
+            />
+          </div>
+        ) : null}
         <p className="mt-5 font-mono text-xs text-muted-foreground">
           {new Date(frontmatter.date).toLocaleDateString("tr-TR", {
             year: "numeric",

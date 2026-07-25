@@ -93,7 +93,7 @@ export async function GithubActivitySection() {
     return (
       <section
         id="github"
-        className="scroll-mt-28 border-y border-border bg-muted/30 px-4 py-12 sm:px-6 sm:py-20"
+        className="scroll-mt-28 border-y border-border bg-muted/30 px-4 py-16 sm:px-6 sm:py-24"
       >
         <div className="mx-auto max-w-6xl rounded-xl border border-border bg-card/60 p-6 backdrop-blur-sm">
           <h2 className="text-xl font-semibold text-foreground">GitHub</h2>
@@ -125,7 +125,7 @@ export async function GithubActivitySection() {
   return (
     <section
       id="github"
-      className="scroll-mt-28 border-y border-border bg-muted/30 px-4 py-12 sm:px-6 sm:py-20"
+      className="scroll-mt-28 border-y border-border bg-muted/30 px-4 py-16 sm:px-6 sm:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
@@ -134,9 +134,6 @@ export async function GithubActivitySection() {
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               {t.title}
             </h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-              {t.subtitle}
-            </p>
           </div>
           <Link
             href={`https://github.com/${login}`}

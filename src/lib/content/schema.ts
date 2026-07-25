@@ -16,6 +16,9 @@ export const projectFrontmatterSchema = z.object({
   problem: z.string().min(1),
   decision: z.string().min(1),
   impact: z.string().min(1),
+  /** Kart / detayda “Kullanılan Mimari / Çözüm” hiyerarşisi */
+  architectureLabel: z.string().min(1).optional(),
+  architectureSummary: z.string().min(1).optional(),
   status: z
     .enum(["planned", "in-progress", "live", "archived", "learning"]),
   demo: z.string().url().optional(),

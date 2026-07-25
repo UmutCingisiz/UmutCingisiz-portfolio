@@ -6,13 +6,12 @@ import { siteConfig } from "@/lib/site-config";
 type SkillRow = {
   domain: string;
   detail: string;
-  proof: string;
-  href: string;
+  proof?: string;
+  href?: string;
 };
 
 /**
- * Güçlü: canlı/lab kanıtı olan alanlar.
- * Her satır tek proje — featured listesiyle aynı hikâyeyi tekrar etmez.
+ * Screenshot / kanıtlı alanlar — tamamı Güçlü Alanlar’da.
  */
 const strong: readonly SkillRow[] = [
   {
@@ -36,13 +35,9 @@ const strong: readonly SkillRow[] = [
   {
     domain: "Algoritma temeli",
     detail: "Veri yapıları, rota maliyeti, akademik OOP (Java/C)",
-    proof: "Algoritma lab",
-    href: "#algorithm-lab",
+    proof: "Akademik",
+    href: "/#about",
   },
-];
-
-/** Gelişen: bilinçli büyüyen alanlar — Bloomedu bir kez. */
-const growing: readonly SkillRow[] = [
   {
     domain: "Mobil + API + LLM",
     detail: "React Native istemci, Express/Postgres, adaptif öğrenme akışı",
@@ -60,6 +55,26 @@ const growing: readonly SkillRow[] = [
     detail: "GitHub oturum, onay kuyruğu, kötüye kullanım kontrolleri",
     proof: "Guestbook",
     href: "/guestbook",
+  },
+];
+
+/** Sistem programlama ve donanım entegrasyonu vizyonu */
+const growing: readonly SkillRow[] = [
+  {
+    domain: "PLC (Programlanabilir Mantık Denetleyicisi)",
+    detail: "Endüstriyel kontrol mantığı ve saha cihazlarıyla güvenli yazılım köprüsü",
+  },
+  {
+    domain: "Endüstriyel Otomasyon",
+    detail: "Üretim hattı / SCADA bağlamında yazılım–donanım entegrasyonu",
+  },
+  {
+    domain: "Go",
+    detail: "Yüksek performanslı servisler ve eşzamanlı sistem programlama",
+  },
+  {
+    domain: "Rust",
+    detail: "Bellek güvenli sistem katmanı ve kritik performans yolları",
   },
 ];
 
@@ -99,12 +114,14 @@ function SkillColumn({
                   <p className="font-semibold tracking-tight text-foreground">
                     {item.domain}
                   </p>
-                  <Link
-                    href={item.href}
-                    className="shrink-0 font-mono text-xs text-signal underline-offset-4 hover:underline"
-                  >
-                    {item.proof} →
-                  </Link>
+                  {item.href && item.proof ? (
+                    <Link
+                      href={item.href}
+                      className="shrink-0 font-mono text-xs text-signal underline-offset-4 hover:underline"
+                    >
+                      {item.proof} →
+                    </Link>
+                  ) : null}
                 </div>
                 <p className="mt-1 text-sm leading-6 text-muted-foreground">
                   {item.detail}
@@ -122,7 +139,7 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative scroll-mt-28 overflow-hidden border-y border-border bg-muted/20 px-4 py-12 sm:px-6 sm:py-20"
+      className="relative scroll-mt-28 overflow-hidden border-y border-border bg-muted/20 px-4 py-16 sm:px-6 sm:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <div className="max-w-xl">
@@ -131,8 +148,7 @@ export function SkillsSection() {
             Yetkinlik haritası
           </h2>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            Güçlü olduğum alanlar ve şu an büyüttüklerim. Her satırın yanında bir
-            kanıt linki var.
+            Üretim kanıtı olan güçlü alanlar ve bilinçli genişlettiğim disiplinler.
           </p>
         </div>
 

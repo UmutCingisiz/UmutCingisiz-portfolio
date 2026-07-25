@@ -110,14 +110,17 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
             role="dialog"
             aria-modal="true"
             aria-label={current.alt}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90"
+            className="fixed inset-0 z-[100] flex items-center justify-center overscroll-none bg-black/90 p-3 pt-16 sm:p-6 sm:pt-20"
             onClick={close}
           >
             <button
               ref={closeButtonRef}
               type="button"
-              onClick={close}
-              className="absolute right-4 top-4 z-30 inline-flex size-11 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:right-6 sm:top-6"
+              onClick={(e) => {
+                e.stopPropagation();
+                close();
+              }}
+              className="absolute right-3 top-3 z-30 inline-flex size-11 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:right-6 sm:top-6"
               aria-label="Kapat"
             >
               <CloseIcon className="size-5" />
@@ -132,7 +135,7 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
                     e.stopPropagation();
                     showPrev();
                   }}
-                  className="absolute left-3 top-1/2 z-30 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-lg text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:left-6 sm:size-12"
+                  className="absolute left-2 top-1/2 z-30 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-lg text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:left-6 sm:size-12"
                 >
                   ←
                 </button>
@@ -143,7 +146,7 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
                     e.stopPropagation();
                     showNext();
                   }}
-                  className="absolute right-3 top-1/2 z-30 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-lg text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:right-6 sm:size-12"
+                  className="absolute right-2 top-1/2 z-30 flex size-11 -translate-y-1/2 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-lg text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:right-6 sm:size-12"
                 >
                   →
                 </button>
@@ -151,21 +154,22 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
             ) : null}
 
             <figure
-              className="relative z-10 flex max-h-[90dvh] w-full max-w-5xl flex-col items-center justify-center gap-3 px-14 sm:gap-4 sm:px-20"
+              className="relative z-10 flex max-h-[min(90dvh,900px)] w-full max-w-5xl flex-col items-center justify-center gap-3 px-12 sm:gap-4 sm:px-16"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative h-[min(72dvh,780px)] w-full">
+              {/* Karışık aspect ratio — sabit yükseklik + object-contain (kırpma/taşma yok) */}
+              <div className="relative h-[min(68dvh,720px)] w-full min-h-[12rem]">
                 <Image
                   src={current.src}
                   alt={current.alt}
                   fill
                   className="object-contain object-center"
-                  sizes="100vw"
+                  sizes="(max-width: 768px) 100vw, 1024px"
                   priority
                 />
               </div>
 
-              <figcaption className="flex w-full max-w-xl flex-col items-center gap-1 px-2 text-center">
+              <figcaption className="flex w-full max-w-xl shrink-0 flex-col items-center gap-1 px-2 text-center">
                 <span className="font-mono text-xs tracking-wide text-white/60 tabular-nums">
                   {String(active + 1).padStart(2, "0")} /{" "}
                   {String(shots.length).padStart(2, "0")}
@@ -214,12 +218,12 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
                 onClick={() => setActive(index)}
                 className="group w-full overflow-hidden rounded-xl border border-border bg-muted/30 text-left transition-colors hover:border-signal/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
               >
-                <div className="relative aspect-[16/10]">
+                <div className="relative aspect-[16/10] bg-muted/40">
                   <Image
                     src={shot.src}
                     alt={shot.alt}
                     fill
-                    className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="object-contain object-center transition-transform duration-300 group-hover:scale-[1.015]"
                     sizes="(max-width: 640px) 100vw, 50vw"
                   />
                   <span className="absolute bottom-2 right-2 rounded-md border border-border bg-background/85 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground backdrop-blur">

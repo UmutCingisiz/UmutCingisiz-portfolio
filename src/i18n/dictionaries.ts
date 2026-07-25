@@ -31,7 +31,6 @@ export type Dictionary = {
     eyebrow: string;
     title: string;
     description: string;
-    experience: string;
     cards: {
       eyebrow: string;
       title: string;
@@ -41,7 +40,6 @@ export type Dictionary = {
   github: {
     eyebrow: string;
     title: string;
-    subtitle: string;
     recentCount: string;
     allRepos: string;
     openRepo: string;
@@ -123,7 +121,6 @@ const tr: Dictionary = {
     title: "Nasıl mühendislik yapıyorum",
     description:
       "Bir özelliği tek başına değil, veri modeli, güvenlik ve yayın adımıyla birlikte ele alırım. Amacım ekranda duran bir demo değil; bakımı yapılabilir, büyüyebilen bir ürün bırakmak.",
-    experience: "Deneyim",
     cards: [
       {
         eyebrow: "01 · Sistem",
@@ -147,7 +144,6 @@ const tr: Dictionary = {
   github: {
     eyebrow: "github.signal",
     title: "Canlı geliştirme aktivitesi",
-    subtitle: "Seçkin GitHub projeleri — whitelist ile filtrelenmiş gerçek feed.",
     recentCount: "seçkin repo",
     allRepos: "Tüm repolar ↗",
     openRepo: "Repoyu aç →",
@@ -159,7 +155,7 @@ const tr: Dictionary = {
   contact: {
     eyebrow: "contact.endpoint",
     title: "İletişim",
-    body: "İş teklifleri ve proje işbirlikleri için buradan veya e-posta üzerinden ulaşabilirsiniz. Mesajınıza mümkün olan en kısa sürede dönüş yaparım.",
+    body: "Yeni iş fırsatları için uygun. İş teklifleri ve proje işbirlikleri için buradan veya e-posta üzerinden ulaşabilirsiniz. Mesajınıza mümkün olan en kısa sürede dönüş yapacağım.",
     formLabel: "secure.form",
     receivedLabel: "message.received",
     form: {
@@ -229,7 +225,6 @@ const en: Dictionary = {
     title: "How I engineer",
     description:
       "I treat a feature as more than a UI surface — data model, security, and shipping path included. The goal is not a demo on screen; it is a maintainable product that can grow.",
-    experience: "Experience",
     cards: [
       {
         eyebrow: "01 · Systems",
@@ -253,7 +248,6 @@ const en: Dictionary = {
   github: {
     eyebrow: "github.signal",
     title: "Live development activity",
-    subtitle: "Curated GitHub projects — a real feed filtered by whitelist.",
     recentCount: "curated repos",
     allRepos: "All repos ↗",
     openRepo: "Open repo →",
@@ -265,7 +259,7 @@ const en: Dictionary = {
   contact: {
     eyebrow: "contact.endpoint",
     title: "Contact",
-    body: "For job offers and project collaborations, reach me here or by email. I reply as soon as I can.",
+    body: "Open to new opportunities. Reach me here or by email for job offers and project collaborations. I'll get back to you as soon as possible.",
     formLabel: "secure.form",
     receivedLabel: "message.received",
     form: {

@@ -13,22 +13,27 @@ category: full-stack
 problem: "Klasik portfolyo siteleri çoğu zaman statik vitrin gibi kalır; işe alım tarafı adayın auth, veri modeli, güvenlik, test, observability ve deploy disipliniyle nasıl düşündüğünü göremez."
 decision: "Sadece animasyonlu bir landing page yerine ürün davranışı taşıyan bir mimari seçildi: App Router + Server Components, typed MDX pipeline, Auth.js, Drizzle/Neon, Redis rate limit, Server Actions, Playwright E2E ve structured logging aynı sistemde birleştirildi."
 impact: "Portfolyo; problem/decision/impact şablonu, CI kalite kapısı, E2E smoke testleri ve production servis planıyla 'ne yaptım' sorusundan 'nasıl mühendislik yaptım' sorusuna cevap veren deploy-ready kanıta dönüştü."
+architectureLabel: "Full-stack ürün yüzeyi"
+architectureSummary: "Auth, veri modeli, form güvenliği ve CI aynı repoda"
 status: live
 repo: "https://github.com/UmutCingisiz/UmutCingisiz-portfolio"
 featured: false
 gallery:
-  - src: "/images/projects/portfolio-web/01-home.png"
-    alt: "Ana sayfa hero ve mühendislik vitrini"
-    caption: "Hero · CTA · proof signals"
-  - src: "/images/projects/portfolio-web/02-projects.png"
-    alt: "Projeler arşivi — yayında ve geliştirme grupları"
-    caption: "Projects · P/D/I case cards"
-  - src: "/images/projects/portfolio-web/03-guestbook.png"
+  - src: "/images/projects/portfolio-web/01.png"
+    alt: "Ana sayfa hero — CTA grubu ve profil görseli"
+    caption: "Hero · CTA · profil"
+  - src: "/images/projects/portfolio-web/02.png"
+    alt: "Projeler arşivi — Bloomedu ve Aras Mali vaka kartları"
+    caption: "Projects · P/D/I · mimari özet"
+  - src: "/images/projects/portfolio-web/03.png"
+    alt: "ucmd terminal yüzeyi — komut girişi ve hızlı komutlar"
+    caption: "ucmd · interactive shell"
+  - src: "/images/projects/portfolio-web/04.png"
     alt: "Ziyaretçi defteri — GitHub OAuth ve moderasyon"
     caption: "Guestbook · Auth.js · Neon"
-  - src: "/images/projects/portfolio-web/04-blog.png"
-    alt: "Blog listesi — MDX teknik yazılar"
-    caption: "Blog · MDX · ISR"
+  - src: "/images/projects/portfolio-web/05.png"
+    alt: "İletişim bölümü — direct.mail ve secure.form"
+    caption: "Contact · form · direct.mail"
 ---
 
 Bu proje bir tema çalışması değil; gerçek bir ürün omurgasını küçük ama üretim gerçekliğine yakın bir ölçekte taşıyan mühendislik sistemi.

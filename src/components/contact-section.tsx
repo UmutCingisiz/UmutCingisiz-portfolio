@@ -17,7 +17,7 @@ export async function ContactSection({ contactSuccess = false }: Props) {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden scroll-mt-28 px-4 py-12 sm:px-6 sm:py-20"
+      className="relative overflow-hidden scroll-mt-28 px-4 py-16 sm:px-6 sm:py-24"
     >
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-8">
         <Reveal>
@@ -27,7 +27,7 @@ export async function ContactSection({ contactSuccess = false }: Props) {
               {t.title}
             </h2>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              {dictionary.hero.availabilityDetail}. {t.body}
+              {t.body}
             </p>
 
             <div className="mt-6 rounded-xl border border-signal/35 bg-signal/[0.07] p-4 shadow-[0_0_0_1px_rgba(34,211,238,0.08)] backdrop-blur-sm sm:p-5">

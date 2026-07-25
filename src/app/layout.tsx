@@ -42,14 +42,14 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`dark ${sans.variable} ${mono.variable} h-full`}
+      className={`dark ${sans.variable} ${mono.variable} min-h-screen`}
     >
-      <body className="flex min-h-full flex-col bg-background font-sans text-foreground antialiased">
+      <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
         <LocaleProvider locale={locale} dictionary={dictionary}>
           <JsonLd data={siteGraphJsonLd()} />
           <SkipToContent />
           <SiteHeader />
-          <main id="main-content" className="flex flex-1 flex-col">
+          <main id="main-content" className="flex w-full flex-grow flex-col">
             {children}
           </main>
           <SiteFooter />

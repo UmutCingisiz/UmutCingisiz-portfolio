@@ -17,6 +17,10 @@ import {
   type ContactFieldErrors,
 } from "@/lib/contact-schema";
 import { logPortfolioError, logPortfolioEvent } from "@/lib/observability";
+import {
+  RECAPTCHA_FORM_FIELD,
+  verifyRecaptchaToken,
+} from "@/lib/recaptcha";
 import { siteConfig } from "@/lib/site-config";
 
 export type ContactFormState =
@@ -37,12 +41,11 @@ function hashKey(value: string) {
   return createHash("sha256").update(value).digest("hex").slice(0, 24);
 }
 
-async function getClientIpKey() {
+async function getClientIp() {
   const h = await headers();
   const forwarded = h.get("x-forwarded-for")?.split(",")[0]?.trim();
   const real = h.get("x-real-ip")?.trim();
-  const ip = forwarded || real || "unknown";
-  return `ip:${hashKey(ip)}`;
+  return forwarded || real || "unknown";
 }
 
 export async function submitContactForm(
@@ -89,8 +92,18 @@ export async function submitContactForm(
     return { success: true };
   }
 
+  const remoteip = await getClientIp();
+  const captcha = await verifyRecaptchaToken(
+    formData.get(RECAPTCHA_FORM_FIELD),
+    remoteip,
+  );
+  if (!captcha.ok) {
+    logPortfolioEvent("contact.recaptcha_failed");
+    return { ok: false, error: captcha.error };
+  }
+
   const emailKey = `email:${emailNorm}`;
-  const ipKey = await getClientIpKey();
+  const ipKey = `ip:${hashKey(remoteip)}`;
 
   let emailPrior = 0;
   let ipPrior = 0;
