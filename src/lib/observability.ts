@@ -7,7 +7,7 @@ type PortfolioEvent =
   | "contact.service_unconfigured"
   | "contact.send_failed"
   | "contact.sent"
-  | "contact.recaptcha_failed"
+  | "contact.turnstile_failed"
   | "guestbook.auth_required"
   | "guestbook.rate_limited"
   | "guestbook.insert_failed"
@@ -28,7 +28,7 @@ const ALERT_EVENTS = new Set<PortfolioEvent>([
   "contact.rate_limited",
   "contact.service_unconfigured",
   "contact.send_failed",
-  "contact.recaptcha_failed",
+  "contact.turnstile_failed",
   "guestbook.auth_required",
   "guestbook.rate_limited",
   "guestbook.insert_failed",

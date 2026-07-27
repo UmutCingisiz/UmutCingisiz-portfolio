@@ -105,6 +105,6 @@ export function OgFooter({ left, right }: { left: ReactNode; right?: ReactNode }
   );
 }
 
-/** Sosyal önizleme için kısa meta açıklama (~140 karakter) */
+/** Sosyal / SEO meta açıklama */
 export const ogSiteDescription =
-  "Doğu Akdeniz Üniversitesi · TÜBİTAK BİGG Akdeniz · full-stack ürünler.";
+  "Full-stack web ve mobil uygulama geliştiricisi Umut Cingisiz'in resmi portfolyosu. Modern web teknolojileriyle geliştirilmiş kurumsal projeler ve yazılım çözümleri.";

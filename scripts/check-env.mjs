@@ -43,8 +43,8 @@ const groups = [
     required: false,
   },
   {
-    label: "Google reCAPTCHA v2 Checkbox (iletişim spam koruması)",
-    keys: ["NEXT_PUBLIC_RECAPTCHA_SITE_KEY", "RECAPTCHA_SECRET_KEY"],
+    label: "Cloudflare Turnstile (iletişim spam koruması)",
+    keys: ["NEXT_PUBLIC_TURNSTILE_SITE_KEY", "TURNSTILE_SECRET_KEY"],
     required: false,
   },
   {

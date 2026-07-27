@@ -13,12 +13,13 @@ import { SkillsSection } from "@/components/skills-section";
 import { StatusBanner } from "@/components/status-banner";
 import { TerminalPrompt } from "@/components/terminal-prompt";
 import { siteConfig } from "@/lib/site-config";
+import { ogSiteDescription } from "@/lib/og-brand";
 import { pageSocial } from "@/lib/site-metadata";
 
 export const metadata: Metadata = {
   ...pageSocial("/", {
     title: `${siteConfig.name} | umutcingisiz.com`,
-    description: `${siteConfig.shortBio} · umutcingisiz`,
+    description: ogSiteDescription,
   }),
 };
 

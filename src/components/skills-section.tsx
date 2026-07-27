@@ -15,20 +15,23 @@ type SkillRow = {
  */
 const strong: readonly SkillRow[] = [
   {
-    domain: "Kurumsal web + CMS",
-    detail: "İçerik modeli, SEO yüzeyi, randevu/iletişim akışı",
+    domain: "Kurumsal Web ve Yönetim Paneli",
+    detail:
+      "Kolay içerik yönetimi, arama motoru uyumu ve hızlı randevu/iletişim altyapısı",
     proof: "Aras Mali",
     href: "/projects/aras-mali",
   },
   {
-    domain: "Görsel katalog / SSG",
-    detail: "Statik üretim, next/image, CLS ve Core Web Vitals disiplini",
+    domain: "Görsel Ürün Kataloğu",
+    detail:
+      "Yüksek performanslı sayfa geçişleri, mobil uyum ve akıcı kullanıcı deneyimi",
     proof: "Zeki Dekorasyon",
     href: "/projects/zeki-dekorasyon",
   },
   {
-    domain: "Full-stack ürün yüzeyi",
-    detail: "Auth, veri modeli, form güvenliği ve CI aynı repoda",
+    domain: "Kişisel Web Uygulaması",
+    detail:
+      "Güvenli kullanıcı girişi, veritabanı yönetimi ve modern arayüz tasarımı",
     proof: "Bu portfolyo",
     href: "/projects/portfolio-web",
   },
@@ -39,21 +42,24 @@ const strong: readonly SkillRow[] = [
     href: "/#about",
   },
   {
-    domain: "Mobil + API + LLM",
-    detail: "React Native istemci, Express/Postgres, adaptif öğrenme akışı",
+    domain: "Mobil Eğitim Uygulaması",
+    detail:
+      "Öğrencinin seviyesine göre uyarlanan akıllı öğrenme akışı ve mobil altyapı",
     proof: "Bloomedu",
     href: "/projects/bloomedu",
   },
   {
-    domain: "Güvenlik sınırları",
-    detail: "OAuth, Zod, honeypot, fail-closed rate-limit",
+    domain: "Güvenlik Yaklaşımları",
+    detail:
+      "Web uygulamalarında güvenli giriş ve veri koruma standartları",
     proof: "Güvenlik yazısı",
     href: "/blog/nextjs-server-actions-guvenlik",
   },
   {
-    domain: "Moderasyonlu ürün yüzeyi",
-    detail: "GitHub oturum, onay kuyruğu, kötüye kullanım kontrolleri",
-    proof: "Guestbook",
+    domain: "Etkileşimli Ziyaretçi Defteri",
+    detail:
+      "GitHub ile güvenli oturum açma ve moderasyon sistemli mesajlaşma alanı",
+    proof: "Ziyaretçi Defteri",
     href: "/guestbook",
   },
 ];

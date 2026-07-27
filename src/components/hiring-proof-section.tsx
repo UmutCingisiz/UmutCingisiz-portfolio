@@ -86,23 +86,23 @@ const proofSignals: readonly Proof[] = [
     label: "Yayın",
     title: "Yayınlanabilir deneyim",
     body: "SEO, OG, error/loading ve production servis planı hazır.",
-    evidence: "Guestbook",
+    evidence: "Ziyaretçi Defteri",
     href: "/guestbook",
     icon: DeliveryIcon,
   },
 ];
 
 const reviewPath = [
-  "60 sn: hero + kanıt sinyalleri",
+  "60 sn: hero ve öne çıkanlar",
   "2 dk: projelerde problem / karar / etki",
-  "5 dk: blog + GitHub + guestbook",
+  "5 dk: blog + GitHub + ziyaretçi defteri",
 ] as const;
 
 const quickLinks = [
   { value: "Projeler", label: "Vaka listesi", href: "/projects" },
   { value: "Blog", label: "Teknik yazılar", href: "/blog" },
   { value: "CI", label: "Kalite pipeline", href: ciUrl, external: true },
-  { value: "Guestbook", label: "Auth + moderasyon", href: "/guestbook" },
+  { value: "Defter", label: "Ziyaretçi notları", href: "/guestbook" },
 ] as const;
 
 export function HiringProofSection() {
@@ -118,10 +118,10 @@ export function HiringProofSection() {
           <div className="lg:sticky lg:top-28">
             <SectionEyebrow>hiring.proof</SectionEyebrow>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Tıklayıp bakabileceğiniz kanıtlar
+              Yakından inceleyebileceğiniz örnekler
             </h2>
             <p className="mt-3 text-pretty text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
-              Her kart bir yere gider: case study, CI, yazı veya guestbook.
+              Her kart farklı bir çalışmaya veya yazıya açılır.
             </p>
 
             <div className="mt-6 grid grid-cols-2 gap-2.5 sm:mt-8 sm:gap-3">
@@ -201,7 +201,7 @@ export function HiringProofSection() {
                       {...linkProps}
                       className="mt-4 inline-flex text-sm font-medium text-signal underline-offset-4 hover:underline"
                     >
-                      Kanıtı incele →
+                      İncele →
                     </Link>
                   </article>
                 </Reveal>

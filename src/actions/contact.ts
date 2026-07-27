@@ -18,9 +18,9 @@ import {
 } from "@/lib/contact-schema";
 import { logPortfolioError, logPortfolioEvent } from "@/lib/observability";
 import {
-  RECAPTCHA_FORM_FIELD,
-  verifyRecaptchaToken,
-} from "@/lib/recaptcha";
+  TURNSTILE_FORM_FIELD,
+  verifyTurnstileToken,
+} from "@/lib/turnstile";
 import { siteConfig } from "@/lib/site-config";
 
 export type ContactFormState =
@@ -93,12 +93,12 @@ export async function submitContactForm(
   }
 
   const remoteip = await getClientIp();
-  const captcha = await verifyRecaptchaToken(
-    formData.get(RECAPTCHA_FORM_FIELD),
+  const captcha = await verifyTurnstileToken(
+    formData.get(TURNSTILE_FORM_FIELD),
     remoteip,
   );
   if (!captcha.ok) {
-    logPortfolioEvent("contact.recaptcha_failed");
+    logPortfolioEvent("contact.turnstile_failed");
     return { ok: false, error: captcha.error };
   }
 

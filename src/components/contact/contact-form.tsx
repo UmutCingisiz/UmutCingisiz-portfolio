@@ -9,15 +9,17 @@ import {
   useState,
   type FormEvent,
 } from "react";
-import type ReCAPTCHA from "react-google-recaptcha";
+import {
+  Turnstile,
+  type TurnstileInstance,
+} from "@marsidev/react-turnstile";
 import { useRouter } from "next/navigation";
 
 import type { ContactFormState } from "@/actions/contact";
 import { submitContactForm } from "@/actions/contact";
 import { ContactSuccessState } from "@/components/contact/contact-success-state";
-import { RecaptchaCheckbox } from "@/components/contact/recaptcha-checkbox";
 import { useI18n } from "@/i18n/locale-provider";
-import { RECAPTCHA_FORM_FIELD } from "@/lib/recaptcha";
+import { TURNSTILE_FORM_FIELD } from "@/lib/turnstile";
 
 const SUCCESS_STORAGE_KEY = "portfolio.contact.sent";
 
@@ -51,8 +53,8 @@ type FieldsProps = {
 function ContactFormFields({ onSuccess }: FieldsProps) {
   const { dictionary } = useI18n();
   const t = dictionary.contact.form;
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() ?? "";
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
+  const turnstileRef = useRef<TurnstileInstance>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [clientError, setClientError] = useState<string | null>(null);
   const [state, formAction, pending] = useActionState<
@@ -70,7 +72,7 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
   const fieldErrors = errorState?.fieldErrors;
 
   const resetCaptcha = useCallback(() => {
-    recaptchaRef.current?.reset();
+    turnstileRef.current?.reset();
     setCaptchaToken(null);
   }, []);
 
@@ -84,10 +86,12 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
 
       if (siteKey) {
         if (!captchaToken) {
-          setClientError("Lütfen 'Robot değilim' doğrulamasını tamamla.");
+          setClientError(
+            "Spam doğrulaması henüz hazır değil. Bir saniye bekleyip tekrar dene.",
+          );
           return;
         }
-        formData.set(RECAPTCHA_FORM_FIELD, captchaToken);
+        formData.set(TURNSTILE_FORM_FIELD, captchaToken);
       }
 
       startTransition(() => {
@@ -184,17 +188,24 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
       </div>
 
       {siteKey ? (
-        <RecaptchaCheckbox
-          ref={recaptchaRef}
-          sitekey={siteKey}
-          onChange={(value) => setCaptchaToken(value)}
-          onExpired={() => setCaptchaToken(null)}
-          onErrored={() => setCaptchaToken(null)}
+        <Turnstile
+          ref={turnstileRef}
+          siteKey={siteKey}
+          onSuccess={(token) => setCaptchaToken(token)}
+          onExpire={() => setCaptchaToken(null)}
+          onError={() => setCaptchaToken(null)}
+          options={{
+            theme: "dark",
+            language: "tr",
+            // Görünmez; yalnızca Cloudflare gerek görürse etkileşim ister
+            appearance: "interaction-only",
+            size: "flexible",
+          }}
         />
       ) : process.env.NODE_ENV === "production" ? (
         <p className="text-sm text-amber-700 dark:text-amber-300" role="status">
-          Spam koruması (reCAPTCHA) bu ortamda yapılandırılmamış. Form
-          gönderimi engellenebilir — e-posta bağlantısını kullan.
+          Spam koruması bu ortamda yapılandırılmamış. Form gönderimi
+          engellenebilir — e-posta bağlantısını kullan.
         </p>
       ) : null}
 
@@ -220,7 +231,7 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
   );
 }
 
-/** reCAPTCHA v2 checkbox — site key yoksa doğrulama atlanır (yerel geliştirme). */
+/** Cloudflare Turnstile — site key yoksa doğrulama atlanır (yerel geliştirme). */
 export function ContactForm({ initialSuccess = false }: Props) {
   const router = useRouter();
   const [formInstance, setFormInstance] = useState(0);
@@ -236,7 +247,6 @@ export function ContactForm({ initialSuccess = false }: Props) {
   const handleReset = useCallback(() => {
     writeStoredSuccess(false);
     setSuccess(false);
-    // Eski action state + ?contact=sent yeniden success’e kilitlemesin
     setFormInstance((n) => n + 1);
     router.replace("/#contact", { scroll: false });
   }, [router]);

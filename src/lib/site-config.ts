@@ -29,6 +29,8 @@ export const siteConfig = {
   githubLanguageOverrides: {
     "java-examples": "Java",
     javaexamples: "Java",
+    // Bloomedu RN/Express repo — API bazen null dönebilir
+    bloomedu: "TypeScript",
   } as Record<string, string>,
   /** Portfolyo terminal — UC + cmd */
   terminal: {
@@ -92,7 +94,7 @@ export const siteConfig = {
     },
     {
       group: "Araçlar ve operasyon",
-      items: ["Git", "GitHub Actions", "Vercel", "Resend", "reCAPTCHA v2"],
+      items: ["Git", "GitHub Actions", "Vercel", "Resend", "Cloudflare Turnstile"],
     },
   ],
 } as const;

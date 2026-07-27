@@ -10,7 +10,7 @@ import { canonicalFor, getSiteOrigin } from "@/lib/site-url";
 export function getSiteMetadata(): Metadata {
   const siteUrl = getSiteOrigin();
   const title = `${siteConfig.name} | umutcingisiz.com`;
-  const description = `${ogSiteDescription} · umutcingisiz`;
+  const description = ogSiteDescription;
 
   const verificationToken = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 

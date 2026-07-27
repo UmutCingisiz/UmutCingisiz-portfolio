@@ -1,34 +1,34 @@
 /**
- * Google reCAPTCHA v2 (“Robot değilim”) — sunucu tarafı siteverify.
- * @see https://developers.google.com/recaptcha/docs/verify
+ * Cloudflare Turnstile — sunucu tarafı siteverify.
+ * @see https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
  */
 
-export const RECAPTCHA_FORM_FIELD = "g-recaptcha-response";
+export const TURNSTILE_FORM_FIELD = "cf-turnstile-response";
 
-type RecaptchaSiteverifyResponse = {
+type TurnstileSiteverifyResponse = {
   success: boolean;
   "error-codes"?: string[];
 };
 
-export type RecaptchaVerifyResult =
+export type TurnstileVerifyResult =
   | { ok: true; skipped?: boolean }
   | { ok: false; error: string };
 
 function siteKeyConfigured() {
-  return Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim());
+  return Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim());
 }
 
 /**
- * reCAPTCHA v2 doğrulaması.
+ * Turnstile doğrulaması.
  * - Her iki anahtar yoksa (yerel geliştirme): atlanır.
- * - Yalnızca biri varsa: fail-closed (yanlış yapılandırma).
- * - İkisi de varsa: Google siteverify → `success: true` yeterli.
+ * - Yalnızca biri varsa: fail-closed.
+ * - İkisi de varsa: Cloudflare siteverify → `success: true` yeterli.
  */
-export async function verifyRecaptchaToken(
+export async function verifyTurnstileToken(
   token: unknown,
   remoteip?: string,
-): Promise<RecaptchaVerifyResult> {
-  const secret = process.env.RECAPTCHA_SECRET_KEY?.trim();
+): Promise<TurnstileVerifyResult> {
+  const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
   const hasSiteKey = siteKeyConfigured();
 
   if (!secret && !hasSiteKey) {
@@ -46,7 +46,7 @@ export async function verifyRecaptchaToken(
   if (typeof token !== "string" || token.trim() === "") {
     return {
       ok: false,
-      error: "Lütfen 'Robot değilim' doğrulamasını tamamla.",
+      error: "Spam doğrulaması tamamlanamadı. Lütfen sayfayı yenileyip tekrar dene.",
     };
   }
 
@@ -59,11 +59,14 @@ export async function verifyRecaptchaToken(
       body.set("remoteip", remoteip);
     }
 
-    const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body,
-    });
+    const res = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
+      },
+    );
 
     if (!res.ok) {
       return {
@@ -72,11 +75,11 @@ export async function verifyRecaptchaToken(
       };
     }
 
-    const data = (await res.json()) as RecaptchaSiteverifyResponse;
+    const data = (await res.json()) as TurnstileSiteverifyResponse;
     if (!data.success) {
       return {
         ok: false,
-        error: "Spam doğrulaması başarısız. Lütfen kutuyu yeniden onayla.",
+        error: "Spam doğrulaması başarısız. Lütfen tekrar dene.",
       };
     }
 
