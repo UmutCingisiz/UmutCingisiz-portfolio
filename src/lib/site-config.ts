@@ -38,7 +38,7 @@ export const siteConfig = {
     version: "1.0",
     tagline: "Komutlarla sitede gez",
   },
-  headline: "Modern, Ölçeklenebilir. Yüksek Performanslı.",
+  headline: "Modern, Ölçeklenebilir, Yüksek performanslı.",
   description:
     "Bir özelliği tek başına değil, veri modeli, güvenlik ve yayın adımıyla birlikte ele alırım. Amacım ekranda duran bir demo değil; bakımı yapılabilir, büyüyebilen bir ürün bırakmak.",
   shortBio:

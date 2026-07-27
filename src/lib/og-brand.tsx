@@ -105,6 +105,9 @@ export function OgFooter({ left, right }: { left: ReactNode; right?: ReactNode }
   );
 }
 
-/** Sosyal / SEO meta açıklama */
+/**
+ * Sosyal / SEO meta açıklama (Google snippet + OG/Twitter).
+ * Kısa, kurumsal, tek cümlelik kimlik — okul/ödül iddiası yok.
+ */
 export const ogSiteDescription =
-  "Full-stack web ve mobil uygulama geliştiricisi Umut Cingisiz'in resmi portfolyosu. Modern web teknolojileriyle geliştirilmiş kurumsal projeler ve yazılım çözümleri.";
+  "Full-stack yazılım geliştiricisi Umut Cingisiz'in resmi portfolyosu. Modern web teknolojileriyle geliştirilmiş kurumsal projeler ve yazılım çözümleri.";

@@ -102,7 +102,7 @@ const tr: Dictionary = {
     availabilityLabel: "Müsait",
     availabilityDetail: "Yeni iş fırsatları için uygun",
     role: "Bilgisayar Mühendisi · Full-Stack Developer",
-    headline: "Modern, Ölçeklenebilir. Yüksek Performanslı.",
+    headline: "Modern, Ölçeklenebilir, Yüksek performanslı.",
     shortBio:
       "Kullanıcı deneyimini merkeze alan, modern web teknolojileriyle ölçeklenebilir full-stack mimariler, yapay zeka destekli çözümler ve yüksek performanslı uygulamalar inşa ediyorum.",
     contact: "İletişim",

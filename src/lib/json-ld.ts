@@ -1,3 +1,4 @@
+import { ogSiteDescription } from "@/lib/og-brand";
 import { siteConfig } from "@/lib/site-config";
 import { canonicalFor, getSiteOrigin } from "@/lib/site-url";
 
@@ -42,7 +43,7 @@ export function websiteJsonLd(): JsonLd {
     name: siteConfig.name,
     alternateName: ["umutcingisiz", "umutcingisiz.com"],
     url: origin,
-    description: siteConfig.shortBio,
+    description: ogSiteDescription,
     inLanguage: "tr-TR",
     publisher: { "@id": `${origin}/#person` },
   };
