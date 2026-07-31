@@ -110,8 +110,11 @@ function SkillColumn({
 
       <ol className="mt-1">
         {items.map((item, index) => (
-          <Reveal key={item.domain} index={index}>
-            <li className="grid grid-cols-[2rem_1fr] gap-3 border-b border-border/80 py-4 sm:gap-4 sm:py-5">
+          <li key={item.domain} className="border-b border-border/80">
+            <Reveal
+              index={index}
+              className="grid grid-cols-[2rem_1fr] gap-3 py-4 sm:gap-4 sm:py-5"
+            >
               <span className="pt-0.5 font-mono text-[0.7rem] tabular-nums text-muted-foreground">
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -133,8 +136,8 @@ function SkillColumn({
                   {item.detail}
                 </p>
               </div>
-            </li>
-          </Reveal>
+            </Reveal>
+          </li>
         ))}
       </ol>
     </div>

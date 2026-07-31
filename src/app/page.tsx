@@ -2,16 +2,18 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
-import { ContactSuccessToast } from "@/components/contact-success-toast";
+import {
+  DeferredContactSuccessToast,
+  DeferredHashScroll,
+  DeferredTerminalPrompt,
+} from "@/components/deferred-islands";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { GithubActivitySection } from "@/components/github-activity-section";
 import { GithubActivitySkeleton } from "@/components/github-activity-skeleton";
-import { HashScroll } from "@/components/hash-scroll";
 import { Hero } from "@/components/hero";
 import { HiringProofSection } from "@/components/hiring-proof-section";
 import { SkillsSection } from "@/components/skills-section";
 import { StatusBanner } from "@/components/status-banner";
-import { TerminalPrompt } from "@/components/terminal-prompt";
 import { siteConfig } from "@/lib/site-config";
 import { ogSiteDescription } from "@/lib/og-brand";
 import { pageSocial } from "@/lib/site-metadata";
@@ -35,15 +37,15 @@ export default async function Home({
 
   return (
     <>
-      <HashScroll />
-      <ContactSuccessToast active={contactSuccess} />
+      <DeferredHashScroll />
+      <DeferredContactSuccessToast active={contactSuccess} />
       <StatusBanner
         resumeLimited={resumeLimited}
         resumeMissing={resumeMissing}
       />
       {/* Akış: Hero → shell → About/Skills → Projeler → Hiring → GitHub → İletişim */}
       <Hero />
-      <TerminalPrompt />
+      <DeferredTerminalPrompt />
       <AboutSection />
       <SkillsSection />
       <FeaturedProjects />

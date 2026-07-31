@@ -49,7 +49,7 @@ function RepoCard({
               {repo.language}
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 text-muted-foreground/70">
+            <span className="inline-flex items-center gap-1.5 text-muted-foreground">
               <span className="size-1.5 rounded-full bg-border" />
               {languageUnknown}
             </span>
@@ -150,7 +150,7 @@ export async function GithubActivitySection() {
             <span className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
               signal.pulse
             </span>
-            <span className="text-muted-foreground/40">·</span>
+            <span className="text-muted-foreground">·</span>
             <span className="font-mono text-xs text-foreground/80">
               {recent.length} {t.recentCount}
             </span>

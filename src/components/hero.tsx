@@ -152,7 +152,7 @@ export function Hero() {
                 priority
                 fetchPriority="high"
                 quality={70}
-                sizes="(min-width: 1024px) 400px, (min-width: 640px) 360px, min(90vw, 280px)"
+                sizes="(max-width: 639px) 280px, (max-width: 1023px) 384px, 448px"
                 className="object-cover object-top"
                 onError={handleImageError}
                 unoptimized={imageMode === "github"}
@@ -183,12 +183,12 @@ export function Hero() {
           {dictionary.hero.stats.map((stat) => (
             <li
               key={stat.label}
-              className="inline-flex items-baseline gap-1.5 text-xs text-muted-foreground/80"
+              className="inline-flex items-baseline gap-1.5 text-xs text-muted-foreground"
             >
-              <span className="font-mono text-[0.65rem] tracking-wide text-muted-foreground/60">
+              <span className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
                 {stat.label}
               </span>
-              <span className="font-medium text-foreground/85">{stat.value}</span>
+              <span className="font-medium text-foreground">{stat.value}</span>
             </li>
           ))}
         </motion.ul>
