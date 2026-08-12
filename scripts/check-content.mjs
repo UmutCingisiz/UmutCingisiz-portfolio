@@ -9,6 +9,7 @@ const blogDir = path.join(root, "src", "content", "blog");
 const projectStatuses = new Set([
   "planned",
   "in-progress",
+  "testing",
   "live",
   "archived",
   "learning",

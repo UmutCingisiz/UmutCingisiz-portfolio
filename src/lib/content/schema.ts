@@ -20,7 +20,7 @@ export const projectFrontmatterSchema = z.object({
   architectureLabel: z.string().min(1).optional(),
   architectureSummary: z.string().min(1).optional(),
   status: z
-    .enum(["planned", "in-progress", "live", "archived", "learning"]),
+    .enum(["planned", "in-progress", "testing", "live", "archived", "learning"]),
   demo: z.string().url().optional(),
   repo: z.string().url().optional(),
   featured: z.boolean().optional(),

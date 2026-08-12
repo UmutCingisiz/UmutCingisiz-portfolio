@@ -136,7 +136,7 @@ category: full-stack # frontend | backend | full-stack | devops
 problem: Hangi problemi çözüyor?
 decision: Hangi mühendislik kararı öne çıkıyor?
 impact: Sonuç veya portfolyo sinyali ne?
-status: live # planned | in-progress | live | archived | learning
+status: live # planned | in-progress | testing | live | archived | learning
 repo: https://github.com/kullanici/repo
 featured: true
 # coverImage: /images/projects/ornek.jpg

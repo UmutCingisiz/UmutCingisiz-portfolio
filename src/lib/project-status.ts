@@ -43,6 +43,8 @@ export function getProjectStatusLabel(status: ProjectStatus) {
       return "Arşiv";
     case "in-progress":
       return "Geliştiriliyor";
+    case "testing":
+      return "Test aşamasında";
     case "planned":
       return "Planlandı";
     case "learning":
