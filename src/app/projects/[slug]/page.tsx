@@ -162,7 +162,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               rel="noopener noreferrer"
               className="inline-flex rounded-lg border border-signal/30 bg-signal/10 px-4 py-2 text-sm font-medium text-signal transition-all duration-200 hover:bg-signal/15"
             >
-              Canlı site ↗
+              {frontmatter.demoLabel ?? "Canlı site"} ↗
             </a>
           ) : null}
         </div>

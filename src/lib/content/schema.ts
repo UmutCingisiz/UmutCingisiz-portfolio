@@ -30,6 +30,8 @@ export const projectFrontmatterSchema = z.object({
   architectureSummary: z.string().min(1).optional(),
   status: projectStatusSchema,
   demo: z.string().url().optional(),
+  /** CTA metni; yoksa “Canlı site” (ör. Uygulama bağlantısı) */
+  demoLabel: z.string().min(1).optional(),
   repo: z.string().url().optional(),
   featured: z.boolean().optional(),
   coverImage: z.string().min(1).optional(),
