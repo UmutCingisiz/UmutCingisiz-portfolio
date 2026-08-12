@@ -3,7 +3,7 @@ import { getAllPostsMeta } from "@/lib/content/posts";
 import { getAllProjectsMeta } from "@/lib/content/projects";
 import { getSiteOrigin } from "@/lib/site-url";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteOrigin();
   const routes: MetadataRoute.Sitemap = [
     {
@@ -32,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  for (const p of getAllProjectsMeta()) {
+  for (const p of await getAllProjectsMeta()) {
     routes.push({
       url: `${base}/projects/${p.slug}`,
       lastModified: new Date(p.date),

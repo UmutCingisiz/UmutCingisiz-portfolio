@@ -18,8 +18,8 @@
     "check:assets": "node scripts/check-assets.mjs",
     "check:db": "node --env-file=.env.local scripts/test-neon.mjs",
     "check:all": "npm run check:assets && npm run check:content && npm run check:env && npm run check:db",
-    "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push"
+    "db:generate": "node --env-file=.env.local ./node_modules/drizzle-kit/bin.cjs generate",
+    "db:push": "node --env-file=.env.local ./node_modules/drizzle-kit/bin.cjs push"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.5.3",

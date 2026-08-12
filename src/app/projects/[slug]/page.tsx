@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const meta = getProjectMetaBySlug(slug);
+  const meta = await getProjectMetaBySlug(slug);
   if (!meta) return {};
   const url = canonicalFor(`/projects/${slug}`);
   return {
@@ -52,14 +52,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
-  const meta = getProjectMetaBySlug(slug);
+  const meta = await getProjectMetaBySlug(slug);
   if (!meta) notFound();
 
   const compiled = await compileProjectMDX(slug);
   if (!compiled) notFound();
 
   const { content, frontmatter } = compiled;
-  const { prev, next } = getAdjacentProjects(slug);
+  const { prev, next } = await getAdjacentProjects(slug);
   const decisionCards = [
     {
       label: "Problem",
@@ -108,9 +108,9 @@ export default async function ProjectDetailPage({ params }: Props) {
             {frontmatter.category} / case.study
           </p>
           <span
-            className={`rounded-full border px-2.5 py-0.5 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(frontmatter.status)}`}
+            className={`rounded-full border px-2.5 py-0.5 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(meta.status)}`}
           >
-            {getProjectStatusLabel(frontmatter.status)}
+            {getProjectStatusLabel(meta.status)}
           </span>
         </div>
         <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -181,7 +181,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             </h2>
           </div>
           <span className="w-fit font-mono text-[0.65rem] tracking-wide text-muted-foreground">
-            {getProjectStatusLabel(frontmatter.status)}
+            {getProjectStatusLabel(meta.status)}
           </span>
         </div>
         <div className="mt-8 grid gap-8 md:grid-cols-3 md:gap-6">

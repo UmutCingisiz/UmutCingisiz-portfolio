@@ -15,6 +15,10 @@ type PortfolioEvent =
   | "guestbook.moderation_denied"
   | "guestbook.moderation_failed"
   | "guestbook.moderated"
+  | "projects.admin_denied"
+  | "projects.admin_save_failed"
+  | "projects.admin_saved"
+  | "projects.admin_cleared"
   | "views.rate_limited"
   | "views.kv_unconfigured"
   | "resume.missing"
@@ -34,6 +38,8 @@ const ALERT_EVENTS = new Set<PortfolioEvent>([
   "guestbook.insert_failed",
   "guestbook.moderation_denied",
   "guestbook.moderation_failed",
+  "projects.admin_denied",
+  "projects.admin_save_failed",
   "views.rate_limited",
   "views.kv_unconfigured",
   "resume.missing",

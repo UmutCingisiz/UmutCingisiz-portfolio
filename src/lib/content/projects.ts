@@ -8,6 +8,10 @@ import {
   type ProjectCategory,
 } from "@/lib/content/schema";
 import { PROJECTS_DIR } from "@/lib/content/paths";
+import {
+  getProjectOverridesMap,
+  mergeProjectMeta,
+} from "@/lib/project-overrides";
 
 export type ProjectMeta = ProjectFrontmatter & { slug: string };
 
@@ -23,45 +27,63 @@ const parseProjectFile = cache((file: string): ProjectMeta | null => {
   return { ...parsed.data, slug };
 });
 
-const readAllProjectsMeta = cache((): ProjectMeta[] => {
+const readAllProjectsMetaFromMdx = cache((): ProjectMeta[] => {
   if (!fs.existsSync(PROJECTS_DIR)) return [];
   const files = fs.readdirSync(PROJECTS_DIR).filter((f) => f.endsWith(".mdx"));
   const items = files
     .map(parseProjectFile)
-    .filter((x): x is ProjectMeta => x !== null);
+    .filter((x): x is ProjectMeta => Boolean(x));
   return items.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 });
 
-export function getAllProjectsMeta(): ProjectMeta[] {
-  return readAllProjectsMeta();
+async function mergeAllProjectsMeta(): Promise<ProjectMeta[]> {
+  const base = readAllProjectsMetaFromMdx();
+  const overrides = await getProjectOverridesMap();
+  return base.map((project) =>
+    mergeProjectMeta(project, overrides.get(project.slug)),
+  );
 }
 
-export function getProjectMetaBySlug(slug: string): ProjectMeta | null {
-  if (!getProjectSlugs().includes(slug)) return null;
+/** MDX-only slugs — static params / existence checks (not overridden by DB). */
+export function getProjectSlugs(): string[] {
+  return readAllProjectsMetaFromMdx().map((p) => p.slug);
+}
+
+export function projectSlugExists(slug: string): boolean {
+  return getProjectSlugs().includes(slug);
+}
+
+export async function getAllProjectsMeta(): Promise<ProjectMeta[]> {
+  return mergeAllProjectsMeta();
+}
+
+export async function getProjectMetaBySlug(
+  slug: string,
+): Promise<ProjectMeta | null> {
+  if (!projectSlugExists(slug)) return null;
   const file = `${slug}.mdx`;
   const fp = path.join(PROJECTS_DIR, file);
   if (!fs.existsSync(fp)) return null;
-  return parseProjectFile(file);
+  const base = parseProjectFile(file);
+  if (!base) return null;
+  const overrides = await getProjectOverridesMap();
+  return mergeProjectMeta(base, overrides.get(slug));
 }
 
-export function getProjectSlugs(): string[] {
-  return getAllProjectsMeta().map((p) => p.slug);
-}
-
-export function getFeaturedProjects(limit = 2): ProjectMeta[] {
-  const all = getAllProjectsMeta();
+export async function getFeaturedProjects(limit = 2): Promise<ProjectMeta[]> {
+  const all = await getAllProjectsMeta();
   const featured = all.filter((p) => p.featured);
   const picked =
     featured.length >= limit ? featured.slice(0, limit) : all.slice(0, limit);
   return picked;
 }
 
-export function filterProjectsByCategory(
+export async function filterProjectsByCategory(
   category: ProjectCategory | "all",
-): ProjectMeta[] {
-  const all = getAllProjectsMeta();
+): Promise<ProjectMeta[]> {
+  const all = await getAllProjectsMeta();
   if (category === "all") return all;
   return all.filter((p) => p.category === category);
 }
@@ -70,15 +92,20 @@ export function filterProjectsByCategory(
  * Komşu projeler — `getAllProjectsMeta()` sırasına göre (yeniden eskiye).
  * Önceki = listedeki bir üst (index - 1), Sonraki = listedeki bir alt (index + 1).
  */
-export function getAdjacentProjects(slug: string): {
+export async function getAdjacentProjects(slug: string): Promise<{
   prev: ProjectMeta | null;
   next: ProjectMeta | null;
-} {
-  const all = getAllProjectsMeta();
+}> {
+  const all = await getAllProjectsMeta();
   const index = all.findIndex((project) => project.slug === slug);
   if (index < 0) return { prev: null, next: null };
   return {
     prev: index > 0 ? (all[index - 1] ?? null) : null,
     next: index < all.length - 1 ? (all[index + 1] ?? null) : null,
   };
+}
+
+/** Admin: MDX baseline without DB merge. */
+export function getMdxProjectsMeta(): ProjectMeta[] {
+  return readAllProjectsMetaFromMdx();
 }

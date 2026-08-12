@@ -1,5 +1,6 @@
 ﻿import { sql } from "drizzle-orm";
 import {
+  boolean,
   check,
   index,
   pgTable,
@@ -70,6 +71,40 @@ export const contactSubmissionGuard = pgTable(
   ],
 );
 
+/** MDX status/featured fallback; non-null columns win at read time. */
+export const projectOverride = pgTable(
+  "project_override",
+  {
+    slug: text("slug").primaryKey(),
+    status: text("status", {
+      enum: [
+        "planned",
+        "in-progress",
+        "testing",
+        "live",
+        "archived",
+        "learning",
+      ],
+    }),
+    featured: boolean("featured"),
+    updatedAt: timestamp("updated_at", {
+      mode: "string",
+      withTimezone: true,
+    })
+      .notNull()
+      .defaultNow(),
+    updatedByGithubId: text("updated_by_github_id").notNull(),
+  },
+  (table) => [
+    check(
+      "project_override_status_check",
+      sql`${table.status} IS NULL OR ${table.status} IN ('planned', 'in-progress', 'testing', 'live', 'archived', 'learning')`,
+    ),
+  ],
+);
+
 export type GuestbookEntry = typeof guestbookEntry.$inferSelect;
 export type NewGuestbookEntry = typeof guestbookEntry.$inferInsert;
 export type ContactSubmissionGuard = typeof contactSubmissionGuard.$inferSelect;
+export type ProjectOverride = typeof projectOverride.$inferSelect;
+export type NewProjectOverride = typeof projectOverride.$inferInsert;

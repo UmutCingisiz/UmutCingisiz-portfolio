@@ -163,7 +163,7 @@ npm run check:all
 - Schema: `src/db/schema.ts`
 - Client: `src/db/client.ts`
 - Config: `drizzle.config.ts`
-- Migration: `drizzle/0000_first_toad.sql`
+- Migration: `drizzle/0000_first_toad.sql`, `drizzle/0001_project_override.sql`
 
 ```bash
 npm run db:push

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = getAllProjectsMeta();
+  const projects = await getAllProjectsMeta();
   const live = projects.filter((p) => isShippedStatus(p.status));
   const building = projects.filter((p) => !isShippedStatus(p.status));
 

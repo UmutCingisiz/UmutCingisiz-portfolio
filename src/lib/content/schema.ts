@@ -7,6 +7,15 @@ export const projectCategorySchema = z.enum([
   "devops",
 ]);
 
+export const projectStatusSchema = z.enum([
+  "planned",
+  "in-progress",
+  "testing",
+  "live",
+  "archived",
+  "learning",
+]);
+
 export const projectFrontmatterSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
@@ -19,8 +28,7 @@ export const projectFrontmatterSchema = z.object({
   /** Kart / detayda “Kullanılan Mimari / Çözüm” hiyerarşisi */
   architectureLabel: z.string().min(1).optional(),
   architectureSummary: z.string().min(1).optional(),
-  status: z
-    .enum(["planned", "in-progress", "testing", "live", "archived", "learning"]),
+  status: projectStatusSchema,
   demo: z.string().url().optional(),
   repo: z.string().url().optional(),
   featured: z.boolean().optional(),
@@ -49,3 +57,5 @@ export const postFrontmatterSchema = z.object({
 export type ProjectFrontmatter = z.infer<typeof projectFrontmatterSchema>;
 export type PostFrontmatter = z.infer<typeof postFrontmatterSchema>;
 export type ProjectCategory = z.infer<typeof projectCategorySchema>;
+export type ProjectStatusValue = z.infer<typeof projectStatusSchema>;
+export const PROJECT_STATUS_VALUES = projectStatusSchema.options;

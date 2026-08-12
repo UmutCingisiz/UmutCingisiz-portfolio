@@ -28,7 +28,7 @@ function truncate(text: string, max: number) {
 
 export default async function Image({ params }: Props) {
   const { slug } = await params;
-  const project = getProjectMetaBySlug(slug);
+  const project = await getProjectMetaBySlug(slug);
 
   const title = project?.title ?? "Proje";
   const description = truncate(
