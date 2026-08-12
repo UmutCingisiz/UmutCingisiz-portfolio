@@ -33,6 +33,8 @@ export const projectFrontmatterSchema = z.object({
   repo: z.string().url().optional(),
   featured: z.boolean().optional(),
   coverImage: z.string().min(1).optional(),
+  /** Kart kapağı: contain = mobil screenshot tam görünür; cover = alanı doldurur */
+  coverFit: z.enum(["contain", "cover"]).optional(),
   /** Proje detayında gösterilecek uygulama içi ekran görüntüleri (3–4 ideal). */
   gallery: z
     .array(

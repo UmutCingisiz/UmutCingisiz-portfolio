@@ -7,6 +7,13 @@ import { PdiBlock } from "@/components/pdi-block";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { pageSocial } from "@/lib/site-metadata";
 import {
+  getProjectCoverAlt,
+  getProjectCoverFit,
+  getProjectCoverSrc,
+  projectCoverFrameClass,
+  projectCoverImageClass,
+} from "@/lib/project-cover";
+import {
   getProjectCategoryLabel,
   getProjectStatusBadgeClass,
   getProjectStatusLabel,
@@ -191,17 +198,20 @@ function initials(title: string): string {
 }
 
 function ProjectVisual({ project }: { project: ProjectMeta }) {
-  const coverImage = project.coverImage ?? project.gallery?.[0]?.src;
+  const coverImage = getProjectCoverSrc(project);
+  const fit = getProjectCoverFit(project);
 
   if (coverImage) {
     return (
-      <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-[4/3] sm:rounded-3xl">
+      <div
+        className={`group relative overflow-hidden rounded-2xl border border-border bg-muted sm:rounded-3xl ${projectCoverFrameClass(fit)}`}
+      >
         <Image
           src={coverImage}
-          alt={project.gallery?.[0]?.alt ?? project.title}
+          alt={getProjectCoverAlt(project)}
           fill
           sizes="(min-width: 1024px) 560px, 92vw"
-          className="object-contain object-top transition-transform duration-500 group-hover:scale-[1.02] sm:object-cover"
+          className={projectCoverImageClass(fit)}
         />
       </div>
     );

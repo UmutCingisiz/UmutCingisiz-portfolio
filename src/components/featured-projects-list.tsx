@@ -6,6 +6,13 @@ import { PdiBlock } from "@/components/pdi-block";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import {
+  getProjectCoverAlt,
+  getProjectCoverFit,
+  getProjectCoverSrc,
+  projectCoverFrameClass,
+  projectCoverImageClass,
+} from "@/lib/project-cover";
+import {
   getProjectCategoryLabel,
   getProjectStatusBadgeClass,
   getProjectStatusLabel,
@@ -14,10 +21,6 @@ import {
 type Props = {
   projects: ProjectMeta[];
 };
-
-function coverFor(p: ProjectMeta) {
-  return p.coverImage ?? p.gallery?.[0]?.src ?? null;
-}
 
 export function FeaturedProjectsList({ projects }: Props) {
   return (
@@ -58,23 +61,24 @@ export function FeaturedProjectsList({ projects }: Props) {
         ) : (
           <ul className="mt-8 grid gap-5 sm:mt-10 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((p, i) => {
-              const cover = coverFor(p);
+              const cover = getProjectCoverSrc(p);
+              const fit = getProjectCoverFit(p);
               return (
                 <li key={p.slug} className="min-w-0">
                   <Reveal index={i} className="h-full">
                     <article className="group flex h-full flex-col overflow-hidden rounded-xl transition-all duration-200 hover:-translate-y-1">
                       <Link
                         href={`/projects/${p.slug}`}
-                        className="relative block aspect-[4/3] w-full overflow-hidden bg-muted sm:aspect-[16/10]"
+                        className={`relative block overflow-hidden bg-muted ${projectCoverFrameClass(fit)}`}
                         aria-label={`${p.title} görseli`}
                       >
                         {cover ? (
                           <Image
                             src={cover}
-                            alt={p.gallery?.[0]?.alt ?? p.title}
+                            alt={getProjectCoverAlt(p)}
                             fill
                             sizes="(min-width: 1024px) 360px, (min-width: 768px) 45vw, 92vw"
-                            className="object-contain object-top transition-transform duration-500 group-hover:scale-[1.02] sm:object-cover"
+                            className={projectCoverImageClass(fit)}
                           />
                         ) : (
                           <div className="flex h-full items-center justify-center font-mono text-xs text-muted-foreground">

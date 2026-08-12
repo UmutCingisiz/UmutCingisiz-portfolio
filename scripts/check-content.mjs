@@ -52,6 +52,13 @@ function validateCommon(data, file) {
   if (data.coverImage !== undefined && !isNonEmptyString(data.coverImage)) {
     errors.push("coverImage cannot be empty when present");
   }
+  if (
+    data.coverFit !== undefined &&
+    data.coverFit !== "contain" &&
+    data.coverFit !== "cover"
+  ) {
+    errors.push("coverFit must be contain or cover when present");
+  }
   if (errors.length > 0) {
     return [`${path.relative(root, file)}: ${errors.join(", ")}`];
   }
