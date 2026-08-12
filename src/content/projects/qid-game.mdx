@@ -1,0 +1,82 @@
+---
+title: "Qid Game: Eğitim Odaklı Mobil Oyun"
+description: "3–12 yaş için bilişsel oyun modülleri ve ebeveyn analiz ekranları; ilerleme verisi kullanıcının kendi Google Drive’ında. Google Play’de yayında."
+date: "2026-08-12"
+tags:
+  - Kotlin
+  - Android
+  - Flutter
+  - Google Drive API
+  - JSON
+  - Serverless
+  - EdTech
+category: frontend
+problem: "Çocuk eğitim oyununda ilerleme ve analiz verisini merkezî bir sunucuda tutmak hem maliyet hem COPPA/gizlilik riski yaratıyor; ebeveyn ‘çocuğum ne kadar gelişti?’ sorusuna güvenilir, şeffaf cevap istiyor."
+decision: "Klasik backend/veritabanı yerine serverless model: oyun ilerlemesi ve analiz çıktıları kullanıcının kendi Google Drive alanına JSON olarak yazılıyor. Dosyalar haftalık parçalara bölündü; güncelleme tüm dosya yerine satır bazlı yapılıyor — kota ve yazma maliyeti düşürüldü. Android istemci Kotlin; Apple için Flutter hazırlığı sürüyor."
+impact: "Google Play’de yayında. Freelancer olarak oyun modülleri ve ebeveyn analiz ekranları üzerinde çalıştım; Drive JSON kayıt katmanını kurdum. Veri stüdyo sunucusunda değil, aile hesabında kalıyor."
+architectureLabel: "Eğitim / Mobil"
+architectureSummary: "Kotlin Android + Drive JSON; bilişsel oyun modülleri ve ebeveyn analizi"
+status: live
+demo: "https://play.google.com/store/apps/details?id=com.ytsejamgame.qidgame"
+featured: true
+gallery:
+  - src: "/images/projects/qid-game/01.webp"
+    alt: "Qid Game ana menü — Oyna, Medya, Başarımlar, Ebeveyn Paneli"
+    caption: "Ana menü · çocuk modu"
+  - src: "/images/projects/qid-game/02.webp"
+    alt: "Oyun dünyaları listesi — hayvanlar, bitkiler, yiyecekler"
+    caption: "Oyun modülleri · yaş / ilerleme"
+  - src: "/images/projects/qid-game/03.webp"
+    alt: "Saat Kaç? oyun ekranı — analog saat ve çoktan seçmeli"
+    caption: "Oyun modülü · Saat Kaç?"
+  - src: "/images/projects/qid-game/04.webp"
+    alt: "Ebeveyn kontrol paneli — raporlar ve uzaktan kontrol"
+    caption: "Ebeveyn paneli · kontroller"
+  - src: "/images/projects/qid-game/05.webp"
+    alt: "En çok oynanan modüller ve gelişim analizi"
+    caption: "Analiz ekranı · modül istatistikleri"
+  - src: "/images/projects/qid-game/06.webp"
+    alt: "Video kütüphanesi — eğitici içerikler ızgarası"
+    caption: "Medya · video kütüphanesi"
+---
+
+**Qid Game**, Ytsejam Game Studio’nun 3–12 yaş için geliştirdiği eğitim odaklı mobil oyundur. Oyun yüzeyi eğlence gibi görünür; arka planda odak hızı, stratejik düşünme ve akademik sinyalleri ölçen bir analiz katmanı (ürün dilinde **Mila v11.4**) çalışır.
+
+- **Android (yayında):** Kotlin — [Google Play](https://play.google.com/store/apps/details?id=com.ytsejamgame.qidgame)
+- **Apple:** Flutter ile hazırlanıyor
+- Stüdyo: [`ytsejam.games`](https://ytsejam.games/#games)
+
+Bu case study’de ürünün tamamını değil, **freelancer olarak üstlendiğim yüzeyi** anlatıyorum: oyun modülleri, analiz ekranları ve Drive tabanlı kayıt mimarisi.
+
+### Ürün bağlamı
+
+- Onlarca / bellek bulmacası / nesne avı / matematik baloncukları gibi pedagojik oyun modülleri
+- Ebeveyn için şeffaf ilerleme ve performans görünümü
+- Çocuk uygulaması gizlilik standardı: kişisel veri stüdyo sunucusunda tutulmuyor; ilerleme kullanıcının **kendi Google Drive** hesabında
+
+### Benim katkım
+
+1. **Oyun modülleri** — öğrenme refleksini güçlendiren etkileşimli oyun yüzeyleri
+2. **Analiz ekranları** — ebeveynin “ne kadar gelişti?” sorusuna veriye dayalı cevap veren UI
+3. **Drive JSON kayıt sistemi** — sunucusuz kalıcılık katmanı
+
+### Mimari karar: serverless Drive
+
+Klasik “mobil istemci + kendi API + veritabanı” yolunu bilerek seçmedik:
+
+| Klasik backend | Qid yaklaşımı |
+| --- | --- |
+| Merkezî DB, işletme maliyeti | Kullanıcı Drive kotası |
+| Veri stüdyoda durur | Veri aile hesabında kalır |
+| Tam dosya yazımı büyüdükçe pahalı | Haftalık parçalar + satır güncellemesi |
+
+Pratikte:
+
+- İlerleme / analiz çıktıları **JSON** olarak Drive’a yazılır
+- Dosyalar **haftalık parçalara** bölünür — tek dosyanın şişmesi engellenir
+- Güncellemede mümkün olduğunca **satır seviyesinde** yazılır; gereksiz tam dosya rewrite’ından kaçınılır
+- Sonuç: stüdyo tarafında barındırılan çocuk ilerlemesi yok → gizlilik ve operasyonel sadelik
+
+### Öğrendiklerim
+
+“Backend yok” demek mimarisizlik değil. Drive’ı bir **append/chunk depolama** gibi modellemek; kota, tutarlılık ve UI’yi aynı problemde tutmak gerekiyor. Qid’de asıl mühendislik iddiası ekran süslemek değil, **veriyi istemcide tutup yine de analiz ürünü çıkarabilmek**.

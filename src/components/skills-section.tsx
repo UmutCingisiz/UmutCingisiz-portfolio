@@ -49,6 +49,13 @@ const strong: readonly SkillRow[] = [
     href: "/projects/bloomedu",
   },
   {
+    domain: "Eğitim / Mobil (Serverless)",
+    detail:
+      "Oyun modülleri, ebeveyn analizi ve Google Drive üzerinde JSON ilerleme kaydı",
+    proof: "Qid Game",
+    href: "/projects/qid-game",
+  },
+  {
     domain: "Güvenlik Yaklaşımları",
     detail:
       "Web uygulamalarında güvenli giriş ve veri koruma standartları",
@@ -173,7 +180,7 @@ export function SkillsSection() {
               Araç seti
             </h3>
             <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
-              Bloomedu, Aras Mali, Zeki Dekorasyon ve bu sitede kullandığım
+              Bloomedu, Qid Game, Aras Mali, Zeki Dekorasyon ve bu sitede kullandığım
               araçlar.
             </p>
           </div>

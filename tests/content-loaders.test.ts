@@ -34,6 +34,7 @@ describe("content loaders", () => {
     expect(slugs).toContain("aras-mali");
     expect(slugs).toContain("bloomedu");
     expect(slugs).toContain("portfolio-web");
+    expect(slugs).toContain("qid-game");
     expect(slugs).toContain("zeki-dekorasyon");
   });
 
