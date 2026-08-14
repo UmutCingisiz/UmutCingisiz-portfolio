@@ -30,7 +30,19 @@ Yeni sitede sıralama günler–haftalar sürebilir; kod tek başına 1. sıra g
 - [ ] Recruiter 30 sn: BİGG dili dürüst mü? (Akdeniz kabulü + jüri en iyi proje — abartı yok)
 - [ ] Son deploy sonrası kısa regresyon (home → projects → blog → guestbook → contact)
 
-### 3) Proje yayınlandığında
+### 3) Vercel Web Analytics
+
+Kod hazır: `@vercel/analytics` + kök layout’ta `<Analytics />` (`@vercel/analytics/next`). Speed Insights da aynı layout’ta.
+
+Panel hâlâ “Get Started / npm i” gösteriyorsa eksik olan kod değil, **projede Analytics’in açılması** ve ilk pageview’dır:
+
+- [ ] Vercel → proje → **Analytics** → Web Analytics’i **Enable**
+- [ ] (Gerekirse) **Redeploy** son production deploy
+- [ ] Canlı siteyi aç, birkaç sayfa gez (`/`, `/projects`, `/projects/qid-game`)
+- [ ] Adblocker / Brave shields kapalıyken dene; ~30 sn–birkaç dk içinde dashboard’da veri görünür
+- [ ] Hâlâ boşsa Production ortamını seçili tut; Preview trafiği ayrı filtredir
+
+### 4) Proje yayınlandığında
 
 - [ ] Aras Mali / Zeki Dekorasyon canlı olunca MDX: `repo` + `demo` + `status: live`
 - [ ] (İleriki faz) EN/TR i18n metin onayı — ayrı geliştirme işi
@@ -48,6 +60,7 @@ Yeni sitede sıralama günler–haftalar sürebilir; kod tek başına 1. sıra g
 | Upstash Redis (blog sayacı / rate limit) | ✅ |
 | Resend domain + canlı form mail | ✅ |
 | Sentry + source maps | ✅ |
+| Vercel Analytics + Speed Insights (layout) | ✅ kod |
 | Production smoke (guestbook, CV, OG, mobil menü, e2e) | ✅ |
 | CV / profil / galeriler (Bloomedu, Aras, Zeki ekranları) | ✅ |
 
