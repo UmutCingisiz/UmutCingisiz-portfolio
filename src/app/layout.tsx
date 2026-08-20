@@ -22,6 +22,7 @@ const sans = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   preload: true,
+  adjustFontFallback: true,
 });
 
 const mono = JetBrains_Mono({
@@ -29,6 +30,7 @@ const mono = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   preload: false,
+  adjustFontFallback: true,
 });
 
 export const metadata = getSiteMetadata();

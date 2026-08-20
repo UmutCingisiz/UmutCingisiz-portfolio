@@ -1,12 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { useState } from "react";
 import { ContactLink } from "@/components/contact-link";
+import { HeroProfilePhoto } from "@/components/hero-profile-photo";
 import { useI18n } from "@/i18n/locale-provider";
-import { getGithubAvatarUrl, getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
 
@@ -27,36 +25,8 @@ function DownloadIcon({ className }: { className?: string }) {
   );
 }
 
-type ProfileImageMode = "local" | "github" | "initials";
-
-function initialsFromName(name: string) {
-  return name
-    .split(" ")
-    .map((x) => x[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-}
-
 export function Hero() {
   const { dictionary } = useI18n();
-  const githubLogin = getGithubUsername();
-  const [imageMode, setImageMode] = useState<ProfileImageMode>("local");
-
-  const profileSrc =
-    imageMode === "local"
-      ? siteConfig.profileImage
-      : imageMode === "github" && githubLogin
-        ? getGithubAvatarUrl(githubLogin)
-        : null;
-
-  const handleImageError = () => {
-    if (imageMode === "local" && githubLogin) {
-      setImageMode("github");
-      return;
-    }
-    setImageMode("initials");
-  };
 
   return (
     <section className="relative overflow-hidden px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-16">
@@ -64,9 +34,9 @@ export function Hero() {
 
       <div className="relative mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:grid-rows-[auto_auto] lg:gap-x-12 lg:gap-y-6">
         <motion.div
-          initial={{ y: 12 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
+          initial={{ opacity: 0.96, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
           className="order-1 lg:col-start-1 lg:row-start-1"
         >
           <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] py-1 pl-2 pr-3 text-xs font-medium text-foreground/90">
@@ -136,47 +106,11 @@ export function Hero() {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ y: 10 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
-          className="relative order-2 mx-auto w-full max-w-[280px] sm:max-w-sm lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:max-w-md lg:justify-self-end"
-        >
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-border bg-muted">
-            {profileSrc ? (
-              <Image
-                key={profileSrc}
-                src={profileSrc}
-                alt={`${siteConfig.name} ${dictionary.hero.profileAlt}`}
-                fill
-                priority
-                fetchPriority="high"
-                quality={70}
-                sizes="(max-width: 639px) 280px, (max-width: 1023px) 384px, 448px"
-                className="object-cover object-top"
-                onError={handleImageError}
-                unoptimized={imageMode === "github"}
-              />
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center px-8 text-center">
-                <div className="flex size-20 items-center justify-center rounded-2xl border border-border bg-muted text-2xl font-bold text-foreground">
-                  {initialsFromName(siteConfig.name)}
-                </div>
-              </div>
-            )}
+        <HeroProfilePhoto
+          alt={`${siteConfig.name} ${dictionary.hero.profileAlt}`}
+        />
 
-            {imageMode === "github" ? (
-              <p className="absolute left-3 top-3 rounded-md border border-border bg-background/80 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground backdrop-blur">
-                GitHub avatar
-              </p>
-            ) : null}
-          </div>
-        </motion.div>
-
-        <motion.ul
-          initial={{ y: 10 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.4, delay: 0.12, ease: "easeOut" }}
+        <ul
           className="order-3 flex flex-wrap items-center gap-x-4 gap-y-2 lg:col-start-1 lg:row-start-2"
           aria-label={dictionary.hero.statsAria}
         >
@@ -191,7 +125,7 @@ export function Hero() {
               <span className="font-medium text-foreground">{stat.value}</span>
             </li>
           ))}
-        </motion.ul>
+        </ul>
       </div>
     </section>
   );

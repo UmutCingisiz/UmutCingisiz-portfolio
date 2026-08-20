@@ -44,37 +44,88 @@ function TerminalIcon({ className }: { className?: string }) {
   );
 }
 
+const HOME_SECTION_IDS = [
+  "about",
+  "skills",
+  "projects",
+  "hiring",
+  "github",
+  "contact",
+] as const;
+
+/**
+ * Sticky header altındaki bir “okuma çizgisi”ne göre aktif section.
+ * IntersectionRatio sıralaması uzun section’larda (skills) yanlışlıkla
+ * bir önceki id’yi (about) seçebiliyordu.
+ */
 function useActiveHomeSection() {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
-    if (pathname !== "/") return;
+    if (pathname !== "/") {
+      setActiveSection(null);
+      return;
+    }
 
-    const ids = ["about", "skills", "projects", "hiring", "github", "contact"];
-    const elements = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => Boolean(el));
+    const syncFromHash = () => {
+      const id = window.location.hash.replace(/^#/, "");
+      if (id && HOME_SECTION_IDS.includes(id as (typeof HOME_SECTION_IDS)[number])) {
+        setActiveSection(id);
+        return true;
+      }
+      return false;
+    };
 
-    if (elements.length === 0) return;
+    const updateFromScroll = () => {
+      // Header (~4.5–5.5rem) + biraz nefes; çizginin içindeki son section kazanır
+      const marker = Math.min(140, Math.round(window.innerHeight * 0.22));
+      let current: string | null = null;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]?.target?.id) {
-          setActiveSection(visible[0].target.id);
+      for (const id of HOME_SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= marker) {
+          current = id;
         }
-      },
-      {
-        rootMargin: "-30% 0px -55% 0px",
-        threshold: [0.1, 0.25, 0.5],
-      },
-    );
+      }
 
-    for (const el of elements) observer.observe(el);
-    return () => observer.disconnect();
+      // Sayfa en üstteyken hiçbir section çizgiyi geçmemişse home
+      if (window.scrollY < 48) {
+        setActiveSection(null);
+        return;
+      }
+
+      setActiveSection(current);
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        ticking = false;
+        updateFromScroll();
+      });
+    };
+
+    const onHashChange = () => {
+      if (!syncFromHash()) updateFromScroll();
+    };
+
+    // Hash ile gelindiyse hemen işaretle; scroll settle sonrası doğrula
+    syncFromHash();
+    updateFromScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("hashchange", onHashChange);
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("hashchange", onHashChange);
+      window.removeEventListener("resize", onScroll);
+    };
   }, [pathname]);
 
   return pathname === "/" ? activeSection : null;
@@ -99,6 +150,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const { dictionary } = useI18n();
   const activeSection = useActiveHomeSection();
+  const [activeOverride, setActiveOverride] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -109,6 +161,15 @@ export function SiteHeader() {
     damping: 36,
     restDelta: 0.001,
   });
+
+  const resolvedActive = activeOverride ?? activeSection;
+
+  useEffect(() => {
+    // Scroll spy hedefe yetişince click override’ı bırak
+    if (activeOverride && activeSection === activeOverride) {
+      setActiveOverride(null);
+    }
+  }, [activeSection, activeOverride]);
 
   const nav = [
     { href: "/", label: dictionary.nav.home, short: dictionary.nav.home, sectionId: null as string | null },
@@ -181,7 +242,7 @@ export function SiteHeader() {
                 pathname,
                 item.href,
                 item.sectionId,
-                activeSection,
+                resolvedActive,
               );
               return (
                 <motion.div
@@ -195,6 +256,10 @@ export function SiteHeader() {
                     href={item.href}
                     aria-current={current ? "page" : undefined}
                     title={item.label}
+                    onClick={() => {
+                      if (item.sectionId) setActiveOverride(item.sectionId);
+                      else if (item.href === "/") setActiveOverride(null);
+                    }}
                     className="group relative inline-flex whitespace-nowrap rounded-lg px-1.5 py-1.5 text-[0.72rem] text-muted-foreground transition-all duration-200 hover:bg-muted/70 hover:text-foreground aria-[current=page]:bg-muted/70 aria-[current=page]:text-foreground xl:px-2.5 xl:text-[0.8rem]"
                   >
                     <span className="xl:hidden">{item.short}</span>
@@ -322,7 +387,7 @@ export function SiteHeader() {
                   pathname,
                   item.href,
                   item.sectionId,
-                  activeSection,
+                  resolvedActive,
                 );
                 return (
                   <motion.div
@@ -334,7 +399,11 @@ export function SiteHeader() {
                   >
                     <Link
                       href={item.href}
-                      onClick={closeMobile}
+                      onClick={() => {
+                        if (item.sectionId) setActiveOverride(item.sectionId);
+                        else if (item.href === "/") setActiveOverride(null);
+                        closeMobile();
+                      }}
                       aria-current={current ? "page" : undefined}
                       className="flex h-12 items-center justify-center rounded-xl border border-border/70 bg-card/40 text-lg font-medium text-foreground transition-colors hover:bg-muted aria-[current=page]:border-signal/40 aria-[current=page]:text-signal"
                     >

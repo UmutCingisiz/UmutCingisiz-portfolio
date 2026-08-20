@@ -40,8 +40,8 @@ export function LanguageToggle({
             aria-pressed={active}
             aria-label={
               option.value === "tr"
-                ? dictionary.lang.switchToTr
-                : dictionary.lang.switchToEn
+                ? `TR — ${dictionary.lang.switchToTr}`
+                : `EN — ${dictionary.lang.switchToEn}`
             }
             className={`rounded-lg px-2 py-1 font-mono text-[0.65rem] tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 ${
               active

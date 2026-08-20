@@ -23,7 +23,8 @@ export const DeferredNetworkStatus = dynamic(
 export const DeferredTerminalPrompt = dynamic(
   () =>
     import("@/components/terminal-prompt").then((m) => m.TerminalPrompt),
-  { ssr: false },
+  // SSR açık: ssr:false hydratasyonda büyük dikey boşluk açıp footer CLS (~0.4) üretiyordu.
+  { ssr: true },
 );
 
 export const DeferredHashScroll = dynamic(
