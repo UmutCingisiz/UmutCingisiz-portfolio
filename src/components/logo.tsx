@@ -1,3 +1,5 @@
+import { siteConfig } from "@/lib/site-config";
+
 type LogoProps = {
   className?: string;
 };
@@ -10,6 +12,8 @@ export function Logo({ className }: LogoProps) {
     <span
       className={`group inline-flex items-center gap-2.5 leading-none sm:gap-3 ${className ?? ""}`}
     >
+      {/* Wordmark xl altında gizli; erişilebilir ad için tam isim. */}
+      <span className="sr-only xl:hidden">{siteConfig.name}</span>
       <span
         aria-hidden
         className="relative flex size-9 shrink-0 items-center justify-center sm:size-10"

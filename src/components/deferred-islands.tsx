@@ -43,5 +43,6 @@ export const DeferredContactSuccessToast = dynamic(
 export const DeferredContactForm = dynamic(
   () =>
     import("@/components/contact/contact-form").then((m) => m.ContactForm),
-  { ssr: false },
+  // SSR açık: ssr:false form alanını boş bırakıp footer'ı itiyordu (desktop CLS ~0.26).
+  { ssr: true },
 );

@@ -228,8 +228,8 @@ export function SiteHeader() {
           <Link
             href="/"
             className="group relative z-10 inline-flex h-full shrink-0 items-center self-stretch rounded-xl px-0.5 transition-opacity hover:opacity-80"
-            aria-label={siteConfig.name}
           >
+            {/* Görünür metin = erişilebilir ad (aria-label mismatch önlenir). */}
             <Logo className="text-sm sm:text-base" />
           </Link>
 

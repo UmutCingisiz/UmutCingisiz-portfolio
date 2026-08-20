@@ -45,7 +45,7 @@ export async function ContactSection({ contactSuccess = false }: Props) {
         </Reveal>
 
         <Reveal index={1}>
-          <div className="rounded-xl border border-border bg-card/60 p-4 text-left backdrop-blur-sm sm:p-5">
+          <div className="min-h-[28rem] rounded-xl border border-border bg-card/60 p-4 text-left backdrop-blur-sm sm:min-h-[26rem] sm:p-5">
             <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
               {contactSuccess ? t.receivedLabel : t.formLabel}
             </p>

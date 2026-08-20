@@ -37,11 +37,7 @@ export function TerminalPrompt() {
         <motion.button
           type="button"
           onClick={openTerminal}
-          aria-label={`${shell.name} terminalini aç`}
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
+          initial={false}
           whileHover={
             prefersReducedMotion
               ? undefined
@@ -124,7 +120,7 @@ export function TerminalPrompt() {
                   className="rounded-lg border border-cyan-500/20 bg-cyan-400/[0.04] px-2.5 py-1.5 text-[0.65rem] text-cyan-100/70 transition-colors duration-300 group-hover:border-cyan-400/30 group-hover:bg-cyan-400/[0.07] sm:text-xs"
                 >
                   <span className="text-emerald-400/90">$</span> {item.cmd}
-                  <span className="ml-1.5 text-cyan-200/40">{item.hint}</span>
+                  <span className="ml-1.5 text-cyan-100/70">{item.hint}</span>
                 </span>
               ))}
             </div>
