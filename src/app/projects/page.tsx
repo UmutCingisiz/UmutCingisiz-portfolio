@@ -6,6 +6,7 @@ import { ArchitectureBlock } from "@/components/architecture-block";
 import { PdiBlock } from "@/components/pdi-block";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { pageSocial } from "@/lib/site-metadata";
+import { withSiteFooter } from "@/components/with-site-footer";
 import {
   getProjectCoverAlt,
   getProjectCoverFit,
@@ -36,7 +37,7 @@ export default async function ProjectsPage() {
   const live = projects.filter((p) => isShippedStatus(p.status));
   const building = projects.filter((p) => !isShippedStatus(p.status));
 
-  return (
+  return withSiteFooter(
     <div className="relative flex-1 overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-start">
@@ -112,7 +113,7 @@ export default async function ProjectsPage() {
           ← Ana sayfa
         </Link>
       </div>
-    </div>
+    </div>,
   );
 }
 

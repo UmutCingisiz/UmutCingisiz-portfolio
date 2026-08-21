@@ -6,7 +6,6 @@ import {
   DeferredHiddenTerminal,
   DeferredNetworkStatus,
 } from "@/components/deferred-islands";
-import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
 import { SkipToContent } from "@/components/skip-to-content";
@@ -56,7 +55,6 @@ export default async function RootLayout({
           <main id="main-content" className="flex w-full flex-grow flex-col">
             {children}
           </main>
-          <SiteFooter />
           <DeferredHiddenTerminal />
           <DeferredNetworkStatus />
           <Suspense fallback={null}>

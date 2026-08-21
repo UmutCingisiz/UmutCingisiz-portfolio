@@ -13,6 +13,7 @@ import { JsonLd } from "@/components/json-ld";
 import { ProjectGallery } from "@/components/project-gallery";
 import { projectCreativeWorkJsonLd } from "@/lib/json-ld";
 import { pageCanonical } from "@/lib/site-metadata";
+import { withSiteFooter } from "@/components/with-site-footer";
 import {
   getProjectStatusBadgeClass,
   getProjectStatusLabel,
@@ -78,7 +79,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     },
   ];
 
-  return (
+  return withSiteFooter(
     <article className="mx-auto max-w-5xl flex-1 px-4 pb-16 pt-4 sm:px-6 sm:pb-24 sm:pt-6">
       <JsonLd
         data={projectCreativeWorkJsonLd({
@@ -266,6 +267,6 @@ export default async function ProjectDetailPage({ params }: Props) {
           </Link>
         </div>
       </section>
-    </article>
+    </article>,
   );
 }

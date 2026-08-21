@@ -33,5 +33,5 @@ export const lighthouseHome = {
       tbt: "90 ms",
     },
   },
-  note: "PageSpeed lab kgsttvumli baseline: mobile Perf 82 / CLS 0; desktop Perf 85 / CLS 0.262 footer / A11y 96 contrast. Post-fix pending remeasure: contact SSR, github skeleton, terminal contrast, hero RSC photo, logo/ucmd a11y.",
+  note: "PageSpeed lab er1pjfkj4m: mobile Perf 82 CLS 0; desktop Perf 84 A11y 100 CLS 0.262. CLS cause: footer in layout shell + GitHub Suspense. Fix pending remeasure: footer after page content, await GitHub.",
 } as const;

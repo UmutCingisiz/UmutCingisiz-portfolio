@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
@@ -9,11 +8,11 @@ import {
 } from "@/components/deferred-islands";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { GithubActivitySection } from "@/components/github-activity-section";
-import { GithubActivitySkeleton } from "@/components/github-activity-skeleton";
 import { Hero } from "@/components/hero-section";
 import { HiringProofSection } from "@/components/hiring-proof-section";
 import { SkillsSection } from "@/components/skills-section";
 import { StatusBanner } from "@/components/status-banner";
+import { withSiteFooter } from "@/components/with-site-footer";
 import { siteConfig } from "@/lib/site-config";
 import { ogSiteDescription } from "@/lib/og-brand";
 import { pageSocial } from "@/lib/site-metadata";
@@ -35,7 +34,7 @@ export default async function Home({
   const resumeMissing = sp.resume === "missing";
   const resumeLimited = sp.resume === "limited";
 
-  return (
+  return withSiteFooter(
     <>
       <DeferredHashScroll />
       <DeferredContactSuccessToast active={contactSuccess} />
@@ -50,10 +49,9 @@ export default async function Home({
       <SkillsSection />
       <FeaturedProjects />
       <HiringProofSection />
-      <Suspense fallback={<GithubActivitySkeleton />}>
-        <GithubActivitySection />
-      </Suspense>
+      {/* Suspense yok: skeleton→içerik swap desktop footer CLS (~0.26) üretiyordu. */}
+      <GithubActivitySection />
       <ContactSection contactSuccess={contactSuccess} />
-    </>
+    </>,
   );
 }

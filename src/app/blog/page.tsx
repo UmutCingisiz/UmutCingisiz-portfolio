@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { BlogPostList } from "@/components/blog/blog-post-list";
 import { pageSocial } from "@/lib/site-metadata";
+import { withSiteFooter } from "@/components/with-site-footer";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
-  return (
+  return withSiteFooter(
     <div className="mx-auto max-w-4xl flex-1 px-4 py-16 sm:px-6 sm:py-24">
       <BlogPostList />
 
@@ -23,6 +24,6 @@ export default function BlogPage() {
       >
         ← Ana sayfa
       </Link>
-    </div>
+    </div>,
   );
 }

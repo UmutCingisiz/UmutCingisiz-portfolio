@@ -20,6 +20,7 @@ import {
   type GuestbookEntryRow,
 } from "@/lib/guestbook";
 import { pageSocial } from "@/lib/site-metadata";
+import { withSiteFooter } from "@/components/with-site-footer";
 
 /**
  * Auth + searchParams keep this route dynamic. Do NOT set force-dynamic
@@ -129,7 +130,7 @@ export default async function GuestbookPage({
   const showModeratedOk = sp.moderated === "1";
   const showModerateErr = sp.moderateErr === "1";
 
-  return (
+  return withSiteFooter(
     <div className="mx-auto max-w-3xl flex-1 px-4 py-16 sm:px-6">
       <h1 className="text-3xl font-bold tracking-tight text-foreground">
         Ziyaretçi defteri
@@ -346,6 +347,6 @@ export default async function GuestbookPage({
       >
         ← Ana sayfa
       </Link>
-    </div>
+    </div>,
   );
 }

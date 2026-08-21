@@ -12,6 +12,7 @@ import {
 } from "@/lib/content/posts";
 import { blogPostingJsonLd } from "@/lib/json-ld";
 import { pageCanonical } from "@/lib/site-metadata";
+import { withSiteFooter } from "@/components/with-site-footer";
 import { canonicalFor } from "@/lib/site-url";
 
 export const revalidate = 3600;
@@ -60,7 +61,7 @@ export default async function BlogPostPage({ params }: Props) {
   const views = await getBlogViews(slug);
   const related = getRelatedPosts(slug, 3);
 
-  return (
+  return withSiteFooter(
     <article className="mx-auto max-w-3xl flex-1 px-4 pb-16 pt-4 sm:px-6 sm:pb-24 sm:pt-6">
       <JsonLd
         data={blogPostingJsonLd({
@@ -142,6 +143,6 @@ export default async function BlogPostPage({ params }: Props) {
           </ul>
         </section>
       ) : null}
-    </article>
+    </article>,
   );
 }
