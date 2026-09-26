@@ -56,7 +56,8 @@ export function projectSlugExists(slug: string): boolean {
 }
 
 export async function getAllProjectsMeta(): Promise<ProjectMeta[]> {
-  return mergeAllProjectsMeta();
+  const merged = await mergeAllProjectsMeta();
+  return merged.filter((p) => p.status !== "archived");
 }
 
 export async function getProjectMetaBySlug(
