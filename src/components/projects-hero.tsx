@@ -4,14 +4,6 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 export function ProjectsHero() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <div className="relative overflow-hidden pb-12 pt-16 sm:pb-20 sm:pt-24 border-b border-border/40">
