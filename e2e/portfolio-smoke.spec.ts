@@ -9,14 +9,14 @@ test("home page exposes hiring proof and project CTAs", async ({ page }) => {
   await expect(page.getByRole("link", { name: /Projeleri incele/i })).toBeVisible();
 });
 
-test("projects page shows case-study cards", async ({ page }) => {
+test("projects page splits the live window from the workbench", async ({ page }) => {
   await page.goto("/projects");
 
-  await expect(page.getByRole("heading", { name: /Projeler/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Bloomedu/i }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /Bu portfolyo/i }).first()).toBeVisible();
-  await expect(page.getByText("Problem").first()).toBeVisible();
-  await expect(page.getByText("Karar").first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Projeler", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Yayında", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Geliştiriliyor", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Qid Game/i }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: /Diyetetik/i }).first()).toBeVisible();
 });
 
 test("project detail exposes architectural decision cards", async ({ page }) => {

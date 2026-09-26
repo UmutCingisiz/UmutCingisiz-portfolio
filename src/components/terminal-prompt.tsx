@@ -15,10 +15,7 @@ const quickHints = [
   { cmd: "clear", hint: "Temizle" },
 ] as const;
 
-/**
- * Hero altı ucmd — soft neon imza yüzeyi.
- * Kontrolü glow + IDE chrome; ucuz template gürültüsü yok.
- */
+/** Hero altı ucmd — düz kabuk. Glow ve yaylı hover yok. */
 export function TerminalPrompt() {
   const prefersReducedMotion = useReducedMotion();
 
@@ -38,44 +35,21 @@ export function TerminalPrompt() {
           type="button"
           onClick={openTerminal}
           initial={false}
-          whileHover={
-            prefersReducedMotion
-              ? undefined
-              : { y: -3, transition: { type: "spring", stiffness: 380, damping: 28 } }
-          }
           whileTap={prefersReducedMotion ? undefined : { scale: 0.992 }}
           className={[
             "group relative flex w-full flex-col overflow-hidden rounded-2xl text-left font-mono",
-            "border border-cyan-500/30 bg-[#070b10]",
-            "shadow-[0_0_0_1px_rgba(34,211,238,0.08),0_0_28px_rgba(6,182,212,0.14),0_18px_48px_-20px_rgba(0,0,0,0.75)]",
-            "transition-[border-color,box-shadow,transform] duration-300 ease-out",
-            "hover:border-cyan-400/45",
-            "hover:shadow-[0_0_0_1px_rgba(34,211,238,0.18),0_0_40px_rgba(6,182,212,0.22),0_22px_56px_-18px_rgba(0,0,0,0.8)]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            "border border-border bg-card",
+            "transition-colors duration-200",
+            "hover:border-foreground/20",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           ].join(" ")}
         >
-          {/* Üst neon çizgi */}
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent"
-          />
-          {/* Soft ambient — tek katman, abartısız */}
-          <span
-            aria-hidden
-            className="pointer-events-none absolute -right-16 -top-20 size-48 rounded-full bg-cyan-400/[0.07] blur-3xl transition-opacity duration-500 group-hover:opacity-100 group-hover:bg-cyan-400/[0.11]"
-          />
-          <span
-            aria-hidden
-            className="pointer-events-none absolute -bottom-24 -left-12 size-44 rounded-full bg-signal/[0.06] blur-3xl transition-opacity duration-500 group-hover:opacity-90"
-          />
-
-          {/* macOS traffic lights + title */}
-          <div className="relative flex items-center justify-between gap-3 border-b border-cyan-500/15 bg-[#0c1218]/90 px-3 py-2.5 sm:px-4">
+          <div className="relative flex items-center justify-between gap-3 border-b border-border px-3 py-2.5 sm:px-4">
             <span className="flex min-w-0 items-center gap-2.5">
               <span className="flex items-center gap-1.5" aria-hidden>
-                <span className="size-2.5 rounded-full bg-[#ff5f57] shadow-[0_0_6px_rgba(255,95,87,0.35)]" />
-                <span className="size-2.5 rounded-full bg-[#febc2e] shadow-[0_0_6px_rgba(254,188,46,0.3)]" />
-                <span className="size-2.5 rounded-full bg-[#28c840] shadow-[0_0_6px_rgba(40,200,64,0.3)]" />
+                <span className="size-2.5 rounded-full bg-foreground/20" />
+                <span className="size-2.5 rounded-full bg-foreground/20" />
+                <span className="size-2.5 rounded-full bg-foreground/20" />
               </span>
               <span className="truncate text-[0.7rem] tracking-wide text-cyan-100/55">
                 {shell.name}

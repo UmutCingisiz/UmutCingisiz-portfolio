@@ -15,6 +15,8 @@ export function getProjectCategoryLabel(
       return "Frontend";
     case "backend":
       return "Backend";
+    case "mobile":
+      return "Mobil";
     case "devops":
       return "DevOps";
     default:
@@ -27,6 +29,13 @@ export type ProjectStatusTone = "live" | "archived" | "building";
 /** Yayında veya arşiv — listede “shipped” grubu. */
 export function isShippedStatus(status: ProjectStatus) {
   return status === "live" || status === "archived";
+}
+
+/** Etki kartının başlığı: henüz sonuç vermemiş işte “Durum”. */
+export function getProjectImpactLabel(status: ProjectStatus) {
+  return status === "in-progress" || status === "planned" || status === "learning"
+    ? "Durum"
+    : "Etki";
 }
 
 export function getProjectStatusTone(status: ProjectStatus): ProjectStatusTone {

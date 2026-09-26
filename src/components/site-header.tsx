@@ -8,7 +8,6 @@ import { siteConfig } from "@/lib/site-config";
 import { openTerminal } from "@/lib/terminal";
 import { ContactLink } from "@/components/contact-link";
 import { Logo } from "@/components/logo";
-import { Magnetic } from "@/components/magnetic";
 import { socialLinks } from "@/components/social-icons";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
 import { useI18n } from "@/i18n/locale-provider";
@@ -46,8 +45,8 @@ function TerminalIcon({ className }: { className?: string }) {
 
 const HOME_SECTION_IDS = [
   "about",
-  "skills",
   "projects",
+  "skills",
   "hiring",
   "github",
   "contact",
@@ -64,6 +63,7 @@ function useActiveHomeSection() {
 
   useEffect(() => {
     if (pathname !== "/") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveSection(null);
       return;
     }
@@ -167,6 +167,7 @@ export function SiteHeader() {
   useEffect(() => {
     // Scroll spy hedefe yetişince click override’ı bırak
     if (activeOverride && activeSection === activeOverride) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveOverride(null);
     }
   }, [activeSection, activeOverride]);
@@ -174,8 +175,8 @@ export function SiteHeader() {
   const nav = [
     { href: "/", label: dictionary.nav.home, short: dictionary.nav.home, sectionId: null as string | null },
     { href: "/#about", label: dictionary.nav.about, short: dictionary.nav.about, sectionId: "about" },
-    { href: "/#skills", label: dictionary.nav.skills, short: dictionary.nav.skills, sectionId: "skills" },
     { href: "/projects", label: dictionary.nav.projects, short: dictionary.nav.projects, sectionId: null },
+    { href: "/#skills", label: dictionary.nav.skills, short: dictionary.nav.skills, sectionId: "skills" },
     { href: "/blog", label: dictionary.nav.blog, short: dictionary.nav.blog, sectionId: null },
     {
       href: "/guestbook",
@@ -221,8 +222,8 @@ export function SiteHeader() {
         <div
           className={`mx-auto flex h-14 max-w-6xl items-center gap-2 rounded-2xl border px-2.5 transition-all duration-300 sm:h-16 sm:gap-3 sm:px-4 ${
             scrolled
-              ? "border-border bg-background/80 shadow-xl shadow-black/30 backdrop-blur-2xl backdrop-saturate-150"
-              : "border-border/50 bg-background/50 shadow-lg shadow-black/10 backdrop-blur-xl"
+              ? "border-border bg-background/90 backdrop-blur-md"
+              : "border-border/70 bg-background/80"
           }`}
         >
           <Link
@@ -275,7 +276,7 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={openTerminal}
-              className="group inline-flex items-center gap-1.5 rounded-xl border border-signal/35 bg-signal/[0.1] px-2.5 py-2 font-mono text-xs text-signal transition-all hover:border-signal/55 hover:bg-signal/[0.18] hover:shadow-[0_0_20px_var(--signal-glow)] sm:gap-2 sm:px-3"
+              className="group inline-flex items-center gap-1.5 rounded-xl border border-border px-2.5 py-2 font-mono text-xs text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground sm:gap-2 sm:px-3"
               aria-label={`${siteConfig.terminal.name} terminalini aç`}
             >
               <TerminalIcon className="size-4" />
@@ -287,26 +288,9 @@ export function SiteHeader() {
               </kbd>
             </button>
 
-            {socialLinks.slice(0, 2).map(({ href, icon: Icon, label }) => (
-              <motion.a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden size-8 items-center justify-center rounded-lg border border-border bg-card/45 text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted hover:text-foreground 2xl:inline-flex"
-                aria-label={label}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Icon className="size-4" />
-              </motion.a>
-            ))}
-
-            <Magnetic className="hidden sm:inline-flex">
-              <ContactLink className="btn-signal inline-flex rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-200 xl:rounded-xl xl:px-3.5 xl:py-2 xl:text-sm">
-                {dictionary.nav.contact}
-              </ContactLink>
-            </Magnetic>
+            <ContactLink className="btn-signal hidden rounded-lg px-3 py-1.5 text-xs font-semibold sm:inline-flex xl:rounded-xl xl:px-3.5 xl:py-2 xl:text-sm">
+              {dictionary.nav.contact}
+            </ContactLink>
 
             <button
               ref={menuButtonRef}
@@ -334,7 +318,7 @@ export function SiteHeader() {
           aria-hidden="true"
         >
           <motion.div
-            className="h-full origin-left rounded-full bg-gradient-to-r from-signal via-signal to-emerald-400/80"
+            className="h-full origin-left rounded-full bg-foreground/70"
             style={{ scaleX: progress }}
           />
         </div>
@@ -419,18 +403,22 @@ export function SiteHeader() {
                 transition={{ duration: 0.25, delay: 0.35 }}
                 className="mt-4 flex items-center justify-center gap-4"
               >
-                {socialLinks.slice(0, 2).map(({ href, icon: Icon, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex size-11 items-center justify-center rounded-xl border border-border text-muted-foreground transition-colors hover:text-foreground"
-                    aria-label={label}
-                  >
-                    <Icon className="size-5" />
-                  </a>
-                ))}
+                {socialLinks
+                  .filter((item) => item.label === "GitHub" || item.label === "LinkedIn")
+                  .map(({ href, icon: Icon, label }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={closeMobile}
+                      className="inline-flex h-11 items-center gap-2 rounded-xl border border-border px-4 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                      aria-label={label}
+                    >
+                      <Icon className="size-5" />
+                      {label}
+                    </a>
+                  ))}
               </motion.div>
             </nav>
           </motion.div>

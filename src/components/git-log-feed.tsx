@@ -6,6 +6,8 @@ export type GitLogEntry = {
   repo: string;
   language: string | null;
   url: string;
+  note?: string;
+  description?: string | null;
 };
 
 /**
@@ -16,7 +18,7 @@ export function GitLogFeed({ entries }: { entries: GitLogEntry[] }) {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-signal/20 bg-[#070b0f]/90 shadow-[0_0_50px_rgba(0,0,0,0.4)] ring-1 ring-white/5 backdrop-blur-xl">
+    <div className="overflow-hidden rounded-2xl border border-border bg-card">
       <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
         <span className="size-2.5 rounded-full bg-red-400/80" aria-hidden />
         <span className="size-2.5 rounded-full bg-amber-400/80" aria-hidden />
@@ -45,6 +47,14 @@ export function GitLogFeed({ entries }: { entries: GitLogEntry[] }) {
           >
             <span className="text-cyan-100 group-hover:text-white">repo</span>
             <span className="text-emerald-400">{entry.repo}</span>
+            {entry.note ? (
+              <span className="text-[0.65rem] text-cyan-200/50">{entry.note}</span>
+            ) : null}
+            {entry.description ? (
+              <span className="min-w-0 text-[0.7rem] text-cyan-100/45">
+                {entry.description}
+              </span>
+            ) : null}
             {entry.language ? (
               <span className="ml-auto rounded border border-white/10 px-1.5 text-[0.65rem] text-cyan-200/60">
                 {entry.language}

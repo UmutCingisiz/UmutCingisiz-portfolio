@@ -1,360 +1,98 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
-import { getAllProjectsMeta, type ProjectMeta } from "@/lib/content/projects";
-import { ArchitectureBlock } from "@/components/architecture-block";
-import { PdiBlock } from "@/components/pdi-block";
-import { SectionEyebrow } from "@/components/section-eyebrow";
+import { getAllProjectsMeta, sortBySpotlight } from "@/lib/content/projects";
+import { Reveal } from "@/components/reveal";
+import { Exhibit } from "@/components/projects-exhibition";
 import { pageSocial } from "@/lib/site-metadata";
 import { withSiteFooter } from "@/components/with-site-footer";
-import {
-  getProjectCoverAlt,
-  getProjectCoverFit,
-  getProjectCoverSrc,
-  projectCoverFrameClass,
-  projectCoverImageClass,
-} from "@/lib/project-cover";
-import {
-  getProjectCategoryLabel,
-  getProjectStatusBadgeClass,
-  getProjectStatusLabel,
-  isShippedStatus,
-} from "@/lib/project-status";
+import { isShippedStatus } from "@/lib/project-status";
+import { ProjectsHero } from "@/components/projects-hero";
 
 export const metadata: Metadata = {
   title: "Projeler",
   description:
-    "Seçilmiş full-stack projeler — amaç, teknoloji ve teknik kararlar MDX ile.",
+    "Yayında olan çalışmalar ve süren geliştirmeler.",
   ...pageSocial("/projects", {
     title: "Projeler",
     description:
-      "Seçilmiş full-stack projeler — amaç, teknoloji ve teknik kararlar MDX ile.",
+      "Yayında olan çalışmalar ve süren geliştirmeler.",
   }),
 };
 
 export default async function ProjectsPage() {
   const projects = await getAllProjectsMeta();
-  const live = projects.filter((p) => isShippedStatus(p.status));
-  const building = projects.filter((p) => !isShippedStatus(p.status));
+  const live = sortBySpotlight(projects.filter((project) => isShippedStatus(project.status)));
+  const building = sortBySpotlight(projects.filter((project) => !isShippedStatus(project.status)));
+  const [lead, ...rest] = building;
 
   return withSiteFooter(
-    <div className="relative flex-1 overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-start">
-          <div>
-            <SectionEyebrow>project.archive</SectionEyebrow>
-            <h1 className="mt-4 max-w-4xl text-4xl font-bold tracking-[-0.04em] text-foreground sm:text-5xl lg:text-6xl">
-              Projeler
-            </h1>
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base sm:leading-8">
-              Full-stack işler. Yayında olanlar üstte, üzerinde çalıştıklarım
-              altta. Her birinde problem, karar ve etki var.
-            </p>
-          </div>
+    <div className="relative flex-1 pb-16 sm:pb-24">
+      <ProjectsHero />
 
-          <div className="rounded-xl border border-border bg-card/70 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              review.mode
-            </p>
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <div className="rounded-xl border border-emerald-400/25 bg-emerald-400/[0.06] p-3">
-                <p className="text-2xl font-bold text-emerald-300">{live.length}</p>
-                <p className="mt-1 text-xs text-muted-foreground">Yayında</p>
-              </div>
-              <div className="rounded-xl border border-amber-400/25 bg-amber-400/[0.06] p-3">
-                <p className="text-2xl font-bold text-amber-200">{building.length}</p>
-                <p className="mt-1 text-xs break-words text-muted-foreground">Geliştiriyorum</p>
-              </div>
-              <div className="rounded-xl border border-signal/25 bg-signal/[0.06] p-3">
-                <p className="text-2xl font-bold text-signal">P/D/I</p>
-                <p className="mt-1 text-xs text-muted-foreground">Şablon</p>
-              </div>
+      {live.length > 0 ? (
+        <section id="live" aria-labelledby="live-title" className="mx-auto mt-10 max-w-6xl px-4 sm:px-6">
+          <div className="mb-8 flex flex-col gap-2 border-b border-border/50 pb-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/10 text-green-500">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </span>
+              <h2 id="live-title" className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                Yayında
+              </h2>
             </div>
+            <p className="text-base text-muted-foreground ml-11">Canlıda yer alan çalışmalar.</p>
+          </div>
+          <div className="space-y-5 sm:space-y-6">
+            {live.map((project, index) => (
+              <Reveal key={project.slug} index={index}>
+                <Exhibit project={project} index={index} layout="spread" eager={index === 0} />
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {building.length > 0 ? (
+        <section id="building" aria-labelledby="building-title" className="mx-auto mt-16 max-w-6xl px-4 sm:mt-24 sm:px-6">
+          <div className="mb-8 flex flex-col gap-2 border-b border-border/50 pb-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500/10 text-orange-500">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+              </span>
+              <h2 id="building-title" className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                Geliştiriliyor
+              </h2>
+            </div>
+            <p className="text-base text-muted-foreground ml-11">Yayın hazırlığı süren çalışmalar.</p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+            {building.map((project, index) => (
+              <Reveal key={project.slug} index={index} className="h-full">
+                <Exhibit project={project} index={index} layout="tile" />
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {projects.length === 0 ? (
+        <div className="mx-auto mt-12 max-w-6xl px-4">
+          <div className="rounded-2xl border border-dashed border-border px-6 py-12 text-center">
+            <p className="font-medium text-foreground">Henüz yayınlanmış proje yok.</p>
+            <p className="mt-2 text-sm text-muted-foreground">Çalışmalar eklendikçe burada görünecek.</p>
           </div>
         </div>
+      ) : null}
 
-        {live.length > 0 ? (
-          <ProjectGroup
-            id="live"
-            eyebrow="status.live"
-            title="Yayında"
-            description="Canlıda çalışan, incelenebilir full-stack ürünler."
-            tone="live"
-            projects={live}
-            indexOffset={0}
-          />
-        ) : null}
-
-        {building.length > 0 ? (
-          <ProjectGroup
-            id="building"
-            eyebrow="status.wip"
-            title="Şu an geliştiriyorum"
-            description="Aktif lab / müşteri işleri — mimari kararlar net, yayın adımları sürüyor."
-            tone="building"
-            projects={building}
-            indexOffset={live.length}
-          />
-        ) : null}
-
-        {projects.length === 0 ? (
-          <div className="mt-12 rounded-2xl border border-dashed border-border bg-card/30 px-6 py-12 text-center">
-            <p className="font-medium text-foreground">Henüz yayınlanmış proje yok.</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Case study&apos;ler eklendikçe burada görünecek.
-            </p>
-          </div>
-        ) : null}
-
-        <Link
-          href="/"
-          className="mt-16 inline-block text-sm font-medium text-muted-foreground hover:text-foreground hover:underline"
-        >
+      <div className="mx-auto mt-16 max-w-6xl px-4 sm:px-6">
+        <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground hover:underline">
           ← Ana sayfa
         </Link>
       </div>
     </div>,
-  );
-}
-
-function ProjectGroup({
-  id,
-  eyebrow,
-  title,
-  description,
-  tone,
-  projects,
-  indexOffset,
-}: {
-  id: string;
-  eyebrow: string;
-  title: string;
-  description: string;
-  tone: "live" | "building";
-  projects: ProjectMeta[];
-  indexOffset: number;
-}) {
-  const toneClasses =
-    tone === "live"
-      ? "border-emerald-400/20 from-emerald-400/[0.06] to-transparent"
-      : "border-amber-400/20 from-amber-400/[0.06] to-transparent";
-
-  return (
-    <section id={id} className="mt-20 scroll-mt-28 sm:mt-28">
-      <div
-        className={`rounded-2xl border bg-gradient-to-r px-5 py-5 sm:px-6 sm:py-6 ${toneClasses}`}
-      >
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
-              {eyebrow}
-            </p>
-            <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              {title}
-            </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              {description}
-            </p>
-          </div>
-          <span
-            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.14em] ${
-              tone === "live"
-                ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-300"
-                : "border-amber-400/30 bg-amber-400/10 text-amber-200"
-            }`}
-          >
-            <span
-              className={`size-1.5 rounded-full ${
-                tone === "live" ? "bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.7)]" : "bg-amber-300"
-              }`}
-            />
-            {projects.length} proje
-          </span>
-        </div>
-      </div>
-
-      <div className="mt-10 space-y-16 sm:mt-12 sm:space-y-20">
-        {projects.map((project, i) => (
-          <ProjectShowcase
-            key={project.slug}
-            project={project}
-            index={indexOffset + i}
-            localIndex={i}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function initials(title: string): string {
-  return title
-    .replace(/[^a-zA-ZğüşıöçĞÜŞİÖÇ ]/gu, "")
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
-
-function ProjectVisual({ project }: { project: ProjectMeta }) {
-  const coverImage = getProjectCoverSrc(project);
-  const fit = getProjectCoverFit(project);
-
-  if (coverImage) {
-    return (
-      <div
-        className={`group relative overflow-hidden rounded-2xl border border-border bg-muted sm:rounded-3xl ${projectCoverFrameClass(fit)}`}
-      >
-        <Image
-          src={coverImage}
-          alt={getProjectCoverAlt(project)}
-          fill
-          sizes="(min-width: 1024px) 560px, 92vw"
-          className={projectCoverImageClass(fit)}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative flex aspect-[16/10] w-full flex-col overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-card via-muted to-card sm:aspect-[4/3] sm:rounded-3xl">
-      <div className="relative flex items-center gap-1.5 border-b border-border/60 bg-background/30 px-4 py-3">
-        <span className="size-2 rounded-full bg-foreground/15" />
-        <span className="size-2 rounded-full bg-foreground/15" />
-        <span className="size-2 rounded-full bg-foreground/15" />
-        <span className="ml-3 truncate rounded-md bg-background/50 px-2.5 py-0.5 font-mono text-[0.65rem] text-muted-foreground/70">
-          {project.slug}.dev
-        </span>
-        <span className="ml-auto signal-dot size-1.5" />
-      </div>
-
-      <div className="relative flex flex-1 flex-col justify-between p-7 sm:p-8">
-        <div className="relative flex items-baseline gap-3">
-          <span className="text-6xl font-black tracking-tighter text-gradient-premium sm:text-7xl">
-            {initials(project.title)}
-          </span>
-          <span className="font-mono text-xl text-signal/80 sm:text-2xl">{"</>"}</span>
-          <span
-            aria-hidden
-            className="h-8 w-[2px] animate-pulse bg-signal/70 sm:h-9"
-            style={{ animationDuration: "1.4s" }}
-          />
-        </div>
-        <div className="relative flex flex-wrap gap-1.5">
-          {project.tags.slice(0, 4).map((t) => (
-            <span
-              key={t}
-              className="rounded-md border border-border bg-background/50 px-2 py-1 font-mono text-[0.65rem] text-muted-foreground"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ProjectShowcase({
-  project,
-  index,
-  localIndex,
-}: {
-  project: ProjectMeta;
-  index: number;
-  localIndex: number;
-}) {
-  const flip = localIndex % 2 === 1;
-
-  return (
-    <article className="group grid items-start gap-6 sm:gap-8 lg:grid-cols-2 lg:items-center lg:gap-14">
-      {/* Mobilde görsel her zaman üstte; lg'de tek/çift sıraya göre flip */}
-      <div
-        className={`relative w-full min-w-0 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg ${flip ? "lg:order-2" : "lg:order-1"}`}
-      >
-        <Link
-          href={`/projects/${project.slug}`}
-          aria-label={`${project.title} — incele`}
-          className="block w-full overflow-hidden rounded-2xl"
-        >
-          <ProjectVisual project={project} />
-        </Link>
-      </div>
-
-      <div
-        className={`flex min-w-0 flex-col justify-center ${flip ? "lg:order-1" : "lg:order-2"}`}
-      >
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex size-8 items-center justify-center rounded-lg border border-border bg-muted/40 font-mono text-xs font-semibold tabular-nums text-foreground">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-3 py-1 font-mono text-[0.65rem] tracking-wide text-foreground">
-            {getProjectCategoryLabel(project.category)}
-          </span>
-          <span
-            className={`rounded-full border px-3 py-1 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(project.status)}`}
-          >
-            {getProjectStatusLabel(project.status)}
-          </span>
-        </div>
-
-        <h3 className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-          <Link href={`/projects/${project.slug}`} className="hover:text-signal">
-            {project.title}
-          </Link>
-        </h3>
-
-        <p className="mt-3 text-pretty text-sm leading-7 text-muted-foreground sm:mt-4 sm:text-base sm:leading-8">
-          {project.description}
-        </p>
-
-        {project.architectureLabel && project.architectureSummary ? (
-          <div className="mt-5">
-            <ArchitectureBlock
-              label={project.architectureLabel}
-              summary={project.architectureSummary}
-            />
-          </div>
-        ) : null}
-
-        <div className="mt-5 flex flex-wrap gap-1.5">
-          {project.tags.slice(0, 5).map((t) => (
-            <span
-              key={t}
-              className="rounded-md border border-border bg-muted/40 px-2.5 py-1 font-mono text-[0.65rem] text-muted-foreground"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-6 grid gap-4">
-          {project.problem ? <PdiBlock signal="problem" text={project.problem} /> : null}
-          {project.decision ? <PdiBlock signal="decision" text={project.decision} /> : null}
-          {project.impact ? <PdiBlock signal="impact" text={project.impact} /> : null}
-        </div>
-
-        <div className="mt-6 flex flex-wrap gap-2">
-          <Link
-            href={`/projects/${project.slug}`}
-            className="btn-signal inline-flex h-11 items-center rounded-lg px-5 text-sm font-semibold transition-all duration-200"
-          >
-            İncele →
-          </Link>
-          {project.repo ? (
-            <a
-              href={project.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-11 items-center rounded-lg border border-border px-5 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
-            >
-              Kod ↗
-            </a>
-          ) : null}
-        </div>
-      </div>
-    </article>
   );
 }

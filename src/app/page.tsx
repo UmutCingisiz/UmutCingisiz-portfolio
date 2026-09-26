@@ -42,12 +42,12 @@ export default async function Home({
         resumeLimited={resumeLimited}
         resumeMissing={resumeMissing}
       />
-      {/* Akış: Hero → shell → About/Skills → Projeler → Hiring → GitHub → İletişim */}
+      {/* Akış: Hero → shell → About → Projeler → Skills → Hiring → GitHub → İletişim */}
       <Hero />
       <DeferredTerminalPrompt />
       <AboutSection />
-      <SkillsSection />
       <FeaturedProjects />
+      <SkillsSection />
       <HiringProofSection />
       {/* Suspense yok: skeleton→içerik swap desktop footer CLS (~0.26) üretiyordu. */}
       <GithubActivitySection />

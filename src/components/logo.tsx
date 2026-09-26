@@ -18,8 +18,7 @@ export function Logo({ className }: LogoProps) {
         aria-hidden
         className="relative flex size-9 shrink-0 items-center justify-center sm:size-10"
       >
-        <span className="absolute inset-0 rounded-[0.65rem] bg-signal/15 opacity-60 blur-md transition-opacity duration-300 group-hover:opacity-100" />
-        <span className="relative flex size-full items-center justify-center overflow-hidden rounded-[0.65rem] border border-signal/45 bg-gradient-to-br from-[#16161a] to-[#0a0a0c] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors duration-300 group-hover:border-signal">
+        <span className="relative flex size-full items-center justify-center overflow-hidden rounded-[0.65rem] border border-border bg-card transition-colors duration-300 group-hover:border-foreground/25">
           <span className="absolute left-1 top-1 size-1 border-l border-t border-signal/70" />
           <span className="absolute bottom-1 right-1 size-1 border-b border-r border-signal/70" />
 

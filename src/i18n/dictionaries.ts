@@ -9,6 +9,8 @@ export type Dictionary = {
     blog: string;
     guestbook: string;
     guestbookShort: string;
+    hiring: string;
+    github: string;
     contact: string;
     ariaMain: string;
     openMenu: string;
@@ -47,6 +49,7 @@ export type Dictionary = {
     emptyFailed: string;
     emptyNone: string;
     openProfile: string;
+    foundationLabel: string;
   };
   contact: {
     eyebrow: string;
@@ -93,6 +96,8 @@ const tr: Dictionary = {
     blog: "Blog",
     guestbook: "Ziyaretçi Defteri",
     guestbookShort: "Defter",
+    hiring: "Kanıt",
+    github: "GitHub",
     contact: "İletişim",
     ariaMain: "Ana navigasyon",
     openMenu: "Menüyü aç",
@@ -124,33 +129,32 @@ const tr: Dictionary = {
     cards: [
       {
         eyebrow: "01 · Sistem",
-        title:
-          "Sadece arayüze değil, uçtan uca ölçeklenebilir sistemler kurmayı hedefliyorum.",
-        body: "Bir ekranı çizerken veri modelini, hata yolunu ve güvenlik sınırını birlikte düşünürüm.",
+        title: "Uçtan uca sistem",
+        body: "Arayüzü tek başına bırakmam. Veri modelini, hata yolunu ve güvenlik sınırını aynı anda kurarım.",
       },
       {
         eyebrow: "02 · Zanaat",
-        title: "Kod her zaman temiz yapıda ve okunabilir olmalı.",
-        body: "Kullandığım teknolojilerin net modül sınırlarıyla büyüyen projeyi takip edilebilir tutarak kodun okunabilirliğini sağlarım.",
+        title: "Okunabilir kod",
+        body: "Modül sınırlarını net tutarım. Proje büyürken kod takip edilebilir kalır.",
       },
       {
         eyebrow: "03 · Yayın",
-        title:
-          "Sistemi sadece kurmak değil, güncellenebilir bir şekilde yönetmeyi hedefliyorum.",
-        body: "Sistemi güncellemek için sadece kodu değiştirmek yeterli değil, sistemin durumunu takip etmek ve güncellemeleri yapmak gerekiyor. Bu yüzden sistemimizi güncelleyebilir ve yönetebilir hale getirmek için gerekli olan araçları ve süreçleri dikkatli bir şekilde planlayarak sağlarım.",
+        title: "Yayından sonra yönetim",
+        body: "Kodu değiştirmek yetmez. Durumu izler, güncellemeyi planlı araç ve süreçle yönetirim.",
       },
     ],
   },
   github: {
     eyebrow: "github.signal",
     title: "Canlı geliştirme aktivitesi",
-    recentCount: "seçkin repo",
+    recentCount: "repo",
     allRepos: "Tüm repolar ↗",
     openRepo: "Repoyu aç →",
     languageUnknown: "dil bilinmiyor",
     emptyFailed: "Repo listesi yüklenemedi (API limiti veya ağ).",
     emptyNone: "Henüz listelenecek seçkin repo yok.",
     openProfile: "Profili aç",
+    foundationLabel: "Temel eğitim",
   },
   contact: {
     eyebrow: "contact.endpoint",
@@ -197,6 +201,8 @@ const en: Dictionary = {
     blog: "Blog",
     guestbook: "Guestbook",
     guestbookShort: "Guest",
+    hiring: "Proof",
+    github: "GitHub",
     contact: "Contact",
     ariaMain: "Primary navigation",
     openMenu: "Open menu",
@@ -228,33 +234,32 @@ const en: Dictionary = {
     cards: [
       {
         eyebrow: "01 · Systems",
-        title:
-          "I aim to build end-to-end scalable systems, not just interfaces.",
-        body: "When I design a screen I also think through the data model, failure paths, and security boundaries.",
+        title: "End-to-end systems",
+        body: "I do not leave the interface on its own. Data model, failure paths, and security boundaries are part of the same build.",
       },
       {
         eyebrow: "02 · Craft",
-        title: "Code should stay clean and readable as it grows.",
-        body: "Clear module boundaries keep a growing codebase followable — and make the code itself readable.",
+        title: "Readable as it grows",
+        body: "Clear module boundaries keep a growing codebase followable.",
       },
       {
         eyebrow: "03 · Shipping",
-        title:
-          "I don't just build systems — I make them operable and updatable.",
-        body: "Changing code is not enough; you need observability and a deliberate update path. I plan the tools and processes that keep the system manageable over time.",
+        title: "Operable after launch",
+        body: "Changing code is not enough. I watch the system and plan the tools that keep updates manageable.",
       },
     ],
   },
   github: {
     eyebrow: "github.signal",
     title: "Live development activity",
-    recentCount: "curated repos",
+    recentCount: "repos",
     allRepos: "All repos ↗",
     openRepo: "Open repo →",
     languageUnknown: "language unknown",
     emptyFailed: "Could not load repositories (API limit or network).",
     emptyNone: "No curated repositories to list yet.",
     openProfile: "Open profile",
+    foundationLabel: "Foundations",
   },
   contact: {
     eyebrow: "contact.endpoint",

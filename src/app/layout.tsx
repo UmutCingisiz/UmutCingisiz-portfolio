@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { JetBrains_Mono, Manrope } from "next/font/google";
 import {
   DeferredHiddenTerminal,
   DeferredNetworkStatus,
@@ -16,7 +16,7 @@ import { siteGraphJsonLd } from "@/lib/json-ld";
 import { getSiteMetadata } from "@/lib/site-metadata";
 import "./globals.css";
 
-const sans = Plus_Jakarta_Sans({
+const sans = Manrope({
   variable: "--font-sans-face",
   subsets: ["latin", "latin-ext"],
   display: "swap",

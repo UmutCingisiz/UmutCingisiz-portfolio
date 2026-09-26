@@ -10,17 +10,21 @@ tags:
   - JSON
   - Serverless
   - EdTech
-category: frontend
+category: mobile
 problem: "Çocuk eğitim oyununda ilerleme ve analiz verisini merkezî bir sunucuda tutmak hem maliyet hem COPPA/gizlilik riski yaratıyor; ebeveyn ‘çocuğum ne kadar gelişti?’ sorusuna güvenilir, şeffaf cevap istiyor."
 decision: "Klasik backend/veritabanı yerine serverless model: oyun ilerlemesi ve analiz çıktıları kullanıcının kendi Google Drive alanına JSON olarak yazılıyor. Dosyalar haftalık parçalara bölündü; güncelleme tüm dosya yerine satır bazlı yapılıyor — kota ve yazma maliyeti düşürüldü. Android istemci Kotlin; Apple için Flutter hazırlığı sürüyor."
 impact: "Google Play’de yayında. Freelancer olarak oyun modülleri ve ebeveyn analiz ekranları üzerinde çalıştım; Drive JSON kayıt katmanını kurdum. Veri stüdyo sunucusunda değil, aile hesabında kalıyor."
-architectureLabel: "Eğitim / Mobil"
-architectureSummary: "Kotlin Android + Drive JSON; bilişsel oyun modülleri ve ebeveyn analizi"
+architectureLabel: "Sunucusuz kayıt"
+architectureSummary: "Kotlin Android istemci; ilerleme ailenin Google Drive’ında haftalık JSON parçaları"
 status: live
 demo: "https://play.google.com/store/apps/details?id=com.ytsejamgame.qidgame"
-demoLabel: "Uygulama bağlantısı"
+demoLabel: "Google Play"
 featured: true
-coverFit: contain
+spotlight: 1
+proof: "Google Play’de yayında"
+role: "Oyun modülleri, ebeveyn analiz ekranları ve Drive kayıt katmanı"
+context: "Freelance · Ytsejam Game Studio"
+device: phone
 coverImage: "/images/projects/qid-game/01.webp"
 gallery:
   - src: "/images/projects/qid-game/01.webp"

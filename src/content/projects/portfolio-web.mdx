@@ -1,6 +1,6 @@
 ---
 title: "Bu portfolyo: Kişisel Web Uygulaması"
-description: "Güvenli kullanıcı girişi, veritabanı yönetimi ve modern arayüz tasarımıyla hazırlanmış kişisel portfolyo."
+description: "Ziyaretçi defteri, içerik şeması ve test kapısıyla ürün gibi işlettiğim kişisel site."
 date: "2026-07-17"
 tags:
   - Next.js
@@ -13,11 +13,15 @@ category: full-stack
 problem: "Klasik portfolyo siteleri çoğu zaman statik vitrin gibi kalır; işe alım tarafı adayın auth, veri modeli, güvenlik, test, observability ve deploy disipliniyle nasıl düşündüğünü göremez."
 decision: "Sadece animasyonlu bir landing page yerine ürün davranışı taşıyan bir mimari seçildi: App Router + Server Components, typed MDX pipeline, Auth.js, Drizzle/Neon, Redis rate limit, Server Actions, Playwright E2E ve structured logging aynı sistemde birleştirildi."
 impact: "Portfolyo; problem/decision/impact şablonu, CI kalite kapısı, E2E smoke testleri ve production servis planıyla 'ne yaptım' sorusundan 'nasıl mühendislik yaptım' sorusuna cevap veren deploy-ready kanıta dönüştü."
-architectureLabel: "Kişisel Web Uygulaması"
-architectureSummary: "Güvenli kullanıcı girişi, veritabanı yönetimi ve modern arayüz tasarımı"
+architectureLabel: "Server-first Next.js"
+architectureSummary: "App Router, Auth.js, Drizzle + Neon, Redis ile rate limit"
 status: live
 repo: "https://github.com/UmutCingisiz/UmutCingisiz-portfolio"
 featured: false
+proof: "Yayında · CI’da lint, typecheck, Vitest ve Playwright"
+role: "Tasarım, mimari ve geliştirme"
+context: "Kendi ürünüm"
+device: web
 gallery:
   - src: "/images/projects/portfolio-web/01.png"
     alt: "Ana sayfa hero — CTA grubu ve profil görseli"

@@ -1,0 +1,64 @@
+---
+title: "Dyt. Bilal Ayten: Diyetisyen Sitesi"
+description: "Hizmet kataloğu, süreç ve iletişim için Next.js vitrini."
+date: "2026-09-24"
+tags:
+  - Next.js
+  - TypeScript
+  - MDX
+  - Firebase
+  - Tailwind CSS
+category: full-stack
+problem: "Diyetisyen kliniğinin hizmetleri, süreç anlatımı ve randevu talebi dağınık kanallarda kalıyor; ziyaretçi doğru sayfayı ve iletişim yolunu bulamıyor."
+decision: "Next.js App Router vitrini: MDX hizmet ve blog sayfaları, BMI aracı, WhatsApp ve form ile kayıt. Form mesajı Firebase’e yazılıyor, e-posta ile iletiliyor."
+impact: "Hakkımda, hizmetler, süreç, blog ve iletişim yüzeyleri kodda duruyor. Görsel regresyon testleri yazılı. Canlı yayın henüz yok (WIP)."
+architectureLabel: "İçerik odaklı site"
+architectureSummary: "Next.js App Router, MDX hizmet sayfaları, form kaydı Firebase’e"
+status: in-progress
+featured: false
+proof: "Hizmet, süreç, blog ve iletişim sayfaları hazır"
+role: "Tasarım ve Next.js geliştirme"
+context: "Müşteri işi"
+device: web
+flow:
+  - "Next.js"
+  - "MDX içerik"
+  - "İletişim API"
+  - "Firebase"
+repo: "https://github.com/UmutCingisiz/dyt_web"
+gallery:
+  - src: "/images/projects/dyt-web/01.png"
+    alt: "Diyetisyen Bilal Ayten ana sayfa"
+    caption: "Hero · Hizmet Özeti"
+  - src: "/images/projects/dyt-web/02.png"
+    alt: "Hakkımda ve felsefe"
+    caption: "Hakkımda · Yaklaşım"
+  - src: "/images/projects/dyt-web/03.png"
+    alt: "Hizmetler ve süreç detayları"
+    caption: "Hizmetler · Süreç"
+  - src: "/images/projects/dyt-web/04.png"
+    alt: "BMI (Beden Kitle İndeksi) hesaplayıcı aracı"
+    caption: "Araçlar · BMI"
+  - src: "/images/projects/dyt-web/05.png"
+    alt: "İletişim, randevu formu ve WhatsApp entegrasyonu"
+    caption: "İletişim · Randevu"
+---
+
+**Dyt. Bilal Ayten** için kurduğum site bir klinik vitrini: hizmetler, süreç ve iletişim aynı yerde. İçerik MDX; form kaydı uygulama içindeki API üzerinden gidiyor.
+
+### Ürün yüzeyi
+
+- Ana sayfa, hakkımda, hizmet detayları ve süreç
+- Blog (MDX)
+- İletişim formu, WhatsApp ve BMI hesaplayıcı
+- Gizlilik ve kullanım koşulları
+
+### Mimari kararlar
+
+1. **App Router:** hizmet ve blog sayfalarını içerikten üretmek
+2. **Form kaydı:** mesajı hem e-posta hem Firebase kaydı olarak tutmak
+3. **Vitest + Playwright:** iletişim ve sayfa görünümü için test
+
+### Durum
+
+Proje **WIP**. Repo şu an özel; herkese açık olunca bağlantı çalışır.

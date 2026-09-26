@@ -1,9 +1,6 @@
 import Link from "next/link";
 
-import {
-  fetchRecentGithubRepos,
-  type GithubRepoSummary,
-} from "@/lib/github-repos";
+import { fetchRecentGithubRepos } from "@/lib/github-repos";
 import { getGithubUsername } from "@/lib/github-username";
 import { siteConfig } from "@/lib/site-config";
 import { GitLogFeed, type GitLogEntry } from "@/components/git-log-feed";
@@ -11,71 +8,6 @@ import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getRequestLocale } from "@/i18n/get-locale";
-
-function RepoCard({
-  repo,
-  index,
-  openLabel,
-  languageUnknown,
-}: {
-  repo: GithubRepoSummary;
-  index: number;
-  openLabel: string;
-  languageUnknown: string;
-}) {
-  const isInternal = repo.html_url.startsWith("/");
-
-  return (
-    <Reveal index={index} className="h-full">
-      <article className="surface-card group flex h-full flex-col p-5">
-        <div className="relative flex items-start justify-between gap-3">
-          <h3 className="font-semibold text-foreground">{repo.name}</h3>
-          {typeof repo.stargazers_count === "number" &&
-          repo.stargazers_count > 0 ? (
-            <span className="font-mono text-xs text-muted-foreground">
-              ★ {repo.stargazers_count}
-            </span>
-          ) : null}
-        </div>
-        {repo.description ? (
-          <p className="relative mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
-            {repo.description}
-          </p>
-        ) : null}
-        <div className="relative mt-auto flex flex-wrap items-center gap-3 pt-4 font-mono text-[0.65rem] text-muted-foreground">
-          {repo.language ? (
-            <span className="inline-flex items-center gap-1.5">
-              <span className="signal-dot size-1.5" />
-              {repo.language}
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-border" />
-              {languageUnknown}
-            </span>
-          )}
-          {isInternal ? (
-            <Link
-              href={repo.html_url}
-              className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
-            >
-              {openLabel}
-            </Link>
-          ) : (
-            <a
-              href={repo.html_url}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="ml-auto inline-flex items-center gap-1.5 text-signal hover:underline"
-            >
-              {openLabel}
-            </a>
-          )}
-        </div>
-      </article>
-    </Reveal>
-  );
-}
 
 export async function GithubActivitySection() {
   const login = getGithubUsername();
@@ -112,10 +44,12 @@ export async function GithubActivitySection() {
     );
   }
 
-  const logEntries: GitLogEntry[] = recent.slice(0, 6).map((repo) => ({
+  const logEntries: GitLogEntry[] = recent.map((repo) => ({
     repo: repo.name,
     language: repo.language ?? null,
     url: repo.html_url,
+    note: repo.kind === "foundation" ? t.foundationLabel : undefined,
+    description: repo.description,
   }));
 
   const languages = Array.from(
@@ -178,19 +112,6 @@ export async function GithubActivitySection() {
             <GitLogFeed entries={logEntries} />
           </Reveal>
         ) : null}
-
-        <ul className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4">
-          {recent.slice(0, 6).map((repo, index) => (
-            <li key={`${repo.name}-${repo.html_url}`}>
-              <RepoCard
-                repo={repo}
-                index={index}
-                openLabel={t.openRepo}
-                languageUnknown={t.languageUnknown}
-              />
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );

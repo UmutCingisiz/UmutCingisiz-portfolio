@@ -10,10 +10,53 @@ export const siteConfig = {
   /** Ana sayfa GitHub repoları + profil yedek görseli */
   githubUsername: "UmutCingisiz",
   /**
-   * Ana sayfa GitHub feed whitelist — yalnızca public, incelenebilir repolar.
-   * Case-study only (reposuz) projeler buraya eklenmez.
+   * Ana sayfa proje repoları, yeni işler önde.
+   * Public API’de görünmeyenler `repoCatalog` yedeğiyle yine listelenir.
    */
-  pinnedRepos: ["UmutCingisiz-portfolio", "Bloomedu"] as const,
+  pinnedRepos: [
+    "aspa-sigorta",
+    "zeki_dekorasyon_final",
+    "dyt_web",
+    "diyetetik",
+    "Aras-Mali",
+    "UmutCingisiz-portfolio",
+    "Bloomedu",
+  ] as const,
+  /**
+   * Public GitHub listesinde olmayan repolar için yedek kart.
+   * API yanıtı gelirse o kazanır.
+   */
+  repoCatalog: {
+    "aspa-sigorta": {
+      description: "ASPA Sigorta web sitesi",
+      language: "HTML",
+    },
+    zeki_dekorasyon_final: {
+      description: "Zeki Dekorasyon web sitesi",
+      language: "TypeScript",
+    },
+    dyt_web: {
+      description: "Diyetisyen web sitesi (Next.js)",
+      language: "TypeScript",
+    },
+    diyetetik: {
+      description: "",
+      language: "Go",
+    },
+    "Aras-Mali": {
+      description: "Aras Mali Müşavirlik kurumsal web sitesi",
+      language: "TypeScript",
+    },
+  } as Record<string, { description: string; language: string }>,
+  /**
+   * Temel eğitim repoları — feed’de gizlenmez, “Temel eğitim” etiketiyle durur.
+   * Profil README’si buraya girmez.
+   */
+  foundationRepos: [
+    "Instructive-Basic_HTML-CSS",
+    "Java-Examples",
+    "C-examples",
+  ] as const,
   /**
    * Kişisel hesap dışında kalan (ekip/org) veya alternatif tam adlar.
    * İlk başarılı API yanıtı kullanılır.

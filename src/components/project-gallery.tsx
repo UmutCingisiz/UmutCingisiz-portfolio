@@ -22,6 +22,7 @@ export type GalleryItem = {
 type ProjectGalleryProps = {
   title: string;
   items?: GalleryItem[];
+  device?: "phone" | "web";
 };
 
 function CloseIcon({ className }: { className?: string }) {
@@ -44,7 +45,7 @@ function CloseIcon({ className }: { className?: string }) {
  * Proje detayında uygulama içi ekran görüntüleri + lightbox büyütme.
  * Lightbox, ancestor transform/backdrop-filter'dan bağımsız olsun diye body portal'ına gider.
  */
-export function ProjectGallery({ title, items }: ProjectGalleryProps) {
+export function ProjectGallery({ title, items, device = "web" }: ProjectGalleryProps) {
   const shots = items?.filter((item) => item.src.trim().length > 0) ?? [];
   const [active, setActive] = useState<number | null>(null);
   const mounted = useIsClient();
@@ -165,7 +166,7 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
                   fill
                   className="object-contain object-center"
                   sizes="(max-width: 768px) 100vw, 1024px"
-                  priority
+                  loading="eager"
                 />
               </div>
 
@@ -186,8 +187,12 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
         )
       : null;
 
+  if (shots.length === 0) return null;
+
+  const phone = device === "phone";
+
   return (
-    <section className="mt-8 rounded-xl border border-border bg-card/50 p-4 backdrop-blur-sm sm:p-6">
+    <section className="mt-14 border-t border-border pt-10" aria-label={`${title} ekranları`}>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
@@ -200,13 +205,12 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
             Görsele dokunarak büyüt. Escape / ok tuşları ile gezin.
           </p>
         </div>
-        <span className="w-fit rounded-md border border-border bg-muted/50 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-muted-foreground">
-          {shots.length > 0 ? `${shots.length} frame` : "pending"}
+        <span className="w-fit font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+          {shots.length} ekran
         </span>
       </div>
 
-      {shots.length > 0 ? (
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+      <ul className={`mt-6 grid gap-4 ${phone ? "grid-cols-2 sm:grid-cols-3" : "sm:grid-cols-2"}`}>
           {shots.map((shot, index) => (
             <li key={`${shot.src}-${index}`}>
               <button
@@ -218,13 +222,15 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
                 onClick={() => setActive(index)}
                 className="group w-full overflow-hidden rounded-xl border border-border bg-muted/30 text-left transition-colors hover:border-signal/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
               >
-                <div className="relative aspect-[16/10] bg-muted/40">
+                <div className={`relative bg-muted/40 ${phone ? "aspect-[9/19.5]" : "aspect-[16/10]"}`}>
                   <Image
                     src={shot.src}
                     alt={shot.alt}
                     fill
-                    className="object-contain object-center transition-transform duration-300 group-hover:scale-[1.015]"
-                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className={`transition-transform duration-300 group-hover:scale-[1.015] ${
+                      phone ? "object-cover object-top" : "object-contain object-center"
+                    }`}
+                    sizes={phone ? "(max-width: 640px) 50vw, 240px" : "(max-width: 640px) 100vw, 400px"}
                   />
                   <span className="absolute bottom-2 right-2 rounded-md border border-border bg-background/85 px-2 py-1 font-mono text-[0.6rem] text-muted-foreground backdrop-blur">
                     Büyüt ↗
@@ -242,17 +248,7 @@ export function ProjectGallery({ title, items }: ProjectGalleryProps) {
               </button>
             </li>
           ))}
-        </ul>
-      ) : (
-        <div className="mt-6 rounded-xl border border-dashed border-border/80 bg-muted/20 px-5 py-10 text-center">
-          <p className="font-mono text-[0.65rem] tracking-wide text-signal/70">
-            screenshots.coming
-          </p>
-          <p className="mt-3 text-sm text-muted-foreground">
-            {title} için ekran görüntüleri eklenecek.
-          </p>
-        </div>
-      )}
+      </ul>
 
       {lightbox}
     </section>

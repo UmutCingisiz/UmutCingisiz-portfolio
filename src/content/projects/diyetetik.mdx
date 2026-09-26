@@ -1,0 +1,49 @@
+---
+title: "Diyetetik: Klinik ve Hasta Uygulaması"
+description: "Diyetisyenin klinik işini ve danışanın gününü aynı API’ye bağlayan ürün."
+date: "2026-09-25"
+tags:
+  - Go
+  - Next.js
+  - Expo
+  - PostgreSQL
+  - Supabase
+category: full-stack
+problem: "Diyetisyen işi form, plan, laboratuvar ve hastanın günü arasında bölünüyor; vitrin sitesi bu iş akışını taşımıyor."
+decision: "Tek Go API ve Postgres (Supabase). Beslenme ve plan kuralları Go’da; LLM çıktısı her zaman Go tarafında yeniden doğrulanıyor. Diyetisyen yüzeyi Next.js konsolu, hasta yüzeyi Expo (günlük plan, kayıt, mutfak, ilerleme)."
+impact: "Beslenme hesabı, plan doğrulama, hasta ve klinik ekranları ile mobil sekmeler çalışıyor. 29 migration’lık şema ve 7 değerlendirme seti repoda. Ürün henüz yayında değil (WIP)."
+architectureLabel: "Modüler monolit"
+architectureSummary: "Go API tek sözleşme; Next.js konsol ve Expo uygulaması aynı uçları kullanıyor"
+status: in-progress
+featured: true
+spotlight: 3
+proof: "Tek Go API · 29 Postgres migration · 7 eval seti"
+role: "Ürünün tamamı: alan modeli, API, web konsolu ve mobil uygulama"
+context: "Kendi ürünüm"
+device: web
+flow:
+  - "Go API"
+  - "PostgreSQL"
+  - "Diyetisyen konsolu"
+  - "Expo hasta uygulaması"
+repo: "https://github.com/UmutCingisiz/diyetetik"
+---
+
+**Diyetetik**, diyetisyen sitesinden ayrı bir ürün: klinik işi ve hastanın günü aynı API’ye bağlı. Vitrin `dyt_web`; bu repo işin kendisi.
+
+### Ürün yüzeyi
+
+- Go API: hasta, plan, besin, laboratuvar, triage, SOAP notu
+- Diyetisyen konsolu: takvim, klinikler, formlar, hasta dosyası, iş listesi
+- Expo hasta uygulaması: bugün, kayıt, mutfak, ilerleme, profil
+- Postgres şeması Supabase migration’larıyla
+
+### Mimari kararlar
+
+1. **Go alan modeli:** kalori, plan ve triage kuralları API’de, arayüzden ayrı
+2. **İki yüzey, tek sözleşme:** konsol ve mobil aynı API’yi kullanır
+3. **OpenAPI:** uçlar sözleşme dosyasından okunur
+
+### Durum
+
+Proje **WIP**. Repo şu an özel; herkese açık olunca bağlantı çalışır.

@@ -72,9 +72,21 @@ export async function getProjectMetaBySlug(
   return mergeProjectMeta(base, overrides.get(slug));
 }
 
+/** `spotlight` küçük olan önce; olmayanlar tarih sırasını korur. */
+export function sortBySpotlight(projects: ProjectMeta[]): ProjectMeta[] {
+  return projects
+    .map((project, index) => ({ project, index }))
+    .sort((a, b) => {
+      const sa = a.project.spotlight ?? Number.POSITIVE_INFINITY;
+      const sb = b.project.spotlight ?? Number.POSITIVE_INFINITY;
+      return sa === sb ? a.index - b.index : sa - sb;
+    })
+    .map(({ project }) => project);
+}
+
 export async function getFeaturedProjects(limit = 2): Promise<ProjectMeta[]> {
   const all = await getAllProjectsMeta();
-  const featured = all.filter((p) => p.featured);
+  const featured = sortBySpotlight(all.filter((p) => p.featured));
   const picked =
     featured.length >= limit ? featured.slice(0, limit) : all.slice(0, limit);
   return picked;

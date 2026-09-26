@@ -4,8 +4,11 @@ export const projectCategorySchema = z.enum([
   "frontend",
   "backend",
   "full-stack",
+  "mobile",
   "devops",
 ]);
+
+export const projectDeviceSchema = z.enum(["phone", "web"]);
 
 export const projectStatusSchema = z.enum([
   "planned",
@@ -34,9 +37,19 @@ export const projectFrontmatterSchema = z.object({
   demoLabel: z.string().min(1).optional(),
   repo: z.string().url().optional(),
   featured: z.boolean().optional(),
+  /** Öne çıkanlarda sıra; küçük önce. Yoksa tarih sırası. */
+  spotlight: z.number().int().positive().optional(),
+  /** Kartta vurgulanan tek satırlık kanıt. */
+  proof: z.string().min(1).optional(),
+  /** Bu işteki payım. */
+  role: z.string().min(1).optional(),
+  /** Kim için / hangi çerçevede (Müşteri işi, Ekip, Freelance…). */
+  context: z.string().min(1).optional(),
+  /** Görsel sahnesi: phone = dikey ekranlar, web = tarayıcı çerçevesi. */
+  device: projectDeviceSchema.optional(),
+  /** Görsel yokken sahnede gösterilen mimari akışı. */
+  flow: z.array(z.string().min(1)).min(2).max(5).optional(),
   coverImage: z.string().min(1).optional(),
-  /** Kart kapağı: contain = mobil screenshot tam görünür; cover = alanı doldurur */
-  coverFit: z.enum(["contain", "cover"]).optional(),
   /** Proje detayında gösterilecek uygulama içi ekran görüntüleri (3–4 ideal). */
   gallery: z
     .array(
@@ -61,5 +74,6 @@ export const postFrontmatterSchema = z.object({
 export type ProjectFrontmatter = z.infer<typeof projectFrontmatterSchema>;
 export type PostFrontmatter = z.infer<typeof postFrontmatterSchema>;
 export type ProjectCategory = z.infer<typeof projectCategorySchema>;
+export type ProjectDevice = z.infer<typeof projectDeviceSchema>;
 export type ProjectStatusValue = z.infer<typeof projectStatusSchema>;
 export const PROJECT_STATUS_VALUES = projectStatusSchema.options;

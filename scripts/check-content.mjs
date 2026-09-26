@@ -14,7 +14,14 @@ const projectStatuses = new Set([
   "archived",
   "learning",
 ]);
-const projectCategories = new Set(["frontend", "backend", "full-stack", "devops"]);
+const projectCategories = new Set([
+  "frontend",
+  "backend",
+  "full-stack",
+  "mobile",
+  "devops",
+]);
+const projectDevices = new Set(["phone", "web"]);
 
 function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
@@ -52,13 +59,6 @@ function validateCommon(data, file) {
   if (data.coverImage !== undefined && !isNonEmptyString(data.coverImage)) {
     errors.push("coverImage cannot be empty when present");
   }
-  if (
-    data.coverFit !== undefined &&
-    data.coverFit !== "contain" &&
-    data.coverFit !== "cover"
-  ) {
-    errors.push("coverFit must be contain or cover when present");
-  }
   if (errors.length > 0) {
     return [`${path.relative(root, file)}: ${errors.join(", ")}`];
   }
@@ -79,6 +79,32 @@ function validateProject(file) {
   }
   if (!projectStatuses.has(data.status)) {
     errors.push(`${path.relative(root, file)}: status is invalid`);
+  }
+  if (data.device !== undefined && !projectDevices.has(data.device)) {
+    errors.push(`${path.relative(root, file)}: device must be phone or web`);
+  }
+  if (data.coverFit !== undefined) {
+    errors.push(`${path.relative(root, file)}: coverFit is replaced by device`);
+  }
+  if (
+    data.spotlight !== undefined &&
+    !(Number.isInteger(data.spotlight) && data.spotlight > 0)
+  ) {
+    errors.push(`${path.relative(root, file)}: spotlight must be a positive integer`);
+  }
+  for (const field of ["proof", "role", "context"]) {
+    if (data[field] !== undefined && !isNonEmptyString(data[field])) {
+      errors.push(`${path.relative(root, file)}: ${field} cannot be empty when present`);
+    }
+  }
+  if (
+    data.flow !== undefined &&
+    (!Array.isArray(data.flow) ||
+      data.flow.length < 2 ||
+      data.flow.length > 5 ||
+      !data.flow.every(isNonEmptyString))
+  ) {
+    errors.push(`${path.relative(root, file)}: flow must list 2–5 steps`);
   }
   for (const field of ["repo", "demo"]) {
     if (!isValidUrl(data[field])) {

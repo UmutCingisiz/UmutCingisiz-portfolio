@@ -118,9 +118,27 @@ export default async function GuestbookPage({
   const dbConfigured = Boolean(getDb());
 
   const isMod = isGuestbookModerator(session?.user?.githubId);
-  const approved = dbConfigured ? await listCachedApprovedEntries(30) : [];
-  const pending = dbConfigured && isMod ? await listPendingEntries(50) : [];
-  const rejected = dbConfigured && isMod ? await listRejectedEntries(50) : [];
+  let approved: GuestbookEntryRow[] = [];
+  let pending: GuestbookEntryRow[] = [];
+  let rejected: GuestbookEntryRow[] = [];
+  let dbUnavailable = false;
+
+  if (dbConfigured) {
+    try {
+      approved = await listCachedApprovedEntries(30);
+      if (isMod) {
+        pending = await listPendingEntries(50);
+        rejected = await listRejectedEntries(50);
+      }
+    } catch {
+      dbUnavailable = true;
+      approved = [];
+      pending = [];
+      rejected = [];
+    }
+  }
+
+  const guestbookOpen = dbConfigured && !dbUnavailable;
 
   const canWrite = Boolean(session?.user?.githubId);
 
@@ -260,14 +278,21 @@ export default async function GuestbookPage({
           Aynı GitHub hesabı için: dakikada en fazla {limits.perMinute} gönderim,
           24 saatte en fazla {limits.perDay}.
         </p>
-        <GuestbookMessageForm canWrite={canWrite} dbConfigured={dbConfigured} />
+        <GuestbookMessageForm canWrite={canWrite} dbConfigured={guestbookOpen} />
       </section>
 
       <section className="mt-14">
         <h2 className="text-lg font-semibold text-foreground">
           Yayınlanan mesajlar
         </h2>
-        {approved.length === 0 ? (
+        {dbUnavailable ? (
+          <p
+            role="status"
+            className="mt-6 rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-foreground"
+          >
+            Mesajlar şu an yüklenemiyor. Biraz sonra tekrar dene.
+          </p>
+        ) : approved.length === 0 ? (
           <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/30 px-6 py-14 text-center">
             <span
               aria-hidden

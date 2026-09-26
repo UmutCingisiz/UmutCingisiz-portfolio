@@ -99,7 +99,7 @@ export function HeroCopy() {
           </Link>
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-6">
+        <div className="mt-5 flex flex-wrap items-center gap-2 sm:mt-6">
           {socialLinks.map(({ href, icon: Icon, label }) => (
             <a
               key={label}
@@ -108,10 +108,12 @@ export function HeroCopy() {
               rel={
                 href.startsWith("mailto:") ? undefined : "noopener noreferrer"
               }
-              className="inline-flex size-9 items-center justify-center rounded-xl border border-border bg-card/45 text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/20 hover:text-foreground sm:size-10"
-              aria-label={label}
+              className="inline-flex h-9 items-center gap-2 rounded-full border border-border/80 bg-card/70 pl-1.5 pr-3.5 text-xs font-medium text-muted-foreground transition-colors duration-200 hover:border-foreground/20 hover:bg-muted hover:text-foreground"
             >
-              <Icon className="size-[17px]" />
+              <span className="inline-flex size-6 items-center justify-center rounded-full bg-muted text-foreground">
+                <Icon className="size-3.5" />
+              </span>
+              {label}
             </a>
           ))}
         </div>

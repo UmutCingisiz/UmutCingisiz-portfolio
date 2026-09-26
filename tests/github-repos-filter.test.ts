@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  buildGithubFeed,
+  catalogFallback,
   filterPinnedGithubRepos,
   normalizeRepoKey,
 } from "@/lib/github-repos";
@@ -64,5 +66,37 @@ describe("filterPinnedGithubRepos", () => {
     const result = filterPinnedGithubRepos(sample, ["Bloomedu"]);
     expect(result).toHaveLength(1);
     expect(result[0]?.name).toBe("Bloomedu");
+  });
+});
+
+describe("buildGithubFeed", () => {
+  it("keeps product repos first and labels foundation repos", () => {
+    const result = buildGithubFeed(
+      sample,
+      ["UmutCingisiz-portfolio", "Bloomedu"],
+      ["Instructive-Basic"],
+    );
+
+    expect(result.map((repo) => repo.name)).toEqual([
+      "UmutCingisiz-portfolio",
+      "Bloomedu",
+      "Instructive-Basic",
+    ]);
+    expect(result[2]?.kind).toBe("foundation");
+    expect(result.find((repo) => repo.name === "README")).toBeUndefined();
+  });
+});
+
+describe("catalogFallback", () => {
+  it("builds a card when the public API omits the repo", () => {
+    const card = catalogFallback("UmutCingisiz", "aspa-sigorta", {
+      description: "ASPA Sigorta web sitesi",
+      language: "HTML",
+    });
+
+    expect(card.name).toBe("aspa-sigorta");
+    expect(card.html_url).toBe("https://github.com/UmutCingisiz/aspa-sigorta");
+    expect(card.language).toBe("HTML");
+    expect(card.kind).toBe("project");
   });
 });

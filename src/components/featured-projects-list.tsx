@@ -1,28 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { ProjectMeta } from "@/lib/content/projects";
-import { ArchitectureBlock } from "@/components/architecture-block";
-import { PdiBlock } from "@/components/pdi-block";
 import { Reveal } from "@/components/reveal";
-import { SectionEyebrow } from "@/components/section-eyebrow";
-import {
-  getProjectCoverAlt,
-  getProjectCoverFit,
-  getProjectCoverSrc,
-  projectCoverFrameClass,
-  projectCoverImageClass,
-} from "@/lib/project-cover";
-import {
-  getProjectCategoryLabel,
-  getProjectStatusBadgeClass,
-  getProjectStatusLabel,
-} from "@/lib/project-status";
+import { ProjectCard, ProjectIndexRow } from "@/components/project-vitrin";
 
 type Props = {
   projects: ProjectMeta[];
+  others: ProjectMeta[];
 };
 
-export function FeaturedProjectsList({ projects }: Props) {
+export function FeaturedProjectsList({ projects, others }: Props) {
   return (
     <section
       id="projects"
@@ -31,133 +17,61 @@ export function FeaturedProjectsList({ projects }: Props) {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <SectionEyebrow>selected.case_studies</SectionEyebrow>
-            <h2 className="mt-3 max-w-3xl text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Seçilmiş projeler
+            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              Projeler
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-              Her kartta problem, aldığım teknik karar ve ortaya çıkan etki var.
-              Detay ve ekran görüntüleri için projeyi açın.
+            <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+              Seçilmiş çalışmalar.
             </p>
           </div>
           <Link
             href="/projects"
-            className="inline-flex h-9 items-center justify-center rounded-lg border border-border px-3.5 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted sm:h-10 sm:px-4"
+            className="inline-flex h-10 w-fit items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-colors duration-200 hover:bg-muted"
           >
-            Tümünü gör
+            Tüm projeler
           </Link>
         </div>
+
         {projects.length === 0 ? (
           <p className="mt-8 text-muted-foreground">
             Öne çıkan projeler yakında.{" "}
-            <Link
-              href="/projects"
-              className="underline underline-offset-4 hover:text-foreground"
-            >
+            <Link href="/projects" className="underline underline-offset-4 hover:text-foreground">
               Tüm projelere göz at
             </Link>
             .
           </p>
         ) : (
-          <ul className="mt-8 grid gap-5 sm:mt-10 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((p, i) => {
-              const cover = getProjectCoverSrc(p);
-              const fit = getProjectCoverFit(p);
-              return (
-                <li key={p.slug} className="min-w-0">
-                  <Reveal index={i} className="h-full">
-                    <article className="group flex h-full flex-col overflow-hidden rounded-xl transition-all duration-200 hover:-translate-y-1">
-                      <Link
-                        href={`/projects/${p.slug}`}
-                        className={`relative block overflow-hidden bg-muted ${projectCoverFrameClass(fit)}`}
-                        aria-label={`${p.title} görseli`}
-                      >
-                        {cover ? (
-                          <Image
-                            src={cover}
-                            alt={getProjectCoverAlt(p)}
-                            fill
-                            sizes="(min-width: 1024px) 360px, (min-width: 768px) 45vw, 92vw"
-                            className={projectCoverImageClass(fit)}
-                          />
-                        ) : (
-                          <div className="flex h-full items-center justify-center font-mono text-xs text-muted-foreground">
-                            {p.title}
-                          </div>
-                        )}
-                      </Link>
-
-                      <div className="flex flex-1 flex-col p-4 sm:p-5">
-                        <div className="flex items-start justify-between gap-3">
-                          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-2.5 py-1 font-mono text-[0.65rem] font-medium tracking-wide text-foreground">
-                            {getProjectCategoryLabel(p.category)}
-                          </span>
-                          <span
-                            className={`rounded-full border px-2 py-0.5 font-mono text-[0.65rem] tracking-wide ${getProjectStatusBadgeClass(p.status)}`}
-                          >
-                            {getProjectStatusLabel(p.status)}
-                          </span>
-                        </div>
-
-                        <h3 className="mt-3 text-lg font-semibold tracking-tight text-foreground">
-                          <Link
-                            href={`/projects/${p.slug}`}
-                            className="hover:text-signal"
-                          >
-                            {p.title}
-                          </Link>
-                        </h3>
-                        <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">
-                          {p.description}
-                        </p>
-
-                        {p.architectureLabel && p.architectureSummary ? (
-                          <div className="mt-4">
-                            <ArchitectureBlock
-                              label={p.architectureLabel}
-                              summary={p.architectureSummary}
-                            />
-                          </div>
-                        ) : null}
-
-                        <div className="mt-4 grid gap-2.5">
-                          {p.problem ? (
-                            <PdiBlock signal="problem" text={p.problem} />
-                          ) : null}
-                          {p.decision ? (
-                            <PdiBlock signal="decision" text={p.decision} />
-                          ) : null}
-                          {p.impact ? (
-                            <PdiBlock signal="impact" text={p.impact} />
-                          ) : null}
-                        </div>
-
-                        <div className="mt-auto flex flex-wrap gap-2 pt-5">
-                          <Link
-                            href={`/projects/${p.slug}`}
-                            className="btn-signal inline-flex h-9 items-center rounded-lg px-3.5 text-sm font-semibold transition-all duration-200"
-                          >
-                            İncele →
-                          </Link>
-                          {p.repo ? (
-                            <a
-                              href={p.repo}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex h-9 items-center rounded-lg border border-border px-3.5 text-sm font-medium text-foreground transition-all duration-200 hover:bg-muted"
-                            >
-                              Kod ↗
-                            </a>
-                          ) : null}
-                        </div>
-                      </div>
-                    </article>
-                  </Reveal>
-                </li>
-              );
-            })}
+          <ul className="project-showcase mt-8 grid gap-5 sm:mt-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            {projects.map((project, index) => (
+              <li key={project.slug} className="min-w-0">
+                <Reveal index={index} className="h-full">
+                  <ProjectCard project={project} />
+                </Reveal>
+              </li>
+            ))}
           </ul>
         )}
+
+        {others.length > 0 ? (
+          <div className="mt-16 sm:mt-20">
+            <div className="flex items-end justify-between gap-4">
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                Diğer projeler
+              </h3>
+              <Link
+                href="/projects"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                Tüm liste
+              </Link>
+            </div>
+            <ul className="mt-4 divide-y divide-border border-y border-border">
+              {others.map((project) => (
+                <ProjectIndexRow key={project.slug} project={project} />
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
     </section>
   );

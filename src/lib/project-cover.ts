@@ -1,6 +1,7 @@
 import type { ProjectMeta } from "@/lib/content/projects";
+import type { ProjectDevice } from "@/lib/content/schema";
 
-export type ProjectCoverFit = NonNullable<ProjectMeta["coverFit"]>;
+export type StageShot = { src: string; alt: string; caption?: string };
 
 export function getProjectCoverSrc(project: ProjectMeta) {
   return project.coverImage ?? project.gallery?.[0]?.src ?? null;
@@ -10,21 +11,35 @@ export function getProjectCoverAlt(project: ProjectMeta) {
   return project.gallery?.[0]?.alt ?? project.title;
 }
 
-export function getProjectCoverFit(project: ProjectMeta): ProjectCoverFit {
-  return project.coverFit ?? "cover";
+export function getProjectDevice(project: ProjectMeta): ProjectDevice {
+  return project.device ?? "web";
 }
 
-/** Kart çerçevesi — contain: dikey telefon ekranı; cover: yatay web vitrin */
-export function projectCoverFrameClass(fit: ProjectCoverFit) {
-  if (fit === "contain") {
-    return "aspect-[3/4] w-full max-w-[20rem] mx-auto sm:max-w-[22rem] lg:max-w-none";
-  }
-  return "aspect-[4/3] w-full";
+/** Sahnede gösterilecek görseller: kapak önde, galeriden tekrarsız. */
+export function getStageShots(project: ProjectMeta, limit: number): StageShot[] {
+  const shots: StageShot[] = [];
+  const seen = new Set<string>();
+  const push = (src: string | undefined, alt: string, caption?: string) => {
+    if (!src || seen.has(src) || shots.length >= limit) return;
+    seen.add(src);
+    shots.push({ src, alt, caption });
+  };
+  const cover = project.coverImage;
+  push(
+    cover,
+    getProjectCoverAlt(project),
+    project.gallery?.find((item) => item.src === cover)?.caption,
+  );
+  for (const item of project.gallery ?? []) push(item.src, item.alt, item.caption);
+  return shots;
 }
 
-export function projectCoverImageClass(fit: ProjectCoverFit) {
-  if (fit === "contain") {
-    return "object-contain object-center transition-transform duration-500 group-hover:scale-[1.02]";
-  }
-  return "object-contain object-top transition-transform duration-500 group-hover:scale-[1.02] sm:object-cover";
+/** "Qid Game: Eğitim Odaklı Mobil Oyun" → ad + alt başlık. */
+export function splitProjectTitle(title: string): { name: string; tagline: string | null } {
+  const index = title.indexOf(":");
+  if (index < 0) return { name: title, tagline: null };
+  return {
+    name: title.slice(0, index).trim(),
+    tagline: title.slice(index + 1).trim() || null,
+  };
 }

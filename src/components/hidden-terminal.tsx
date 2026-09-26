@@ -230,7 +230,7 @@ export function HiddenTerminal() {
                 ? { duration: 0.15 }
                 : { type: "spring", stiffness: 420, damping: 34 }
             }
-            className="relative flex max-h-[80vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#05080c]/95 shadow-[0_0_80px_rgba(0,0,0,0.75),0_0_40px_rgba(34,211,238,0.08)] backdrop-blur-2xl ring-1 ring-cyan-400/10"
+            className="relative flex max-h-[80vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-border bg-card"
           >
             <div
               aria-hidden

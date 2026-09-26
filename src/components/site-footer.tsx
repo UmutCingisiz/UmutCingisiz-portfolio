@@ -1,14 +1,13 @@
-"use client";
-
 import Link from "next/link";
 import { ContactLink } from "@/components/contact-link";
 import { siteConfig } from "@/lib/site-config";
 import { socialLinks } from "@/components/social-icons";
-import { useI18n } from "@/i18n/locale-provider";
+import { getDictionary } from "@/i18n/dictionaries";
+import { getRequestLocale } from "@/i18n/get-locale";
 import { getSiteOrigin } from "@/lib/site-url";
 
-export function SiteFooter() {
-  const { dictionary } = useI18n();
+export async function SiteFooter() {
+  const dictionary = getDictionary(await getRequestLocale());
   const year = new Date().getFullYear();
   const origin = getSiteOrigin();
   let hostLabel = "umutcingisiz.com";

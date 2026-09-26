@@ -8,6 +8,7 @@ export type GithubRepoSummary = {
   stargazers_count?: number;
   language?: string | null;
   pinned?: boolean;
+  kind?: "project" | "foundation";
   badge?: string;
   caseStudy?: string;
 };
@@ -72,6 +73,30 @@ function toSummary(
 }
 
 /**
+ * Ürün repoları önde, temel eğitim repoları arkada.
+ * İkisinde de olmayanlar (profil README’si dahil) düşer.
+ */
+export function buildGithubFeed(
+  repos: GithubRepoApi[],
+  pinnedNames: readonly string[] = siteConfig.pinnedRepos,
+  foundationNames: readonly string[] = siteConfig.foundationRepos,
+): GithubRepoSummary[] {
+  const projects = filterPinnedGithubRepos(repos, pinnedNames).map((repo) => ({
+    ...repo,
+    kind: "project" as const,
+  }));
+  const taken = new Set(projects.map((repo) => normalizeRepoKey(repo.name)));
+  const foundations = filterPinnedGithubRepos(repos, foundationNames)
+    .filter((repo) => !taken.has(normalizeRepoKey(repo.name)))
+    .map((repo) => ({
+      ...repo,
+      kind: "foundation" as const,
+      pinned: false,
+    }));
+  return [...projects, ...foundations];
+}
+
+/**
  * Ham GitHub listesini `pinnedRepos` sırasına göre esnek anahtarla filtreler.
  */
 export function filterPinnedGithubRepos(
@@ -117,9 +142,26 @@ async function fetchPinnedFromSources(pinned: string) {
   return null;
 }
 
+/** Public API’de olmayan küratör repo — katalog açıklamasıyla kart. */
+export function catalogFallback(
+  login: string,
+  name: string,
+  catalog: { description: string; language: string },
+): GithubRepoSummary {
+  return {
+    name,
+    description: catalog.description || null,
+    html_url: `https://github.com/${login}/${name}`,
+    pushed_at: "",
+    language: resolveLanguage(name, catalog.language),
+    pinned: true,
+    kind: "project",
+  };
+}
+
 /**
- * Whitelist sırasıyla: kullanıcı reposu → org/fullName kaynakları.
- * Public olmayan / fallback vitrin kartları feed’e girmez.
+ * Sıra: kullanıcı reposu → org kaynağı → katalog yedeği.
+ * Katalog, private olduğu için public API’de görünmeyen işleri de listeler.
  */
 export async function fetchRecentGithubRepos(login: string) {
   const url = `https://api.github.com/users/${encodeURIComponent(login)}/repos?sort=pushed&per_page=100&type=owner`;
@@ -127,22 +169,34 @@ export async function fetchRecentGithubRepos(login: string) {
   const userRepos = Array.isArray(data) ? data : [];
   const apiFailed = data === null;
 
-  const resolved: GithubRepoSummary[] = [];
+  const fromUser = buildGithubFeed(userRepos);
+  const projects: GithubRepoSummary[] = [];
+
   for (const pinned of siteConfig.pinnedRepos) {
-    const fromUser = findInUserRepos(userRepos, pinned);
-    if (fromUser) {
-      resolved.push(toSummary(fromUser));
+    const key = normalizeRepoKey(pinned);
+    const local = fromUser.find(
+      (repo) => repo.kind === "project" && normalizeRepoKey(repo.name) === key,
+    );
+    if (local) {
+      projects.push(local);
       continue;
     }
 
     const fromSource = await fetchPinnedFromSources(pinned);
     if (fromSource) {
-      resolved.push(fromSource);
+      projects.push({ ...fromSource, kind: "project", pinned: true });
+      continue;
     }
+
+    const catalog = siteConfig.repoCatalog[pinned];
+    if (!catalog) continue;
+    projects.push(catalogFallback(login, pinned, catalog));
   }
 
-  if (apiFailed && resolved.length === 0) return null;
-  return resolved;
+  const foundations = fromUser.filter((repo) => repo.kind === "foundation");
+
+  if (apiFailed && projects.length === 0) return null;
+  return [...projects, ...foundations];
 }
 
 /** Tek repo meta — ekip/org repoları (Bloomedu) için. */
