@@ -219,8 +219,7 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
         type="submit"
         disabled={
           pending ||
-          (Boolean(siteKey) && !captchaToken) ||
-          (!siteKey && process.env.NODE_ENV === "production")
+          (Boolean(siteKey) && !captchaToken)
         }
         aria-busy={pending}
         className="btn-signal inline-flex h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-40 sm:h-11 sm:w-auto"

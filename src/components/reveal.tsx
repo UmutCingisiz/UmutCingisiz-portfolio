@@ -7,6 +7,7 @@ type RevealProps = {
   children: ReactNode;
   index?: number;
   className?: string;
+  eager?: boolean;
 };
 
 /**
@@ -14,10 +15,10 @@ type RevealProps = {
  * gecikmeli (stagger) bir zincirle ekrana girmesini sağlar. `viewport.once`
  * sayesinde her kart bir kez oynar; reduced-motion tercihinde efekt atlanır.
  */
-export function Reveal({ children, index = 0, className }: RevealProps) {
+export function Reveal({ children, index = 0, className, eager = false }: RevealProps) {
   const prefersReducedMotion = useReducedMotion();
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || eager) {
     return <div className={className}>{children}</div>;
   }
 

@@ -56,7 +56,7 @@ export function ProjectCard({ project }: { project: ProjectMeta }) {
             {name}
           </h3>
           {tagline ? (
-            <p className="mt-1.5 line-clamp-2 text-sm leading-6 text-muted-foreground">{tagline}</p>
+            <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{tagline}</p>
           ) : null}
           {project.proof ? (
             <p className="mt-4 text-sm font-medium leading-6 text-foreground">{project.proof}</p>
@@ -88,7 +88,7 @@ export function ProjectFeature({ project }: { project: ProjectMeta }) {
           {tagline ? (
             <p className="mt-2 text-base leading-7 text-muted-foreground">{tagline}</p>
           ) : null}
-          <p className="mt-4 line-clamp-3 text-sm leading-7 text-muted-foreground">
+          <p className="mt-4 text-sm leading-7 text-muted-foreground">
             {project.description}
           </p>
           {project.proof ? (

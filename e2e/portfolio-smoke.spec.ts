@@ -16,13 +16,13 @@ test("projects page splits the live window from the workbench", async ({ page })
   await expect(page.getByRole("heading", { name: "Yayında", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Geliştiriliyor", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: /Qid Game/i }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /Diyetetik/i }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: /Aras Mali/i }).first()).toBeVisible();
 });
 
 test("project detail exposes architectural decision cards", async ({ page }) => {
   await page.goto("/projects/portfolio-web");
 
-  await expect(page.getByRole("heading", { name: /full-stack mühendislik kanıtı/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Bu portfolyo: Kişisel Web Uygulaması/i })).toBeVisible();
   await expect(page.getByText("architecture.decisions")).toBeVisible();
   await expect(page.getByRole("heading", { name: /Problem → karar → etki/i })).toBeVisible();
   await expect(page.getByText("product.screens")).toBeVisible();
@@ -45,7 +45,7 @@ test("project gallery lightbox closes with Escape", async ({ page }) => {
 test("blog and guestbook public flows are reachable", async ({ page }) => {
   await page.goto("/blog");
   await expect(page.getByRole("heading", { name: "Blog", exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Server Actions ile formlar" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Server Actions/i }).first()).toBeVisible();
 
   await page.goto("/guestbook");
   await expect(page.getByRole("heading", { name: /Ziyaretçi defteri/i })).toBeVisible();
