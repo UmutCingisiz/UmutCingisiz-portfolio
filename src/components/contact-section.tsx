@@ -1,4 +1,4 @@
-import { DeferredContactForm } from "@/components/deferred-islands";
+import { ContactForm } from "@/components/contact/contact-form";
 import { siteConfig } from "@/lib/site-config";
 import { Reveal } from "@/components/reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
@@ -49,7 +49,7 @@ export async function ContactSection({ contactSuccess = false }: Props) {
             <p className="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
               {contactSuccess ? t.receivedLabel : t.formLabel}
             </p>
-            <DeferredContactForm initialSuccess={contactSuccess} />
+            <ContactForm initialSuccess={contactSuccess} />
           </div>
         </Reveal>
       </div>

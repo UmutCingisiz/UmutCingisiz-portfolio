@@ -2,10 +2,8 @@ import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JetBrains_Mono, Manrope } from "next/font/google";
-import {
-  DeferredHiddenTerminal,
-  DeferredNetworkStatus,
-} from "@/components/deferred-islands";
+import { HiddenTerminal } from "@/components/hidden-terminal";
+import { NetworkStatus } from "@/components/network-status";
 import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
 import { SkipToContent } from "@/components/skip-to-content";
@@ -55,8 +53,8 @@ export default async function RootLayout({
           <main id="main-content" className="flex w-full flex-grow flex-col">
             {children}
           </main>
-          <DeferredHiddenTerminal />
-          <DeferredNetworkStatus />
+          <HiddenTerminal />
+          <NetworkStatus />
           <Suspense fallback={null}>
             <Analytics />
           </Suspense>

@@ -21,9 +21,9 @@ type Props = {
 };
 
 const PHONE_SIZES = {
-  card: "(min-width: 1024px) 110px, 28vw",
-  wide: "(min-width: 1024px) 180px, 28vw",
-  hero: "(min-width: 1024px) 240px, 30vw",
+  card: "(min-width: 1024px) 110px, 112px",
+  wide: "(min-width: 1024px) 180px, 160px",
+  hero: "(min-width: 1024px) 240px, 200px",
 } as const;
 
 const WEB_SIZES = {
@@ -55,12 +55,14 @@ function ShotStack({
   sizes,
   eager,
   drift,
+  imageQuality = 75,
 }: {
   shots: StageShot[];
   active: number;
   sizes: string;
   eager?: boolean;
   drift?: boolean;
+  imageQuality?: number;
 }) {
   return (
     <>
@@ -73,6 +75,7 @@ function ShotStack({
             alt={on ? shot.alt : ""}
             fill
             sizes={sizes}
+            quality={imageQuality}
             aria-hidden={on ? undefined : true}
             loading={eager && on ? "eager" : "lazy"}
             fetchPriority={eager && on ? "high" : undefined}
@@ -182,6 +185,7 @@ function PhoneStage({
               sizes={sizes}
               eager={eager}
               drift={count < 2}
+              imageQuality={60}
             />
           ) : (
             <Image
@@ -189,6 +193,7 @@ function PhoneStage({
               alt=""
               fill
               sizes={sizes}
+              quality={60}
               aria-hidden
               className="object-cover object-top"
             />

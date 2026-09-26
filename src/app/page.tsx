@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
-import {
-  DeferredContactSuccessToast,
-  DeferredHashScroll,
-  DeferredTerminalPrompt,
-} from "@/components/deferred-islands";
+import { ContactSuccessToast } from "@/components/contact-success-toast";
+import { HashScroll } from "@/components/hash-scroll";
+import { TerminalPrompt } from "@/components/terminal-prompt";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { GithubActivitySection } from "@/components/github-activity-section";
 import { Hero } from "@/components/hero-section";
@@ -36,15 +34,15 @@ export default async function Home({
 
   return withSiteFooter(
     <>
-      <DeferredHashScroll />
-      <DeferredContactSuccessToast active={contactSuccess} />
+      <HashScroll />
+      <ContactSuccessToast active={contactSuccess} />
       <StatusBanner
         resumeLimited={resumeLimited}
         resumeMissing={resumeMissing}
       />
       {/* Akış: Hero → shell → About → Projeler → Skills → Hiring → GitHub → İletişim */}
       <Hero />
-      <DeferredTerminalPrompt />
+      <TerminalPrompt />
       <AboutSection />
       <FeaturedProjects />
       <SkillsSection />

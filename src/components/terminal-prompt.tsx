@@ -99,7 +99,7 @@ export function TerminalPrompt() {
               ))}
             </div>
 
-            <p className="text-xs leading-5 text-cyan-100/45 sm:text-[0.8rem]">
+            <p className="text-xs leading-5 text-cyan-100/60 sm:text-[0.8rem]">
               {shell.tagline}. Sitenin komut yüzeyi — dokunarak veya{" "}
               <span className="text-cyan-100/70">Ctrl + `</span> ile açılır.
             </p>

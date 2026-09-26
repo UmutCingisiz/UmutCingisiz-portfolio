@@ -57,6 +57,7 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
   const turnstileRef = useRef<TurnstileInstance>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [clientError, setClientError] = useState<string | null>(null);
+  const [turnstileReady, setTurnstileReady] = useState(false);
   const [state, formAction, pending] = useActionState<
     ContactFormState | null,
     FormData
@@ -66,6 +67,26 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
   useEffect(() => {
     if (actionSuccess) onSuccess();
   }, [actionSuccess, onSuccess]);
+
+  useEffect(() => {
+    if (!siteKey) return;
+    const node = document.getElementById("contact");
+    if (!node) {
+      setTurnstileReady(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setTurnstileReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [siteKey]);
 
   const errorState =
     state && "ok" in state && state.ok === false ? state : null;
@@ -187,7 +208,7 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
         ) : null}
       </div>
 
-      {siteKey ? (
+      {siteKey && turnstileReady ? (
         <Turnstile
           ref={turnstileRef}
           siteKey={siteKey}
@@ -202,7 +223,7 @@ function ContactFormFields({ onSuccess }: FieldsProps) {
             size: "flexible",
           }}
         />
-      ) : process.env.NODE_ENV === "production" ? (
+      ) : siteKey ? null : process.env.NODE_ENV === "production" ? (
         <p className="text-sm text-amber-700 dark:text-amber-300" role="status">
           Spam koruması bu ortamda yapılandırılmamış. Form gönderimi
           engellenebilir — e-posta bağlantısını kullan.
